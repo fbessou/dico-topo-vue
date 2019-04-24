@@ -4,7 +4,7 @@ import { create } from 'apisauce'
 // import { getCookie } from './cookies-helpers'
 
 export const api = create({
-  baseURL: `${process.env.BASE_URL}/dico-topo/api/1.0/`,
+  baseURL: `${process.env.VUE_APP_API_BASE_URL}`,
   headers: { Accept: 'application/vnd.api+json; charset=utf-8' }
 })
 

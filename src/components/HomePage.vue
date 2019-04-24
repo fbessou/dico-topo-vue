@@ -13,12 +13,13 @@
   import MyAwesomeMap from './MyAwesomeMap'
 
   export default {
+    name: 'HomePage',
     components: { MyAwesomeMap },
     data: () => {
       return ({})
     },
-    mounted() {
-      this.fetchPlacename()
+    created() {
+      console.log("fetchplacename", this.$store.dispatch("placenames/fetchPlacename"));
     },
     ...mapActions('placenames', [
       'fetchPlacename'

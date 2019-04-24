@@ -1,6 +1,13 @@
 module.exports = {
   runtimeCompiler: true,
+
   css: {
-    modules: true
-  }
+    extract: false
+  },
+
+  publicPath: '',
+  outputDir: undefined,
+  assetsDir: undefined,
+  productionSourceMap: undefined,
+  parallel: undefined
 }

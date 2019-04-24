@@ -23,7 +23,9 @@
 </template>
 
 <script>
-import HomePage from './components/HomePage'
+  import 'leaflet/dist/leaflet.css'
+  
+  import HomePage from './components/HomePage'
 
 export default {
   name: 'App',

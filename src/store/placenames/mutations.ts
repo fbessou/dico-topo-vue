@@ -1,13 +1,13 @@
 import {MutationTree} from 'vuex';
-import {PlacenameState, User} from './types';
+import {PlacenameState, Placename} from './types';
+import Vue from 'vue';
 
 export const mutations: MutationTree<PlacenameState> = {
-  profileLoaded(state, payload: User) {
+  setPlacename(state: PlacenameState, p: Placename) {
     state.error = false;
-    state.user = payload;
+    Vue.set(state.items, p.id, p);
   },
-  profileError(state) {
-    state.error = true;
-    state.user = undefined;
+  setError(state, payload: any) {
+    state.error = payload;
   }
 };

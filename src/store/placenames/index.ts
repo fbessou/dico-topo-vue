@@ -2,12 +2,13 @@ import {Module} from 'vuex';
 import {getters} from './getters';
 import {actions} from './actions';
 import {mutations} from './mutations';
-import {PlacenameState} from './types';
+import {Placename, PlacenameState} from './types';
 import {RootState} from '../types';
 
 export const state: PlacenameState = {
-  user: undefined,
-  error: false
+  items: new Map<string, Placename>(),
+  error: false,
+  isLoading: false
 };
 
 const namespaced: boolean = true;

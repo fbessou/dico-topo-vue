@@ -1,26 +1,31 @@
 import {ActionTree} from 'vuex';
-import {PlacenameState, User} from './types';
+import {PlacenameState, Placename} from './types';
 import {RootState} from '../types';
 import {api} from "@/utils/http-common";
+import {ApiResponse} from "apisauce";
 
 
 export const actions: ActionTree<PlacenameState, RootState> = {
-  fetchPlacename({commit}): any {
-    /*
-    axios({
-      url: 'https://....'
-    }).then((response) => {
-      const payload: User = response && response.data;
-      commit('profileLoaded', payload);
-    }, (error) => {
-      console.log(error);
-      commit('profileError');
-    });
-    */
-
+  fetchPlacename({commit, rootState}): any {
     api
       .get('/placenames/DT02-02878')
-      .then(response => response.data)
-      .then(console.log)
+      .then((res: ApiResponse<any>) => {
+        const {ok, data} = res;
+        if (ok) {
+          const obj = data.data;
+          const p: Placename = {
+            country: "",
+            department: "",
+            id: obj.id,
+            label: obj.attributes.label
+          }
+          commit('setPlacename', p)
+        } else {
+          commit('setError', data)
+        }
+      })
+      .catch((error: any) => {
+        commit('setError', error.message)
+      })
   }
 };

@@ -1,12 +1,13 @@
 // types.ts
-export interface User {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone?: string;
+export interface Placename {
+  id: string;
+  label: string;
+  country: string;
+  department: string;
 }
 
 export interface PlacenameState {
-  user?: User;
+  items: Map<string, Placename>;
   error: boolean;
+  isLoading: boolean;
 }

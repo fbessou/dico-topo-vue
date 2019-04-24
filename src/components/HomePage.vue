@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+  import { mapActions, mapState } from 'vuex'
   import MyAwesomeMap from './MyAwesomeMap'
 
   export default {
@@ -23,7 +23,8 @@
     },
     ...mapActions('placenames', [
       'fetchPlacename'
-    ])
+    ]),
+    ...mapState('placenames', [])
   }
 </script>
 

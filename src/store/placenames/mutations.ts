@@ -15,12 +15,6 @@ export function getDefaultState(): PlacenameState {
 };
 
 export const mutations: MutationTree<PlacenameState> = {
-  setItem(state: PlacenameState, {p, links, meta}) {
-    Vue.set(state.items, p.id, p)
-    Vue.set(state.links, 'self', links.self)
-    state.meta = Object.assign(state.meta, meta, {totalCount: 1})
-    state.error = undefined
-  },
   setItems(state: PlacenameState, {p, links, meta}) {
     let newItems = new Map<string, Placename>()
     /* replace all items at once */

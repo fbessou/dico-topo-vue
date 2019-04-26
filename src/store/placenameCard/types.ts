@@ -1,15 +1,15 @@
 // types.ts
 import {Links, Meta} from "@/store/types";
+import {Placename} from "@/store/placenames/types";
 
-export interface Placename {
+export interface PlacenameOldLabel {
   id: string;
   label: string;
-  description: string;
-  comment: string;
   department: string;
   region: string;
 
   insee_code: string;
+  description: string;
 
   coordinates?: [number, number];
   geoname_id?: string;
@@ -19,11 +19,9 @@ export interface Placename {
   viaf_id?: string;
 }
 
-export interface PlacenameState {
-  items: Map<string, Placename>;
-
-  links: Links;
-  meta : Meta;
+export interface PlacenameCardState {
+  placenameItem?: Placename;
+  //placenameOldLabels: Array<PlacenameOldLabel>;
 
   error?: string;
   isLoading: boolean;

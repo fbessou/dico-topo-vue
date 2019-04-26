@@ -6,39 +6,6 @@ import {ApiResponse} from "apisauce";
 
 
 export const actions: ActionTree<PlacenameState, RootState> = {
-  fetchPlacename({commit, rootState}, id: string): any {
-    commit('setLoading', true)
-    return api.get(`/placenames/${id}`)
-      .then((res: ApiResponse<any>) => {
-        const {ok, data} = res;
-        if (ok) {
-          const obj = data.data;
-          const p: Placename = {
-            id: obj.id,
-            label: obj.attributes.label,
-
-            coordinates: [0, 0],
-            databnf_ark: "",
-            description: "",
-            geoname_id: "",
-            insee_code: "",
-            region: "",
-            viaf_id: "",
-            wikidata_item_id: "",
-            wikipedia_url: "",
-            department: "",
-          }
-          commit('setItem', {p: p, links:data.links, meta:{}})
-        } else {
-          commit('setError', data)
-        }
-        commit('setLoading', false)
-      })
-      .catch((error: any) => {
-        commit('setError', error.message)
-        commit('setLoading', false)
-      })
-  },
   searchPlacename({commit, rootState}, {query, pageSize, pageNumber}): any {
     commit('setLoading', true)
     const index = `${process.env.VUE_APP_PLACENAME_INDEX}`
@@ -55,11 +22,12 @@ export const actions: ActionTree<PlacenameState, RootState> = {
             return {
               id: p.id,
               label: p.attributes["placename-label"],
-              department: p.attributes["dpt"],
-              region: p.attributes["region"],
+              description: p.attributes["desc"],
+              comment: p.attributes["comment"],
 
               insee_code: p.attributes["localization-insee-code"],
-              description: p.attributes["desc"],
+              department: p.attributes["dpt"],
+              region: p.attributes["region"],
 
               coordinates: coords,
               geoname_id: p.attributes["geoname-id"],

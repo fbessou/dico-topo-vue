@@ -19,7 +19,6 @@
   import 'leaflet.markercluster/dist/leaflet.markercluster.js';
   
   
-  
   require('leaflet.heat')
   
   export default {
@@ -30,6 +29,10 @@
       LGeoJson,
       LMarker,
       LPopup
+    },
+    props: {
+      onMarkerClick : {type: Function},
+      onMapClick: { type: Function }
     },
     data () {
       return {
@@ -82,21 +85,14 @@
       },
       
       addMarkers(markers) {
-        //console.log("add markers")
         for(let m of markers) {
-          let newMarker = L.marker(
-            m.coordinates,
-          );
-          newMarker.on('click', function (ev) {
-            console.log("click on", m.id)
-          })
+          let newMarker = L.marker(m.coordinates);
+          if (this.onMarkerClick) {
+            newMarker.on('click', () => this.onMarkerClick(m.id))
+          }
           this.markerLayer.addLayer(newMarker)
-          //console.log("marked added")
           this.heatLayer.addLatLng(m.coordinates)
         }
-        //const latlgns = markers.map(m => m.coordinates)
-        //this.heatLayer.setLatLngs(latlgns)
-        console.log("marker count", this.markerLayer.getLayers().length)
       },
       clearMarkers() {
         console.log("clear markers")
@@ -131,11 +127,14 @@
         }
       })
   
-      this.heatLayer = L.heatLayer([], { radius: 22, blur: 12, minOpacity: 0.25 })//.addTo(this.map)
-      this.markerLayer = L.featureGroup()//.addTo(this.map);
+      this.heatLayer = L.heatLayer([], { radius: 22, blur: 12, minOpacity: 0.25 })
+      this.markerLayer = L.featureGroup()
   
       this.toggleMarkerLayer()
       this.map.on('zoomend', this.toggleMarkerLayer);
+      if (this.onMapClick) {
+        this.map.on('click', this.onMapClick)
+      }
     },
     computed: {
       ...mapState('mapmarkers', { mapmarkerItems: 'items', mapmarkerLoading: 'isLoading'}),

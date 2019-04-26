@@ -24,7 +24,8 @@
     
     <v-content>
       <div style="height: 520px">
-        <my-awesome-map></my-awesome-map>
+        <my-awesome-map :on-marker-click="selectPlacename" :on-map-click="unselectPlacename"></my-awesome-map>
+        <placename-card v-if="selectedPlacenameId" :placename-id="selectedPlacenameId"></placename-card>
       </div>
       <v-container fluid>
         <placename-search-table :searched-term="searchedTerm"></placename-search-table>
@@ -38,29 +39,40 @@
   
   import PlacenameSearchTable from './components/PlacenameSearchTable'
   import MyAwesomeMap from './components/MyAwesomeMap'
-  
+  import PlacenameCard from './components/PlacenameCard'
+
   export default {
     name: 'App',
     components: {
       PlacenameSearchTable,
+      PlacenameCard,
       MyAwesomeMap
     },
     data () {
       return {
-        searchedTerm: 'Laon'
+        searchedTerm: 'Laon',
+        selectedPlacenameId: undefined
       }
     },
     mounted() {
+      this.searchMapMarkers(this.searchedTerm, 750, 1)
     },
     methods: {
-      
       searchMapMarkers (term, pageSize, pageNumber) {
           return this.searchMapMarker({
             query: term,
             pageNumber: pageNumber,
             pageSize: pageSize
           }).then(r => {
+          
           })
+      },
+      selectPlacename(placenameId) {
+        console.log("selecting placename", placenameId)
+        this.selectedPlacenameId = placenameId
+      },
+      unselectPlacename (placenameId) {
+        this.selectedPlacenameId = undefined
       },
       ...mapActions('mapmarkers', ['searchMapMarker'])
     },

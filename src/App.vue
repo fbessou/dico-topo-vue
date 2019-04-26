@@ -6,14 +6,9 @@
         <span class="font-weight-light"> TOPONYMIQUE</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-  
       
-      <v-text-field
-                    prepend-inner-icon="search"
-                    type="text"
-                    placeholder="Ex. Clacy"
-                    v-model="searchedTerm"
-      ></v-text-field>
+      
+      <v-text-field prepend-inner-icon="search" type="text" placeholder="Ex. Laon" v-model="searchedTerm"></v-text-field>
       
       <v-spacer></v-spacer>
       <v-btn
@@ -25,51 +20,65 @@
         <v-icon>open_in_new</v-icon>
       </v-btn>
     </v-toolbar>
- 
-
+    
+    
     <v-content>
-      <div style="height: 55%">
+      <div style="height: 520px">
         <my-awesome-map></my-awesome-map>
       </div>
-       <v-container fluid>
-         <placename-search-table :searched-term="searchedTerm"></placename-search-table>
-       </v-container>
+      <v-container fluid>
+        <placename-search-table :searched-term="searchedTerm"></placename-search-table>
+      </v-container>
     </v-content>
   </v-app>
 </template>
 
 <script>
-  import 'leaflet/dist/leaflet.css'
   import { mapActions, mapState } from 'vuex'
-
+  
   import PlacenameSearchTable from './components/PlacenameSearchTable'
   import MyAwesomeMap from './components/MyAwesomeMap'
   
   export default {
-  name: 'App',
-  components: {
-    PlacenameSearchTable,
-    MyAwesomeMap
-  },
-  data () {
-    return {
-      searchedTerm: 'Clacy'
+    name: 'App',
+    components: {
+      PlacenameSearchTable,
+      MyAwesomeMap
+    },
+    data () {
+      return {
+        searchedTerm: 'Laon'
+      }
+    },
+    mounted() {
+    },
+    methods: {
+      
+      searchMapMarkers (term, pageSize, pageNumber) {
+          return this.searchMapMarker({
+            query: term,
+            pageNumber: pageNumber,
+            pageSize: pageSize
+          }).then(r => {
+          })
+      },
+      ...mapActions('mapmarkers', ['searchMapMarker'])
+    },
+    watch: {
+      searchedTerm (val) {
+        if (val.length >= 3) {
+          this.searchMapMarkers(this.searchedTerm, 750, 1)
+        }
+      },
+    },
+    computed: {
+    
     }
-  },
-  computed: {
-  },
-  methods: {
-  
   }
-}
 </script>
 
 <style>
   body {
     background-color: #fafafa !important;
-  }
-
-  #homepage-container {
-    padding: 0 !important;
   }
 </style>

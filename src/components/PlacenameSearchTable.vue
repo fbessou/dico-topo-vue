@@ -79,30 +79,22 @@
       stripTags(str) {
         return str === null || str.length === 0 ? '' : str.replace(/<[^>]*>/g, '')
       },
-      
-      search (term, pageSize, pageNumber) {
-        return this.searchPlacename({
-          query: term,
-          pageNumber: pageNumber,
-          pageSize: pageSize
-        }).then(r => {
-          console.log("search result:", this.items);
-        })
-      },
-  
+
       getDataFromApi () {
         this.loading = true
         return new Promise((resolve, reject) => {
-          if (this.searchedTerm.length <= 2 ) {
+          if (this.searchedTerm.length < 3 ) {
             this.loading = false
             return
           }
           const { sortBy, descending, page, rowsPerPage } = this.pagination
-  
-          this.search(this.searchedTerm, rowsPerPage, page).then(r => {
+          this.searchPlacename({
+            query: this.searchedTerm,
+            pageNumber: page,
+            pageSize: rowsPerPage
+          }).then(r => {
             let items = Array.from(this.placenameItems.values())
             const total = this.meta.totalCount ? this.meta.totalCount : 0
-            console.log(items, total)
             
             if (this.pagination.sortBy) {
               items = items.sort((a, b) => {
@@ -145,12 +137,12 @@
           })
       },
       
-      ...mapActions('placenames', ['fetchPlacename', 'searchPlacename'])
+      ...mapActions('placenames', ['fetchPlacename', 'searchPlacename']),
   
     },
   
     computed: {
-      ...mapState('placenames', {placenameItems: 'items', meta: 'meta'})
+      ...mapState('placenames', {placenameItems: 'items', meta: 'meta'}),
     }
   }
 </script>

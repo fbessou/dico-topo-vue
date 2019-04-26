@@ -51,7 +51,7 @@ export const actions: ActionTree<PlacenameState, RootState> = {
         if (ok) {
           const items : Array<Placename> = data.data.map((p: any) => {
             const longlat: any = p.attributes["longlat"]
-            let coords: [number, number] = longlat ? longlat.substr(1, longlat - 2).split(',') : null
+            let coords: [number, number] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
             return {
               id: p.id,
               label: p.attributes["placename-label"],

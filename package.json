@@ -12,6 +12,7 @@
     "geoportal-extensions-leaflet": "^2.0.3",
     "leaflet": "^1.4.0",
     "leaflet.heat": "^0.2.0",
+    "leaflet.markercluster": "^1.4.1",
     "vue": "^2.6.6",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.0.0",

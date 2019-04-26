@@ -27,13 +27,11 @@ export const mutations: MutationTree<MapMarkerState> = {
       m.map((i: any) => [i.id, i] as [any, any])
     )
     state.items = Object.assign(new Map<string, MapMarker>(), state.items, newItems)
-    console.log("map markers setted to", state.items)
     state.links = links
     state.meta = meta
     state.error = undefined
   },
   clearAll(state: MapMarkerState, {links, meta}) {
-    console.log("clear map markers")
     state.items = new Map<string, MapMarker>()
     state.links = links
     state.meta = meta

@@ -11,9 +11,14 @@
   import * as Gp from 'geoportal-extensions-leaflet'
   import styles from '../../node_modules/geoportal-extensions-leaflet/dist/GpPluginLeaflet.css'
 
+  import icon from 'leaflet/dist/images/marker-icon.png';
+  import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
   import 'leaflet.markercluster/dist/MarkerCluster.css';
   import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
   import 'leaflet.markercluster/dist/leaflet.markercluster.js';
+  
+  
   
   require('leaflet.heat')
   
@@ -77,26 +82,45 @@
       },
       
       addMarkers(markers) {
-        console.log("add markers")
+        //console.log("add markers")
         for(let m of markers) {
           let newMarker = L.marker(
             m.coordinates,
           );
           newMarker.on('click', function (ev) {
-            console.log("click on ", m.id)
+            console.log("click on", m.id)
           })
-          //this.markerLayer.addLayer(newMarker)
+          this.markerLayer.addLayer(newMarker)
+          //console.log("marked added")
+          this.heatLayer.addLatLng(m.coordinates)
         }
-        const latlgns = markers.map(m => m.coordinates)
-        //latlgns.forEach(l => this.heatLayer.addLatLng)
-        this.heatLayer.setLatLngs(latlgns)
+        //const latlgns = markers.map(m => m.coordinates)
+        //this.heatLayer.setLatLngs(latlgns)
+        console.log("marker count", this.markerLayer.getLayers().length)
       },
       clearMarkers() {
         console.log("clear markers")
-        //this.heatLayer.setLatLngs([])
+        this.heatLayer.setLatLngs([])
+        this.markerLayer.clearLayers()
+      },
+      toggleMarkerLayer()
+      {
+        if (this.map.getZoom() < 12) {
+          this.map.removeLayer(this.markerLayer);
+          this.map.addLayer(this.heatLayer);
+        } else {
+          this.map.removeLayer(this.heatLayer);
+          this.map.addLayer(this.markerLayer);
+        }
       }
     },
     mounted () {
+  
+      L.Marker.prototype.options.icon = L.icon({
+        iconUrl: icon,
+        shadowUrl: iconShadow
+      });
+      
       Gp.Services.getConfig({
         // apiKey: '4bgxfnc1ufj44pmxpsloxq6j',
         callbackSuffix: '',
@@ -107,9 +131,11 @@
         }
       })
   
-      this.heatLayer = L.heatLayer([[49.43528384615384, 3.6123421153846156, 1.0]], { radius: 20, blur: 10, minOpacity: 0.2 }).addTo(this.map)
-      this.markerLayer = L.featureGroup().addTo(this.map);
-      
+      this.heatLayer = L.heatLayer([], { radius: 22, blur: 12, minOpacity: 0.25 })//.addTo(this.map)
+      this.markerLayer = L.featureGroup()//.addTo(this.map);
+  
+      this.toggleMarkerLayer()
+      this.map.on('zoomend', this.toggleMarkerLayer);
     },
     computed: {
       ...mapState('mapmarkers', { mapmarkerItems: 'items', mapmarkerLoading: 'isLoading'}),
@@ -117,16 +143,16 @@
       map () { return this.$refs.map.mapObject },
     },
     watch: {
-      mapmarkerItems(newVal, oldVal) {
+      mapmarkerItems() {
         this.addMarkers(Array.from(this.mapmarkerItems.values()))
       },
-      /*
-      mapmarkerLoading: function(val) {
+      
+      mapmarkerLoading(val) {
         if (val) {
           this.clearMarkers()
         }
       }
-      */
+      
     }
   }
 </script>

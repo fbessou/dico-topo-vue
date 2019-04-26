@@ -7,6 +7,7 @@ import {MapMarker, MapMarkerState} from "@/store/mapmarkers/types";
 export function getDefaultState(): PlacenameCardState {
   return {
     placenameItem: undefined,
+    placenameOldLabels: undefined,
 
     error: undefined,
     isLoading: false
@@ -16,6 +17,10 @@ export function getDefaultState(): PlacenameCardState {
 export const mutations: MutationTree<PlacenameCardState> = {
   setItem(state: PlacenameCardState, p) {
     state.placenameItem = p
+    state.error = undefined
+  },
+  setOldLabels(state: PlacenameCardState, labels) {
+    state.placenameOldLabels = labels
     state.error = undefined
   },
   clearAll(state: PlacenameCardState) {

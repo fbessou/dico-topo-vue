@@ -12,59 +12,40 @@
         <v-card-text>
           {{stripTags(this.placenameItem.comment)}}
         </v-card-text>
-        <v-card-actions>
-          <v-btn flat>Share</v-btn>
-          <v-btn flat color="purple">Explore</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn icon @click="show = !show">
-            <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-          </v-btn>
-        </v-card-actions>
+  
+        <v-list>
+          <v-list-group
+            v-for="item in items"
+            :key="item.label"
+            v-model="item.active"
+            :prepend-icon="item.action"
+            no-action
+          >
+            <template v-slot:activator>
+              <v-list-tile>
+                <v-list-tile-content>
+                  <v-list-tile-title>{{item.label}} <span v-if="item.items">({{item.items.length}})</span></v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </template>
+      
+            <v-list-tile
+              v-for="(subItem, subItemIndex) in item.items"
+              :key="subItem.id"
+              @click=""
+            >
+              <v-list-tile-content>
+                <v-list-tile-title>{{subItemIndex+1}}. {{ stripTags(subItem.label) }}</v-list-tile-title>
+                <v-list-tile-sub-title>{{stripTags(subItem.labelNode)}}</v-list-tile-sub-title>
+              </v-list-tile-content>
         
-        <v-slide-y-transition>
-          <v-card-text v-show="show">
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you
-            add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for
-            escape.
-          </v-card-text>
-        </v-slide-y-transition>
+              <v-list-tile-action>
+                <v-icon>{{ subItem.action }}</v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
+          </v-list-group>
+        </v-list>
+        
       </v-card>
     </v-flex>
   </v-layout>
@@ -80,7 +61,7 @@
       placenameId: {type: String, required: true}
     },
     data: () => ({
-      show: false
+      show: false,
     }),
     created() {
       this.fetchPlacenameCard(this.placenameId).then(r => {
@@ -92,12 +73,31 @@
     },
     methods: {
       stripTags (str) {
-        return str === undefined || str.length === 0 ? '' : str.replace(/<[^>]*>/g, '')
+        return str === null || str === undefined ? '' : str.replace(/<[^>]*>/g, '')
       },
       ...mapActions('placenameCard', ['fetchPlacenameCard']),
     },
     computed: {
-      ...mapState('placenameCard', { placenameItem: 'placenameItem' }),
+      items(){
+        return [
+          {
+            action: 'call_split',
+            label: 'Formes alternatives',
+            items: [
+              { label: 'List Item 1' },
+              { label: 'List Item 2' },
+              { label: 'List Item 3' }
+            ]
+          },
+          {
+            active: true,
+            action: 'history',
+            label: 'Formes anciennes',
+            items: this.placenameOldLabels.reverse()
+          },
+        ]
+      },
+      ...mapState('placenameCard', { placenameItem: 'placenameItem', placenameOldLabels: 'placenameOldLabels' }),
     },
     watch: {
       placenameId(val) {

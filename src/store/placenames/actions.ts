@@ -40,6 +40,7 @@ export const actions: ActionTree<PlacenameState, RootState> = {
           commit('setItems', {p: items, links: data.links, meta: {totalCount: data.meta["total-count"]}})
         } else {
           commit('setError', data)
+          commit('setLoading', false)
         }
         commit('setLoading', false)
       })

@@ -77,7 +77,7 @@
     },
     methods: {
       stripTags(str) {
-        return str === undefined || str.length === 0 ? '' : str.replace(/<[^>]*>/g, '')
+        return str === null ? '' : str.replace(/<[^>]*>/g, '')
       },
 
       getDataFromApi () {

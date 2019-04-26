@@ -1,12 +1,11 @@
 <template>
-  <v-app  class="ggg">
+  <v-app>
     <v-toolbar app>
       <v-toolbar-title class="headline text-uppercase">
         <span>DICTIONNAIRE</span>
         <span class="font-weight-light"> TOPONYMIQUE</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      
       
       <v-text-field prepend-inner-icon="search" type="text" placeholder="Ex. Laon" v-model="searchedTerm"></v-text-field>
       
@@ -50,7 +49,7 @@
     },
     data () {
       return {
-        searchedTerm: 'Laon',
+        searchedTerm: '*gnac',
         selectedPlacenameId: undefined
       }
     },

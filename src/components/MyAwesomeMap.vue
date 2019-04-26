@@ -36,8 +36,8 @@
     },
     data () {
       return {
-        zoom: 13,
-        center: [49.56001319148936, 3.615102414893616],
+        zoom: 8,//13,
+        center: [44.853806, 1.73392], //[49.56001319148936, 3.615102414893616],
         
         markerLayer: null,
         heatLayer: null
@@ -85,14 +85,16 @@
       },
       
       addMarkers(markers) {
+        let newMarkers = []
         for(let m of markers) {
           let newMarker = L.marker(m.coordinates);
           if (this.onMarkerClick) {
             newMarker.on('click', () => this.onMarkerClick(m.id))
           }
-          this.markerLayer.addLayer(newMarker)
+          newMarkers.push(newMarker)
           this.heatLayer.addLatLng(m.coordinates)
         }
+        this.markerLayer.addLayers(newMarkers)
       },
       clearMarkers() {
         console.log("clear markers")
@@ -101,7 +103,7 @@
       },
       toggleMarkerLayer()
       {
-        if (this.map.getZoom() < 12) {
+        if (this.map.getZoom() < 10) {
           this.map.removeLayer(this.markerLayer);
           this.map.addLayer(this.heatLayer);
         } else {
@@ -128,7 +130,9 @@
       })
   
       this.heatLayer = L.heatLayer([], { radius: 22, blur: 12, minOpacity: 0.25 })
-      this.markerLayer = L.featureGroup()
+      this.markerLayer = L.markerClusterGroup({
+        showCoverageOnHover: false
+      })
   
       this.toggleMarkerLayer()
       this.map.on('zoomend', this.toggleMarkerLayer);

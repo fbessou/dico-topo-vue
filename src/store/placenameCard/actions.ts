@@ -1,21 +1,20 @@
 import {ActionTree} from 'vuex';
-import {PlacenameCardState} from './types';
+import {PlacenameCardState, PlacenameOldLabel} from './types';
 import {Placename} from "@/store/placenames/types";
 import {RootState} from '../types';
 import {api} from "@/utils/http-common";
 import {ApiResponse} from "apisauce";
 
+const index = `${process.env.VUE_APP_PLACENAME_INDEX}`
 
 export const actions: ActionTree<PlacenameCardState, RootState> = {
   fetchPlacenameCard({commit, rootState}, id: string): any {
     commit('setLoading', true)
-    const index = `${process.env.VUE_APP_PLACENAME_INDEX}`
     return api.get(`/search?query=id:${id}&index=${index}&page[size]=1`)
       .then((res: ApiResponse<any>) => {
         const {ok, data} = res;
         if (ok) {
           const obj = data.data[0];
-          console.log(obj)
           const longlat: any = obj["longlat"]
           let coords: [number, number] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
           const p: Placename = {
@@ -36,9 +35,34 @@ export const actions: ActionTree<PlacenameCardState, RootState> = {
             viaf_id: obj.attributes["viaf-id"]
           }
           commit('setItem', p)
+          return p;
         } else {
           commit('setError', data)
+          commit('setLoading', false)
+          return null;
         }
+        //commit('setLoading', false)
+      })
+      .then(r => {
+        console.log("load oldlabels from", r)
+        return api.get(`/placenames/${id}/old-labels`)
+          .then((res: ApiResponse<any>) => {
+            const {ok, data} = res;
+            if (ok) {
+              const items: Array<PlacenameOldLabel> = data.data.map((p: any) => {
+                return {
+                  id: p.id,
+                  label: p.attributes["rich-label"],
+                  labelNode: p.attributes["text-label-node"],
+                  date: p.attributes["text-date"],
+                  reference: p.attributes["rich-reference"],
+                }
+              })
+              commit('setOldLabels', items)
+            }
+          })
+      })
+      .then(r => {
         commit('setLoading', false)
       })
       .catch((error: any) => {

@@ -44,7 +44,6 @@ export const actions: ActionTree<PlacenameCardState, RootState> = {
         //commit('setLoading', false)
       })
       .then(r => {
-        console.log("load oldlabels from", r)
         return api.get(`/placenames/${id}/old-labels`)
           .then((res: ApiResponse<any>) => {
             const {ok, data} = res;

@@ -40,7 +40,7 @@
         center: [44.853806, 1.73392], //[49.56001319148936, 3.615102414893616],
         
         markerLayer: null,
-        heatLayer: null
+        heatLayer: null,
       }
     },
     methods: {
@@ -92,13 +92,26 @@
             newMarker.on('click', () => this.onMarkerClick(m.id))
           }
           newMarkers.push(newMarker)
-          this.heatLayer.addLatLng(m.coordinates)
+          
+          // add the point heatmap using a trick to not trigger .redraw when the layer is not on the map
+          this.heatLayer._latlngs.push(m.coordinates)
         }
         this.markerLayer.addLayers(newMarkers)
+        
+        // Yet i want to redraw the heatmap layer if it is currently visible
+        if (this.map.hasLayer(this.heatLayer)) {
+          this.heatLayer.redraw()
+        }
       },
       clearMarkers() {
-        console.log("clear markers")
-        this.heatLayer.setLatLngs([])
+        // clear the heat map markers
+        // using a trick to not trigger .redraw when the layer is not on the map
+        if (this.map.hasLayer(this.heatLayer)) {
+          this.heatLayer.setLatLngs([])
+        } else {
+          this.heatLayer._latlngs = []
+        }
+        // clear the placename markers
         this.markerLayer.clearLayers()
       },
       toggleMarkerLayer()
@@ -109,6 +122,9 @@
         } else {
           this.map.removeLayer(this.heatLayer);
           this.map.addLayer(this.markerLayer);
+        }
+        if (this.map.hasLayer(this.heatLayer)) {
+          this.heatLayer.redraw()
         }
       }
     },

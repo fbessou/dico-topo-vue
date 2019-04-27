@@ -77,7 +77,7 @@
     },
     methods: {
       stripTags(str) {
-        return str === null ? '' : str.replace(/<[^>]*>/g, '')
+        return str === null || str === undefined ? '' : str.replace(/<[^>]*>/g, '')
       },
 
       getDataFromApi () {
@@ -116,14 +116,12 @@
             if (rowsPerPage > 0) {
               //items = items.slice((page - 1) * rowsPerPage, page * rowsPerPage)
             }
-  
-            setTimeout(() => {
-              this.loading = false
-              resolve({
-                items,
-                total
-              })
-            }, 10)
+            resolve({
+              items,
+              total
+            })
+            this.loading = false
+            
           })
          
         })

@@ -20,7 +20,7 @@ function partialSearchMarker(commit: any, url: string): Promise<ApiErrorResponse
         })
         commit('setItems', {m: items, links: data.links, meta: {totalCount: data.meta["total-count"]}})
         if (data.links.next) {
-          console.log("next link", data.links.next)
+          console.log("fetching next data (mapmarkers)")
           return partialSearchMarker(commit, data.links.next)
         }
       } else {
@@ -47,7 +47,6 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
     const searchPageNumber = pageNumber > 0 ? pageNumber : 1
 
     const initialUrl = `/search?query=label:${query}&index=${index}&sort=label.keyword&page[size]=${searchPageSize}&page[number]=${searchPageNumber}&facade=map&filter[longlat]`
-    console.log("init search map marker")
     commit('clearAll', {links: {}, meta: {}})
     return partialSearchMarker(commit, initialUrl).then(r => {
       commit("setLoading", false)

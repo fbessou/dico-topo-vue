@@ -73,7 +73,7 @@
       }
     },
     mounted () {
-      this.fetchData()
+      //this.fetchData()
     },
     methods: {
       stripTags(str) {

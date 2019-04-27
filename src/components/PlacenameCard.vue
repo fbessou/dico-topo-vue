@@ -58,7 +58,7 @@
   export default {
     name: 'PlacenameCard',
     props: {
-      placenameId: {type: String, required: true}
+      placenameId: {required: true}
     },
     data: () => ({
       show: false,

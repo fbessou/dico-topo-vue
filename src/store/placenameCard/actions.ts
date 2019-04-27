@@ -8,13 +8,14 @@ import {ApiResponse} from "apisauce";
 const index = `${process.env.VUE_APP_PLACENAME_INDEX}`
 
 export const actions: ActionTree<PlacenameCardState, RootState> = {
-  fetchPlacenameCard({commit, rootState}, id: string): any {
+  fetchPlacenameCard({commit, rootState}, id: any): any {
     commit('setLoading', true)
-    return api.get(`/search?query=id:${id}&index=${index}&page[size]=1`)
+    return api.get(`/search?query=(id:${id} AND type:placename)&index=${index}&page[size]=1`)
       .then((res: ApiResponse<any>) => {
         const {ok, data} = res;
         if (ok) {
           const obj = data.data[0];
+          console.log(data)
           const longlat: any = obj["longlat"]
           let coords: [number, number] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
           const p: Placename = {

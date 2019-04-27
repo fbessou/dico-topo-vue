@@ -93,7 +93,7 @@
             active: true,
             action: 'history',
             label: 'Formes anciennes',
-            items: this.placenameOldLabels.reverse()
+            items: this.placenameOldLabels ? this.placenameOldLabels.reverse() : []
           },
         ]
       },

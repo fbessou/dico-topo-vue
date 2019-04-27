@@ -7,8 +7,8 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       
-      <v-text-field prepend-inner-icon="search" type="text" placeholder="Ex. Laon" v-model="searchedTerm"></v-text-field>
-      <search-options-menu :on-options-change="onSearchOptionsChange"></search-options-menu>
+      <v-text-field prepend-inner-icon="search" type="text" placeholder="Ex. Laon" v-model="inputTerm"></v-text-field>
+      <search-options-menu :on-open="unselectPlacename" :on-options-change="onSearchOptionsChange" :initial-data="searchOptions"></search-options-menu>
       
       <v-spacer></v-spacer>
       <v-btn
@@ -51,8 +51,10 @@
     },
     data () {
       return {
-        searchedTerm: '*gnac',
-        searchOptions: {},
+        inputTerm: '*gnac',
+        searchOptions: {
+          includeOldLabels: true
+        },
         selectedPlacenameId: undefined
       }
     },
@@ -77,7 +79,6 @@
         this.selectedPlacenameId = undefined
       },
       onSearchOptionsChange(options){
-        console.log(options)
         this.searchOptions = options
       },
       ...mapActions('mapmarkers', ['searchMapMarker'])
@@ -92,13 +93,12 @@
     },
     computed: {
       computedTerm() {
-        let term = this.searchedTerm
+        let term = this.inputTerm
         if (!!this.searchOptions['includeOldLabels']) {
           term = `label:${term} OR old-labels:${term}`
         } else {
           term = `label:${term}`
         }
-        console.log(this.searchOptions, term)
         return term
       }
     }

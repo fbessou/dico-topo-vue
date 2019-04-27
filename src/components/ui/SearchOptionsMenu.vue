@@ -35,13 +35,27 @@
   export default {
     name: 'SearchOptionsMenu',
     props: {
-      onOptionsChange : { type: Function }
+      onOptionsChange : { type: Function },
+      onOpen : { type: Function },
+      initialData : { type: Object}
     },
     data: () => ({
       dialog: false,
       includeOldLabels: true
     }),
+    created() {
+      if (this.$props.initialData) {
+        this.includeOldLabels = this.$props.initialData.includeOldLabels
+      }
+    },
     watch: {
+      dialog(val) {
+        if (val) {
+          if (this.$props.onOpen) {
+            this.$props.onOpen()
+          }
+        }
+      },
       includeOldLabels() {
         if (this.onOptionsChange) {
           this.onOptionsChange({

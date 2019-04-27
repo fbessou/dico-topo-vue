@@ -46,7 +46,7 @@ export const actions: ActionTree<PlacenameState, RootState> = {
                 item = {
                   id: p.id,
                   type: p.type,
-                  label: p.attributes["label"],
+                  label: p.attributes["rich-label"],
                   description: p.attributes["placename-desc"],
 
                   insee_code: p.attributes["localization-insee-code"],

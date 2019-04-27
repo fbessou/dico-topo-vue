@@ -16,27 +16,34 @@ export const actions: ActionTree<PlacenameCardState, RootState> = {
         if (ok) {
           const obj = data.data[0];
           console.log(data)
-          const longlat: any = obj["longlat"]
-          let coords: [number, number] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
-          const p: Placename = {
-            id: obj.id,
-            label: obj.attributes["placename-label"],
-            description: obj.attributes["desc"],
-            comment: obj.attributes["comment"],
+          if (obj) {
+            const longlat: any = obj["longlat"]
+            let coords: [number, number] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
+            const p: Placename = {
+              id: obj.id,
+              label: obj.attributes["placename-label"],
+              description: obj.attributes["desc"],
+              comment: obj.attributes["comment"],
 
-            insee_code: obj.attributes["localization-insee-code"],
-            department: obj.attributes["dpt"],
-            region: obj.attributes["region"],
+              insee_code: obj.attributes["localization-insee-code"],
+              department: obj.attributes["dpt"],
+              region: obj.attributes["region"],
 
-            coordinates: coords,
-            geoname_id: obj.attributes["geoname-id"],
-            wikidata_item_id: obj.attributes["wikidata-item-id"],
-            wikipedia_url: obj.attributes["wikipedia-url"],
-            databnf_ark: obj.attributes["databnf-ark"],
-            viaf_id: obj.attributes["viaf-id"]
+              coordinates: coords,
+              geoname_id: obj.attributes["geoname-id"],
+              wikidata_item_id: obj.attributes["wikidata-item-id"],
+              wikipedia_url: obj.attributes["wikipedia-url"],
+              databnf_ark: obj.attributes["databnf-ark"],
+              viaf_id: obj.attributes["viaf-id"]
+            }
+            commit('setItem', p)
+            return p;
+
+          } else {
+            commit('setError', data)
+            commit('setLoading', false)
+            return null;
           }
-          commit('setItem', p)
-          return p;
         } else {
           commit('setError', data)
           commit('setLoading', false)

@@ -9,7 +9,8 @@
             <span class="grey--text">{{stripTags(this.placenameItem.description)}}</span>
           </div>
         </v-card-title>
-        <v-card-text>
+        <v-card-text style="max-height: 300px; overflow: auto"
+        >
           {{stripTags(this.placenameItem.comment)}}
         </v-card-text>
   
@@ -20,9 +21,11 @@
             v-model="item.active"
             :prepend-icon="item.action"
             no-action
+            style="max-height: 300px; overflow: auto"
+
           >
             <template v-slot:activator>
-              <v-list-tile>
+              <v-list-tile >
                 <v-list-tile-content>
                   <v-list-tile-title>{{item.label}} <span v-if="item.items">({{item.items.length}})</span></v-list-tile-title>
                 </v-list-tile-content>
@@ -117,7 +120,7 @@
     float: right;
     top: 20px;
     left: 64px;
-    width: 30%;
+    width: 35%;
     min-width: 20%;
   }
   .placename-card{

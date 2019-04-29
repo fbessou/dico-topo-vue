@@ -16,11 +16,36 @@
     >
       <template v-slot:items="props">
         <td class="text-xs-left">{{ stripTags(props.item.label) }}</td>
-        <td class="text-xs-left">{{ stripTags(props.item.label) }}</td>
-        <td class="text-xs-left">{{ stripTags(props.item.description) }}</td>
-        <td class="text-xs-left">{{ props.item.department }}</td>
-        <td class="text-xs-left">{{ props.item.region }}</td>
-        <td class="text-xs-left">{{ props.item.label }}</td>
+        
+        
+        <td class="text-xs-center" v-if=" props.item.type === 'placename-old-label'">
+          <v-tooltip left>
+            <template v-slot:activator="{ on }">
+              <v-icon v-on="on">history</v-icon>
+            </template>
+            <span>Forme ancienne</span>
+          </v-tooltip>
+        </td>
+        <td class="text-xs-left" v-else>
+        </td>
+        
+        <td class="text-xs-left" v-if=" props.item.type === 'placename-old-label'">
+          Forme ancienne de '{{ stripTags(props.item.placenameLabel) }}'. {{ stripTags(props.item.description) }}
+        </td>
+        <td class="text-xs-left" v-else>{{ stripTags(props.item.description) }}</td>
+  
+        <td class="text-xs-center">{{ props.item.department }}</td>
+        <td class="text-xs-center">{{ props.item.region }}</td>
+        <td class="text-xs-right">
+          <linking-menu
+            :geoname-id="props.item.geoname_id"
+            :wikidata-item-id="props.item.wikidata_item_id"
+            :wikipedia-url="props.item.wikipedia_url"
+            :databnf-ark="props.item.databnf_ark"
+            :viaf-id="props.item.viaf_id"
+          >
+          </linking-menu>
+        </td>
       </template>
   
       <template v-slot:pageText="props">
@@ -32,9 +57,11 @@
 
 <script>
   import { mapActions, mapState } from 'vuex'
+  import LinkingMenu from './ui/LinkingMenu'
   
   export default {
     name: "PlacenameSearchTable",
+    components: { LinkingMenu },
     props: {
       searchedTerm: {type: String, default: ''},
     },
@@ -53,11 +80,11 @@
             sortable: false,
             value: 'label'
           },
-          { text: 'Type', value: 'item_type', align: 'left',sortable: false },
+          { text: 'Type', value: 'item_type', align: 'center',sortable: false },
           { text: 'Description', value: 'description', align: 'left',sortable: false },
-          { text: 'Département', value: 'department', align: 'left',sortable: false },
-          { text: 'Région', value: 'region', align: 'left',sortable: false },
-          { text: 'Liage', value: 'linking', align: 'left',sortable: false },
+          { text: 'Département', value: 'department', align: 'center',sortable: false },
+          { text: 'Région', value: 'region', align: 'center',sortable: false },
+          { text: 'Liens', value: 'linking', align: 'center',sortable: false },
         ]
       }
     },
@@ -76,8 +103,11 @@
       //this.fetchData()
     },
     methods: {
+      capitalizeFirstLetter(str) {
+        return str === null || str === undefined ? '' : str.charAt(0).toUpperCase() + str.slice(1)
+      },
       stripTags(str) {
-        return str === null || str === undefined ? '' : str.replace(/<[^>]*>/g, '')
+        return str === null || str === undefined ? '' : this.capitalizeFirstLetter(str.replace(/<[^>]*>/g, '').trim())
       },
 
       getDataFromApi () {

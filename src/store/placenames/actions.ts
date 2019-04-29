@@ -47,12 +47,19 @@ export const actions: ActionTree<PlacenameState, RootState> = {
                   id: p.id,
                   type: p.type,
                   label: p.attributes["rich-label"],
+                  placenameLabel: p.attributes["placename-label"],
                   description: p.attributes["placename-desc"],
 
                   insee_code: p.attributes["localization-insee-code"],
                   department: p.attributes["dpt"],
                   region: p.attributes["region"],
-                  coordinates: coords
+                  coordinates: coords,
+
+                  geoname_id: p.attributes["geoname-id"],
+                  wikidata_item_id: p.attributes["wikidata-item-id"],
+                  wikipedia_url: p.attributes["wikipedia-url"],
+                  databnf_ark: p.attributes["databnf-ark"],
+                  viaf_id: p.attributes["viaf-id"]
                 }
                 break;
             }

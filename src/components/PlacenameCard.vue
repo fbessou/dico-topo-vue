@@ -1,14 +1,25 @@
 <template>
   <v-layout row class="placename-layout">
     <v-flex>
-      <v-card class="placename-card" v-if="placenameItem">
-        
-        <v-card-title primary-title>
-          <div>
-            <div class="headline">{{this.placenameItem.label}}</div>
-            <span class="grey--text">{{stripTags(this.placenameItem.description)}}</span>
-          </div>
-        </v-card-title>
+      <v-card class="placename-card elevation-3" v-if="placenameItem">
+   
+        <v-toolbar card>
+          <v-toolbar-title class="">{{placenameItem.label}}
+            <div class="body-2 grey--text">{{stripTags(this.placenameItem.description)}}</div>
+          </v-toolbar-title>
+          <v-spacer></v-spacer>
+          <linking-menu
+            :geoname-id="placenameItem.geoname_id"
+            :wikidata-item-id="placenameItem.wikidata_item_id"
+            :wikipedia-url="placenameItem.wikipedia_url"
+            :databnf-ark="placenameItem.databnf_ark"
+            :viaf-id="placenameItem.viaf_id"
+          >
+          </linking-menu>
+      
+        </v-toolbar>
+  
+  
         <v-card-text style="max-height: 300px; overflow: auto"
         >
           {{stripTags(this.placenameItem.comment)}}
@@ -57,9 +68,11 @@
 
 <script>
   import { mapActions, mapState } from 'vuex'
+  import LinkingMenu from './ui/LinkingMenu'
 
   export default {
     name: 'PlacenameCard',
+    components: { LinkingMenu },
     props: {
       placenameId: {required: true}
     },

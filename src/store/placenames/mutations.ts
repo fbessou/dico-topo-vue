@@ -7,6 +7,8 @@ import {MapMarker, MapMarkerState} from "@/store/mapmarkers/types";
 export function getDefaultState(): PlacenameState {
   return {
     items: new Map<string, Placename>(),
+    selectedItem: undefined,
+
     links: {},
     meta: {totalCount: 0},
     error: undefined,
@@ -31,6 +33,12 @@ export const mutations: MutationTree<PlacenameState> = {
     state.links = links
     state.meta = meta
     state.error = undefined
+  },
+  selectItem(state, item) {
+    state.selectedItem = item
+  },
+  unselectItem(state) {
+    state.selectedItem = undefined
   },
   setError(state, message: string) {
     state.error = message

@@ -15,8 +15,21 @@
 
     >
       <template v-slot:items="props">
-        <td class="text-xs-left">{{ stripTags(props.item.label) }}</td>
         
+        <td class="text-xs-left">
+          <v-layout row wrap align-center>
+            <v-flex grow>
+              <span>{{ stripTags(props.item.label) }}</span>
+            </v-flex>
+            <v-flex shrink >
+              <v-btn flat fab small class="elevation-0 blue--text"
+                     @click="() => selectItemWrapper(props.item)"
+                     :disabled="!props.item.coordinates">
+                <v-icon>location_on</v-icon>
+              </v-btn>
+            </v-flex>
+          </v-layout>
+        </td>
         
         <td class="text-xs-center" v-if=" props.item.type === 'placename-old-label'">
           <v-tooltip left>
@@ -64,6 +77,7 @@
     components: { LinkingMenu },
     props: {
       searchedTerm: {type: String, default: ''},
+      selectItemCallback: {type: Function}
     },
     data () {
       return {
@@ -164,13 +178,23 @@
             this.totalItems = data.total
           })
       },
+  
+      selectItemWrapper(obj) {
+        if (this.selectItemCallback) {
+          const item = {
+            id: obj.type === "placename" ? obj.id : obj.placenameId,
+            coordinates: [parseFloat(obj.coordinates[1]), parseFloat(obj.coordinates[0])]
+          }
+          this.selectItemCallback(item)
+        }
+      },
       
       ...mapActions('placenames', ['fetchPlacename', 'searchPlacename']),
   
     },
   
     computed: {
-      ...mapState('placenames', {placenameItems: 'items', meta: 'meta'}),
+      ...mapState('placenames', {placenameItems: 'items', meta: 'meta', selectedPlacename: 'selectedItem'}),
     }
   }
 </script>

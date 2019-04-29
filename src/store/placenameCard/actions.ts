@@ -15,7 +15,6 @@ export const actions: ActionTree<PlacenameCardState, RootState> = {
         const {ok, data} = res;
         if (ok) {
           const obj = data.data[0];
-          console.log(data)
           if (obj) {
             const longlat: any = obj["longlat"]
             let coords: [number, number] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null

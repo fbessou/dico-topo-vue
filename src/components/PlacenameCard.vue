@@ -74,15 +74,17 @@
     name: 'PlacenameCard',
     components: { LinkingMenu },
     props: {
-      placenameId: {required: true}
+    
     },
     data: () => ({
       show: false,
     }),
     created() {
-      this.fetchPlacenameCard(this.placenameId).then(r => {
-        console.log("placenamecard fetched", this.placenameId)
-      })
+      if (!!this.selectedPlacename) {
+        this.fetchPlacenameCard(this.selectedPlacename.id).then(r => {
+          console.log("placenamecard fetched", this.selectedPlacename.id)
+        })
+      }
     },
     mounted() {
     
@@ -114,12 +116,13 @@
         ]
       },
       ...mapState('placenameCard', { placenameItem: 'placenameItem', placenameOldLabels: 'placenameOldLabels' }),
+      ...mapState('placenames', { selectedPlacename: 'selectedItem'})
     },
     watch: {
-      placenameId(val) {
+      selectedPlacename(val) {
         if (val) {
-          this.fetchPlacenameCard(this.placenameId).then(r => {
-            console.log("placenamecard fetched", this.placenameId)
+          this.fetchPlacenameCard(this.selectedPlacename.id).then(r => {
+            console.log("placenamecard fetched", this.selectedPlacename.id)
           })
         }
       }
@@ -133,7 +136,7 @@
     float: right;
     top: 20px;
     left: 64px;
-    width: 35%;
+    width: 33%;
     min-width: 20%;
   }
   .placename-card{

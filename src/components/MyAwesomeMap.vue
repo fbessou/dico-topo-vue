@@ -36,7 +36,7 @@
     },
     data () {
       return {
-        zoom: 8,//13,
+        zoom: 8,
         center: [44.853806, 1.73392], //[49.56001319148936, 3.615102414893616],
         
         markerLayer: null,
@@ -89,7 +89,7 @@
         for(let m of markers) {
           let newMarker = L.marker(m.coordinates);
           if (this.onMarkerClick) {
-            newMarker.on('click', () => this.onMarkerClick(m.id))
+            newMarker.on('click', () => this.onMarkerClick({id: m.id, coordinates: m.coordinates}))
           }
           newMarkers.push(newMarker)
           
@@ -126,6 +126,12 @@
         if (this.map.hasLayer(this.heatLayer)) {
           this.heatLayer.redraw()
         }
+      },
+      flyToCoordinates(coords) {
+        if (!!coords) {
+          const latlgns = L.latLng(coords[0], coords[1])
+          this.map.panTo(coords, 13)
+        }
       }
     },
     mounted () {
@@ -155,23 +161,29 @@
       if (this.onMapClick) {
         this.map.on('click', this.onMapClick)
       }
+      
+      this.flyToCoordinates(this.coordinates)
     },
     computed: {
       ...mapState('mapmarkers', { mapmarkerItems: 'items', mapmarkerLoading: 'isLoading'}),
-      
+      ...mapState('placenames', ['selectedItem']),
+  
       map () { return this.$refs.map.mapObject },
     },
     watch: {
       mapmarkerItems() {
         this.addMarkers(Array.from(this.mapmarkerItems.values()))
       },
-      
       mapmarkerLoading(val) {
         if (val) {
           this.clearMarkers()
         }
+      },
+      selectedItem(val) {
+        if (!!val) {
+          this.flyToCoordinates(val.coordinates)
+        }
       }
-      
     }
   }
 </script>

@@ -9,7 +9,7 @@
       <template v-slot:activator="{ on }">
         
         <v-btn
-          flat fab  small color="indigo"
+          flat fab  small class="blue--text"
           v-on="on"
           :disabled="!geonameId && !wikipediaUrl && !wikidataItemId && !viafId && !databnfArk"
         >

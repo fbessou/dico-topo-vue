@@ -21,6 +21,7 @@ export interface Placename {
 
 export interface PlacenameState {
   items: Map<string, Placename>;
+  selectedItem: Placename | undefined;
 
   links: Links;
   meta : Meta;

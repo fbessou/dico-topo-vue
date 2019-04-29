@@ -6,6 +6,12 @@ import {ApiResponse} from "apisauce";
 
 
 export const actions: ActionTree<PlacenameState, RootState> = {
+  selectPlacename({commit, state, rootState}, placename): any {
+    commit('selectItem', placename)
+  },
+  unselectPlacename({commit, state, rootState}): any {
+    commit('unselectItem')
+  },
   searchPlacename({commit, rootState}, {query, pageSize, pageNumber}): any {
     commit('setLoading', true)
     const index = `${process.env.VUE_APP_PLACENAME_INDEX}`
@@ -47,6 +53,8 @@ export const actions: ActionTree<PlacenameState, RootState> = {
                   id: p.id,
                   type: p.type,
                   label: p.attributes["rich-label"],
+
+                  placenameId: p.attributes["placename-id"],
                   placenameLabel: p.attributes["placename-label"],
                   description: p.attributes["placename-desc"],
 

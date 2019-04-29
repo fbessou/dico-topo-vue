@@ -36,8 +36,8 @@
     },
     data () {
       return {
-        zoom: 8,
-        center: [44.853806, 1.73392], //[49.56001319148936, 3.615102414893616],
+        zoom: 3,
+        center: [47.853806, 1.73392], //[49.56001319148936, 3.615102414893616],
         
         markerLayer: null,
         heatLayer: null,
@@ -55,8 +55,6 @@
           // "GEOGRAPHICALGRIDSYSTEMS.PLANIGN",
         ]
         
-        const openStreetMapLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {}).addTo(this.map)
-        
         for (let identifier of ignLayers) {
           this.map.addLayer(
             L.geoportalLayer.WMTS({
@@ -64,6 +62,9 @@
             })
           )
         }
+  
+        const openStreetMapLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {}).addTo(this.map)
+  
         const layerSwitcher = L.geoportalControl.LayerSwitcher({
           layers: [{
             layer: openStreetMapLayer,
@@ -85,6 +86,7 @@
       },
       
       addMarkers(markers) {
+        console.log("add markers", markers.length)
         let newMarkers = []
         for(let m of markers) {
           let newMarker = L.marker(m.coordinates);
@@ -116,10 +118,12 @@
       },
       toggleMarkerLayer()
       {
+        console.log("zoom", this.map.getZoom())
         if (this.map.getZoom() < 10) {
           this.map.removeLayer(this.markerLayer);
           this.map.addLayer(this.heatLayer);
         } else {
+          console.log("add marker layer")
           this.map.removeLayer(this.heatLayer);
           this.map.addLayer(this.markerLayer);
         }
@@ -130,7 +134,7 @@
       flyToCoordinates(coords) {
         if (!!coords) {
           const latlgns = L.latLng(coords[0], coords[1])
-          this.map.panTo(coords, 13)
+          this.map.flyTo(coords, 13, { easeLinearity: 0.8, duration: 1.6})
         }
       }
     },
@@ -140,11 +144,12 @@
         iconUrl: icon,
         shadowUrl: iconShadow
       });
+      console.log(`autoconf: ${process.env.BASE_URL}autoconf-https.json`)
       
       Gp.Services.getConfig({
-        // apiKey: '4bgxfnc1ufj44pmxpsloxq6j',
+        //apiKey: '4bgxfnc1ufj44pmxpsloxq6j',
         callbackSuffix: '',
-        serverUrl: '/autoconf-https.json',
+        serverUrl: `${process.env.BASE_URL}autoconf-https.json`,
         onSuccess: this.addIGNServices,
         onFailure: function () {
           console.error('GP failure')

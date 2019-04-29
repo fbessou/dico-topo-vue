@@ -132,9 +132,9 @@
 
 <style scoped>
   .placename-layout {
-    position: absolute;
+    position: fixed;
     float: right;
-    top: 20px;
+    top: 88px;
     left: 64px;
     width: 33%;
     min-width: 20%;

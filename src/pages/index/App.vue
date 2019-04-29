@@ -41,13 +41,12 @@
 </template>
 
 <script>
-  import { mapActions, mapState } from 'vuex'
   
-  import PlacenameSearchTable from './components/PlacenameSearchTable'
-  import MyAwesomeMap from './components/MyAwesomeMap'
-  import PlacenameCard from './components/PlacenameCard'
-  import SearchOptionsMenu from './components/ui/SearchOptionsMenu'
-  import Vue from 'vue'
+  import PlacenameSearchTable from '../../components/PlacenameSearchTable'
+  import MyAwesomeMap from '../../components/MyAwesomeMap'
+  import PlacenameCard from '../../components/PlacenameCard'
+  import SearchOptionsMenu from '../../components/ui/SearchOptionsMenu'
+  import { mapState, mapActions } from 'vuex'
   
   export default {
     name: 'App',

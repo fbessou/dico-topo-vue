@@ -49,15 +49,29 @@
   
         <td class="text-xs-center">{{ props.item.department }}</td>
         <td class="text-xs-center">{{ props.item.region }}</td>
-        <td class="text-xs-right">
-          <linking-menu
-            :geoname-id="props.item.geoname_id"
-            :wikidata-item-id="props.item.wikidata_item_id"
-            :wikipedia-url="props.item.wikipedia_url"
-            :databnf-ark="props.item.databnf_ark"
-            :viaf-id="props.item.viaf_id"
-          >
-          </linking-menu>
+        <td>
+          <v-layout align-center justify-end row fill-height>
+            <v-flex shrink sm2>
+              <linking-menu
+                :geoname-id="props.item.geoname_id"
+                :wikidata-item-id="props.item.wikidata_item_id"
+                :wikipedia-url="props.item.wikipedia_url"
+                :databnf-ark="props.item.databnf_ark"
+                :viaf-id="props.item.viaf_id"
+              >
+              </linking-menu>
+            </v-flex>
+            <v-flex shrink sm2>
+              <v-btn :to="`/placenames/${props.item.type === 'placename' ? props.item.id: props.item.placenameId}`" flat icon fab small>
+                <v-icon>open_in_new</v-icon>
+              </v-btn>
+            </v-flex>
+            <v-flex shrink sm2>
+              <export-menu
+                :placename-id="props.item.type === 'placename' ? props.item.id: props.item.placenameId">
+              </export-menu>
+            </v-flex>
+          </v-layout>
         </td>
       </template>
   
@@ -71,10 +85,11 @@
 <script>
   import { mapActions, mapState } from 'vuex'
   import LinkingMenu from './ui/LinkingMenu'
-  
+  import ExportMenu from './ui/ExportMenu'
+
   export default {
     name: "PlacenameSearchTable",
-    components: { LinkingMenu },
+    components: { LinkingMenu, ExportMenu },
     props: {
       searchedTerm: {type: String, default: ''},
       selectItemCallback: {type: Function}
@@ -98,7 +113,7 @@
           { text: 'Description', value: 'description', align: 'left',sortable: false },
           { text: 'Département', value: 'department', align: 'center',sortable: false },
           { text: 'Région', value: 'region', align: 'center',sortable: false },
-          { text: 'Liens', value: 'linking', align: 'center',sortable: false },
+          { text: '', value: 'linking', align: 'right',sortable: false },
         ]
       }
     },

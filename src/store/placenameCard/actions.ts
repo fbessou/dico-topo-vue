@@ -8,6 +8,9 @@ import {ApiResponse} from "apisauce";
 const index = `${process.env.VUE_APP_PLACENAME_INDEX}`
 
 export const actions: ActionTree<PlacenameCardState, RootState> = {
+  clearPlacenameCard({commit}) {
+    commit('clearAll')
+  },
   fetchPlacenameCard({commit, rootState}, id: any): any {
     commit('setLoading', true)
     return api.get(`/search?query=(id:${id} AND type:placename)&index=${index}&page[size]=1`)

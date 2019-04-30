@@ -1,5 +1,5 @@
 <template>
-  <l-map class="l-map" ref="map" :zoom="zoom" :center="center" :max-zoom="17">
+  <l-map class="l-map" ref="map" :zoom="zoom" :center="center" :max-zoom="17" :style="`min-height: ${minHeight}; min-width: ${minWidth}; `">
   
   </l-map>
 </template>
@@ -32,7 +32,11 @@
     },
     props: {
       onMarkerClick : {type: Function},
-      onMapClick: { type: Function }
+      onMapClick: { type: Function },
+      useMarkers: { type: Boolean, default: true},
+      useHeatmap: { type: Boolean, default: true },
+      minHeight: {type: String, default: '100px'},
+      minWidth: { type: String, default: '100px' }
     },
     data () {
       return {
@@ -86,23 +90,29 @@
       },
       
       addMarkers(markers) {
-        console.log("add markers", markers.length)
+        
         let newMarkers = []
         for(let m of markers) {
-          let newMarker = L.marker(m.coordinates);
-          if (this.onMarkerClick) {
-            newMarker.on('click', () => this.onMarkerClick({id: m.id, coordinates: m.coordinates}))
+          if (this.useMarkers) {
+            let newMarker = L.marker(m.coordinates);
+            if (this.onMarkerClick) {
+              newMarker.on('click', () => this.onMarkerClick({ id: m.id, coordinates: m.coordinates }))
+            }
+            newMarkers.push(newMarker)
           }
-          newMarkers.push(newMarker)
-          
-          // add the point heatmap using a trick to not trigger .redraw when the layer is not on the map
-          this.heatLayer._latlngs.push(m.coordinates)
+          if (this.useHeatmap) {
+            // add the point heatmap using a trick to not trigger .redraw when the layer is not on the map
+            this.heatLayer._latlngs.push(m.coordinates)
+          }
         }
-        this.markerLayer.addLayers(newMarkers)
-        
-        // Yet i want to redraw the heatmap layer if it is currently visible
-        if (this.map.hasLayer(this.heatLayer)) {
-          this.heatLayer.redraw()
+        if (this.useMarkers) {
+          this.markerLayer.addLayers(newMarkers)
+        }
+        if (this.useHeatmap) {
+          // Yet i want to redraw the heatmap layer if it is currently visible
+          if (this.map.hasLayer(this.heatLayer)) {
+            this.heatLayer.redraw()
+          }
         }
       },
       clearMarkers() {
@@ -123,7 +133,6 @@
           this.map.removeLayer(this.markerLayer);
           this.map.addLayer(this.heatLayer);
         } else {
-          console.log("add marker layer")
           this.map.removeLayer(this.heatLayer);
           this.map.addLayer(this.markerLayer);
         }
@@ -196,6 +205,8 @@
 <style scoped>
   .l-map {
     z-index: 0;
+    min-height: 100px;
+    min-width: 100px;
     background-color: white;
   }
 </style>

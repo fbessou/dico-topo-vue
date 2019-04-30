@@ -8,26 +8,44 @@
             <div class="body-2 grey--text">{{stripTags(this.placenameItem.description)}}</div>
           </v-toolbar-title>
           <v-spacer></v-spacer>
-          <linking-menu
-            :geoname-id="placenameItem.geoname_id"
-            :wikidata-item-id="placenameItem.wikidata_item_id"
-            :wikipedia-url="placenameItem.wikipedia_url"
-            :databnf-ark="placenameItem.databnf_ark"
-            :viaf-id="placenameItem.viaf_id"
-          >
-          </linking-menu>
-      
+
+          <v-layout align-center justify-end>
+            <v-flex sm2>
+              <linking-menu
+                :geoname-id="placenameItem.geoname_id"
+                :wikidata-item-id="placenameItem.wikidata_item_id"
+                :wikipedia-url="placenameItem.wikipedia_url"
+                :databnf-ark="placenameItem.databnf_ark"
+                :viaf-id="placenameItem.viaf_id"
+              >
+              </linking-menu>
+            </v-flex>
+            <v-flex sm2>
+              <v-btn :to="`/placenames/${placenameItem.id}`" flat icon fab small>
+                <v-icon>open_in_new</v-icon>
+              </v-btn>
+            </v-flex>
+            <v-flex sm2>
+              <export-menu :placename-id="placenameItem.id">
+              </export-menu>
+            </v-flex>
+          </v-layout>
         </v-toolbar>
   
   
-        <v-card-text style="max-height: 300px; overflow: auto"
-        >
-          {{stripTags(this.placenameItem.comment)}}
+        <v-card-text style="min-height: 100px; max-height: 300px; overflow: auto">
+          <p v-if="placenameItem.comment">
+            {{stripTags(this.placenameItem.comment)}}
+          </p>
+          <p v-else class="grey--text font-italic">
+            Pas de commentaire disponible.
+          </p>
         </v-card-text>
   
         <v-list>
           <v-list-group
             v-for="item in items"
+            v-if="item.items.length > 0"
             :key="item.label"
             v-model="item.active"
             :prepend-icon="item.action"
@@ -35,7 +53,7 @@
             style="max-height: 300px; overflow: auto"
 
           >
-            <template v-slot:activator>
+            <template v-slot:activator >
               <v-list-tile >
                 <v-list-tile-content>
                   <v-list-tile-title>{{item.label}} <span v-if="item.items">({{item.items.length}})</span></v-list-tile-title>
@@ -69,10 +87,11 @@
 <script>
   import { mapActions, mapState } from 'vuex'
   import LinkingMenu from './ui/LinkingMenu'
+  import ExportMenu from './ui/ExportMenu'
 
   export default {
     name: 'PlacenameCard',
-    components: { LinkingMenu },
+    components: { LinkingMenu, ExportMenu },
     props: {
     
     },

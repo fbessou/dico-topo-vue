@@ -1,7 +1,7 @@
 <template>
     <v-app>
       <v-toolbar app>
-        <v-toolbar-title class="headline text-uppercase">
+        <v-toolbar-title class="headline text-uppercase" @click="$router.push({name: 'home'})" style="cursor: pointer">
           <span>DICTIONNAIRE</span>
           <span class="font-weight-light"> TOPONYMIQUE</span>
         </v-toolbar-title>
@@ -12,11 +12,8 @@
                              :initial-data="searchOptions"></search-options-menu>
         
         <v-spacer></v-spacer>
-        <v-btn
-          flat
-          href="https://github.com/vuetifyjs/vuetify/releases/latest"
-          target="_blank"
-        >
+        
+        <v-btn flat to="/documentation"  target="_blank">
           <span class="mr-2">Documentation</span>
           <v-icon>open_in_new</v-icon>
         </v-btn>
@@ -67,6 +64,7 @@
       }
     },
     mounted () {
+      this.clearPlacenameCard()
       this.searchMapMarkers(this.computedTerm, 750, 1)
     },
     methods: {
@@ -91,7 +89,8 @@
         }
       },
       ...mapActions('mapmarkers', ['searchMapMarker']),
-      ...mapActions('placenames', ['selectPlacename', 'unselectPlacename'])
+      ...mapActions('placenames', ['selectPlacename', 'unselectPlacename']),
+      ...mapActions('placenameCard', ['clearPlacenameCard'])
     },
     watch: {
       inputTerm (val) {

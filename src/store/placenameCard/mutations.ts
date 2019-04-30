@@ -25,6 +25,7 @@ export const mutations: MutationTree<PlacenameCardState> = {
   },
   clearAll(state: PlacenameCardState) {
     state.placenameItem = undefined
+    state.placenameOldLabels = undefined
     state.error = undefined
   },
   setError(state, message: string) {

@@ -3,13 +3,13 @@
     <v-menu
       v-model="menu"
       :close-on-content-click="false"
-      :nudge-width="450"
+      :nudge-width="475"
       offset-x
     >
       <template v-slot:activator="{ on }">
         
         <v-btn
-          flat fab  small class="blue--text"
+          flat fab small
           v-on="on"
           :disabled="!geonameId && !wikipediaUrl && !wikidataItemId && !viafId && !databnfArk"
         >
@@ -97,7 +97,6 @@
       viafId: { type: String },
     },
     data: () => ({
-      fav: true,
       menu: false
     })
   }

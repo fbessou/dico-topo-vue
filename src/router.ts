@@ -10,19 +10,25 @@ Vue.use(VueRouter)
 export const createRoutes: () => RouteConfig[] = () => [
   {
     path: '/',
-    component: HomePage
+    component: HomePage,
+    name: 'home',
+    props: (route) => ({query: route.query.q})
   },
   {
     path: '/placenames/:placenameId',
-    component: PlacenamePage
+    component: PlacenamePage,
+    name: 'placename',
+    props: true
   },
   {
     path: '/documentation',
-    component: DocumentationPage
+    component: DocumentationPage,
+    name: 'documentation'
   },
   {
     path: '*',
-    component: NotFoundPage
+    component: NotFoundPage,
+    name: 'notfound'
   }
 ]
 

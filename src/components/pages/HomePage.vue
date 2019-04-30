@@ -64,7 +64,7 @@
       }
     },
     mounted () {
-      this.clearPlacenameCard()
+      this.unselectPlacename()
       this.searchMapMarkers(this.computedTerm, 750, 1)
     },
     methods: {
@@ -73,8 +73,6 @@
           query: term,
           pageNumber: pageNumber,
           pageSize: pageSize
-        }).then(r => {
-        
         })
       },
       onSearchOptionsChange (options) {
@@ -83,7 +81,6 @@
       selectPlacenameOnMap (obj) {
         if (!!obj) {
           this.selectPlacename(obj)
-          
         } else {
           this.unselectPlacename()
         }

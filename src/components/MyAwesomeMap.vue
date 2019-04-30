@@ -35,12 +35,14 @@
       onMapClick: { type: Function },
       useMarkers: { type: Boolean, default: true},
       useHeatmap: { type: Boolean, default: true },
+      useFlyAnimation: { type: Boolean, default: true},
       minHeight: {type: String, default: '100px'},
-      minWidth: { type: String, default: '100px' }
+      minWidth: { type: String, default: '100px' },
+      initialZoom: {type: Number, default: 3}
     },
     data () {
       return {
-        zoom: 3,
+        zoom: !!this.initialZoom && this.initialZoom > 0 && this.initialZoom <= 17? this.initialZoom : 3,
         center: [47.853806, 1.73392], //[49.56001319148936, 3.615102414893616],
         
         markerLayer: null,
@@ -119,9 +121,11 @@
         // clear the heat map markers
         // using a trick to not trigger .redraw when the layer is not on the map
         if (this.map.hasLayer(this.heatLayer)) {
-          this.heatLayer.setLatLngs([])
-        } else {
-          this.heatLayer._latlngs = []
+          if (this.useHeatmap) {
+            this.heatLayer.setLatLngs([])
+          } else {
+            this.heatLayer._latlngs = []
+          }
         }
         // clear the placename markers
         this.markerLayer.clearLayers()
@@ -143,7 +147,12 @@
       flyToCoordinates(coords) {
         if (!!coords) {
           const latlgns = L.latLng(coords[0], coords[1])
-          this.map.flyTo(coords, 13, { easeLinearity: 0.8, duration: 1.6})
+          console.log("fly to val", coords)
+          if (this.useFlyAnimation) {
+            this.map.flyTo(coords, 13, { easeLinearity: 0.8, duration: 1.6 })
+          } else {
+            this.map.panTo(coords)
+          }
         }
       }
     },
@@ -170,13 +179,21 @@
         showCoverageOnHover: false
       })
   
-      this.toggleMarkerLayer()
-      this.map.on('zoomend', this.toggleMarkerLayer);
+      this.map.addLayer(this.heatLayer);
+      this.map.addLayer(this.markerLayer);
+      
+      if (this.useHeatmap) {
+        this.toggleMarkerLayer()
+        this.map.on('zoomend', this.toggleMarkerLayer);
+      }
+
       if (this.onMapClick) {
         this.map.on('click', this.onMapClick)
       }
       
-      this.flyToCoordinates(this.coordinates)
+      if (!!this.selectedItem) {
+        this.flyToCoordinates(this.coords)
+      }
     },
     computed: {
       ...mapState('mapmarkers', { mapmarkerItems: 'items', mapmarkerLoading: 'isLoading'}),

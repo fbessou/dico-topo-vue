@@ -100,6 +100,7 @@
     }),
     created() {
       if (!!this.selectedPlacename) {
+        console.log(this.selectedPlacename)
         this.fetchPlacenameCard(this.selectedPlacename.id).then(r => {
           console.log("placenamecard fetched", this.selectedPlacename.id)
         })
@@ -139,7 +140,7 @@
     },
     watch: {
       selectedPlacename(val) {
-        if (val) {
+        if (!!val) {
           this.fetchPlacenameCard(this.selectedPlacename.id).then(r => {
             console.log("placenamecard fetched", this.selectedPlacename.id)
           })

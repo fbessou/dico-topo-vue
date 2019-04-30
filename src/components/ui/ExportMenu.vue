@@ -22,7 +22,9 @@
           <v-list-tile >
             <v-list-tile-content>
               <v-list-tile-title>Export des données</v-list-tile-title>
-              <v-list-tile-sub-title>Export des données du lieu identifié</v-list-tile-sub-title>
+              <v-list-tile-sub-title>Export des données du lieu identifié
+                <v-chip small label class="ref-chip">{{placenameId}}</v-chip>
+              </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -34,7 +36,6 @@
             <v-list-tile-content>
               <v-list-tile-title>
                <a :href="`${apiUrl}/placenames/${placenameId}`" target="_blank">JSONAPI</a>
-                <v-chip small label class="ref-chip">{{placenameId}}</v-chip>
               </v-list-tile-title>
               <v-list-tile-sub-title>
                 Export du lieu identifié au format <a href='https://jsonapi.org/format/1.0/'>JSON API 1.0</a></v-list-tile-sub-title>
@@ -46,7 +47,6 @@
               <v-list-tile-title>
                 <a :href="`${apiUrl}/placenames/${placenameId}?export=linkedplaces`"
                    target="_blank">Linked Places</a>
-                <v-chip small label class="ref-chip">{{placenameId}}</v-chip>
               </v-list-tile-title>
               <v-list-tile-sub-title>
                 Export du lieu identifié au format <a href='https://github.com/LinkedPasts/linked-places'>Linked Places</a>

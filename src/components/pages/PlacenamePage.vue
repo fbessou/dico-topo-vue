@@ -16,7 +16,7 @@
     <v-content>
   
       <v-container grid-list-md text-xs-center>
-        <v-layout row wrap>
+        <v-layout  wrap>
           
           <v-flex xs12>
             <v-layout justify-start align-center>
@@ -27,7 +27,8 @@
             </v-layout>
           </v-flex>
           
-          <v-flex xs6>
+          <v-flex grow
+                  pa-1 xs6>
             <v-card class="elevation-2" v-if="!!placenameItem">
               <v-toolbar card>
                 <v-toolbar-title class="text-xs-left">{{placenameItem.label}}
@@ -70,9 +71,9 @@
             </v-card>
           </v-flex>
           
-          <v-flex xs6>
-            <v-card dark color="secondary">
-              <my-awesome-map :use-heatmap="false" min-height="640px">
+          <v-flex xs6 v-if="!!placenameItem && !!placenameItem.coordinates">
+            <v-card dark color="secondary" >
+              <my-awesome-map :use-heatmap="false" min-height="640px" :initial-zoom="7" :use-fly-animation="false">
               </my-awesome-map>
             </v-card>
           </v-flex>
@@ -98,9 +99,32 @@
       ExportMenu
     },
     created() {
-      this.fetchPlacenameCard(this.placenameId).then(r => {
-        console.log("placenamecard fetched", this.placenameId)
+
+      this.searchMapMarker({
+          query: `(id:"${this.placenameId}" AND type:placename)`,
+          pageNumber: 1,
+          pageSize: 1
+        }
+      ).then( r => {
+        this.fetchPlacenameCard(this.placenameId).then(r => {
+          console.log("placenamecard fetched", this.placenameId)
+        })
       })
+    },
+    watch: {
+      placenameItem() {
+        if (!!this.placenameItem){
+          console.log('set placename', obj)
+          const obj = {
+            id: this.placenameItem.id,
+            coordinates: [
+              parseFloat(this.placenameItem.coordinates[1].trim()),
+              parseFloat(this.placenameItem.coordinates[0].trim())
+            ]
+          }
+          this.selectPlacename(obj)
+        }
+      }
     },
     methods: {
       stripTags (str) {
@@ -108,10 +132,12 @@
       },
       ...mapActions('placenames', ['selectPlacename', 'unselectPlacename']),
       ...mapActions('placenameCard', ['fetchPlacenameCard']),
+      ...mapActions('mapmarkers', ['searchMapMarker']),
     },
     computed: {
       ...mapState('placenameCard', { placenameItem: 'placenameItem', placenameOldLabels: 'placenameOldLabels' }),
-      ...mapState('placenames', { selectedPlacename: 'selectedItem' })
+      ...mapState('placenames',  ['selectedItem']),
+      ...mapState('mapmarkers', { mapmarkerItems: 'items'})
     }
   }
 </script>

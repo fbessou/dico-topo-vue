@@ -1,11 +1,18 @@
 import Vue from 'vue'
 import '@/plugins/vuetify'
-import App from './App.vue'
-import store from '../../store'
+//import App from './App.vue'
+import store from './store/index'
 import Vuetify from 'vuetify'
 
 import { Icon } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import HomePage from "@/components/pages/HomePage.vue";
+import PlacenamePage from "@/components/pages/PlacenamePage.vue";
+
+import {RouteConfig, RouterOptions} from "vue-router";
+import VueRouter from "vue-router"
+import {Placename} from "@/store/placenames/types";
+import {createRouter} from "@/router";
 
 Vue.config.productionTip = true
 Vue.use(Vuetify)
@@ -19,7 +26,9 @@ Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 })
 
+
 new Vue({
-  store,
-  render: h => h(App)
-}).$mount('#app')
+  el: '#app',
+  store: store,
+  router: createRouter()
+})

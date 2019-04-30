@@ -4,7 +4,7 @@ module.exports = {
   pages: {
     index:  {
       // entry for the page
-      entry: 'src/pages/index/main.ts',
+      entry: 'src/main.ts',
       // the source template
       template: 'public/index.html',
       // output as dist/index.html
@@ -15,20 +15,6 @@ module.exports = {
       // chunks to include on this page, by default includes
       // extracted common chunks and vendor chunks.
       chunks: ['chunk-vendors', 'chunk-common', 'index']
-    },
-    placename: {
-      // entry for the page
-      entry: 'src/pages/placename/main.ts',
-      // the source template
-      template: 'public/placename.html',
-      // output as dist/index.html
-      filename: 'placename.html',
-      // when using title option,
-      // template title tag needs to be <title><%= htmlWebpackPlugin.options.title %></title>
-      title: 'Dictionnaire Toponymique - Lieu identifié',
-      // chunks to include on this page, by default includes
-      // extracted common chunks and vendor chunks.
-      chunks: ['chunk-vendors', 'chunk-common', 'placename']
     }
   },
 

@@ -1,92 +1,107 @@
 <template>
-  <div>
-    <v-data-table
-      :headers="headers"
-      :items="items"
-      :pagination.sync="pagination"
-      :total-items="totalItems"
-      :loading="loading"
-      class="elevation-1"
-      rows-per-page-text="Nombre d'éléments par page"
-      :rows-per-page-items="[5,
+  <v-container fluid  class="search-table" >
+    <v-layout>
+      <v-expansion-panel >
+        <v-expansion-panel-content>
+          <template v-slot:header>
+            <div class="title font-weight-light">
+              Résultats de la recherche ({{totalItems}})
+            </div>
+          </template>
+          <v-card-text>
+            <v-data-table
+              :headers="headers"
+              :items="items"
+              :pagination.sync="pagination"
+              :total-items="totalItems"
+              :loading="loading"
+              class="elevation-0"
+              rows-per-page-text="Nombre d'éléments par page"
+              :rows-per-page-items="[5,
                              10,
                              25,
                              maxPageSize]"
-
-    >
-      <template v-slot:items="props">
-        
-        <td class="text-xs-left">
-          <v-layout row wrap align-center>
-            <v-flex grow>
-              <span>{{ stripTags(props.item.label) }}</span>
-            </v-flex>
-            <v-flex shrink >
-              <v-btn flat fab small class="elevation-0 blue--text"
-                     @click="() => selectItemWrapper(props.item)"
-                     :disabled="!props.item.coordinates">
-                <v-icon>location_on</v-icon>
-              </v-btn>
-            </v-flex>
-          </v-layout>
-        </td>
-        
-        <td class="text-xs-center" v-if=" props.item.type === 'placename-old-label'">
-          <v-tooltip left>
-            <template v-slot:activator="{ on }">
-              <v-icon v-on="on">history</v-icon>
-            </template>
-            <span>Forme ancienne</span>
-          </v-tooltip>
-        </td>
-        <td class="text-xs-left" v-else>
-        </td>
-        
-        <td class="text-xs-left" v-if=" props.item.type === 'placename-old-label'">
-          Forme ancienne de '{{ stripTags(props.item.placenameLabel) }}'. {{ stripTags(props.item.description) }}
-        </td>
-        <td class="text-xs-left" v-else>{{ stripTags(props.item.description) }}</td>
   
-        <td class="text-xs-center">{{ props.item.department }}</td>
-        <td class="text-xs-center">{{ props.item.region }}</td>
-        <td>
-          <v-layout align-center justify-end row fill-height>
-            <v-flex shrink sm2>
-              <linking-menu
-                :geoname-id="props.item.geoname_id"
-                :wikidata-item-id="props.item.wikidata_item_id"
-                :wikipedia-url="props.item.wikipedia_url"
-                :databnf-ark="props.item.databnf_ark"
-                :viaf-id="props.item.viaf_id"
-              >
-              </linking-menu>
-            </v-flex>
-            <v-flex shrink sm2>
-              <v-btn :to="`/placenames/${props.item.type === 'placename' ? props.item.id: props.item.placenameId}`" flat icon fab small>
-                <v-icon>open_in_new</v-icon>
-              </v-btn>
-            </v-flex>
-            <v-flex shrink sm2>
-              <export-menu
-                :placename-id="props.item.type === 'placename' ? props.item.id: props.item.placenameId">
-              </export-menu>
-            </v-flex>
-          </v-layout>
-        </td>
-      </template>
-  
-      <template v-slot:pageText="props">
-        Toponymes {{ props.pageStart }} - {{ props.pageStop }} sur {{ props.itemsLength }}
-      </template>
-    </v-data-table>
-  </div>
+            >
+              <template v-slot:items="props">
+      
+                <td class="text-xs-left">
+                  <v-layout row wrap align-center>
+                    <v-flex grow>
+                      <span>{{ cleanStr(props.item.label) }}</span>
+                    </v-flex>
+                    <v-flex shrink>
+                      <v-btn flat fab small class="elevation-0 blue--text"
+                             @click="() => selectItemWrapper(props.item)"
+                             :disabled="!props.item.coordinates">
+                        <v-icon>location_on</v-icon>
+                      </v-btn>
+                    </v-flex>
+                  </v-layout>
+                </td>
+      
+                <td class="text-xs-center" v-if=" props.item.type === 'placename-old-label'">
+                  <v-tooltip left>
+                    <template v-slot:activator="{ on }">
+                      <v-icon v-on="on">history</v-icon>
+                    </template>
+                    <span>Forme ancienne</span>
+                  </v-tooltip>
+                </td>
+                <td class="text-xs-left" v-else>
+                </td>
+      
+                <td class="text-xs-left" v-if=" props.item.type === 'placename-old-label'">
+                  Forme ancienne de '{{ cleanStr(props.item.placenameLabel) }}'. {{ cleanStr(props.item.description) }}
+                </td>
+                <td class="text-xs-left" v-else>{{ cleanStr(props.item.description) }}</td>
+      
+                <td class="text-xs-center">{{ props.item.department }}</td>
+                <td class="text-xs-center">{{ props.item.region }}</td>
+                <td>
+                  <v-layout align-center justify-end row fill-height>
+                    <v-flex shrink sm2>
+                      <linking-menu
+                        :geoname-id="props.item.geoname_id"
+                        :wikidata-item-id="props.item.wikidata_item_id"
+                        :wikipedia-url="props.item.wikipedia_url"
+                        :databnf-ark="props.item.databnf_ark"
+                        :viaf-id="props.item.viaf_id"
+                      >
+                      </linking-menu>
+                    </v-flex>
+                    <v-flex shrink sm2>
+                      <v-btn
+                        :to="`/placenames/${props.item.type === 'placename' ? props.item.id: props.item.placenameId}`"
+                        flat icon fab small>
+                        <v-icon>open_in_new</v-icon>
+                      </v-btn>
+                    </v-flex>
+                    <v-flex shrink sm2>
+                      <export-menu
+                        :placename-id="props.item.type === 'placename' ? props.item.id: props.item.placenameId">
+                      </export-menu>
+                    </v-flex>
+                  </v-layout>
+                </td>
+              </template>
+    
+              <template v-slot:pageText="props">
+                Toponymes {{ props.pageStart }} - {{ props.pageStop }} sur {{ props.itemsLength }}
+              </template>
+            </v-data-table>
+          </v-card-text>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
   import { mapActions, mapState } from 'vuex'
   import LinkingMenu from './ui/LinkingMenu'
   import ExportMenu from './ui/ExportMenu'
-
+  
   export default {
     name: "PlacenameSearchTable",
     components: { LinkingMenu, ExportMenu },
@@ -101,7 +116,7 @@
         items: [],
         pagination: { rowsPerPage: 5},
         maxPageSize: process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE > 0 ? process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE : 200,
-  
+        
         headers: [
           {
             text: 'Toponyme',
@@ -135,10 +150,10 @@
       capitalizeFirstLetter(str) {
         return str === null || str === undefined ? '' : str.charAt(0).toUpperCase() + str.slice(1)
       },
-      stripTags(str) {
+      cleanStr(str) {
         return str === null || str === undefined ? '' : this.capitalizeFirstLetter(str.replace(/<[^>]*>/g, '').trim())
       },
-
+      
       getDataFromApi () {
         this.loading = true
         return new Promise((resolve, reject) => {
@@ -159,7 +174,7 @@
               items = items.sort((a, b) => {
                 const sortA = a[sortBy]
                 const sortB = b[sortBy]
-      
+                
                 if (descending) {
                   if (sortA < sortB) return 1
                   if (sortA > sortB) return -1
@@ -171,7 +186,7 @@
                 }
               })
             }
-  
+            
             if (rowsPerPage > 0) {
               //items = items.slice((page - 1) * rowsPerPage, page * rowsPerPage)
             }
@@ -182,7 +197,7 @@
             this.loading = false
             
           })
-         
+          
         })
       },
       
@@ -193,7 +208,7 @@
             this.totalItems = data.total
           })
       },
-  
+      
       selectItemWrapper(obj) {
         if (this.selectItemCallback) {
           const item = {
@@ -205,9 +220,9 @@
       },
       
       ...mapActions('placenames', ['fetchPlacename', 'searchPlacename']),
-  
+      
     },
-  
+    
     computed: {
       ...mapState('placenames', {placenameItems: 'items', meta: 'meta', selectedPlacename: 'selectedItem'}),
     }
@@ -215,5 +230,9 @@
 </script>
 
 <style scoped>
-
+  .search-table{
+    position: fixed;
+    bottom: 20px;
+    width: 1OO%;
+  }
 </style>

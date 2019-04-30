@@ -132,7 +132,6 @@
       },
       toggleMarkerLayer()
       {
-        console.log("zoom", this.map.getZoom())
         if (this.map.getZoom() < 10) {
           this.map.removeLayer(this.markerLayer);
           this.map.addLayer(this.heatLayer);
@@ -147,7 +146,6 @@
       flyToCoordinates(coords) {
         if (!!coords) {
           const latlgns = L.latLng(coords[0], coords[1])
-          console.log("fly to val", coords)
           if (this.useFlyAnimation) {
             this.map.flyTo(coords, 13, { easeLinearity: 0.8, duration: 1.6 })
           } else {

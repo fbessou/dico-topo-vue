@@ -1,16 +1,15 @@
 <template>
-  <v-layout row class="placename-layout">
+  <v-layout row wrap class="placename-layout">
     <v-flex>
       <v-card class="placename-card elevation-3" v-if="placenameItem">
    
         <v-toolbar card>
-          <v-toolbar-title class="">{{placenameItem.label}}
-            <div class="body-2 grey--text">{{stripTags(this.placenameItem.description)}}</div>
+          <v-toolbar-title>{{placenameItem.label}}
           </v-toolbar-title>
           <v-spacer></v-spacer>
 
-          <v-layout align-center justify-end>
-            <v-flex sm2>
+          <v-layout align-center justify-end grow>
+            <v-flex sm2 class="">
               <linking-menu
                 :geoname-id="placenameItem.geoname_id"
                 :wikidata-item-id="placenameItem.wikidata_item_id"
@@ -32,51 +31,54 @@
           </v-layout>
         </v-toolbar>
   
-  
-        <v-card-text style="min-height: 100px; max-height: 300px; overflow: auto">
-          <p v-if="placenameItem.comment">
-            {{stripTags(this.placenameItem.comment)}}
-          </p>
-          <p v-else class="grey--text font-italic">
-            Pas de commentaire disponible.
-          </p>
+        <v-card-text style="min-height: 100px; max-height: 200px; overflow: auto">
+          <p >{{cleanStr(this.placenameItem.description)}}</p>
         </v-card-text>
   
-        <v-list>
-          <v-list-group
-            v-for="item in items"
-            v-if="item.items.length > 0"
-            :key="item.label"
-            v-model="item.active"
-            :prepend-icon="item.action"
-            no-action
-            style="max-height: 300px; overflow: auto"
-
-          >
-            <template v-slot:activator >
-              <v-list-tile >
-                <v-list-tile-content>
-                  <v-list-tile-title>{{item.label}} <span v-if="item.items">({{item.items.length}})</span></v-list-tile-title>
-                </v-list-tile-content>
-              </v-list-tile>
+        <v-expansion-panel v-model="panel" expand>
+          <v-expansion-panel-content :disabled="!placenameItem.comment">
+            <template v-slot:header>
+              <div>
+                <v-icon>subject</v-icon>
+                Commentaire
+              </div>
             </template>
-      
-            <v-list-tile
-              v-for="(subItem, subItemIndex) in item.items"
-              :key="subItem.id"
-              @click=""
-            >
-              <v-list-tile-content>
-                <v-list-tile-title>{{subItemIndex+1}}. {{ stripTags(subItem.label) }}</v-list-tile-title>
-                <v-list-tile-sub-title>{{stripTags(subItem.labelNode)}}</v-list-tile-sub-title>
-              </v-list-tile-content>
+            <v-card-text>
+              {{cleanStr(this.placenameItem.comment)}}
+            </v-card-text>
+          </v-expansion-panel-content>
+  
+          <v-expansion-panel-content
+            v-for="item in items"
+            :disabled="item.items.length == 0"
+            :key="item.label"
+          >
+            <template v-slot:header>
+              <div>
+                <v-icon>{{item.action}}</v-icon>
+                {{item.label}}
+              </div>
+            </template>
+            
+            <v-card>
+              <v-card-text style="max-height: 300px; overflow: auto">
+                <v-list>
+                  <v-list-tile
+                    v-for="(subItem, subItemIndex) in item.items"
+                    :key="subItem.id"
+                    @click=""
+                  >
+                    <v-list-tile-content>
+                      <v-list-tile-title>{{subItemIndex+1}}. {{ cleanStr(subItem.label) }}</v-list-tile-title>
+                      <v-list-tile-sub-title>{{cleanStr(subItem.labelNode)}}</v-list-tile-sub-title>
+                    </v-list-tile-content>
+                  </v-list-tile>
+                </v-list>
+              </v-card-text>
+            </v-card>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
         
-              <v-list-tile-action>
-                <v-icon>{{ subItem.action }}</v-icon>
-              </v-list-tile-action>
-            </v-list-tile>
-          </v-list-group>
-        </v-list>
         
       </v-card>
     </v-flex>
@@ -96,11 +98,11 @@
     
     },
     data: () => ({
+      panel: [],
       show: false,
     }),
     created() {
       if (!!this.selectedPlacename) {
-        console.log(this.selectedPlacename)
         this.fetchPlacenameCard(this.selectedPlacename.id).then(r => {
           console.log("placenamecard fetched", this.selectedPlacename.id)
         })
@@ -110,8 +112,11 @@
     
     },
     methods: {
-      stripTags (str) {
-        return str === null || str === undefined ? '' : str.replace(/<[^>]*>/g, '')
+      capitalizeFirstLetter (str) {
+        return str === null || str === undefined ? '' : str.charAt(0).toUpperCase() + str.slice(1)
+      },
+      cleanStr (str) {
+        return str === null || str === undefined ? '' : this.capitalizeFirstLetter(str.replace(/<[^>]*>/g, '').trim())
       },
       ...mapActions('placenameCard', ['fetchPlacenameCard']),
     },
@@ -121,14 +126,9 @@
           {
             action: 'call_split',
             label: 'Formes alternatives',
-            items: [
-              { label: 'List Item 1' },
-              { label: 'List Item 2' },
-              { label: 'List Item 3' }
-            ]
+            items: []
           },
           {
-            active: true,
             action: 'history',
             label: 'Formes anciennes',
             items: this.placenameOldLabels ? this.placenameOldLabels.reverse() : []
@@ -143,6 +143,7 @@
         if (!!val) {
           this.fetchPlacenameCard(this.selectedPlacename.id).then(r => {
             console.log("placenamecard fetched", this.selectedPlacename.id)
+            this.panel = 1
           })
         }
       }

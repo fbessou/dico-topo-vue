@@ -20,20 +20,21 @@
       </v-toolbar>
       
       <v-content>
-        <div style="height: 520px">
+        <div style="height:100%">
           <my-awesome-map
             :on-marker-click="selectPlacename"
             :on-map-click="unselectPlacename"
           >
           </my-awesome-map>
-          <placename-card v-if="selectedPlacename"></placename-card>
-        </div>
-        <v-container fluid>
           <placename-search-table
             :searched-term="computedTerm"
             :select-item-callback="selectPlacenameOnMap">
           </placename-search-table>
-        </v-container>
+        </div>
+          <placename-card v-if="selectedPlacename"></placename-card>
+          
+
+        
       </v-content>
     </v-app>
 </template>

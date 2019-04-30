@@ -64,7 +64,7 @@
                   {{stripTags(this.placenameItem.comment)}}
                 </p>
                 <p v-else class="grey--text font-italic">
-                  Pas de commentaire disponible.
+                  Aucun commentaire disponible.
                 </p>
               </v-card-text>
               

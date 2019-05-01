@@ -13,6 +13,7 @@ export interface PlacenameOldLabel {
 export interface PlacenameCardState {
   placenameItem?: Placename;
   placenameOldLabels?: Array<PlacenameOldLabel>;
+  linkedPlacenames?: Array<Placename>;
 
   error?: string;
   isLoading: boolean;

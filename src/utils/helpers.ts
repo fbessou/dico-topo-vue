@@ -1,8 +1,15 @@
 
 
-function stripTags(str: string)
+
+function capitalizeFirstLetter(str: String)
 {
-    return str === null || str.length === 0 ? '' : str.replace(/<[^>]*>/g, '')
+  return str === null || str === undefined ? '' : str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-export { stripTags }
+function cleanStr(str: String)
+{
+  return str === null || str === undefined ? '' : capitalizeFirstLetter(str.replace(/<[^>]*>/g, '').trim())
+}
+
+
+export {cleanStr }

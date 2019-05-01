@@ -35,7 +35,7 @@
           <p >{{cleanStr(this.placenameItem.description)}}</p>
         </v-card-text>
   
-        <v-expansion-panel v-model="panel" expand>
+        <v-expansion-panel :value="panel">
           <v-expansion-panel-content :disabled="!placenameItem.comment">
             <template v-slot:header>
               <div>
@@ -43,7 +43,7 @@
                 Commentaire
               </div>
             </template>
-            <v-card-text>
+            <v-card-text style="max-height: 400px; overflow: auto">
               {{cleanStr(this.placenameItem.comment)}}
             </v-card-text>
           </v-expansion-panel-content>
@@ -97,10 +97,12 @@
     props: {
     
     },
-    data: () => ({
-      panel: [],
-      show: false,
-    }),
+    data: () => {
+      return {
+        show: true,
+        panel: [false, false, false]
+      }
+    },
     created() {
       if (!!this.selectedPlacename) {
         this.fetchPlacenameCard(this.selectedPlacename.id).then(r => {
@@ -143,7 +145,6 @@
         if (!!val) {
           this.fetchPlacenameCard(this.selectedPlacename.id).then(r => {
             console.log("placenamecard fetched", this.selectedPlacename.id)
-            this.panel = 1
           })
         }
       }

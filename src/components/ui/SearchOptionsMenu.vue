@@ -13,7 +13,7 @@
         icon
         small
       >
-        <v-icon>settings</v-icon>
+        <v-icon>tune</v-icon>
       </v-btn>
     </template>
     

@@ -31,8 +31,8 @@
                   pa-1 xs6>
             <v-card class="elevation-2" v-if="!!placenameItem">
               <v-toolbar card>
-                <v-toolbar-title class="text-xs-left">{{placenameItem.label}}
-                  <div class="body-2 grey--text">{{stripTags(this.placenameItem.description)}}</div>
+                <v-toolbar-title class="text-xs-left">
+                  {{ clean(placenameItem.label) }}
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
     
@@ -59,15 +59,55 @@
                 </v-layout>
               </v-toolbar>
   
-              <v-card-text class="text-xs-left" style="min-height: 200px;">
-                <p v-if="placenameItem.comment">
-                  {{stripTags(this.placenameItem.comment)}}
-                </p>
-                <p v-else class="grey--text font-italic">
-                  Aucun commentaire disponible.
-                </p>
+  
+              <v-card-text class="text-xs-left" style="min-height: 100px; max-height: 200px; overflow: auto">
+                <p>{{clean(this.placenameItem.description)}}</p>
               </v-card-text>
-              
+  
+              <v-expansion-panel :value="panel" expand>
+                <v-expansion-panel-content :disabled="!placenameItem.comment">
+                  <template v-slot:header>
+                    <div>
+                      <v-icon>subject</v-icon>
+                      Commentaire
+                    </div>
+                  </template>
+                  <v-card-text style="max-height: 400px; overflow: auto">
+                    {{clean(this.placenameItem.comment)}}
+                  </v-card-text>
+                </v-expansion-panel-content>
+    
+                <v-expansion-panel-content
+                  v-for="item in items"
+                  :disabled="item.items.length == 0"
+                  :key="item.label"
+                >
+                  <template v-slot:header>
+                    <div>
+                      <v-icon>{{item.action}}</v-icon>
+                      {{item.label}}
+                    </div>
+                  </template>
+      
+                  <v-card>
+                    <v-card-text style="max-height: 300px; overflow: auto">
+                      <v-list>
+                        <v-list-tile
+                          v-for="(subItem, subItemIndex) in item.items"
+                          :key="subItem.id"
+                          @click=""
+                        >
+                          <v-list-tile-content>
+                            <v-list-tile-title>{{subItemIndex+1}}. {{ clean(subItem.label) }}</v-list-tile-title>
+                            <v-list-tile-sub-title>{{clean(subItem.labelNode)}}</v-list-tile-sub-title>
+                          </v-list-tile-content>
+                        </v-list-tile>
+                      </v-list>
+                    </v-card-text>
+                  </v-card>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+
             </v-card>
           </v-flex>
           
@@ -89,6 +129,7 @@
   import MyAwesomeMap from '../MyAwesomeMap'
   import LinkingMenu from '../ui/LinkingMenu'
   import ExportMenu from '../ui/ExportMenu'
+  import { cleanStr } from '../../utils/helpers'
   
   export default {
     name: 'PlacenamePage',
@@ -98,8 +139,12 @@
       LinkingMenu,
       ExportMenu
     },
+    data: () => {
+      return {
+        panel: [true, false, true, true]
+      }
+    },
     created() {
-
       this.searchMapMarker({
           query: `(id:"${this.placenameId}" AND type:placename)`,
           pageNumber: 1,
@@ -127,15 +172,34 @@
       }
     },
     methods: {
-      stripTags (str) {
-        return str === null || str === undefined ? '' : str.replace(/<[^>]*>/g, '')
+      clean(str) {
+        return cleanStr(str)
       },
       ...mapActions('placenames', ['selectPlacename', 'unselectPlacename']),
       ...mapActions('placenameCard', ['fetchPlacenameCard']),
       ...mapActions('mapmarkers', ['searchMapMarker']),
     },
     computed: {
-      ...mapState('placenameCard', { placenameItem: 'placenameItem', placenameOldLabels: 'placenameOldLabels' }),
+      items () {
+        return [
+          {
+            action: 'share',
+            label: 'Lieux liés',
+            items: this.linkedPlacenames ? this.linkedPlacenames : []
+          },
+          {
+            action: 'call_split',
+            label: 'Formes alternatives',
+            items: []
+          },
+          {
+            action: 'history',
+            label: 'Formes anciennes',
+            items: this.placenameOldLabels ? this.placenameOldLabels.reverse() : []
+          },
+        ]
+      },
+      ...mapState('placenameCard', ['placenameItem', 'placenameOldLabels', 'linkedPlacenames']),
       ...mapState('placenames',  ['selectedItem']),
       ...mapState('mapmarkers', { mapmarkerItems: 'items'})
     }

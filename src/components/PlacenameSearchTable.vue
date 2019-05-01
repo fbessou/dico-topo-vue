@@ -1,14 +1,14 @@
 <template>
   <v-container fluid  class="search-table" >
     <v-layout>
-      <v-expansion-panel >
+      <v-expansion-panel>
         <v-expansion-panel-content>
           <template v-slot:header>
             <div class="title font-weight-light">
               Résultats de la recherche ({{totalItems}})
             </div>
           </template>
-          <v-card-text>
+          <v-card-text style="max-height: 680px; overflow: auto">
             <v-data-table
               :headers="headers"
               :items="items"

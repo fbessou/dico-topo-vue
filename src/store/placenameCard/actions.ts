@@ -7,11 +7,17 @@ import {ApiResponse} from "apisauce";
 
 const index = `${process.env.VUE_APP_PLACENAME_INDEX}`
 
-function buildPlacename(obj: any) {
+function buildCoords(obj: any) {
   const longlat: any = obj.attributes["longlat"]
-  let coords: [number, number] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
+  const coords: [number, number] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
+  return coords
+}
+
+function buildPlacename(obj: any) {
+  let coords = buildCoords(obj)
   return {
     id: obj.id,
+    type: obj.type,
     label: obj.attributes["placename-label"],
     description: obj.attributes["desc"],
     comment: obj.attributes["comment"],
@@ -65,6 +71,7 @@ export const actions: ActionTree<PlacenameCardState, RootState> = {
               const items: Array<PlacenameOldLabel> = data.data.map((p: any) => {
                 return {
                   id: p.id,
+                  type: p.type,
                   label: p.attributes["rich-label"],
                   labelNode: p.attributes["text-label-node"],
                   date: p.attributes["text-date"],
@@ -81,7 +88,18 @@ export const actions: ActionTree<PlacenameCardState, RootState> = {
             const {ok, data} = res;
             if (ok) {
               const items: Array<Placename> = data.data.map((obj: any) => {
-                return buildPlacename(obj)
+                //TODO: pas de coords car pas de champ longlat dans ces objets (pas retournés par l'api search)
+                const coords = buildCoords(obj)
+                return {
+                  id: obj.id,
+                  type: obj.type,
+                  label: obj.attributes["label"],
+                  description: obj.attributes["desc"],
+                  comment: obj.attributes["comment"],
+
+                  insee_code: obj.attributes["localization-insee-code"],
+                  coordinates: coords
+                }
               })
 
               commit('setLinkedPlacenames', items)

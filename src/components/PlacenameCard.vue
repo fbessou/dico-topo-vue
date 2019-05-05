@@ -32,7 +32,7 @@
         </v-toolbar>
   
         <v-card-text style="min-height: 100px; max-height: 200px; overflow: auto">
-          <p >{{cleanStr(this.placenameItem.description)}}</p>
+          <p >{{clean(this.placenameItem.description)}}</p>
         </v-card-text>
   
         <v-expansion-panel :value="panel">
@@ -44,7 +44,7 @@
               </div>
             </template>
             <v-card-text style="max-height: 400px; overflow: auto">
-              {{cleanStr(this.placenameItem.comment)}}
+              {{clean(this.placenameItem.comment)}}
             </v-card-text>
           </v-expansion-panel-content>
   
@@ -69,10 +69,16 @@
                     @click=""
                   >
                     <v-list-tile-content>
-                      <v-list-tile-title>{{subItemIndex+1}}. {{ cleanStr(subItem.label) }}</v-list-tile-title>
-                      <v-list-tile-sub-title>{{cleanStr(subItem.labelNode)}}</v-list-tile-sub-title>
+                      <v-list-tile-title>
+                        {{ clean(subItem.label) }}
+                        <v-icon v-if="!!subItem.actions.goTo" small fab @click="$router.push(subItem.actions.goTo)">
+                          open_in_new
+                        </v-icon>
+                      </v-list-tile-title>
+                      <v-list-tile-sub-title>{{clean(subItem.subLabel)}}</v-list-tile-sub-title>
                     </v-list-tile-content>
                   </v-list-tile>
+                </v-list>
                 </v-list>
               </v-card-text>
             </v-card>
@@ -90,6 +96,7 @@
   import { mapActions, mapState } from 'vuex'
   import LinkingMenu from './ui/LinkingMenu'
   import ExportMenu from './ui/ExportMenu'
+  import { cleanStr } from '../utils/helpers'
 
   export default {
     name: 'PlacenameCard',
@@ -100,7 +107,7 @@
     data: () => {
       return {
         show: true,
-        panel: [false, false, false]
+        panel: [false, false, false, false]
       }
     },
     created() {
@@ -114,17 +121,30 @@
     
     },
     methods: {
-      capitalizeFirstLetter (str) {
-        return str === null || str === undefined ? '' : str.charAt(0).toUpperCase() + str.slice(1)
-      },
-      cleanStr (str) {
-        return str === null || str === undefined ? '' : this.capitalizeFirstLetter(str.replace(/<[^>]*>/g, '').trim())
+      clean (str) {
+        return cleanStr(str)
       },
       ...mapActions('placenameCard', ['fetchPlacenameCard']),
     },
     computed: {
-      items(){
+      items () {
         return [
+          {
+            action: 'share',
+            label: 'Lieux liés',
+            items: !!this.linkedPlacenames ? this.linkedPlacenames.map(p => {
+              return {
+                id: p.id,
+                type: p.type,
+                label: p.label,
+                subLabel: p.description,
+                coordinates: p.coordinates,
+                actions: {
+                  goTo: `/placenames/${p.id}`
+                }
+              }
+            }) : []
+          },
           {
             action: 'call_split',
             label: 'Formes alternatives',
@@ -133,11 +153,20 @@
           {
             action: 'history',
             label: 'Formes anciennes',
-            items: this.placenameOldLabels ? this.placenameOldLabels.reverse() : []
+            items: !!this.placenameOldLabels ? this.placenameOldLabels.map(p => {
+              return {
+                id: p.id,
+                type: p.type,
+                label: p.label,
+                subLabel: p.labelNode,
+                coordinates: undefined,
+                actions: {}
+              }
+            }).reverse() : []
           },
         ]
       },
-      ...mapState('placenameCard', { placenameItem: 'placenameItem', placenameOldLabels: 'placenameOldLabels' }),
+      ...mapState('placenameCard', ['placenameItem', 'placenameOldLabels', 'linkedPlacenames']),
       ...mapState('placenames', { selectedPlacename: 'selectedItem'})
     },
     watch: {

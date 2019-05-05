@@ -20,7 +20,7 @@
           
           <v-flex xs12>
             <v-layout justify-start align-center>
-              <v-btn  class="elevation-0 blue--text" to="/">
+              <v-btn  class="elevation-0 blue--text" @click="$router.go(-1)">
                 <v-icon style="padding-right: 8px">chevron_left</v-icon>
                 Retour
               </v-btn>
@@ -98,8 +98,11 @@
                           @click=""
                         >
                           <v-list-tile-content>
-                            <v-list-tile-title>{{subItemIndex+1}}. {{ clean(subItem.label) }}</v-list-tile-title>
-                            <v-list-tile-sub-title>{{clean(subItem.labelNode)}}</v-list-tile-sub-title>
+                            <v-list-tile-title>
+                              {{ clean(subItem.label) }}
+                              <v-icon v-if="!!subItem.actions.goTo"  small fab @click="$router.push(subItem.actions.goTo)">open_in_new</v-icon>
+                            </v-list-tile-title>
+                            <v-list-tile-sub-title>{{clean(subItem.subLabel)}}</v-list-tile-sub-title>
                           </v-list-tile-content>
                         </v-list-tile>
                       </v-list>
@@ -145,16 +148,14 @@
       }
     },
     created() {
-      this.searchMapMarker({
-          query: `(id:"${this.placenameId}" AND type:placename)`,
-          pageNumber: 1,
-          pageSize: 1
-        }
-      ).then( r => {
-        this.fetchPlacenameCard(this.placenameId).then(r => {
-          console.log("placenamecard fetched", this.placenameId)
-        })
-      })
+      this.fetchData()
+    },
+    beforeRouteUpdate (to, from, next) {
+      // react to route changes...
+      // don't forget to call next()
+      this.fetchData()
+      console.log(to, from, next)
+      next()
     },
     watch: {
       placenameItem() {
@@ -175,6 +176,18 @@
       clean(str) {
         return cleanStr(str)
       },
+      fetchData() {
+        this.searchMapMarker({
+            query: `(id:"${this.placenameId}" AND type:placename)`,
+            pageNumber: 1,
+            pageSize: 1
+          }
+        ).then(r => {
+          this.fetchPlacenameCard(this.placenameId).then(r => {
+            console.log("placenamecard fetched", this.placenameId)
+          })
+        })
+      },
       ...mapActions('placenames', ['selectPlacename', 'unselectPlacename']),
       ...mapActions('placenameCard', ['fetchPlacenameCard']),
       ...mapActions('mapmarkers', ['searchMapMarker']),
@@ -185,7 +198,18 @@
           {
             action: 'share',
             label: 'Lieux liés',
-            items: this.linkedPlacenames ? this.linkedPlacenames : []
+            items: !!this.linkedPlacenames ? this.linkedPlacenames.map(p => {
+              return {
+                id: p.id,
+                type: p.type,
+                label: p.label,
+                subLabel: p.description,
+                coordinates: p.coordinates,
+                actions: {
+                  goTo:`/placenames/${p.id}`
+                }
+              }
+            }) : []
           },
           {
             action: 'call_split',
@@ -195,7 +219,16 @@
           {
             action: 'history',
             label: 'Formes anciennes',
-            items: this.placenameOldLabels ? this.placenameOldLabels.reverse() : []
+            items: !!this.placenameOldLabels ? this.placenameOldLabels.map(p => {
+              return {
+                id: p.id,
+                type: p.type,
+                label: p.label,
+                subLabel: p.labelNode,
+                coordinates: undefined,
+                actions: {}
+              }
+            }).reverse() : []
           },
         ]
       },

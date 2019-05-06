@@ -1,18 +1,7 @@
 <template>
   <v-app>
-    <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase" @click="$router.push({name: 'home'})" style="cursor: pointer">
-        <span>DICTIONNAIRE</span>
-        <span class="font-weight-light"> TOPONYMIQUE</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      
-      <v-btn flat to="/documentation" target="_blank">
-        <span class="mr-2">Documentation</span>
-        <v-icon>open_in_new</v-icon>
-      </v-btn>
-    </v-toolbar>
-    
+    <main-toolbar></main-toolbar>
+  
     <v-content>
   
       <v-container grid-list-md text-xs-center>
@@ -132,12 +121,14 @@
   import MyAwesomeMap from '../MyAwesomeMap'
   import LinkingMenu from '../ui/LinkingMenu'
   import ExportMenu from '../ui/ExportMenu'
+  import MainToolbar from '../ui/MainToolbar'
   import { cleanStr } from '../../utils/helpers'
   
   export default {
     name: 'PlacenamePage',
     props: ['placenameId'],
     components: {
+      MainToolbar,
       MyAwesomeMap,
       LinkingMenu,
       ExportMenu

@@ -1,42 +1,36 @@
 <template>
-    <v-app>
-      <v-toolbar app>
-        <v-toolbar-title class="headline text-uppercase" @click="$router.push({name: 'home'})" style="cursor: pointer">
-          <span>DICTIONNAIRE</span>
-          <span class="font-weight-light"> TOPONYMIQUE</span>
-        </v-toolbar-title>
-        <v-spacer></v-spacer>
-        
-        <v-text-field prepend-inner-icon="search" type="text" placeholder="Ex. Laon" v-model="inputTerm"></v-text-field>
-        <search-options-menu :on-open="unselectPlacename" :on-options-change="onSearchOptionsChange"
-                             :initial-data="searchOptions"></search-options-menu>
-        
-        <v-spacer></v-spacer>
-        
-        <v-btn flat to="/documentation"  target="_blank">
-          <span class="mr-2">Documentation</span>
-          <v-icon>open_in_new</v-icon>
-        </v-btn>
-      </v-toolbar>
-      
-      <v-content>
-        <div style="height:100%">
-          <my-awesome-map
-            :on-marker-click="selectPlacename"
-            :on-map-click="unselectPlacename"
-          >
-          </my-awesome-map>
-          <placename-search-table
-            :searched-term="computedTerm"
-            :select-item-callback="selectPlacenameOnMap">
-          </placename-search-table>
-        </div>
-          <placename-card v-if="selectedPlacename"></placename-card>
-          
-
-        
-      </v-content>
-    </v-app>
+  <v-app>
+    <main-toolbar>
+      <v-text-field
+        prepend-inner-icon="search"
+        type="text"
+        placeholder="Ex. Laon"
+        v-model="inputTerm">
+        :autofocus="true"
+      </v-text-field>
+      <search-options-menu
+        :on-open="unselectPlacename"
+        :on-options-change="onSearchOptionsChange"
+        :initial-data="searchOptions">
+      </search-options-menu>
+    </main-toolbar>
+    
+    <v-content>
+      <div style="height:100%">
+        <my-awesome-map
+          :on-marker-click="selectPlacename"
+          :on-map-click="unselectPlacename"
+        >
+        </my-awesome-map>
+        <placename-search-table
+          :searched-term="computedTerm"
+          :select-item-callback="selectPlacenameOnMap">
+        </placename-search-table>
+      </div>
+      <placename-card v-if="selectedPlacename"></placename-card>
+    </v-content>
+    
+  </v-app>
 </template>
 
 <script>
@@ -46,10 +40,13 @@
   import PlacenameCard from '../PlacenameCard'
   import SearchOptionsMenu from '../ui/SearchOptionsMenu'
   import { mapState, mapActions } from 'vuex'
+  import MainToolbar from '../ui/MainToolbar'
   
   export default {
     name: 'HomePage',
     components: {
+      MainToolbar,
+      
       SearchOptionsMenu,
       PlacenameSearchTable,
       PlacenameCard,
@@ -57,7 +54,7 @@
     },
     data () {
       return {
-        inputTerm: '*gnac',
+        inputTerm: '',
         searchOptions: {
           includeOldLabels: true
         },
@@ -66,7 +63,7 @@
     },
     mounted () {
       this.unselectPlacename()
-      this.searchMapMarkers(this.computedTerm, 750, 1)
+      //this.searchMapMarkers(this.computedTerm, 750, 1)
     },
     methods: {
       searchMapMarkers (term, pageSize, pageNumber) {
@@ -111,13 +108,31 @@
       selectedCoordinates () {
         return !!this.selectedPlacename ? this.selectedPlacename.coordinates : null
       },
-      ...mapState('placenames', { selectedPlacename: 'selectedItem' })
+      ...mapState('placenames', { selectedPlacename: 'selectedItem', meta: 'meta' })
     }
   }
 </script>
 
 <style>
-  body {
-    background-color: #fafafa !important;
+
+  body:after {
+    z-index: 100000;
+    content: 'beta';
+    position: fixed;
+    width: 100px;
+    height: 28px;
+    background: #EE8E4A;
+    top: 7px;
+    left: -28px;
+    text-align: center;
+    font-size: 13px;
+    font-family: sans-serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #fff;
+    line-height: 30px;
+    -ms-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
   }
 </style>

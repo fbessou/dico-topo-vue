@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid  class="search-table" >
+  <div class="search-table">
     <v-layout>
-      <v-expansion-panel>
+      <v-expansion-panel >
         <v-expansion-panel-content>
           <template v-slot:header>
             <div class="title font-weight-light">
@@ -15,11 +15,11 @@
               :pagination.sync="pagination"
               :total-items="totalItems"
               :loading="loading"
-              class="elevation-0"
+              class="v-table__overflow"
               rows-per-page-text="Nombre d'éléments par page"
               :rows-per-page-items="[5,
-                             10,
                              25,
+                             50,
                              maxPageSize]"
   
             >
@@ -94,7 +94,7 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-layout>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -229,10 +229,15 @@
   }
 </script>
 
-<style scoped>
+<style >
   .search-table{
     position: fixed;
-    bottom: 20px;
-    width: 1OO%;
+    bottom: 0;
+    width: 100%;
+  }
+
+  div.v-table__overflow  {
+    overflow-y: initial !important;
+    overflow-x: initial !important;
   }
 </style>

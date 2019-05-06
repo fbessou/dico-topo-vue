@@ -32,4 +32,10 @@ export const createRoutes: () => RouteConfig[] = () => [
   }
 ]
 
-export const createRouter = () => new VueRouter({mode: 'history', routes: createRoutes()})
+const rootUrl = `${process.env.VUE_APP_ROOT_URL}`
+
+export const createRouter = () => new VueRouter({
+  base: rootUrl,
+  mode: 'history',
+  routes: createRoutes()
+})

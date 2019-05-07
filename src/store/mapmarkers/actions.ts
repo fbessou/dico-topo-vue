@@ -24,18 +24,23 @@ function partialSearchMarker(commit: any, url: string): Promise<ApiErrorResponse
           return partialSearchMarker(commit, data.links.next)
         }
       } else {
-        commit('clearAll', {links: {}, meta: {}})
+        commit('clearAll', {links: {}, meta: {totalCount: 0}})
         commit('setError', data)
       }
       //commit('setLoading', false)
     })
     .catch((error: any) => {
-      commit('clearAll', {links: {}, meta: {}})
+      commit('clearAll', {links: {}, meta: {totalCount: 0}})
       commit('setError', error.message)
     })
 }
 
 export const actions: ActionTree<MapMarkerState, RootState> = {
+  clearMapMarkers({commit}) : any {
+    commit("setLoading", true)
+    commit('clearAll', {links: {}, meta: { totalCount: 0}})
+    commit("setLoading", false)
+  },
   searchMapMarker({commit, rootState}, {query, pageSize, pageNumber}): any {
     commit('setLoading', true)
     const index = `${process.env.VUE_APP_PLACENAME_INDEX}`
@@ -44,7 +49,7 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
     const searchPageNumber = pageNumber > 0 ? pageNumber : 1
 
     const initialUrl = `/search?query=${query}&index=${index}&sort=label.keyword&page[size]=${searchPageSize}&page[number]=${searchPageNumber}&facade=map&filter[longlat]`
-    commit('clearAll', {links: {}, meta: {}})
+    commit('clearAll', {links: {}, meta: {totalCount: 0}})
     return partialSearchMarker(commit, initialUrl).then(r => {
       commit("setLoading", false)
     })

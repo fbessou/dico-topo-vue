@@ -201,7 +201,12 @@
     },
     watch: {
       mapmarkerItems() {
-        this.addMarkers(Array.from(this.mapmarkerItems.values()))
+        const items = Array.from(this.mapmarkerItems.values())
+        if (items.length) {
+          this.addMarkers(items)
+        } else {
+          this.clearMarkers()
+        }
       },
       mapmarkerLoading(val) {
         if (val) {

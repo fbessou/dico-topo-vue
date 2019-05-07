@@ -2,9 +2,9 @@
   <v-toolbar app>
     
     <v-toolbar-title class="headline text-uppercase" @click="$router.push({name: 'home'})"
-                     style="cursor: pointer; padding-left: 40px">
+                     style="cursor: pointer; ">
   
-      <img src="@/assets/logo-dicotopo.png" height="55px" style="padding-top: 8px"/>
+      <img src="@/assets/logo-dicotopo.png" height="55px" style="padding-top: 8px; padding-left: 40px"/>
       
       <!--
       <span>DICTIONNAIRE</span>

@@ -1,21 +1,18 @@
 <template>
   <div class="search-table">
     <v-layout>
-      <v-expansion-panel >
-        <v-expansion-panel-content>
           <template v-slot:header>
             <div class="title font-weight-light">
               Résultats de la recherche ({{totalItems}})
             </div>
           </template>
-          <v-card-text style="max-height: 680px; overflow: auto">
+          <v-flex>
             <v-data-table
               :headers="headers"
               :items="items"
               :pagination.sync="pagination"
               :total-items="totalItems"
               :loading="loading"
-              class="v-table__overflow"
               rows-per-page-text="Nombre d'éléments par page"
               :rows-per-page-items="[5,
                              25,
@@ -90,9 +87,7 @@
                 Toponymes {{ props.pageStart }} - {{ props.pageStop }} sur {{ props.itemsLength }}
               </template>
             </v-data-table>
-          </v-card-text>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
+          </v-flex>
     </v-layout>
   </div>
 </template>
@@ -229,15 +224,17 @@
   }
 </script>
 
-<style >
+<style>
   .search-table{
     position: fixed;
     bottom: 0;
     width: 100%;
+
+    max-height: 80%;
+    overflow: auto
+  }
+  .v-table__overflow {
+    overflow-x: hidden;
   }
 
-  div.v-table__overflow  {
-    overflow-y: initial !important;
-    overflow-x: initial !important;
-  }
 </style>

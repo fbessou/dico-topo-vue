@@ -12,6 +12,7 @@
         v-on="on"
         icon
         small
+        :disabled="mapMarkersAreLoading"
       >
         <v-icon>tune</v-icon>
       </v-btn>
@@ -22,7 +23,8 @@
         <v-switch
           v-model="includeOldLabels"
           color="info"
-          label="Inclure les formes anciennes">
+          label="Inclure les formes anciennes"
+          :disabled="mapMarkersAreLoading">
         </v-switch>
       </v-card-text>
       
@@ -32,6 +34,8 @@
 </template>
 
 <script>
+  import { mapState, mapActions } from 'vuex'
+  
   export default {
     name: 'SearchOptionsMenu',
     props: {
@@ -47,6 +51,9 @@
       if (this.$props.initialData) {
         this.includeOldLabels = this.$props.initialData.includeOldLabels
       }
+    },
+    computed: {
+      ...mapState('mapmarkers', { mapMarkersAreLoading: 'isLoading' })
     },
     watch: {
       dialog(val) {

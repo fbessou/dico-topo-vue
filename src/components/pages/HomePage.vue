@@ -55,12 +55,12 @@
 </template>
 
 <script>
+  import { mapState, mapActions } from 'vuex'
   
   import PlacenameSearchTable from '../PlacenameSearchTable'
   import MyAwesomeMap from '../MyAwesomeMap'
   import PlacenameCard from '../PlacenameCard'
   import SearchOptionsMenu from '../ui/SearchOptionsMenu'
-  import { mapState, mapActions } from 'vuex'
   import MainToolbar from '../ui/MainToolbar'
   
   export default {

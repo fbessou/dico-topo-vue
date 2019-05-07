@@ -41,7 +41,7 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
     commit('clearAll', {links: {}, meta: { totalCount: 0}})
     commit("setLoading", false)
   },
-  searchMapMarker({commit, rootState}, {query, pageSize, pageNumber}): any {
+  searchMapMarker({commit, rootState, state}, {query, pageSize, pageNumber}): any {
     commit('setLoading', true)
     const index = `${process.env.VUE_APP_PLACENAME_INDEX}`
     const maxPageSize: number = process.env.VUE_APP_PLACENAME_INDEX_MAP_PAGE_SIZE

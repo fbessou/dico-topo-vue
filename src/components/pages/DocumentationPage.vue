@@ -52,7 +52,7 @@
       <v-container grid-list-md>
         <v-layout row wrap>
           <v-flex  xs12>
-              <h1>Documentation de l'API Dicotopo (en cours de rédaction)</h1>
+              <h1>Documentation de l'API Dicotopo</h1>
               <img src="@/assets/json-api-logo-300x113.png" height="100px" style="padding: 8px;"/>
               <p>
                 La présente API a été conçue conformément à la spécification
@@ -64,22 +64,22 @@
   
           <h2>Services</h2>
           <v-flex xs12  v-for="feat in features" :key="feat.anchor">
-            <v-card >
+            <v-card class="vcard">
               <v-toolbar flat>
                 <v-card-title><h3 :id="feat.anchor">{{feat.attributes.title}}</h3></v-card-title>
               </v-toolbar>
               <v-card-text>
                 <p>{{feat.attributes.content}}</p>
                 <v-data-table
-                  :headers="[{ text: 'Description', value: 'desc', sortable:false },
-                              { text: 'URL', value: 'url', sortable:false }]"
+                  :headers="[{ text: 'description', value: 'desc', sortable:false },
+                              { text: 'url', value: 'url', sortable:false }]"
                   :items="feat.attributes.examples"
                   class="elevation-0"
                   :hide-actions="true"
                 >
                   <template v-slot:items="props">
                     <td>{{ props.item.description }}</td>
-                    <td><a :ref="props.item.content">{{ props.item.content}}</a></td>
+                    <td><a :ref="props.item.content" target="_blank">{{ props.item.content}}</a></td>
                   </template>
                 </v-data-table>
               </v-card-text>
@@ -87,9 +87,34 @@
           </v-flex>
           
           <h2>Ressources</h2>
-          <v-flex xs12 v-for="res in resources" :key="res.anchor">
-            <v-card>
+          
+          <v-flex xs12>
+            <v-card class="vcard">
               <v-toolbar flat>
+                <v-card-title><h3 :id="parameters">Paramètres HTTP GET disponibles</h3></v-card-title>
+              </v-toolbar>
+              <v-card-text>
+                <v-data-table
+                  :headers="[{ text: 'nom', value: 'nom', sortable:false },
+                              { text: 'description', value: 'desc', sortable:false },
+                              { text: 'type', value: 'type', sortable:true }]"
+                  :items="parameters"
+                  class="elevation-0"
+                  :hide-actions="true"
+                >
+                  <template v-slot:items="props">
+                    <td>{{ props.item.attributes.name }}</td>
+                    <td>{{ props.item.attributes.description}}</td>
+                    <td>{{ props.item.attributes['item-kind'] }}</td>
+                  </template>
+                </v-data-table>
+              </v-card-text>
+            </v-card>
+          </v-flex>
+          
+          <v-flex xs12 v-for="res in resources" :key="res.anchor">
+            <v-card class="vcard">
+              <v-toolbar flat class="blue-grey lighten-1" dark>
                 <v-card-title><h3 :id="res.anchor">{{res.title}}</h3></v-card-title>
               </v-toolbar>
               <v-card-text>
@@ -165,19 +190,7 @@
         capabilities: [],
         features: [],
         resources: [],
-        
-        collectionParameters: {
-          "filter": "filter[field_name]=searched_value",
-          "sort": "sort=field1,field2. Le tri respecte l'ordre des champs. Utiliser - pour effectuer un tri descendant",
-          "page": "page[number]=3&page[size]=10. La pagination nécessite page[number], page[size] ou les deux paramètres en même temps. La taille ne peut pas excéder la limite inscrite côté serveur. La pagination produit des liens de navigation prev,next,self,first,last dans tous les cas où cela a du sens.",
-          "include": "include=relation1,relation2. Le document retourné incluera les ressources liées à la présente ressource.",
-          "without-relationships": "Ce paramètre n'a pas de valeur. Sa seule présence dans l'URL permet d'obtenir une version allégée du document (les relations ne sont pas incluses dans la réponse)."
-        },
-        resourceParameters: {
-          "include": "include=relation1,relation2. Le document retourné incluera les ressources liées à la présente ressource.",
-          "without-relationships": "Ce paramètre n'a pas de valeur. Sa seule présence dans l'URL permet d'obtenir une version allégée du document (les relations ne sont pas incluses dans la réponse)."
-        },
-        
+        parameters: [],
         curlOutputs: {}
       }
     },
@@ -187,6 +200,9 @@
         this.capabilities = r.data
         this.features = this.capabilities.data.filter(c => c.type === 'feature').map(c => {
           return { title: c.id, anchor: `${c.id}`, ...c }
+        })
+        this.parameters = this.capabilities.data.filter(c => c.type === 'parameter').map(c => {
+          return { anchor: `${c.id}`, ...c }
         })
         this.resources = this.capabilities.data.filter(c => c.type === 'resource').map(c => {
           this.runCURL(c.attributes.examples.url)
@@ -212,5 +228,7 @@
 </script>
 
 <style scoped>
-
+  .vcard {
+    margin-top: 18px;
+  }
 </style>

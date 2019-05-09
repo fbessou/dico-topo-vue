@@ -3,7 +3,7 @@ import {MapMarkerState, MapMarker} from './types';
 import Vue from 'vue';
 import {Links} from "@/store/types";
 
-export function getDefaultState(): MapMarkerState {
+  export function getDefaultState(): MapMarkerState {
   return {
     items: new Map<string, MapMarker>(),
     links: {},
@@ -20,21 +20,21 @@ export const mutations: MutationTree<MapMarkerState> = {
     state.meta = Object.assign(state.meta, meta, {totalCount: 1})
     state.error = undefined
   },
-  setItems(state: MapMarkerState, {m, links, meta}) {
+  setItems(state: MapMarkerState, {m, links, meta, query}) {
     /* add new items to the existing ones */
-
-    const newItems = new Map(
+    const newItems = new Map<string, MapMarker>(
       m.map((i: any) => [i.id, i] as [any, any])
     )
-    state.items = Object.assign(new Map<string, MapMarker>(), state.items, newItems)
+    state.items = new Map([...newItems, ...state.items])
     state.links = links
     state.meta = meta
     state.error = undefined
   },
-  clearAll(state: MapMarkerState, {links, meta}) {
-    state.items = new Map<string, MapMarker>()
-    state.links = links
-    state.meta = meta
+  clearAll(state: MapMarkerState) {
+    console.log("clear all")
+    state.items = Object.assign(new Map<string, MapMarker>())
+    state.links = {}
+    state.meta = {totalCount: 0}
     state.error = undefined
   },
   setError(state, message: string) {

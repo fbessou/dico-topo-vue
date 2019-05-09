@@ -10,22 +10,23 @@
         :autofocus="true"
         :loading="mapMarkersAreLoading"
         clearable
+        @keyup.native="startNewSearch()"
       >
 
       </v-text-field>
       
       <v-btn
         v-if="inputTerm && inputTerm.length >= minTermLength"
-        color="red "
+        color="primary"
         outline
         dark
-        style="margin-left: 12px; margin-right: 12px"
+        style="margin-left: 20px; margin-right: 12px"
         small
         depressed
         @click="showTabularResults = !showTabularResults && meta.totalCount > 0"
       >
         <v-icon>list</v-icon>
-        {{meta.totalCount}} résultat(s)
+        {{meta.totalCount}} résultat(s) {{ /*  markers:  Array.from(mapMarkerItems.values()).length */ }}
       </v-btn>
   
       <search-options-menu
@@ -40,6 +41,7 @@
         <my-awesome-map
           :on-marker-click="selectPlacename"
           :on-map-click="unselectPlacename"
+          :use-fly-animation="false"
         >
         </my-awesome-map>
         <placename-search-table
@@ -75,7 +77,12 @@
     },
     data () {
       return {
+        cT: undefined,
+        oT: undefined,
+        
         minTermLength: 2,
+        maxMarkerPerBatch: 700,
+        
         inputTerm: undefined,
         searchOptions: {
           includeOldLabels: true
@@ -90,15 +97,51 @@
       //this.searchMapMarkers(this.computedTerm, 750, 1)
     },
     methods: {
-      searchMapMarkers (term, pageSize, pageNumber) {
+      delay(callback, ms) {
+        var timer = 0;
+        return function () {
+          var context = this, args = arguments;
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            callback.apply(context, args);
+          }, ms || 0);
+        };
+      },
+      startNewSearch() {
+        const init = this.initSearch;
+        return this.delay(function (e) { init() }, 1500)()
+      },
+      initSearch() {
+        if (this.computedTerm !== this.oT) {
+          this.unselectPlacename()
+          this.clearMapMarkers()
+          if (this.inputTerm && this.inputTerm.length >= this.minTermLength) {
+            console.log("search", this.computedTerm)
+            this.searchNextBatchOfMapMarkers()
+          }
+          this.oT = this.computedTerm
+        }
+      },
+      searchNextBatchOfMapMarkers(nextLink) {
+        this.setMarkersLoading(true)
         return this.searchMapMarker({
-          query: term,
-          pageNumber: pageNumber,
-          pageSize: pageSize
+          query: this.computedTerm,
+          nextLink: nextLink,
+          pageSize: this.maxMarkerPerBatch
+        }).then(next => {
+          if (!!next) {
+            this.searchNextBatchOfMapMarkers(next)
+          }
+        }).catch(r => {
+          console.warn(r)
+        }).finally(r => {
+          this.setMarkersLoading(false)
         })
       },
       onSearchOptionsChange (options) {
         this.searchOptions = options
+        this.oT = undefined
+        this.initSearch()
       },
       selectPlacenameOnMap (obj) {
         if (!!obj) {
@@ -107,25 +150,29 @@
           this.unselectPlacename()
         }
       },
-      ...mapActions('mapmarkers', ['searchMapMarker', 'clearMapMarkers']),
+      ...mapActions('mapmarkers', ['searchMapMarker', 'clearMapMarkers', 'setMarkersLoading']),
       ...mapActions('placenames', ['selectPlacename', 'unselectPlacename']),
       ...mapActions('placenameCard', ['clearPlacenameCard'])
     },
     watch: {
+      meta(val) {
+        if (!this.meta.totalCount) { // when 0
+          this.unselectPlacename()
+          this.clearMapMarkers()
+        }
+      },
       inputTerm (val) {
- 
+        this.oT = undefined
       },
       computedTerm() {
-        this.unselectPlacename()
-        this.clearMapMarkers()
-        console.log("computed term refreshed", this.computedTerm)
-        if (this.inputTerm && this.inputTerm.length >= this.minTermLength) {
-          this.searchMapMarkers(this.computedTerm, 750, 1)
+        if (!this.computedTerm) {
+          this.unselectPlacename()
+          this.clearMapMarkers()
         }
       }
     },
     computed: {
-      computedTerm () {
+      computedTerm() {
         let term = this.inputTerm
         
         if (!term || term.length < this.minTermLength) {
@@ -143,7 +190,7 @@
         return !!this.selectedPlacename ? this.selectedPlacename.coordinates : null
       },
       ...mapState('placenames', { selectedPlacename: 'selectedItem', meta: 'meta' }),
-      ...mapState('mapmarkers', { mapMarkersAreLoading: 'isLoading'})
+      ...mapState('mapmarkers', { mapMarkersAreLoading: 'isLoading', mapMarkerItems: 'items'})
   
     }
   }

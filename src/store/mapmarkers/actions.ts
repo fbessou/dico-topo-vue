@@ -5,53 +5,60 @@ import {api} from "@/utils/http-common";
 import {ApiErrorResponse, ApiOkResponse, ApiResponse} from "apisauce";
 
 
-function partialSearchMarker(commit: any, url: string): Promise<ApiErrorResponse<any> | ApiOkResponse<any> | void> {
-  return api.get(url)
-    .then((res: ApiResponse<any>) => {
-      const {ok, data} = res;
-      if (ok) {
-        const items: Array<MapMarker> = data.data.map((m: any) => {
-          const longlat: any = m.attributes["longlat"]
-          let coords: [string, string] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
-          return {
-            id: m.type === "placename" ? m.id : m.attributes["placename-id"],
-            coordinates: [parseFloat(coords[1]), parseFloat(coords[0])]
-          }
-        })
-        commit('setItems', {m: items, links: data.links, meta: {totalCount: data.meta["total-count"]}})
-        if (data.links.next) {
-          console.log("fetching next data (mapmarkers)")
-          return partialSearchMarker(commit, data.links.next)
-        }
-      } else {
-        commit('clearAll', {links: {}, meta: {totalCount: 0}})
-        commit('setError', data)
-      }
-      //commit('setLoading', false)
-    })
-    .catch((error: any) => {
-      commit('clearAll', {links: {}, meta: {totalCount: 0}})
-      commit('setError', error.message)
-    })
-}
-
 export const actions: ActionTree<MapMarkerState, RootState> = {
+  setMarkersLoading({commit}, loading: Boolean) {
+    commit("setLoading", loading)
+  },
   clearMapMarkers({commit}) : any {
     commit("setLoading", true)
-    commit('clearAll', {links: {}, meta: { totalCount: 0}})
+    commit('clearAll')
     commit("setLoading", false)
   },
-  searchMapMarker({commit, rootState, state}, {query, pageSize, pageNumber}): any {
-    commit('setLoading', true)
-    const index = `${process.env.VUE_APP_PLACENAME_INDEX}`
-    const maxPageSize: number = process.env.VUE_APP_PLACENAME_INDEX_MAP_PAGE_SIZE
-    const searchPageSize = pageSize > maxPageSize || pageSize === -1 ? maxPageSize: pageSize
-    const searchPageNumber = pageNumber > 0 ? pageNumber : 1
+  searchMapMarker({commit, rootState, state}, {query, pageSize, nextLink}): any {
+    let url: any = null
 
-    const initialUrl = `/search?query=${query}&index=${index}&sort=label.keyword&page[size]=${searchPageSize}&page[number]=${searchPageNumber}&facade=map&filter[longlat]`
-    commit('clearAll', {links: {}, meta: {totalCount: 0}})
-    return partialSearchMarker(commit, initialUrl).then(r => {
-      commit("setLoading", false)
+    if (!!nextLink) {
+      url = nextLink
+    } else {
+      const index = `${process.env.VUE_APP_PLACENAME_INDEX}`
+      const maxPageSize: number = process.env.VUE_APP_PLACENAME_INDEX_MAP_PAGE_SIZE
+      const searchPageSize = pageSize > maxPageSize || pageSize === -1 ? maxPageSize : pageSize
+      const searchPageNumber = 1
+      url = `/search?query=${query}&index=${index}&sort=label.keyword&page[size]=${searchPageSize}&page[number]=${searchPageNumber}&facade=map&filter[longlat]`
+    }
+
+    return new Promise<ApiOkResponse<any>>((resolve, reject) => {
+      api.get(url)
+        .then((res: ApiResponse<any>) => {
+          const {ok, data} = res;
+          if (ok) {
+
+            /* parse marker items */
+            const items: Array<MapMarker> = data.data.map((m: any) => {
+              const longlat: any = m.attributes["longlat"]
+              let coords: [string, string] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
+              return {
+                id: m.type === "placename" ? m.id : m.attributes["placename-id"],
+                coordinates: [parseFloat(coords[1]), parseFloat(coords[0])]
+              }
+            })
+
+            /* save marker items */
+            commit('setItems', {m: items, links: data.links, meta: {totalCount: data.meta["total-count"]}})
+            /* return a link to the next resource if any */
+            resolve(data.links.next)
+          } else {
+            //commit('clearAll')
+            commit('setError', data)
+            reject(state.error)
+          }
+          //commit('setLoading', false)
+        })
+        .catch((error: any) => {
+          //commit('clearAll')
+          commit('setError', error.message)
+          reject(state.error)
+        })
     })
   }
 };

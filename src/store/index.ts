@@ -4,6 +4,7 @@ import {RootState} from './types';
 import { placenames } from './placenames/index'
 import { mapmarkers } from './mapmarkers/index'
 import { placenameCard } from './placenameCard/index'
+import {searchParameters} from "@/store/searchParameters";
 
 const debug = process.env.NODE_ENV !== 'production'
 
@@ -16,7 +17,8 @@ const store: StoreOptions<RootState> = {
   modules: {
     placenames,
     mapmarkers,
-    placenameCard
+    placenameCard,
+    searchParameters,
   }
 };
 

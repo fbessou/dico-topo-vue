@@ -31,7 +31,6 @@ export const mutations: MutationTree<MapMarkerState> = {
     state.error = undefined
   },
   clearAll(state: MapMarkerState) {
-    console.log("clear all")
     state.items = Object.assign(new Map<string, MapMarker>())
     state.links = {}
     state.meta = {totalCount: 0}

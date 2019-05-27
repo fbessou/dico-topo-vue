@@ -31,8 +31,7 @@
   
       <search-options-menu
         :on-open="unselectPlacename"
-        :on-options-change="onSearchOptionsChange"
-        :initial-data="searchOptions">
+        :on-options-change="onSearchOptionsChange">
       </search-options-menu>
     </main-toolbar>
     
@@ -46,7 +45,7 @@
         </my-awesome-map>
         <placename-search-table
           v-show="inputTerm && inputTerm.length >= minTermLength && showTabularResults"
-          :searched-term="computedTerm"
+          :searched-term="query"
           :select-item-callback="selectPlacenameOnMap">
         </placename-search-table>
       </div>
@@ -57,7 +56,7 @@
 </template>
 
 <script>
-  import { mapState, mapActions } from 'vuex'
+  import { mapState, mapGetters, mapActions } from 'vuex'
   
   import PlacenameSearchTable from '../PlacenameSearchTable'
   import MyAwesomeMap from '../MyAwesomeMap'
@@ -77,16 +76,9 @@
     },
     data () {
       return {
-        cT: undefined,
-        oT: undefined,
-        
-        minTermLength: 2,
         maxMarkerPerBatch: 700,
         
         inputTerm: undefined,
-        searchOptions: {
-          includeOldLabels: true
-        },
         selectedPlacenameId: undefined,
         showTabularResults: false
       }
@@ -109,23 +101,22 @@
       },
       startNewSearch() {
         const init = this.initSearch;
-        return this.delay(function (e) { init() }, 1500)()
+        return this.delay(function (e) { init() }, 700)()
       },
       initSearch() {
-        if (this.computedTerm !== this.oT) {
+        if (!!this.query) {
           this.unselectPlacename()
           this.clearMapMarkers()
           if (this.inputTerm && this.inputTerm.length >= this.minTermLength) {
-            console.log("search", this.computedTerm)
             this.searchNextBatchOfMapMarkers()
           }
-          this.oT = this.computedTerm
+          //this.oT = this.query
         }
       },
       searchNextBatchOfMapMarkers(nextLink) {
         this.setMarkersLoading(true)
         return this.searchMapMarker({
-          query: this.computedTerm,
+          query: this.query,
           nextLink: nextLink,
           pageSize: this.maxMarkerPerBatch
         }).then(next => {
@@ -139,8 +130,9 @@
         })
       },
       onSearchOptionsChange (options) {
-        this.searchOptions = options
-        this.oT = undefined
+        //this.searchOptions = options
+        this.setIncludeOldLabels(options['includeOldLabels'])
+        //this.oT = undefined
         this.initSearch()
       },
       selectPlacenameOnMap (obj) {
@@ -152,7 +144,8 @@
       },
       ...mapActions('mapmarkers', ['searchMapMarker', 'clearMapMarkers', 'setMarkersLoading']),
       ...mapActions('placenames', ['selectPlacename', 'unselectPlacename']),
-      ...mapActions('placenameCard', ['clearPlacenameCard'])
+      ...mapActions('placenameCard', ['clearPlacenameCard']),
+      ...mapActions('searchParameters', ['setTerm', 'setIncludeOldLabels'])
     },
     watch: {
       meta(val) {
@@ -162,16 +155,18 @@
         }
       },
       inputTerm (val) {
-        this.oT = undefined
+        //this.oT = undefined
+        this.setTerm(this.inputTerm)
       },
-      computedTerm() {
-        if (!this.computedTerm) {
+      query() {
+        if (!this.query) {
           this.unselectPlacename()
           this.clearMapMarkers()
         }
       }
     },
     computed: {
+      /*
       computedTerm() {
         let term = this.inputTerm
         
@@ -185,12 +180,14 @@
           term = `label:${term}`
         }
         return term
-      },
+      },*/
       selectedCoordinates () {
         return !!this.selectedPlacename ? this.selectedPlacename.coordinates : null
       },
       ...mapState('placenames', { selectedPlacename: 'selectedItem', meta: 'meta' }),
-      ...mapState('mapmarkers', { mapMarkersAreLoading: 'isLoading', mapMarkerItems: 'items'})
+      ...mapState('mapmarkers', { mapMarkersAreLoading: 'isLoading', mapMarkerItems: 'items'}),
+      ...mapState('searchParameters', ['term', 'includeOldLabels', 'minTermLength']),
+      ...mapGetters('searchParameters', ['query'])
   
     }
   }

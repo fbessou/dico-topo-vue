@@ -21,7 +21,7 @@
     <v-card>
       <v-card-text>
         <v-switch
-          v-model="includeOldLabels"
+          v-model="oldLabels"
           color="info"
           label="Inclure les formes anciennes"
           :disabled="mapMarkersAreLoading">
@@ -41,19 +41,28 @@
     props: {
       onOptionsChange : { type: Function },
       onOpen : { type: Function },
-      initialData : { type: Object}
     },
     data: () => ({
-      dialog: false,
-      includeOldLabels: true
+      dialog: false
     }),
     created() {
-      if (this.$props.initialData) {
-        this.includeOldLabels = this.$props.initialData.includeOldLabels
-      }
+    },
+    methods: {
+      ...mapActions('searchParameters', ['setIncludeOldLabels'])
     },
     computed: {
-      ...mapState('mapmarkers', { mapMarkersAreLoading: 'isLoading' })
+      oldLabels: {
+        // getter
+        get: function () {
+          return this.includeOldLabels
+        },
+        // setter
+        set(newValue) {
+          this.setIncludeOldLabels(newValue)
+        }
+      },
+      ...mapState('mapmarkers', { mapMarkersAreLoading: 'isLoading' }),
+      ...mapState('searchParameters', ['includeOldLabels'])
     },
     watch: {
       dialog(val) {
@@ -63,10 +72,10 @@
           }
         }
       },
-      includeOldLabels() {
+      oldLabels() {
         if (this.onOptionsChange) {
           this.onOptionsChange({
-            includeOldLabels : this.includeOldLabels
+            includeOldLabels : this.oldLabels
           })
         }
       }

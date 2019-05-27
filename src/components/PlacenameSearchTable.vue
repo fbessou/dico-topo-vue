@@ -45,14 +45,11 @@
                     <span>Forme ancienne</span>
                   </v-tooltip>
                 </td>
-                <td class="text-xs-left" v-else>
-                </td>
-      
+                <td class="text-xs-left" v-else></td>
                 <td class="text-xs-left" v-if=" props.item.type === 'placename-old-label'">
                   Forme ancienne de '{{ cleanStr(props.item.placenameLabel) }}'. {{ cleanStr(props.item.description) }}
                 </td>
                 <td class="text-xs-left" v-else>{{ cleanStr(props.item.description) }}</td>
-      
                 <td class="text-xs-center">{{ props.item.department }}</td>
                 <td class="text-xs-center">{{ props.item.region }}</td>
                 <td>
@@ -164,7 +161,7 @@
           }).then(r => {
             let items = Array.from(this.placenameItems.values())
             const total = this.meta.totalCount ? this.meta.totalCount : 0
-            
+            /*
             if (this.pagination.sortBy) {
               items = items.sort((a, b) => {
                 const sortA = a[sortBy]
@@ -181,7 +178,7 @@
                 }
               })
             }
-            
+            */
             if (rowsPerPage > 0) {
               //items = items.slice((page - 1) * rowsPerPage, page * rowsPerPage)
             }

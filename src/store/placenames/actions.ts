@@ -12,13 +12,16 @@ export const actions: ActionTree<PlacenameState, RootState> = {
   unselectPlacename({commit, state, rootState}): any {
     commit('unselectItem')
   },
-  searchPlacename({commit, rootState}, {query, pageSize, pageNumber}): any {
+  searchPlacename({commit, rootState}, {query, sortParam, pageSize, pageNumber}): any {
     commit('setLoading', true)
     const index = `${process.env.VUE_APP_PLACENAME_INDEX}`
     const maxPageSize: number = process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE
     const searchPageSize = pageSize > maxPageSize || pageSize === -1 ? maxPageSize: pageSize
     const searchPageNumber = pageNumber > 0 ? pageNumber : 1
-    return api.get(`/search?query=${query}&index=${index}&sort=label.keyword&page[size]=${searchPageSize}&page[number]=${searchPageNumber}`)
+    const sort = !!sortParam ? `&sort=${sortParam}` : '';
+    console.warn(sort);
+
+    return api.get(`/search?query=${query}&index=${index}${sort}&page[size]=${searchPageSize}&page[number]=${searchPageNumber}`)
       .then((res: ApiResponse<any>) => {
         const {ok, data} = res;
         if (ok) {

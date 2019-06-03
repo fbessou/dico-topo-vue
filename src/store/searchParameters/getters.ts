@@ -1,6 +1,6 @@
 // profile/getters.ts
 import {GetterTree} from 'vuex';
-import {QueryState} from './types';
+import {QueryState, SortableField} from './types';
 import {RootState} from '../types';
 
 
@@ -20,15 +20,13 @@ export const getters: GetterTree<QueryState, RootState> = {
     } else {
       query = `label:${state.term}`
     }
-
     return query;
+  },
+  getSortParam: (state) => (key: any) => {
+    const idx = state.sortFields.findIndex((o) => o.key === key);
+    return idx > -1 ? state.sortFields[idx] : undefined;
+  },
+  computedSortParam(state): any {
+    return state.sortFields.map((o) => `${o.order}${o.key}`).join(',')
   }
-  /*
-  fullName(state): string {
-    const {user} = state;
-    const firstName = (user && user.firstName) || '';
-    const lastName = (user && user.lastName) || '';
-    return `${firstName} ${lastName}`;
-  }
-  */
 };

@@ -1,25 +1,30 @@
 <template>
   <div class="search-table">
     <v-layout>
-          <template v-slot:header>
-            <div class="title font-weight-light">
-              Résultats de la recherche ({{totalItems}})
-            </div>
-          </template>
           <v-flex>
             <v-data-table
+              
               :headers="headers"
               :items="items"
               :pagination.sync="pagination"
               :total-items="totalItems"
               :loading="loading"
               rows-per-page-text="Nombre d'éléments par page"
-              :rows-per-page-items="[5,
-                             25,
-                             50,
-                             maxPageSize]"
-  
+              :rows-per-page-items="[5,25,50,maxPageSize]"
             >
+              <template v-slot:headers>
+               <th v-for="(h, index) in headers" :key="h.text" class="table-header">
+                 {{h.text}}
+                 <stateful-button v-if="!!h.sortable"
+                   inactive-icon="arrow_downward"
+                   active-icon="arrow_upward"
+                   :active="!!h.sorted"
+                   :disabled="true"
+                   :action="(value) => toggleSortField(index, value)"
+                 >
+                 </stateful-button>
+               </th>
+              </template>
               <template v-slot:items="props">
       
                 <td class="text-xs-left">
@@ -90,13 +95,14 @@
 </template>
 
 <script>
-  import { mapActions, mapState } from 'vuex'
+  import { mapActions, mapGetters, mapState } from 'vuex'
   import LinkingMenu from './ui/LinkingMenu'
   import ExportMenu from './ui/ExportMenu'
+  import StatefulButton from './ui/StatefulButton'
   
   export default {
     name: "PlacenameSearchTable",
-    components: { LinkingMenu, ExportMenu },
+    components: { StatefulButton, LinkingMenu, ExportMenu },
     props: {
       searchedTerm: {type: String, default: ''},
       selectItemCallback: {type: Function}
@@ -113,14 +119,42 @@
           {
             text: 'Toponyme',
             align: 'left',
-            sortable: false,
-            value: 'label'
+            value: 'label',
+            sortable: true,
+            sortKey: 'label.keyword',
+            sorted: undefined,
           },
-          { text: 'Type', value: 'item_type', align: 'center',sortable: false },
-          { text: 'Description', value: 'description', align: 'left',sortable: false },
-          { text: 'Département', value: 'department', align: 'center',sortable: false },
-          { text: 'Région', value: 'region', align: 'center',sortable: false },
-          { text: '', value: 'linking', align: 'right',sortable: false },
+          { text: 'Type',
+            value: 'item_type',
+            align: 'center',
+            sortable: true ,
+            sortKey: 'type.keyword',
+            sorted: undefined,
+          },
+          { text: 'Description',
+            value: 'description',
+            align: 'left',
+            sortable: false,
+          },
+          { text: 'Département',
+            value: 'department',
+            align: 'center',
+            sortable: true,
+            sortKey: 'dep-id.keyword',
+            sorted: undefined,
+          },
+          { text: 'Région',
+            value: 'region',
+            align: 'center',
+            sortable: false,
+            sortable: true,
+            sortKey: 'reg-label.keyword',
+          },
+          { text: '',
+            value: 'linking',
+            align: 'right',
+            sortable: false
+          },
         ]
       }
     },
@@ -133,10 +167,12 @@
       },
       searchedTerm() {
         this.fetchData()
+      },
+      computedSortParam() {
+        this.fetchData();
       }
     },
     mounted () {
-      //this.fetchData()
     },
     methods: {
       capitalizeFirstLetter(str) {
@@ -156,38 +192,17 @@
           const { sortBy, descending, page, rowsPerPage } = this.pagination
           this.searchPlacename({
             query: this.searchedTerm,
+            sortParam: this.computedSortParam,
             pageNumber: page,
             pageSize: rowsPerPage
           }).then(r => {
             let items = Array.from(this.placenameItems.values())
             const total = this.meta.totalCount ? this.meta.totalCount : 0
-            /*
-            if (this.pagination.sortBy) {
-              items = items.sort((a, b) => {
-                const sortA = a[sortBy]
-                const sortB = b[sortBy]
-                
-                if (descending) {
-                  if (sortA < sortB) return 1
-                  if (sortA > sortB) return -1
-                  return 0
-                } else {
-                  if (sortA < sortB) return -1
-                  if (sortA > sortB) return 1
-                  return 0
-                }
-              })
-            }
-            */
-            if (rowsPerPage > 0) {
-              //items = items.slice((page - 1) * rowsPerPage, page * rowsPerPage)
-            }
             resolve({
               items,
               total
             })
             this.loading = false
-            
           })
           
         })
@@ -210,13 +225,32 @@
           this.selectItemCallback(item)
         }
       },
+  
+      toggleSortField(headerIndex, value) {
+        const header = this.headers[headerIndex];
+        console.log(header, value)
+        if (!!header.sortable) {
+          if (value === null) {
+            this.removeSortField(header.sortKey);
+          } else {
+            const p = this.getSortParam(header.sortKey);
+            if (p !== undefined) {
+              this.updateSortField({ field: header.sortKey, order: value ? '-' : '' });
+            } else {
+              this.addSortField({ field: header.sortKey, order: value ? '-' : '' });
+            }
+          }
+        }
+      },
       
       ...mapActions('placenames', ['fetchPlacename', 'searchPlacename']),
-      
+      ...mapActions('searchParameters', ['addSortField', 'updateSortField', 'removeSortField'])
     },
     
     computed: {
       ...mapState('placenames', {placenameItems: 'items', meta: 'meta', selectedPlacename: 'selectedItem'}),
+      ...mapState('searchParameters', ['sortFields']),
+      ...mapGetters('searchParameters', ['computedSortParam', 'getSortParam'])
     }
   }
 </script>
@@ -232,6 +266,9 @@
   }
   .v-table__overflow {
     overflow-x: hidden;
+  }
+  .table-header {
+    text-align: left;
   }
 
 </style>

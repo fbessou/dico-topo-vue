@@ -10,7 +10,6 @@
         :autofocus="true"
         :loading="mapMarkersAreLoading"
         clearable
-        @keyup.native="startNewSearch()"
       >
 
       </v-text-field>
@@ -44,7 +43,7 @@
         >
         </my-awesome-map>
         <placename-search-table
-          v-show="inputTerm && inputTerm.length >= minTermLength && showTabularResults"
+          v-show="term && term.length >= minTermLength && showTabularResults"
           :searched-term="query"
           :select-item-callback="selectPlacenameOnMap">
         </placename-search-table>
@@ -57,7 +56,8 @@
 
 <script>
   import { mapState, mapGetters, mapActions } from 'vuex'
-  
+  import _ from 'lodash';
+
   import PlacenameSearchTable from '../PlacenameSearchTable'
   import MyAwesomeMap from '../MyAwesomeMap'
   import PlacenameCard from '../PlacenameCard'
@@ -68,7 +68,6 @@
     name: 'HomePage',
     components: {
       MainToolbar,
-      
       SearchOptionsMenu,
       PlacenameSearchTable,
       PlacenameCard,
@@ -76,7 +75,7 @@
     },
     data () {
       return {
-        maxMarkerPerBatch: 700,
+        maxMarkerPerBatch: 3500,
         
         inputTerm: undefined,
         selectedPlacenameId: undefined,
@@ -86,23 +85,12 @@
     mounted () {
       this.inputTerm = undefined
       this.unselectPlacename()
-      //this.searchMapMarkers(this.computedTerm, 750, 1)
     },
     methods: {
-      delay(callback, ms) {
-        var timer = 0;
-        return function () {
-          var context = this, args = arguments;
-          clearTimeout(timer);
-          timer = setTimeout(function () {
-            callback.apply(context, args);
-          }, ms || 0);
-        };
-      },
-      startNewSearch() {
-        const init = this.initSearch;
-        return this.delay(function (e) { init() }, 700)()
-      },
+      startNewSearch: _.debounce(function (newVal, oldVal) {
+        this.setTerm(this.inputTerm);
+        this.initSearch();
+      }, 500),
       initSearch() {
         if (!!this.query) {
           this.unselectPlacename()
@@ -110,7 +98,6 @@
           if (this.inputTerm && this.inputTerm.length >= this.minTermLength) {
             this.searchNextBatchOfMapMarkers()
           }
-          //this.oT = this.query
         }
       },
       searchNextBatchOfMapMarkers(nextLink) {
@@ -130,9 +117,7 @@
         })
       },
       onSearchOptionsChange (options) {
-        //this.searchOptions = options
         this.setIncludeOldLabels(options['includeOldLabels'])
-        //this.oT = undefined
         this.initSearch()
       },
       selectPlacenameOnMap (obj) {
@@ -155,8 +140,7 @@
         }
       },
       inputTerm (val) {
-        //this.oT = undefined
-        this.setTerm(this.inputTerm)
+        this.startNewSearch();
       },
       query() {
         if (!this.query) {
@@ -166,21 +150,6 @@
       }
     },
     computed: {
-      /*
-      computedTerm() {
-        let term = this.inputTerm
-        
-        if (!term || term.length < this.minTermLength) {
-          return undefined
-        }
-        
-        if (!!this.searchOptions['includeOldLabels']) {
-          term = `label:${term} OR old-labels:${term}`
-        } else {
-          term = `label:${term}`
-        }
-        return term
-      },*/
       selectedCoordinates () {
         return !!this.selectedPlacename ? this.selectedPlacename.coordinates : null
       },

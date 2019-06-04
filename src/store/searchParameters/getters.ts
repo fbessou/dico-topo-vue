@@ -16,9 +16,9 @@ export const getters: GetterTree<QueryState, RootState> = {
     }
 
     if (!!state.includeOldLabels) {
-      query = `label:${state.term} OR old-labels:${state.term}`
+      query = `label:${state.term}`  // include old labels means "do not filter on the type field"
     } else {
-      query = `label:${state.term}`
+      query = `label:${state.term} AND NOT (type:"placename-old-label")` // do not include old labels means "filter out hte placename-old-label type"
     }
     return query;
   },

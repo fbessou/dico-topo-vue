@@ -42,7 +42,7 @@ export const actions: ActionTree<PlacenameCardState, RootState> = {
   },
   fetchPlacenameCard({commit, rootState}, id: any): any {
     commit('setLoading', true)
-    return api.get(`/search?query=(id:"${id}" AND type:placename)&index=${index}&page[size]=1`)
+    return api.get(`/search?query=(id:"${id}" AND type:placename)&page[size]=1`)
       .then((res: ApiResponse<any>) => {
         const {ok, data} = res;
         if (ok) {

@@ -3,7 +3,7 @@ import Vue from 'vue';
 import {Links} from "@/store/types";
 import {MapMarker, MapMarkerState} from "@/store/mapmarkers/types";
 import {QueryState, SortableField} from "@/store/searchParameters/types";
-import {PlacenameState} from "@/store/placenames/types";
+import {Placename, PlacenameState} from "@/store/placenames/types";
 
 
 
@@ -13,6 +13,9 @@ export function getDefaultState(): QueryState {
     term: '',
     includeOldLabels: true,
     sortFields: new Array <SortableField>(),
+
+    depFilter: [],
+    regFilter: [],
 
     minTermLength: 2
   }
@@ -46,5 +49,12 @@ export const mutations: MutationTree<QueryState> = {
       state.sortFields.splice(idx, 1);
       console.log("sort field removed ->", state.sortFields);
     }
+  },
+
+  setDepFilter(state: QueryState, value) {
+    Vue.set(state, 'depFilter', [...value]);
+  },
+  setRegFilter(state: QueryState, value) {
+    Vue.set(state, 'regFilter', [...value]);
   },
 };

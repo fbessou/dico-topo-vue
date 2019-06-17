@@ -5,11 +5,13 @@ export interface SortableField {
   order: string;
 }
 
-
 export interface QueryState {
   term: string;
   includeOldLabels: boolean;
   sortFields: Array<SortableField>;
+
+  depFilter: String[];
+  regFilter: String[];
 
   minTermLength: number;
 }

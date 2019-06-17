@@ -104,6 +104,7 @@
         this.setMarkersLoading(true)
         return this.searchMapMarker({
           query: this.query,
+          filterParam: this.computedFilterParam,
           nextLink: nextLink,
           pageSize: this.maxMarkerPerBatch
         }).then(next => {
@@ -142,6 +143,9 @@
       inputTerm (val) {
         this.startNewSearch();
       },
+      computedFilterParam() {
+        this.startNewSearch();
+      },
       query() {
         if (!this.query) {
           this.unselectPlacename()
@@ -156,7 +160,7 @@
       ...mapState('placenames', { selectedPlacename: 'selectedItem', meta: 'meta' }),
       ...mapState('mapmarkers', { mapMarkersAreLoading: 'isLoading', mapMarkerItems: 'items'}),
       ...mapState('searchParameters', ['term', 'includeOldLabels', 'minTermLength']),
-      ...mapGetters('searchParameters', ['query'])
+      ...mapGetters('searchParameters', ['query', 'computedFilterParam'])
   
     }
   }

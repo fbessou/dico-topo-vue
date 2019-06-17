@@ -4,12 +4,18 @@ import PlacenamePage from "@/components/pages/PlacenamePage.vue"
 import HomePage from "@/components/pages/HomePage.vue"
 import NotFoundPage from "@/components/pages/NotFoundPage.vue"
 import DocumentationPage from "@/components/pages/DocumentationPage.vue"
+import LandingPage from "@/components/pages/LandingPage.vue"
 
 Vue.use(VueRouter)
 
 export const createRoutes: () => RouteConfig[] = () => [
   {
     path: '/',
+    component: LandingPage,
+    name: 'landing'
+  },
+  {
+    path: '/search',
     component: HomePage,
     name: 'home',
     props: (route) => ({query: route.query.q})

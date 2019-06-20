@@ -166,14 +166,12 @@
         deep: true
       },
       searchedTerm() {
-        console.log("searched term changed")
         this.fetchData()
       },
       computedSortParam() {
         this.fetchData();
       },
       groupbyPlacename() {
-        console.log("groupbyPlacename changed")
         this.fetchData();
       }
     },
@@ -200,7 +198,8 @@
             groupbyPlacename: this.groupbyPlacename,
             sortParam: this.computedSortParam,
             pageNumber: page,
-            pageSize: rowsPerPage
+            pageSize: rowsPerPage,
+            after: null
           }).then(r => {
             let items = Array.from(this.placenameItems.values())
             const total = this.meta.totalCount ? this.meta.totalCount : 0

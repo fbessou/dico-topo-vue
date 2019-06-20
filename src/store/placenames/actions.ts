@@ -12,14 +12,15 @@ export const actions: ActionTree<PlacenameState, RootState> = {
   unselectPlacename({commit, state, rootState}): any {
     commit('unselectItem')
   },
-  searchPlacename({commit, rootState}, {query, groupbyPlacename, sortParam, pageSize, pageNumber}): any {
+  searchPlacename({commit, rootState}, {query, groupbyPlacename, sortParam, pageSize, pageNumber, after}): any {
     commit('setLoading', true)
     const index = `${process.env.VUE_APP_PLACENAME_INDEX}`
     const maxPageSize: number = process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE
     const searchPageSize = pageSize > maxPageSize || pageSize === -1 ? maxPageSize: pageSize
     const searchPageNumber = pageNumber > 0 ? pageNumber : 1
     const sort = !!sortParam ? `&sort=${sortParam}` : '';
-    const agg = groupbyPlacename ? '&groupby[model]=placename&groupby[field]=placename-id.keyword' : '';
+
+    const agg = groupbyPlacename ? `&groupby[model]=placename&groupby[field]=placename-id.keyword&groupby[after]=${after}` : '';
 
     return api.get(`/search?query=${query}${agg}&index=${index}${sort}&page[size]=${searchPageSize}&page[number]=${searchPageNumber}`)
       .then((res: ApiResponse<any>) => {
@@ -76,7 +77,15 @@ export const actions: ActionTree<PlacenameState, RootState> = {
             }
             return item
           })
-          commit('setItems', {p: items, links: data.links, meta: {totalCount: data.meta["total-count"]}})
+
+          let  meta : any = {
+            totalCount: data.meta["total-count"]
+          };
+          if (!!data.meta["after"]) {
+            meta["after"] = data.meta["after"];
+          }
+
+          commit('setItems', {p: items, links: data.links, meta: meta})
         } else {
           commit('setError', data)
           commit('setLoading', false)

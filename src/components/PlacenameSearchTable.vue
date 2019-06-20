@@ -166,9 +166,14 @@
         deep: true
       },
       searchedTerm() {
+        console.log("searched term changed")
         this.fetchData()
       },
       computedSortParam() {
+        this.fetchData();
+      },
+      groupbyPlacename() {
+        console.log("groupbyPlacename changed")
         this.fetchData();
       }
     },
@@ -192,6 +197,7 @@
           const { sortBy, descending, page, rowsPerPage } = this.pagination
           this.searchPlacename({
             query: this.searchedTerm,
+            groupbyPlacename: this.groupbyPlacename,
             sortParam: this.computedSortParam,
             pageNumber: page,
             pageSize: rowsPerPage
@@ -249,7 +255,7 @@
     
     computed: {
       ...mapState('placenames', {placenameItems: 'items', meta: 'meta', selectedPlacename: 'selectedItem'}),
-      ...mapState('searchParameters', ['sortFields']),
+      ...mapState('searchParameters', ['sortFields', 'groupbyPlacename']),
       ...mapGetters('searchParameters', ['computedSortParam', 'getSortParam'])
     }
   }

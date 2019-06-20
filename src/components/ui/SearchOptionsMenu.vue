@@ -26,8 +26,13 @@
           label="Inclure les formes anciennes"
           :disabled="mapMarkersAreLoading">
         </v-switch>
+        <v-switch
+          v-model="groupby"
+          color="info"
+          label="Grouper par article"
+          :disabled="mapMarkersAreLoading">
+        </v-switch>
       </v-card-text>
-      
     </v-card>
   </v-dialog>
   </div>
@@ -48,21 +53,27 @@
     created() {
     },
     methods: {
-      ...mapActions('searchParameters', ['setIncludeOldLabels'])
+      ...mapActions('searchParameters', ['setIncludeOldLabels', 'setGroupbyPlacename'])
     },
     computed: {
       oldLabels: {
-        // getter
         get: function () {
           return this.includeOldLabels
         },
-        // setter
         set(newValue) {
           this.setIncludeOldLabels(newValue)
         }
       },
+      groupby: {
+        get: function () {
+          return this.groupbyPlacename
+        },
+        set (newValue) {
+          this.setGroupbyPlacename(newValue)
+        }
+      },
       ...mapState('mapmarkers', { mapMarkersAreLoading: 'isLoading' }),
-      ...mapState('searchParameters', ['includeOldLabels'])
+      ...mapState('searchParameters', ['includeOldLabels', 'groupbyPlacename'])
     },
     watch: {
       dialog(val) {
@@ -75,7 +86,16 @@
       oldLabels() {
         if (this.onOptionsChange) {
           this.onOptionsChange({
-            includeOldLabels : this.oldLabels
+            includeOldLabels: this.oldLabels,
+            groupbyPlacename:  this.groupby
+          })
+        }
+      },
+      groupby() {
+        if (this.onOptionsChange) {
+          this.onOptionsChange({
+            includeOldLabels: this.oldLabels,
+            groupbyPlacename: this.groupby
           })
         }
       }

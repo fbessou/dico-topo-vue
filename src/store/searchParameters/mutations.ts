@@ -12,6 +12,7 @@ export function getDefaultState(): QueryState {
   return {
     term: '',
     includeOldLabels: true,
+    groupbyPlacename: true,
     sortFields: new Array <SortableField>(),
 
     minTermLength: 2
@@ -24,6 +25,9 @@ export const mutations: MutationTree<QueryState> = {
   },
   setIncludeOldLabels(state: QueryState, b) {
     state.includeOldLabels = b;
+  },
+  setGroupbyPlacename(state: QueryState, b) {
+    state.groupbyPlacename = b;
   },
   addSortField(state: QueryState, {field, order}) {
     console.log("add sort field", {key: field, order: order});

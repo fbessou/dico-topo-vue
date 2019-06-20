@@ -9,6 +9,8 @@ export interface SortableField {
 export interface QueryState {
   term: string;
   includeOldLabels: boolean;
+  groupbyPlacename: boolean;
+
   sortFields: Array<SortableField>;
 
   minTermLength: number;

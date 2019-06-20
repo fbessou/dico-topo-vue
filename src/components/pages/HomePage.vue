@@ -118,6 +118,7 @@
       },
       onSearchOptionsChange (options) {
         this.setIncludeOldLabels(options['includeOldLabels'])
+        this.setGroupbyPlacename(options['groupbyPlacename'])
         this.initSearch()
       },
       selectPlacenameOnMap (obj) {
@@ -130,7 +131,7 @@
       ...mapActions('mapmarkers', ['searchMapMarker', 'clearMapMarkers', 'setMarkersLoading']),
       ...mapActions('placenames', ['selectPlacename', 'unselectPlacename']),
       ...mapActions('placenameCard', ['clearPlacenameCard']),
-      ...mapActions('searchParameters', ['setTerm', 'setIncludeOldLabels'])
+      ...mapActions('searchParameters', ['setTerm', 'setIncludeOldLabels', 'setGroupbyPlacename'])
     },
     watch: {
       meta(val) {
@@ -155,7 +156,7 @@
       },
       ...mapState('placenames', { selectedPlacename: 'selectedItem', meta: 'meta' }),
       ...mapState('mapmarkers', { mapMarkersAreLoading: 'isLoading', mapMarkerItems: 'items'}),
-      ...mapState('searchParameters', ['term', 'includeOldLabels', 'minTermLength']),
+      ...mapState('searchParameters', ['term', 'includeOldLabels', 'groupbyPlacename', 'minTermLength']),
       ...mapGetters('searchParameters', ['query'])
   
     }

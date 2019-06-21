@@ -20,7 +20,10 @@ export const actions: ActionTree<PlacenameState, RootState> = {
     const searchPageNumber = pageNumber > 0 ? pageNumber : 1
     const sort = !!sortParam ? `&sort=${sortParam}` : '';
 
-    const agg = groupbyPlacename ? `&groupby[model]=placename&groupby[field]=placename-id.keyword&groupby[after]=${after}` : '';
+    let agg = groupbyPlacename ? `&groupby[model]=placename&groupby[field]=placename-id.keyword` : '';
+    if (!!after) {
+      agg = agg + `&groupby[after]=${after}`;
+    }
 
     return api.get(`/search?query=${query}${agg}&index=${index}${sort}&page[size]=${searchPageSize}&page[number]=${searchPageNumber}`)
       .then((res: ApiResponse<any>) => {

@@ -11,6 +11,7 @@
         :loading="mapMarkersAreLoading"
         clearable
       >
+      </v-text-field>
 
       <v-btn
         v-if="inputTerm && inputTerm.length >= minTermLength"

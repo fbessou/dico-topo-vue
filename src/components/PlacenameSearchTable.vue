@@ -111,7 +111,7 @@
             align: 'center',
             value: 'icon',
             sortable: false,
-            sortKey: 'is-localiazed',
+            sortKey: 'is-localized',
             sorted: undefined,
           },
           {
@@ -126,9 +126,11 @@
             text: 'Article',
             align: 'left',
             value: 'article',
+            /*
             sortable: false,
-            sortKey: 'is-localiazed',
+            sortKey: 'placename-label.keyword',
             sorted: undefined,
+            */
           },
           {
             text: 'Département',

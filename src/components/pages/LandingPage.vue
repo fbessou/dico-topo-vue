@@ -109,7 +109,14 @@
       <section>
        
           <v-layout column align-center justify-center>
-            <div class="headline white--text mb-3 text-xs-center">Web development has never been easier</div>
+
+            <!-- Carte des lieux couverts -->
+            <div id="map"></div>
+            <!-- require('https://d3js.org/d3.v5.min.js') -->
+            <!-- require('@/components/js/landingMap.js') -->
+            <!-- require('@/components/css/colorbrewer.css') -->
+            <!-- require('@/components/css/landingMap.css') -->
+
             <em>Ce site est activement en cours de développement</em>
             <v-btn
               class="red darken-2 mt-5"

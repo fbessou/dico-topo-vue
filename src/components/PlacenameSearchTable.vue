@@ -26,37 +26,34 @@
                </th>
               </template>
               <template v-slot:items="props">
-      
-                <td class="text-xs-left">
+                <td class="text-xs-left" style="width: 50px;">
+                  <v-flex shrink>
+                    <v-btn flat fab small class="elevation-0 blue--text"
+                           @click="() => selectItemWrapper(props.item)"
+                           :disabled="!props.item.coordinates">
+                      <v-icon>location_on</v-icon>
+                    </v-btn>
+                  </v-flex>
+                </td>
+                <td class="text-xs-left" style="width: 15%;">
                   <v-layout row wrap align-center>
                     <v-flex grow>
                       <span>{{ cleanStr(props.item.label) }}</span>
                     </v-flex>
-                    <v-flex shrink>
-                      <v-btn flat fab small class="elevation-0 blue--text"
-                             @click="() => selectItemWrapper(props.item)"
-                             :disabled="!props.item.coordinates">
-                        <v-icon>location_on</v-icon>
-                      </v-btn>
+                  </v-layout>
+                </td>
+                <td class="text-xs-left" style="width: 15%;">
+                  <v-layout row wrap align-center>
+                    <v-flex grow>
+                      <router-link :to="`/placenames/${props.item.type === 'placename' ? props.item.id: props.item.placenameId}`">
+                        {{ cleanStr(props.item.type === 'placename' ? props.item.label : props.item.placenameLabel ) }}
+                      </router-link>
                     </v-flex>
                   </v-layout>
                 </td>
-      
-                <td class="text-xs-center" v-if=" props.item.type === 'placename-old-label'">
-                  <v-tooltip left>
-                    <template v-slot:activator="{ on }">
-                      <v-icon v-on="on">history</v-icon>
-                    </template>
-                    <span>Forme ancienne</span>
-                  </v-tooltip>
-                </td>
-                <td class="text-xs-left" v-else></td>
-                <td class="text-xs-left" v-if=" props.item.type === 'placename-old-label'">
-                  Forme ancienne de '{{ cleanStr(props.item.placenameLabel) }}'. {{ cleanStr(props.item.description) }}
-                </td>
-                <td class="text-xs-left" v-else>{{ cleanStr(props.item.description) }}</td>
-                <td class="text-xs-center">{{ props.item.department }}</td>
-                <td class="text-xs-center">{{ props.item.region }}</td>
+                <td class="text-xs-center" style="width: 50px;">{{ props.item.department }}</td>
+                
+                <td class="text-xs-left">{{ cleanStr(props.item.description) }}</td>
                 <td>
                   <v-layout align-center justify-end row fill-height>
                     <v-flex shrink sm2>
@@ -68,13 +65,6 @@
                         :viaf-id="props.item.viaf_id"
                       >
                       </linking-menu>
-                    </v-flex>
-                    <v-flex shrink sm2>
-                      <v-btn
-                        :to="`/placenames/${props.item.type === 'placename' ? props.item.id: props.item.placenameId}`"
-                        flat icon fab small>
-                        <v-icon>open_in_new</v-icon>
-                      </v-btn>
                     </v-flex>
                     <v-flex shrink sm2>
                       <export-menu
@@ -117,6 +107,14 @@
         
         headers: [
           {
+            text: 'Localisation',
+            align: 'center',
+            value: 'icon',
+            sortable: false,
+            sortKey: 'is-localized',
+            sorted: undefined,
+          },
+          {
             text: 'Toponyme',
             align: 'left',
             value: 'label',
@@ -124,31 +122,28 @@
             sortKey: 'label.keyword',
             sorted: undefined,
           },
-          { text: 'Type',
-            value: 'item_type',
-            align: 'center',
-            sortable: true ,
-            sortKey: 'type.keyword',
-            sorted: undefined,
-          },
-          { text: 'Description',
-            value: 'description',
+          {
+            text: 'Article',
             align: 'left',
+            value: 'article',
+            /*
             sortable: false,
+            sortKey: 'placename-label.keyword',
+            sorted: undefined,
+            */
           },
-          { text: 'Département',
+          {
+            text: 'Département',
             value: 'department',
             align: 'center',
             sortable: true,
             sortKey: 'dep-id.keyword',
             sorted: undefined,
           },
-          { text: 'Région',
-            value: 'region',
-            align: 'center',
+          { text: 'Description',
+            value: 'description',
+            align: 'left',
             sortable: false,
-            sortable: true,
-            sortKey: 'reg-label.keyword',
           },
           { text: '',
             value: 'linking',
@@ -274,6 +269,10 @@
   }
   .table-header {
     text-align: left;
+  }
+
+  .theme--light.v-table, .theme--light.v-table .v-datatable__actions {
+    background-color: #fafafa;
   }
 
 </style>

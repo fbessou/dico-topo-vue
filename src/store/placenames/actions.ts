@@ -40,6 +40,7 @@ export const actions: ActionTree<PlacenameState, RootState> = {
                   type: p.type,
 
                   label: p.attributes["placename-label"],
+                  placenameLabel: p.attributes["placename-label"],
                   description: p.attributes["desc"],
                   comment: p.attributes["comment"],
 

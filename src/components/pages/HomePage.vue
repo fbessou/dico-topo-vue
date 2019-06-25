@@ -12,8 +12,6 @@
         clearable
       >
 
-      </v-text-field>
-      
       <v-btn
         v-if="inputTerm && inputTerm.length >= minTermLength"
         color="primary"
@@ -43,7 +41,7 @@
         >
         </my-awesome-map>
         <placename-search-table
-          v-show="term && term.length >= minTermLength && showTabularResults"
+          v-show="term && term.length >= minTermLength && meta.totalCount > 0"
           :searched-term="query"
           :select-item-callback="selectPlacenameOnMap">
         </placename-search-table>

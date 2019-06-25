@@ -19,6 +19,7 @@ function buildPlacename(obj: any) {
     id: obj.id,
     type: obj.type,
     label: obj.attributes["placename-label"],
+    old_labels: [],
     description: obj.attributes["desc"],
     comment: obj.attributes["comment"],
 

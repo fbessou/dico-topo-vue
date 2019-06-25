@@ -12,8 +12,6 @@
         clearable
       >
       </v-text-field>
-
-      <span v-show="!mapMarkersAreLoading && !!inputTerm" >{{meta.totalCount}} résultat(s)</span>
       
       <search-options-menu
         :on-open="unselectPlacename"
@@ -29,8 +27,9 @@
           :use-fly-animation="false"
         >
         </my-awesome-map>
+        
         <placename-search-table
-          v-show="!!inputTerm && !!term && term.length >= minTermLength && meta.totalCount > 0 && !!showTabularResults"
+          v-show="!!inputTerm && !!term && term.length >= minTermLength && meta.totalCount > 0"
           :searched-term="query"
           :select-item-callback="selectPlacenameOnMap"
           :show-table="showTabularResults"
@@ -38,13 +37,14 @@
   
           <v-btn
             v-if="inputTerm && inputTerm.length >= minTermLength && meta.totalCount > 0"
-            small
             depressed
             @click="showTabularResults = !showTabularResults"
           >
             <v-icon>list</v-icon>
+            <span>{{meta.totalCount}} {{groupbyPlacename ? 'article' : 'toponyme'}}(s)</span>
+            <v-icon>keyboard_arrow_down</v-icon>
+  
           </v-btn>
-          
         </placename-search-table>
       </div>
       <placename-card v-if="selectedPlacename"></placename-card>

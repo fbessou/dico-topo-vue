@@ -5,6 +5,18 @@ import {api} from "@/utils/http-common";
 import {ApiResponse} from "apisauce";
 
 
+
+function makeUrl(query: String, sort: String, pageSize: String, pageNumber: String) {
+  return `/search?query=${query}${sort}${pageSize}${pageNumber}`;
+}
+
+function makeAggUrl(query: String, groupby: String, sort: String, pageSize: String, pageAfter: String) {
+  const agg = `&groupby[doc-type]=placename&groupby[field]=placename-id.keyword`;
+  const after = !!pageAfter ? `&page[after]=${pageAfter}` : ''
+
+  return `/search?query=${query}${agg}${sort}${pageSize}${after}`;
+}
+
 export const actions: ActionTree<PlacenameState, RootState> = {
   selectPlacename({commit, state, rootState}, placename): any {
     commit('selectItem', placename)
@@ -14,18 +26,18 @@ export const actions: ActionTree<PlacenameState, RootState> = {
   },
   searchPlacename({commit, rootState}, {query, groupbyPlacename, sortParam, pageSize, pageNumber, after}): any {
     commit('setLoading', true)
-    const index = `${process.env.VUE_APP_PLACENAME_INDEX}`
-    const maxPageSize: number = process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE
-    const searchPageSize = pageSize > maxPageSize || pageSize === -1 ? maxPageSize: pageSize
-    const searchPageNumber = pageNumber > 0 ? pageNumber : 1
+    const index = `${process.env.VUE_APP_PLACENAME_INDEX}`;
+    const maxPageSize: number = process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE;
+
+    const psize = `&page[size]=${pageSize > maxPageSize || pageSize === -1 ? maxPageSize : pageSize}`;
+    const pnum = `&page[number]=${pageNumber > 0 ? pageNumber : 1}`;
     const sort = !!sortParam ? `&sort=${sortParam}` : '';
 
-    let agg = groupbyPlacename ? `&groupby[model]=placename&groupby[field]=placename-id.keyword` : '';
-    if (!!after) {
-      agg = agg + `&groupby[after]=${after}`;
-    }
+    const url = !!groupbyPlacename ? makeAggUrl(query, groupbyPlacename, sort, psize, after) : makeUrl(query, sort, psize, pnum);
 
-    return api.get(`/search?query=${query}${agg}&index=${index}${sort}&page[size]=${searchPageSize}&page[number]=${searchPageNumber}`)
+    console.log(groupbyPlacename);
+
+    return api.get(url)
       .then((res: ApiResponse<any>) => {
         const {ok, data} = res;
         if (ok) {

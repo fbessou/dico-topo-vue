@@ -12,21 +12,9 @@
         clearable
       >
       </v-text-field>
-  
-      <v-btn
-        v-if="inputTerm && inputTerm.length >= minTermLength"
-        color="primary"
-        outline
-        dark
-        style="margin-left: 20px; margin-right: 12px"
-        small
-        depressed
-        @click="showTabularResults = !showTabularResults && meta.totalCount > 0"
-      >
-        <v-icon>list</v-icon>
-        {{meta.totalCount}} résultat(s) {{ /*  markers:  Array.from(mapMarkerItems.values()).length */ }}
-      </v-btn>
-  
+
+      <span v-show="!mapMarkersAreLoading && !!inputTerm" >{{meta.totalCount}} résultat(s)</span>
+      
       <search-options-menu
         :on-open="unselectPlacename"
         :on-options-change="onSearchOptionsChange">
@@ -42,9 +30,21 @@
         >
         </my-awesome-map>
         <placename-search-table
-          v-show="term && term.length >= minTermLength && meta.totalCount > 0"
+          v-show="!!inputTerm && !!term && term.length >= minTermLength && meta.totalCount > 0 && !!showTabularResults"
           :searched-term="query"
-          :select-item-callback="selectPlacenameOnMap">
+          :select-item-callback="selectPlacenameOnMap"
+          :show-table="showTabularResults"
+        >
+  
+          <v-btn
+            v-if="inputTerm && inputTerm.length >= minTermLength && meta.totalCount > 0"
+            small
+            depressed
+            @click="showTabularResults = !showTabularResults"
+          >
+            <v-icon>list</v-icon>
+          </v-btn>
+          
         </placename-search-table>
       </div>
       <placename-card v-if="selectedPlacename"></placename-card>
@@ -78,7 +78,7 @@
         
         inputTerm: undefined,
         selectedPlacenameId: undefined,
-        showTabularResults: false
+        showTabularResults: true
       }
     },
     mounted () {

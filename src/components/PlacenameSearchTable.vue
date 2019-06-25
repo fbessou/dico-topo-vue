@@ -1,7 +1,10 @@
 <template>
   <div class="search-table">
-    <v-layout>
-          <v-flex>
+    <v-layout row wrap>
+      <v-flex xs12 justify-center align-center>
+        <slot></slot>
+      </v-flex>
+          <v-flex xs12 justify-center align-center v-show="show">
             <v-data-table
               
               :headers="headers"
@@ -55,8 +58,8 @@
                   <v-layout row wrap align-center>
                     <v-flex grow>
                       <ul class="two-columns">
-                        <li v-for="oldLabel in props.item.oldLabels"
-                            :key="oldLabel"
+                        <li v-for="(oldLabel, index) in props.item.oldLabels"
+                            :key="index"
                             v-if="!!cleanStr(oldLabel)"
                             style="margin-right: 8px;"
                         >
@@ -109,7 +112,8 @@
     components: { StatefulButton, LinkingMenu, ExportMenu },
     props: {
       searchedTerm: {type: String, default: ''},
-      selectItemCallback: {type: Function}
+      selectItemCallback: {type: Function},
+      show: {type: Boolean}
     },
     data () {
       return {
@@ -238,7 +242,7 @@
           value: 'article',
           sortable: true,
           sortKey: 'placename-label.keyword',
-          sorted: undefined,
+          sorted: true,
         };
         const oldLabels = {
           text: 'Forme(s) ancienne(s)',

@@ -21,12 +21,13 @@
         state: 2
       }
     },
-    created() {
+    mounted() {
       if (!this.disabled) {
-        this.state = this.active ? 1 : 0
+        this.state = !!this.active ? 1 : 0;
       } else {
         this.state = 2;
       }
+      console.log("but", this.active, this.state)
     },
     methods: {
       callAction() {

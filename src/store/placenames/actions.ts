@@ -53,6 +53,7 @@ export const actions: ActionTree<PlacenameState, RootState> = {
 
                   label: p.attributes["placename-label"],
                   placenameLabel: p.attributes["placename-label"],
+                  oldLabels: p.attributes["old-labels"].reverse(),
                   description: p.attributes["desc"],
                   comment: p.attributes["comment"],
 
@@ -75,6 +76,7 @@ export const actions: ActionTree<PlacenameState, RootState> = {
                   label: p.attributes["rich-label"],
 
                   placenameId: p.attributes["placename-id"],
+                  oldLabels: [],
                   placenameLabel: p.attributes["placename-label"],
                   description: p.attributes["placename-desc"],
 

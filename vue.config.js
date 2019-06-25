@@ -2,7 +2,7 @@ module.exports = {
   runtimeCompiler: true,
 
   pages: {
-    index:  {
+    index: {
       // entry for the page
       entry: 'src/main.ts',
       // the source template

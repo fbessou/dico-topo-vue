@@ -8,6 +8,7 @@ export interface Placename {
   comment: string;
   department: string;
   region: string;
+  old_labels: string[];
 
   insee_code: string;
 

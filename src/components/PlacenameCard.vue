@@ -107,7 +107,7 @@
     data: () => {
       return {
         show: true,
-        panel: [false, false, false, false]
+        panel: [true, false, false, false]
       }
     },
     created() {

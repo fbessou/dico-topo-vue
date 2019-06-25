@@ -35,14 +35,14 @@
                     </v-btn>
                   </v-flex>
                 </td>
-                <td class="text-xs-left" style="width: 15%;">
+                <td v-if="!groupbyPlacename"  class="text-xs-left" style="width: 15%;">
                   <v-layout row wrap align-center>
                     <v-flex grow>
                       <span>{{ cleanStr(props.item.label) }}</span>
                     </v-flex>
                   </v-layout>
                 </td>
-                <td class="text-xs-left" style="width: 15%;">
+                <td class="text-xs-left" style="width: 12%;">
                   <v-layout row wrap align-center>
                     <v-flex grow>
                       <router-link :to="`/placenames/${props.item.type === 'placename' ? props.item.id: props.item.placenameId}`">
@@ -51,12 +51,26 @@
                     </v-flex>
                   </v-layout>
                 </td>
+                <td v-if="!!groupbyPlacename" class="text-xs-left" style="width: 25%;">
+                  <v-layout row wrap align-center>
+                    <v-flex grow>
+                      <ul class="two-columns">
+                        <li v-for="oldLabel in props.item.oldLabels"
+                            :key="oldLabel"
+                            v-if="!!cleanStr(oldLabel)"
+                            style="margin-right: 8px;"
+                        >
+                          {{cleanStr(oldLabel)}}
+                        </li>
+                      </ul>
+                    </v-flex>
+                  </v-layout>
+                </td>
                 <td class="text-xs-center" style="width: 50px;">{{ props.item.department }}</td>
-                
                 <td class="text-xs-left">{{ cleanStr(props.item.description) }}</td>
                 <td>
                   <v-layout align-center justify-end row fill-height>
-                    <v-flex shrink sm2>
+                    <v-flex shrink sm3>
                       <linking-menu
                         :geoname-id="props.item.geoname_id"
                         :wikidata-item-id="props.item.wikidata_item_id"
@@ -104,53 +118,6 @@
         items: [],
         pagination: { rowsPerPage: 5},
         maxPageSize: process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE > 0 ? process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE : 200,
-        
-        headers: [
-          {
-            text: 'Localisation',
-            align: 'center',
-            value: 'icon',
-            sortable: false,
-            sortKey: 'is-localized',
-            sorted: undefined,
-          },
-          {
-            text: 'Toponyme',
-            align: 'left',
-            value: 'label',
-            sortable: true,
-            sortKey: 'label.keyword',
-            sorted: undefined,
-          },
-          {
-            text: 'Article',
-            align: 'left',
-            value: 'article',
-            /*
-            sortable: false,
-            sortKey: 'placename-label.keyword',
-            sorted: undefined,
-            */
-          },
-          {
-            text: 'Département',
-            value: 'department',
-            align: 'center',
-            sortable: true,
-            sortKey: 'dep-id.keyword',
-            sorted: undefined,
-          },
-          { text: 'Description',
-            value: 'description',
-            align: 'left',
-            sortable: false,
-          },
-          { text: '',
-            value: 'linking',
-            align: 'right',
-            sortable: false
-          },
-        ]
       }
     },
     watch: {
@@ -248,9 +215,72 @@
     },
     
     computed: {
-      ...mapState('placenames', {placenameItems: 'items', meta: 'meta', selectedPlacename: 'selectedItem'}),
-      ...mapState('searchParameters', ['sortFields', 'groupbyPlacename']),
-      ...mapGetters('searchParameters', ['computedSortParam', 'getSortParam'])
+      headers () {
+        const localisation = {
+          text: 'Localisation',
+          align: 'center',
+          value: 'icon',
+          sortable: false,
+          sortKey: 'is-localized',
+          sorted: undefined,
+        };
+        const toponym = {
+          text: 'Toponyme',
+          align: 'left',
+          value: 'label',
+          sortable: true,
+          sortKey: 'label.keyword',
+          sorted: undefined,
+        };
+        const article = {
+          text: 'Article',
+          align: 'left',
+          value: 'article',
+          sortable: true,
+          sortKey: 'placename-label.keyword',
+          sorted: undefined,
+        };
+        const oldLabels = {
+          text: 'Forme(s) ancienne(s)',
+          value: 'old-labels',
+          align: 'center',
+          sortable: false,
+          sortKey: 'label.keyword',
+          sorted: undefined,
+        };
+        const dep = {
+          text: 'Département',
+          value: 'department',
+          align: 'center',
+          sortable: true,
+          sortKey: 'dep-id.keyword',
+          sorted: undefined,
+        };
+        const desc = {
+            text: 'Description',
+            value: 'description',
+            align: 'left',
+            sortable: false,
+        };
+        const linking = {
+            text: '',
+            value: 'linking',
+            align: 'right',
+            sortable: false
+        };
+        
+        if (!!this.groupbyPlacename) {
+          return [localisation, article, oldLabels, dep, desc, linking];
+        } else {
+          return [localisation, toponym, article, dep, desc, linking];
+        }
+      },
+      ...
+        mapState('placenames', { placenameItems: 'items', meta: 'meta', selectedPlacename: 'selectedItem' }),
+      ...
+        mapState('searchParameters', ['sortFields', 'groupbyPlacename']),
+      ...
+        mapGetters('searchParameters', ['computedSortParam', 'getSortParam'])
     }
   }
 </script>
@@ -274,5 +304,11 @@
   .theme--light.v-table, .theme--light.v-table .v-datatable__actions {
     background-color: #fafafa;
   }
-
+  .two-columns {
+    margin-left: 10px;
+  
+    columns: 3;
+    -webkit-columns: 3;
+    -moz-columns: 3;
+  }
 </style>

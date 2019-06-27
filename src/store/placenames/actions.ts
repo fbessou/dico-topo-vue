@@ -24,11 +24,17 @@ export const actions: ActionTree<PlacenameState, RootState> = {
   unselectPlacename({commit, state, rootState}): any {
     commit('unselectItem')
   },
-  clearAll({commit}) {
+  clearAll({commit}, meta) {
     commit('clearAll', {
       links: {},
-      meta: {totalCount: 0}
+      meta: {totalCount: 0, ...meta}
     });
+  },
+  selectPreviousAggPage({commit, state, rootState}) {
+    commit("popAfterHistory");
+  },
+  recordCurrentAggPage({commit, state, rootState}, after) {
+    commit("pushAfterHistory");
   },
   searchPlacename({commit, rootState}, {query, groupbyPlacename, sortParam, pageSize, pageNumber, after}): any {
     commit('setLoading', true)

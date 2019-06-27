@@ -26,6 +26,7 @@ export interface PlacenameState {
 
   links: Links;
   meta : Meta;
+  afterHistory: string[];
 
   error?: string;
   isLoading: boolean;

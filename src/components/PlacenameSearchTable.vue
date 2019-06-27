@@ -108,9 +108,9 @@
                 <v-flex grow pa-1>
                   <slot></slot>
                 </v-flex>
-                <v-flex shrink pa-1 mr-3>
+                <v-flex v-show="!!showTable" shrink pa-1 mr-3>
                   <span class="align-right justify-end">
-                    <v-btn icon @click="goToPageBefore" :disabled="loading">
+                    <v-btn icon @click="goToPageBefore" :disabled="loading || afterHistory.length === 0">
                       <v-icon>keyboard_arrow_left</v-icon>
                     </v-btn>
                     <v-btn icon @click="goToPageAfter" :disabled="loading || !meta.after">
@@ -179,14 +179,21 @@
       goToPageAfter() {
         if (!!this.meta.after) {
           console.log("goto page after", this.afterKey);
-          this.fetchData();
+          this.fetchData(this.afterKey);
         }
       },
       goToPageBefore() {
-        console.log("goto page before");
+        this.selectPreviousAggPage()
+        console.log("goto page before", this.afterKey);
+        this.fetchData(this.afterKey);
       },
-      getDataFromApi () {
+      getDataFromApi(after=null) {
         this.loading = true
+  
+        if (!!this.groupbyPlacename) {
+          this.recordCurrentAggPage();
+        }
+  
         return new Promise((resolve, reject) => {
           if (this.searchedTerm.length < 3 ) {
             this.loading = false
@@ -199,7 +206,7 @@
             sortParam: this.computedSortParam,
             pageNumber: page,
             pageSize: rowsPerPage,
-            after: this.afterKey
+            after: after
           }).then(r => {
             let items = Array.from(this.placenameItems.values())
             const total = this.meta.totalCount ? this.meta.totalCount : 0
@@ -207,14 +214,14 @@
               items,
               total
             })
-            this.loading = false
+            this.loading = false;
           })
           
         })
       },
       
-      fetchData() {
-        this.getDataFromApi()
+      fetchData(after) {
+        this.getDataFromApi(after)
           .then(data => {
             this.items = data.items
             this.totalItems = data.total
@@ -248,7 +255,7 @@
         }
       },
       
-      ...mapActions('placenames', ['fetchPlacename', 'searchPlacename', 'clearAll']),
+      ...mapActions('placenames', ['fetchPlacename', 'searchPlacename', 'clearAll', 'selectPreviousAggPage', 'recordCurrentAggPage']),
       ...mapActions('searchParameters', ['addSortField', 'updateSortField', 'removeSortField'])
     },
     
@@ -318,7 +325,7 @@
         return !!this.meta.after ? Object.values(this.meta.after).join(',') : null
       },
       ...
-        mapState('placenames', { placenameItems: 'items', meta: 'meta', selectedPlacename: 'selectedItem' }),
+        mapState('placenames', { placenameItems: 'items', meta: 'meta', selectedPlacename: 'selectedItem', afterHistory: 'afterHistory' }),
       ...
         mapState('searchParameters', ['sortFields', 'groupbyPlacename']),
       ...

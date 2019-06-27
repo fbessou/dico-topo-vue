@@ -10,7 +10,9 @@ export function getDefaultState(): PlacenameState {
     selectedItem: undefined,
 
     links: {},
-    meta: {totalCount: 0},
+    meta: {totalCount: 0, after: undefined},
+    afterHistory: [],
+
     error: undefined,
     isLoading: false
   }
@@ -28,10 +30,31 @@ export const mutations: MutationTree<PlacenameState> = {
     state.meta = meta
     state.error = undefined
   },
+  pushAfterHistory(state: PlacenameState) {
+    if (!!state.meta.after) {
+      state.afterHistory.push(state.meta.after)
+    }
+  }
+  ,
+  popAfterHistory(state: PlacenameState, meta) {
+    if (state.afterHistory.length > 0) {
+      state.afterHistory.pop()
+    }
+
+    if (state.afterHistory.length > 0) {
+      const previous = {after: state.afterHistory.pop()};
+      state.meta = Object.assign({}, state.meta, previous);
+      console.log("restoring", previous, state.meta);
+    } else {
+      console.log("going back to the first page");
+      state.meta = Object.assign({}, state.meta, {after: undefined});
+    }
+  },
   clearAll(state: PlacenameState, {links, meta}) {
     state.items = new Map<string, Placename>()
     state.links = links
     state.meta = meta
+    state.afterHistory = []
     state.error = undefined
   },
   selectItem(state, item) {

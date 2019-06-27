@@ -6,6 +6,10 @@ import {Links} from "@/store/types";
   export function getDefaultState(): MapMarkerState {
   return {
     items: new Map<string, MapMarker>(),
+
+    uniqueDepartments: [],
+    uniqueRegions: [],
+
     links: {},
     meta: {totalCount: 0},
     error: undefined,
@@ -30,11 +34,23 @@ export const mutations: MutationTree<MapMarkerState> = {
     state.meta = meta
     state.error = undefined
   },
+  addDepartment(state: MapMarkerState, d) {
+    if (state.uniqueDepartments.indexOf(d) === -1) {
+      state.uniqueDepartments.push(d);
+    }
+  },
+  addRegion(state: MapMarkerState, r) {
+    if (state.uniqueRegions.indexOf(r) === -1) {
+      state.uniqueRegions.push(r);
+    }
+  },
   clearAll(state: MapMarkerState) {
-    state.items = Object.assign(new Map<string, MapMarker>())
-    state.links = {}
-    state.meta = {totalCount: 0}
-    state.error = undefined
+    state.items = Object.assign(new Map<string, MapMarker>());
+    state.uniqueDepartments = Object.assign([]);
+    state.uniqueRegions = Object.assign([]);
+    state.links = {};
+    state.meta = {totalCount: 0};
+    state.error = undefined;
   },
   setError(state, message: string) {
     state.error = message

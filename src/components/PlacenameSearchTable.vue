@@ -1,9 +1,6 @@
 <template>
     <v-layout row wrap>
       <v-flex xs12>
-      
-      </v-flex>
-      <v-flex xs12>
           <v-data-table
             class="elevation-1 fixed-header v-table__overflow"
             style="position: fixed; bottom: 0;  max-height: 60%;"
@@ -28,6 +25,19 @@
                                  :action="(value) => toggleSortField(index, value)"
                 >
                 </stateful-button>
+                
+                <span v-if="!!h.filter">
+                   <v-btn icon small @click="filterStates[h.value] = !filterStates[h.value]">
+                     <v-icon small color="primary" v-if="filterSelections[h.value].length > 0">filter_list</v-icon>
+                     <v-icon small  v-else>filter_list</v-icon>
+                   </v-btn>
+                   <filter-result
+                     v-show="!!filterStates[h.value]"
+                     :items="h.filter"
+                     :on-change="h.filterCallback"
+                   ></filter-result>
+                 </span>
+                
               </th>
             </template>
             <template v-slot:items="props">
@@ -136,10 +146,13 @@
   import LinkingMenu from './ui/LinkingMenu'
   import ExportMenu from './ui/ExportMenu'
   import StatefulButton from './ui/StatefulButton'
-  
+  import FilterResult from './ui/FilterResult'
+  import Vue from 'vue';
+  import _ from 'lodash';
+
   export default {
     name: "PlacenameSearchTable",
-    components: { StatefulButton, LinkingMenu, ExportMenu },
+    components: { StatefulButton, LinkingMenu, ExportMenu, FilterResult },
     props: {
       searchedTerm: {type: String, default: ''},
       selectItemCallback: {type: Function},
@@ -150,8 +163,17 @@
         totalItems: 0,
         loading: true,
         items: [],
+
         pagination: { rowsPerPage: 100},
         numAggPage: 0,
+  
+        filterStates: {
+          department: false,
+        },
+        filterSelections: {
+          department: [],
+        },
+        
         maxPageSize: process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE > 0 ? process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE : 200,
       }
     },
@@ -166,18 +188,25 @@
       searchedTerm() {
         this.clearAll();
         this.numAggPage = 0;
+        this.pagination.page = 1;
         this.fetchData()
       },
       computedSortParam() {
+       this.pagination.page = 1;
+       this.fetchData();
+      },
+      computedFilterParam() {
+        this.pagination.page = 1;
+        console.log(this.computedFilterParam);
         this.fetchData();
       },
       groupbyPlacename() {
         this.numAggPage = 0;
+        this.pagination.page = 1;
         this.fetchData();
       }
     },
-    mounted () {
-    },
+
     methods: {
       capitalizeFirstLetter(str) {
         return str === null || str === undefined ? '' : str.charAt(0).toUpperCase() + str.slice(1)
@@ -213,6 +242,7 @@
           const { sortBy, descending, page, rowsPerPage } = this.pagination
           this.searchPlacename({
             query: this.searchedTerm,
+            filterParam: this.computedFilterParam,
             groupbyPlacename: this.groupbyPlacename,
             sortParam: this.computedSortParam,
             pageNumber: page,
@@ -230,15 +260,15 @@
           
         })
       },
-      
-      fetchData(after) {
-        this.getDataFromApi(after)
-          .then(data => {
-            this.items = data.items
-            this.totalItems = data.total
-          })
-      },
-      
+  
+      fetchData: _.debounce(function (after) {
+          this.getDataFromApi(after)
+            .then(data => {
+              this.items = data.items
+              this.totalItems = data.total
+            })
+        }, 500
+      ),
       selectItemWrapper(obj) {
         if (this.selectItemCallback) {
           const item = {
@@ -265,9 +295,12 @@
           }
         }
       },
-      
+      filterDepChanged (selected) {
+        Vue.set(this.filterSelections, 'department', !!selected ? selected : [])
+        this.setFilter({ filter: 'department', value: this.filterSelections.department });
+      },
       ...mapActions('placenames', ['fetchPlacename', 'searchPlacename', 'clearAll', 'selectPreviousAggPage', 'recordCurrentAggPage']),
-      ...mapActions('searchParameters', ['addSortField', 'updateSortField', 'removeSortField'])
+      ...mapActions('searchParameters', ['addSortField', 'updateSortField', 'removeSortField', 'setFilter'])
     },
     
     computed: {
@@ -311,18 +344,21 @@
           sortable: true,
           sortKey: 'dep-id.keyword',
           sorted: undefined,
+          filter: this.uniqueDepartments,
+          filtered: undefined,
+          filterCallback: this.filterDepChanged,
         };
         const desc = {
-            text: 'Description',
-            value: 'description',
-            align: 'left',
-            sortable: false,
+          text: 'Description',
+          value: 'description',
+          align: 'left',
+          sortable: false,
         };
         const linking = {
-            text: '',
-            value: 'linking',
-            align: 'right',
-            sortable: false
+          text: '',
+          value: 'linking',
+          align: 'right',
+          sortable: false
         };
         
         if (!!this.groupbyPlacename) {
@@ -335,12 +371,10 @@
       afterKey() {
         return !!this.meta.after ? Object.values(this.meta.after).join(',') : null
       },
-      ...
-        mapState('placenames', { placenameItems: 'items', meta: 'meta', selectedPlacename: 'selectedItem', afterHistory: 'afterHistory' }),
-      ...
-        mapState('searchParameters', ['sortFields', 'groupbyPlacename']),
-      ...
-        mapGetters('searchParameters', ['computedSortParam', 'getSortParam'])
+      ...mapState('placenames', { placenameItems: 'items', meta: 'meta', selectedPlacename: 'selectedItem', afterHistory: 'afterHistory' }),
+      ...mapState('searchParameters', ['sortFields', 'groupbyPlacename', 'depFilter']),
+      ...mapState('mapmarkers', ['uniqueDepartments']),
+      ...mapGetters('searchParameters', ['computedSortParam', 'computedFilterParam', 'getSortParam'])
     }
   }
 </script>

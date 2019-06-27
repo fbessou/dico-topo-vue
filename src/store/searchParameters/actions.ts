@@ -23,5 +23,12 @@ export const actions: ActionTree<QueryState, RootState> = {
   },
   removeSortField({commit, state, rootState}, field): any {
     commit('removeSortField', field)
-  }
+  },
+  setFilter({commit, state, rootState}, {filter, value}): any {
+    switch (filter) {
+      case "department":
+        commit('setDepFilter', value);
+        break;
+    }
+  },
 };

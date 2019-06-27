@@ -36,7 +36,7 @@ export const actions: ActionTree<PlacenameState, RootState> = {
   recordCurrentAggPage({commit, state, rootState}, after) {
     commit("pushAfterHistory");
   },
-  searchPlacename({commit, rootState}, {query, groupbyPlacename, sortParam, pageSize, pageNumber, after}): any {
+  searchPlacename({commit, rootState}, {query, filterParam, groupbyPlacename, sortParam, pageSize, pageNumber, after}): any {
     commit('setLoading', true)
     const index = `${process.env.VUE_APP_PLACENAME_INDEX}`;
     const maxPageSize: number = process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE;
@@ -44,8 +44,9 @@ export const actions: ActionTree<PlacenameState, RootState> = {
     const psize = `&page[size]=${pageSize > maxPageSize || pageSize === -1 ? maxPageSize : pageSize}`;
     const pnum = `&page[number]=${pageNumber > 0 ? pageNumber : 1}`;
     const sort = !!sortParam ? `&sort=${sortParam}` : '';
+    const filteredQuery = !!filterParam ? `${query} AND ${filterParam}` : query;
 
-    const url = !!groupbyPlacename ? makeAggUrl(query, groupbyPlacename, sort, psize, after) : makeUrl(query, sort, psize, pnum);
+    const url = !!groupbyPlacename ? makeAggUrl(filteredQuery, groupbyPlacename, sort, psize, after) : makeUrl(filteredQuery, sort, psize, pnum);
 
     return api.get(url)
       .then((res: ApiResponse<any>) => {

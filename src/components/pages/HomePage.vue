@@ -41,9 +41,12 @@
             @click="showTabularResults = !showTabularResults"
           >
             <v-icon>list</v-icon>
-            <span>{{meta.totalCount}} {{groupbyPlacename ? (meta.totalCount > 1 ?'lieux': 'lieux') : (meta.totalCount > 1 ? 'toponymes': 'toponyme')}}</span>
-            <v-icon>keyboard_arrow_down</v-icon>
-  
+            <span >
+              {{!showTabularResults ? 'Afficher' : 'Masquer'}} les {{groupbyPlacename ? (meta.totalCount > 1 ?'lieux': 'lieux') : (meta.totalCount > 1 ? 'toponymes': 'toponyme')}}
+            </span>
+            <v-icon v-if="!!showTabularResults">keyboard_arrow_down</v-icon>
+            <v-icon v-else>keyboard_arrow_up</v-icon>
+
           </v-btn>
         </placename-search-table>
       </div>

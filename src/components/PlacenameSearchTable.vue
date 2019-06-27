@@ -103,17 +103,23 @@
           </v-data-table>
         
           <div v-if="!!groupbyPlacename"
-               class="fixed-agg-footer">
-              <v-layout row>
-                <v-flex grow pa-1>
+               class="fixed-agg-footer elevation-3">
+              <v-layout row justify-space-between text-xs-center>
+                <v-flex  xs3 pa-1>
+                </v-flex>
+                <v-flex xs3 pa-1>
                   <slot></slot>
                 </v-flex>
-                <v-flex v-show="!!showTable" shrink pa-1 mr-3>
-                  <span class="align-right justify-end">
+                <v-flex xs3 pa-1 mr-3 class="text-xs-right">
+                  <span v-show="!!showTable">
+                    <span v-show="!loading">
+                       Lieux {{(numAggPage * pagination.rowsPerPage) + 1}} - {{(numAggPage * pagination.rowsPerPage)  + items.length}}  sur {{ totalItems }}
+                    </span>
+
                     <v-btn icon @click="goToPageBefore" :disabled="loading || afterHistory.length === 0">
                       <v-icon>keyboard_arrow_left</v-icon>
                     </v-btn>
-                    <v-btn icon @click="goToPageAfter" :disabled="loading || !meta.after">
+                    <v-btn icon @click="goToPageAfter" :disabled="loading || !meta.after || ((numAggPage * pagination.rowsPerPage)  + items.length) >= totalItems">
                       <v-icon>keyboard_arrow_right</v-icon>
                     </v-btn>
                   </span>
@@ -145,6 +151,7 @@
         loading: true,
         items: [],
         pagination: { rowsPerPage: 100},
+        numAggPage: 0,
         maxPageSize: process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE > 0 ? process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE : 200,
       }
     },
@@ -158,12 +165,14 @@
       },
       searchedTerm() {
         this.clearAll();
+        this.numAggPage = 0;
         this.fetchData()
       },
       computedSortParam() {
         this.fetchData();
       },
       groupbyPlacename() {
+        this.numAggPage = 0;
         this.fetchData();
       }
     },
@@ -180,12 +189,14 @@
         if (!!this.meta.after) {
           console.log("goto page after", this.afterKey);
           this.fetchData(this.afterKey);
+          this.numAggPage += 1;
         }
       },
       goToPageBefore() {
         this.selectPreviousAggPage()
         console.log("goto page before", this.afterKey);
         this.fetchData(this.afterKey);
+        this.numAggPage += -1;
       },
       getDataFromApi(after=null) {
         this.loading = true
@@ -341,7 +352,11 @@
     bottom: 0;
     width: 100%;
     height: 56px;
-    background-color: #fafafa;
+    background-color: #f5f5f5;
+    border-top: 1px solid lightgrey;
+    color: grey;
+    font-family: Roboto, sans-serif;
+    font-size: 12px;
   }
   
   /* Theme */
@@ -361,7 +376,7 @@
     position: sticky;
     top: 0;
     z-index: 5;
-    background-color: #fafafa;
+    background-color: #f5f5f5;
   }
 
   .fixed-header th:after {

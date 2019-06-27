@@ -1,7 +1,7 @@
 <template>
     <v-layout row wrap>
       <v-flex xs12>
-        <slot></slot>
+      
       </v-flex>
       <v-flex xs12>
           <v-data-table
@@ -15,6 +15,7 @@
             :loading="loading"
             rows-per-page-text="Nombre d'éléments par page"
             :rows-per-page-items="[100,200,maxPageSize]"
+            :hide-actions="!!groupbyPlacename"
           >
             <template v-slot:headers>
               <th v-for="(h, index) in headers" :key="h.text" class="table-header">
@@ -73,9 +74,9 @@
               </td>
               <td class="text-xs-center" style="width: 50px;">{{ props.item.department }}</td>
               <td class="text-xs-left">{{ cleanStr(props.item.description) }}</td>
-              <td>
+              <td style="width: 240px;">
                 <v-layout align-center justify-end row fill-height>
-                  <v-flex shrink sm3>
+                  <v-flex  sm3>
                     <linking-menu
                       :geoname-id="props.item.geoname_id"
                       :wikidata-item-id="props.item.wikidata_item_id"
@@ -85,7 +86,7 @@
                     >
                     </linking-menu>
                   </v-flex>
-                  <v-flex shrink sm2>
+                  <v-flex sm3>
                     <export-menu
                       :placename-id="props.item.type === 'placename' ? props.item.id: props.item.placenameId">
                     </export-menu>
@@ -97,7 +98,29 @@
             <template v-slot:pageText="props">
               Toponymes {{ props.pageStart }} - {{ props.pageStop }} sur {{ props.itemsLength }}
             </template>
+  
+
           </v-data-table>
+        
+          <div v-if="!!groupbyPlacename"
+               class="fixed-agg-footer">
+              <v-layout row>
+                <v-flex grow pa-1>
+                  <slot></slot>
+                </v-flex>
+                <v-flex shrink pa-1 mr-3>
+                  <span class="align-right justify-end">
+                    <v-btn icon @click="goToPageBefore" :disabled="loading">
+                      <v-icon>keyboard_arrow_left</v-icon>
+                    </v-btn>
+                    <v-btn icon @click="goToPageAfter" :disabled="loading || !meta.after">
+                      <v-icon>keyboard_arrow_right</v-icon>
+                    </v-btn>
+                  </span>
+                </v-flex>
+              </v-layout>
+          </div>
+        
       </v-flex>
     </v-layout>
 </template>
@@ -128,11 +151,13 @@
     watch: {
       pagination: {
         handler () {
+          console.log("pagination:", this.pagination)
           this.fetchData()
         },
         deep: true
       },
       searchedTerm() {
+        this.clearAll();
         this.fetchData()
       },
       computedSortParam() {
@@ -151,7 +176,15 @@
       cleanStr(str) {
         return str === null || str === undefined ? '' : this.capitalizeFirstLetter(str.replace(/<[^>]*>/g, '').trim())
       },
-      
+      goToPageAfter() {
+        if (!!this.meta.after) {
+          console.log("goto page after", this.afterKey);
+          this.fetchData();
+        }
+      },
+      goToPageBefore() {
+        console.log("goto page before");
+      },
       getDataFromApi () {
         this.loading = true
         return new Promise((resolve, reject) => {
@@ -166,7 +199,7 @@
             sortParam: this.computedSortParam,
             pageNumber: page,
             pageSize: rowsPerPage,
-            after: null
+            after: this.afterKey
           }).then(r => {
             let items = Array.from(this.placenameItems.values())
             const total = this.meta.totalCount ? this.meta.totalCount : 0
@@ -215,7 +248,7 @@
         }
       },
       
-      ...mapActions('placenames', ['fetchPlacename', 'searchPlacename']),
+      ...mapActions('placenames', ['fetchPlacename', 'searchPlacename', 'clearAll']),
       ...mapActions('searchParameters', ['addSortField', 'updateSortField', 'removeSortField'])
     },
     
@@ -238,9 +271,9 @@
           sorted: undefined,
         };
         const article = {
-          text: 'Article',
+          text: 'Lieux',
           align: 'left',
-          value: 'article',
+          value: 'lieux',
           sortable: true,
           sortKey: 'placename-label.keyword',
           sorted: true,
@@ -280,6 +313,10 @@
           return [localisation, toponym, article, dep, desc, linking];
         }
       },
+      
+      afterKey() {
+        return !!this.meta.after ? Object.values(this.meta.after).join(',') : null
+      },
       ...
         mapState('placenames', { placenameItems: 'items', meta: 'meta', selectedPlacename: 'selectedItem' }),
       ...
@@ -292,13 +329,21 @@
 
 <style>
   
+  .fixed-agg-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 56px;
+    background-color: #fafafa;
+  }
+  
   /* Theme */
   .fixed-header {
     display: flex;
     flex-direction: column;
     height: 100%;
     background-color: white;
-  
+    bottom: 56px !important;
   }
 
   .fixed-header table {
@@ -321,7 +366,7 @@
   }
 
   .fixed-header tr.v-datatable__progress th {
-    height: 2px;
+    height: 1px;
   }
 
   .fixed-header .v-table__overflow {

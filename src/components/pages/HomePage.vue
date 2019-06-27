@@ -41,7 +41,7 @@
             @click="showTabularResults = !showTabularResults"
           >
             <v-icon>list</v-icon>
-            <span>{{meta.totalCount}} {{groupbyPlacename ? 'article' : 'toponyme'}}(s)</span>
+            <span>{{meta.totalCount}} {{groupbyPlacename ? (meta.totalCount > 1 ?'lieux': 'lieux') : (meta.totalCount > 1 ? 'toponymes': 'toponyme')}}</span>
             <v-icon>keyboard_arrow_down</v-icon>
   
           </v-btn>

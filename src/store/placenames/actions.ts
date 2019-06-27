@@ -24,6 +24,12 @@ export const actions: ActionTree<PlacenameState, RootState> = {
   unselectPlacename({commit, state, rootState}): any {
     commit('unselectItem')
   },
+  clearAll({commit}) {
+    commit('clearAll', {
+      links: {},
+      meta: {totalCount: 0}
+    });
+  },
   searchPlacename({commit, rootState}, {query, groupbyPlacename, sortParam, pageSize, pageNumber, after}): any {
     commit('setLoading', true)
     const index = `${process.env.VUE_APP_PLACENAME_INDEX}`;
@@ -34,8 +40,6 @@ export const actions: ActionTree<PlacenameState, RootState> = {
     const sort = !!sortParam ? `&sort=${sortParam}` : '';
 
     const url = !!groupbyPlacename ? makeAggUrl(query, groupbyPlacename, sort, psize, after) : makeUrl(query, sort, psize, pnum);
-
-    console.log(groupbyPlacename);
 
     return api.get(url)
       .then((res: ApiResponse<any>) => {

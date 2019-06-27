@@ -27,7 +27,6 @@
       } else {
         this.state = 2;
       }
-      console.log("but", this.active, this.state)
     },
     methods: {
       callAction() {

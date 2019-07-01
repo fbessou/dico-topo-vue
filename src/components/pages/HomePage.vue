@@ -13,20 +13,6 @@
       >
       </v-text-field>
 
-      <v-btn
-        v-if="inputTerm && inputTerm.length >= minTermLength"
-        color="primary"
-        outline
-        dark
-        style="margin-left: 20px; margin-right: 12px"
-        small
-        depressed
-        @click="showTabularResults = !showTabularResults && meta.totalCount > 0"
-      >
-        <v-icon>list</v-icon>
-        {{meta.totalCount}} résultat(s) {{ /*  markers:  Array.from(mapMarkerItems.values()).length */ }}
-      </v-btn>
-  
       <search-options-menu
         :on-open="unselectPlacename"
         :on-options-change="onSearchOptionsChange">
@@ -37,14 +23,32 @@
       <div style="height:100%">
         <my-awesome-map
           :on-marker-click="selectPlacename"
-          :on-map-click="unselectPlacename"
+          :on-map-click="onMapClickCallback"
           :use-fly-animation="false"
         >
         </my-awesome-map>
+        
         <placename-search-table
-          v-show="term && term.length >= minTermLength && meta.totalCount > 0"
+          v-show="!!inputTerm && !!term && term.length >= minTermLength && meta.totalCount > 0"
           :searched-term="query"
-          :select-item-callback="selectPlacenameOnMap">
+          :select-item-callback="selectPlacenameOnMap"
+          :show-table="showTabularResults"
+        >
+  
+          <v-btn
+            v-if="inputTerm && inputTerm.length >= minTermLength && meta.totalCount > 0"
+            depressed
+            @click="showTabularResults = !showTabularResults"
+            class="red--text darken-2"
+          >
+            <v-icon>list</v-icon>
+            <span class="mr-2">
+              {{!showTabularResults ? 'Afficher' : 'Masquer'}} les {{groupbyPlacename ? (meta.totalCount > 1 ?'lieux': 'lieux') : (meta.totalCount > 1 ? 'toponymes': 'toponyme')}}
+            </span>
+            <v-icon v-if="!!showTabularResults">keyboard_arrow_down</v-icon>
+            <v-icon v-else>keyboard_arrow_up</v-icon>
+
+          </v-btn>
         </placename-search-table>
       </div>
       <placename-card v-if="selectedPlacename"></placename-card>
@@ -78,7 +82,7 @@
         
         inputTerm: undefined,
         selectedPlacenameId: undefined,
-        showTabularResults: false
+        showTabularResults: true
       }
     },
     mounted () {
@@ -103,6 +107,7 @@
         this.setMarkersLoading(true)
         return this.searchMapMarker({
           query: this.query,
+          filterParam: this.computedFilterParam,
           nextLink: nextLink,
           pageSize: this.maxMarkerPerBatch
         }).then(next => {
@@ -117,6 +122,7 @@
       },
       onSearchOptionsChange (options) {
         this.setIncludeOldLabels(options['includeOldLabels'])
+        this.setGroupbyPlacename(options['groupbyPlacename'])
         this.initSearch()
       },
       selectPlacenameOnMap (obj) {
@@ -126,10 +132,14 @@
           this.unselectPlacename()
         }
       },
+      onMapClickCallback() {
+        this.unselectPlacename();
+        this.showTabularResults = false;
+      },
       ...mapActions('mapmarkers', ['searchMapMarker', 'clearMapMarkers', 'setMarkersLoading']),
       ...mapActions('placenames', ['selectPlacename', 'unselectPlacename']),
       ...mapActions('placenameCard', ['clearPlacenameCard']),
-      ...mapActions('searchParameters', ['setTerm', 'setIncludeOldLabels'])
+      ...mapActions('searchParameters', ['setTerm', 'setIncludeOldLabels', 'setGroupbyPlacename'])
     },
     watch: {
       meta(val) {
@@ -139,6 +149,9 @@
         }
       },
       inputTerm (val) {
+        this.startNewSearch();
+      },
+      computedFilterParam() {
         this.startNewSearch();
       },
       query() {
@@ -154,9 +167,8 @@
       },
       ...mapState('placenames', { selectedPlacename: 'selectedItem', meta: 'meta' }),
       ...mapState('mapmarkers', { mapMarkersAreLoading: 'isLoading', mapMarkerItems: 'items'}),
-      ...mapState('searchParameters', ['term', 'includeOldLabels', 'minTermLength']),
-      ...mapGetters('searchParameters', ['query'])
-  
+      ...mapState('searchParameters', ['term', 'includeOldLabels', 'groupbyPlacename', 'minTermLength']),
+      ...mapGetters('searchParameters', ['query', 'computedFilterParam'])
     }
   }
 </script>

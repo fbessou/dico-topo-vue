@@ -21,9 +21,9 @@
         state: 2
       }
     },
-    created() {
+    mounted() {
       if (!this.disabled) {
-        this.state = this.active ? 1 : 0
+        this.state = !!this.active ? 1 : 0;
       } else {
         this.state = 2;
       }

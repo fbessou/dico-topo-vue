@@ -11,4 +11,5 @@ export interface Links {
 
 export interface Meta {
   totalCount?: number;
+  after?: string;
 }

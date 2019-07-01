@@ -5,6 +5,18 @@ import {api} from "@/utils/http-common";
 import {ApiResponse} from "apisauce";
 
 
+
+function makeUrl(query: String, sort: String, pageSize: String, pageNumber: String) {
+  return `/search?query=${query}${sort}${pageSize}${pageNumber}`;
+}
+
+function makeAggUrl(query: String, groupby: String, sort: String, pageSize: String, pageAfter: String) {
+  const agg = `&groupby[doc-type]=placename&groupby[field]=placename-id.keyword`;
+  const after = !!pageAfter ? `&page[after]=${pageAfter}` : ''
+
+  return `/search?query=${query}${agg}${sort}${pageSize}${after}`;
+}
+
 export const actions: ActionTree<PlacenameState, RootState> = {
   selectPlacename({commit, state, rootState}, placename): any {
     commit('selectItem', placename)
@@ -12,16 +24,31 @@ export const actions: ActionTree<PlacenameState, RootState> = {
   unselectPlacename({commit, state, rootState}): any {
     commit('unselectItem')
   },
-  searchPlacename({commit, rootState}, {query, sortParam, pageSize, pageNumber}): any {
+  clearAll({commit}, meta) {
+    commit('clearAll', {
+      links: {},
+      meta: {totalCount: 0, ...meta}
+    });
+  },
+  selectPreviousAggPage({commit, state, rootState}) {
+    commit("popAfterHistory");
+  },
+  recordCurrentAggPage({commit, state, rootState}, after) {
+    commit("pushAfterHistory");
+  },
+  searchPlacename({commit, rootState}, {query, filterParam, groupbyPlacename, sortParam, pageSize, pageNumber, after}): any {
     commit('setLoading', true)
-    const index = `${process.env.VUE_APP_PLACENAME_INDEX}`
-    const maxPageSize: number = process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE
-    const searchPageSize = pageSize > maxPageSize || pageSize === -1 ? maxPageSize: pageSize
-    const searchPageNumber = pageNumber > 0 ? pageNumber : 1
-    const sort = !!sortParam ? `&sort=${sortParam}` : '';
-    console.warn(sort);
+    const index = `${process.env.VUE_APP_PLACENAME_INDEX}`;
+    const maxPageSize: number = process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE;
 
-    return api.get(`/search?query=${query}&index=${index}${sort}&page[size]=${searchPageSize}&page[number]=${searchPageNumber}`)
+    const psize = `&page[size]=${pageSize > maxPageSize || pageSize === -1 ? maxPageSize : pageSize}`;
+    const pnum = `&page[number]=${pageNumber > 0 ? pageNumber : 1}`;
+    const sort = !!sortParam ? `&sort=${sortParam}` : '';
+    const filteredQuery = !!filterParam ? `${query} AND ${filterParam}` : query;
+
+    const url = !!groupbyPlacename ? makeAggUrl(filteredQuery, groupbyPlacename, sort, psize, after) : makeUrl(filteredQuery, sort, psize, pnum);
+
+    return api.get(url)
       .then((res: ApiResponse<any>) => {
         const {ok, data} = res;
         if (ok) {
@@ -37,6 +64,7 @@ export const actions: ActionTree<PlacenameState, RootState> = {
 
                   label: p.attributes["placename-label"],
                   placenameLabel: p.attributes["placename-label"],
+                  oldLabels: p.attributes["old-labels"].reverse(),
                   description: p.attributes["desc"],
                   comment: p.attributes["comment"],
 
@@ -59,6 +87,7 @@ export const actions: ActionTree<PlacenameState, RootState> = {
                   label: p.attributes["rich-label"],
 
                   placenameId: p.attributes["placename-id"],
+                  oldLabels: [],
                   placenameLabel: p.attributes["placename-label"],
                   description: p.attributes["placename-desc"],
 
@@ -77,7 +106,15 @@ export const actions: ActionTree<PlacenameState, RootState> = {
             }
             return item
           })
-          commit('setItems', {p: items, links: data.links, meta: {totalCount: data.meta["total-count"]}})
+
+          let  meta : any = {
+            totalCount: data.meta["total-count"]
+          };
+          if (!!data.meta["after"]) {
+            meta["after"] = data.meta["after"];
+          }
+
+          commit('setItems', {p: items, links: data.links, meta: meta})
         } else {
           commit('setError', data)
           commit('setLoading', false)

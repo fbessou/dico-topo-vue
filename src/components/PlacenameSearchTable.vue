@@ -1,8 +1,11 @@
 <template>
-    <v-layout row wrap>
-      <v-flex xs12>
-          <v-data-table
-            class="elevation-1 fixed-header v-table__overflow"
+    <div>
+        <div v-if="showTable" class="toggle-table-down" @click="showTable = !showTable">
+          <slot></slot>
+        </div>
+      
+        <v-data-table
+            class="elevation-4 fixed-header v-table__overflow"
             style="position: fixed; bottom: 0;  max-height: 60%;"
             v-show="showTable"
             :headers="headers"
@@ -13,8 +16,9 @@
             rows-per-page-text="Nombre d'éléments par page"
             :rows-per-page-items="[100,200,maxPageSize]"
             hide-actions
+            color="rgb(211, 47, 47)"
           >
-            <template v-slot:headers>
+          <template v-slot:headers>
               <th v-for="(h, index) in headers" :key="h.text" class="table-header">
                 {{h.text}}
                 <stateful-button v-if="!!h.sortable"
@@ -104,26 +108,25 @@
                 </v-layout>
               </td>
             </template>
-    
             <template v-slot:pageText="props">
               Toponymes {{ props.pageStart }} - {{ props.pageStop }} sur {{ props.itemsLength }}
             </template>
-  
-
           </v-data-table>
-        
-          <div
+        <!-- FOOTER  -->
+        <div v-show="!showTable" class="toggle-table-up" @click="showTable = !showTable">
+          <slot></slot>
+        </div>
+        <div v-show="!!showTable"
                class="fixed-agg-footer elevation-3">
               <v-layout row justify-space-between text-xs-center>
                 <v-flex  xs3 pa-1>
                 </v-flex>
                 
                 <v-flex xs3 pa-1>
-                  <slot></slot>
                 </v-flex>
                 
                 <v-flex xs3 pa-1 mr-3 class="text-xs-right">
-                  <span v-show="!!showTable">
+                  <span >
         
                     <span v-if="!!groupbyPlacename">
                       <span >
@@ -156,9 +159,7 @@
                 </v-flex>
               </v-layout>
           </div>
-        
-      </v-flex>
-    </v-layout>
+    </div>
 </template>
 
 <script>
@@ -175,15 +176,15 @@
     components: { StatefulButton, LinkingMenu, ExportMenu, FilterResult },
     props: {
       searchedTerm: {type: String, default: ''},
-      selectItemCallback: {type: Function},
-      showTable: {type: Boolean}
+      selectItemCallback: {type: Function}
     },
     data () {
       return {
         totalItems: 0,
         loading: true,
         items: [],
-
+        showTable: true,
+        
         pagination: { rowsPerPage: 100},
         numAggPage: 0,
   
@@ -352,15 +353,15 @@
           sorted: undefined,
         };
         const article = {
-          text: 'Lieux',
+          text: 'Lieu',
           align: 'left',
-          value: 'lieux',
+          value: 'lieu',
           sortable: true,
           sortKey: 'placename-label.keyword',
           sorted: true,
         };
         const oldLabels = {
-          text: 'Forme(s) ancienne(s)',
+          text: 'Formes anciennes',
           value: 'old-labels',
           align: 'center',
           sortable: false,
@@ -421,6 +422,25 @@
     color: grey;
     font-family: Roboto, sans-serif;
     font-size: 12px;
+  }
+  
+  .toggle-table-down {
+    position: fixed;
+    bottom: 60%;
+    width: 100px;
+    margin-bottom: 48px;
+    left: calc(50% - 44px);
+    /* z-index: 1000; */
+  }
+
+  .toggle-table-up {
+    position: fixed;
+    bottom: 0;
+    width: 100px;
+    margin: auto;
+    /* z-index: 1000; */
+    left: calc(50% - 44px);
+  
   }
   
   /* Theme */

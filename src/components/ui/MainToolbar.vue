@@ -13,7 +13,7 @@
     
     <v-spacer></v-spacer>
     
-    <slot ></slot>
+    <slot></slot>
     
     <v-spacer></v-spacer>
     

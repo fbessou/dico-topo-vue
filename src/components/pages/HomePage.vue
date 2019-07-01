@@ -10,13 +10,34 @@
         :autofocus="true"
         :loading="mapMarkersAreLoading"
         clearable
+        style="width: 0"
+        color="rgb(211, 47, 47)"
       >
       </v-text-field>
 
-      <search-options-menu
-        :on-open="unselectPlacename"
-        :on-options-change="onSearchOptionsChange">
-      </search-options-menu>
+        <span  class="toolbar-buttons">
+           <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <span v-on="on">Toponymes</span>
+            </template>
+            <span>Les résultats de la recherche ne sont pas groupés par lieu identifié mais par forme toponymique</span>
+           </v-tooltip>
+          
+            <v-switch
+              class="ml-1"
+              v-model="groupByOption"
+              color="red darken-2"
+              :disabled="mapMarkersAreLoading">
+            </v-switch>
+    
+            <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <span v-on="on">Lieux</span>
+            </template>
+            <span>Les résultats de la recherche sont groupés par lieu identifié</span>
+           </v-tooltip>
+        </span>
+
     </main-toolbar>
     
     <v-content>
@@ -27,24 +48,20 @@
           :use-fly-animation="false"
         >
         </my-awesome-map>
-        
+  
+ 
         <placename-search-table
           v-show="!!inputTerm && !!term && term.length >= minTermLength && meta.totalCount > 0"
           :searched-term="query"
           :select-item-callback="selectPlacenameOnMap"
-          :show-table="showTabularResults"
         >
   
           <v-btn
             v-if="inputTerm && inputTerm.length >= minTermLength && meta.totalCount > 0"
-            depressed
+            depressed small
             @click="showTabularResults = !showTabularResults"
-            class="red--text darken-2"
+            class="red--text white darken-2"
           >
-            <v-icon>list</v-icon>
-            <span class="mr-2">
-              {{!showTabularResults ? 'Afficher' : 'Masquer'}} les {{groupbyPlacename ? (meta.totalCount > 1 ?'lieux': 'lieux') : (meta.totalCount > 1 ? 'toponymes': 'toponyme')}}
-            </span>
             <v-icon v-if="!!showTabularResults">keyboard_arrow_down</v-icon>
             <v-icon v-else>keyboard_arrow_up</v-icon>
 
@@ -82,7 +99,9 @@
         
         inputTerm: undefined,
         selectedPlacenameId: undefined,
-        showTabularResults: true
+        showTabularResults: true,
+  
+        groupByOption: true
       }
     },
     mounted () {
@@ -120,11 +139,6 @@
           this.setMarkersLoading(false)
         })
       },
-      onSearchOptionsChange (options) {
-        this.setIncludeOldLabels(options['includeOldLabels'])
-        this.setGroupbyPlacename(options['groupbyPlacename'])
-        this.initSearch()
-      },
       selectPlacenameOnMap (obj) {
         if (!!obj) {
           this.selectPlacename(obj)
@@ -151,6 +165,11 @@
       inputTerm (val) {
         this.startNewSearch();
       },
+      groupByOption() {
+        //this.setIncludeOldLabels(options['includeOldLabels'])
+        this.setGroupbyPlacename(this.groupByOption)
+        this.initSearch()
+      },
       computedFilterParam() {
         this.startNewSearch();
       },
@@ -174,6 +193,19 @@
 </script>
 
 <style>
+  .toolbar-buttons {
+    display: flex;
+    line-height: 32px;
+    margin-top: 20px;
+    margin-left: 32px;
+    color: grey;
+    font-family: Roboto, sans-serif;
+  }
+
+  .toolbar-buttons span {
+    display: inline-block;
+    vertical-align: middle;
+  }
 
   body:after {
     z-index: 100000;

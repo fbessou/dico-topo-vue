@@ -23,7 +23,7 @@
       <div style="height:100%">
         <my-awesome-map
           :on-marker-click="selectPlacename"
-          :on-map-click="unselectPlacename"
+          :on-map-click="onMapClickCallback"
           :use-fly-animation="false"
         >
         </my-awesome-map>
@@ -39,9 +39,10 @@
             v-if="inputTerm && inputTerm.length >= minTermLength && meta.totalCount > 0"
             depressed
             @click="showTabularResults = !showTabularResults"
+            class="red--text darken-2"
           >
             <v-icon>list</v-icon>
-            <span >
+            <span class="mr-2">
               {{!showTabularResults ? 'Afficher' : 'Masquer'}} les {{groupbyPlacename ? (meta.totalCount > 1 ?'lieux': 'lieux') : (meta.totalCount > 1 ? 'toponymes': 'toponyme')}}
             </span>
             <v-icon v-if="!!showTabularResults">keyboard_arrow_down</v-icon>
@@ -130,6 +131,10 @@
         } else {
           this.unselectPlacename()
         }
+      },
+      onMapClickCallback() {
+        this.unselectPlacename();
+        this.showTabularResults = false;
       },
       ...mapActions('mapmarkers', ['searchMapMarker', 'clearMapMarkers', 'setMarkersLoading']),
       ...mapActions('placenames', ['selectPlacename', 'unselectPlacename']),

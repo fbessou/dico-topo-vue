@@ -12,7 +12,7 @@
             :loading="loading"
             rows-per-page-text="Nombre d'éléments par page"
             :rows-per-page-items="[100,200,maxPageSize]"
-            :hide-actions="!!groupbyPlacename"
+            hide-actions
           >
             <template v-slot:headers>
               <th v-for="(h, index) in headers" :key="h.text" class="table-header">
@@ -112,26 +112,46 @@
 
           </v-data-table>
         
-          <div v-if="!!groupbyPlacename"
+          <div
                class="fixed-agg-footer elevation-3">
               <v-layout row justify-space-between text-xs-center>
                 <v-flex  xs3 pa-1>
                 </v-flex>
+                
                 <v-flex xs3 pa-1>
                   <slot></slot>
                 </v-flex>
+                
                 <v-flex xs3 pa-1 mr-3 class="text-xs-right">
                   <span v-show="!!showTable">
-                    <span v-show="!loading">
-                       Lieux {{(numAggPage * pagination.rowsPerPage) + 1}} - {{(numAggPage * pagination.rowsPerPage)  + items.length}}  sur {{ totalItems }}
+        
+                    <span v-if="!!groupbyPlacename">
+                      <span >
+                         Lieux {{(numAggPage * pagination.rowsPerPage) + 1}} - {{(numAggPage * pagination.rowsPerPage)  + items.length}}  sur {{ totalItems }}
+                      </span>
+                      <v-btn icon @click="goToPageBefore" :disabled="loading || numAggPage === 0">
+                        <v-icon>keyboard_arrow_left</v-icon>
+                      </v-btn>
+                      <v-btn icon @click="goToPageAfter"
+                             :disabled="loading || !meta.after || ((numAggPage * pagination.rowsPerPage)  + items.length) >= totalItems">
+                        <v-icon>keyboard_arrow_right</v-icon>
+                      </v-btn>
                     </span>
-
-                    <v-btn icon @click="goToPageBefore" :disabled="loading || afterHistory.length === 0">
-                      <v-icon>keyboard_arrow_left</v-icon>
-                    </v-btn>
-                    <v-btn icon @click="goToPageAfter" :disabled="loading || !meta.after || ((numAggPage * pagination.rowsPerPage)  + items.length) >= totalItems">
-                      <v-icon>keyboard_arrow_right</v-icon>
-                    </v-btn>
+                    
+                    <span v-else>
+                      <span>
+                         Toponymes {{(pagination.page - 1) * pagination.rowsPerPage + 1}} - {{((pagination.page -1) * pagination.rowsPerPage) + items.length}}  sur {{ totalItems }}
+                      </span>
+                      <v-btn icon @click="goToPageBefore" :disabled="loading || pagination.page <= 1">
+                        <v-icon>keyboard_arrow_left</v-icon>
+                      </v-btn>
+                      <v-btn icon @click="goToPageAfter"
+                             :disabled="loading || (((pagination.page - 1) * pagination.rowsPerPage) + items.length) >= totalItems">
+                        <v-icon>keyboard_arrow_right</v-icon>
+                      </v-btn>
+                    </span>
+ 
+ 
                   </span>
                 </v-flex>
               </v-layout>
@@ -215,17 +235,27 @@
         return str === null || str === undefined ? '' : this.capitalizeFirstLetter(str.replace(/<[^>]*>/g, '').trim())
       },
       goToPageAfter() {
-        if (!!this.meta.after) {
-          console.log("goto page after", this.afterKey);
-          this.fetchData(this.afterKey);
-          this.numAggPage += 1;
+        if (!!this.groupbyPlacename) {
+          if (!!this.meta.after) {
+            console.log("goto page after", this.afterKey);
+            this.fetchData(this.afterKey);
+            this.numAggPage += 1;
+          }
+        } else {
+          this.pagination.page += 1;
+          this.fetchData();
         }
       },
       goToPageBefore() {
-        this.selectPreviousAggPage()
-        console.log("goto page before", this.afterKey);
-        this.fetchData(this.afterKey);
-        this.numAggPage += -1;
+        if (!!this.groupbyPlacename) {
+          this.selectPreviousAggPage()
+          console.log("goto page before", this.afterKey);
+          this.fetchData(this.afterKey);
+          this.numAggPage += -1;
+        } else {
+          this.pagination.page += -1;
+          this.fetchData();
+        }
       },
       getDataFromApi(after=null) {
         this.loading = true

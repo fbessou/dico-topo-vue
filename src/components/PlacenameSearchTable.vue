@@ -12,7 +12,6 @@
             :items="items"
             :pagination.sync="pagination"
             :total-items="totalItems"
-            :loading="loading"
             rows-per-page-text="Nombre d'éléments par page"
             :rows-per-page-items="[100,200,maxPageSize]"
             hide-actions

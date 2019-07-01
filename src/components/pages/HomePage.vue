@@ -14,29 +14,33 @@
         color="rgb(211, 47, 47)"
       >
       </v-text-field>
-
-        <span  class="toolbar-buttons">
-           <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <span v-on="on">Toponymes</span>
-            </template>
-            <span>Les résultats de la recherche ne sont pas groupés par lieu identifié mais par forme toponymique</span>
-           </v-tooltip>
-          
-            <v-switch
-              class="ml-1"
-              v-model="groupByOption"
-              color="red darken-2"
-              :disabled="mapMarkersAreLoading">
-            </v-switch>
-    
-            <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <span v-on="on">Lieux</span>
-            </template>
-            <span>Les résultats de la recherche sont groupés par lieu identifié</span>
-           </v-tooltip>
-        </span>
+  
+      <v-chip v-show="!!inputTerm && inputTerm.length > 2" class="subheading grey--text text--darken-2 ml-3 mr-2">{{meta.totalCount}}</v-chip>
+  
+      <span  class="toolbar-buttons">
+        
+         <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <span v-on="on">Toponymes</span>
+          </template>
+          <span>Les résultats de la recherche ne sont pas groupés par lieu identifié mais par forme toponymique</span>
+         </v-tooltip>
+        
+          <v-switch
+            class="ml-1"
+            style="color: #d32f2f !important"
+            v-model="groupByOption"
+            color="lightgrey"
+            :disabled="mapMarkersAreLoading">
+          </v-switch>
+        
+          <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <span v-on="on">Lieux</span>
+          </template>
+          <span>Les résultats de la recherche sont groupés par lieu identifié</span>
+         </v-tooltip>
+      </span>
 
     </main-toolbar>
     

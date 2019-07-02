@@ -61,12 +61,12 @@
                       <v-icon x-large class="red--text text--darken-2">place</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
-                      <div class="headline text-xs-center">Material Design</div>
+                      <div class="headline text-xs-center">Un outil pour la toponymie et l’histoire</div>
                     </v-card-title>
                     <v-card-text>
-                      Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare.
-                      Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-                      Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti.
+                      Le <i>Dictionnaire topographique de la France</i>, publié depuis le XIX<sup>e</sup> siècle
+                      sous forme de volumes départementaux, constitue un instrument indispensable à la connaissance
+                      des noms de lieux et des territoires anciens et modernes.
                     </v-card-text>
                   </v-card>
                 </v-flex>
@@ -76,12 +76,13 @@
                       <v-icon x-large class="red--text text--darken-2">map</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
-                      <div class="headline">Fast development</div>
+                      <div class="headline text-xs-center">Des données numériques enrichies</div>
                     </v-card-title>
                     <v-card-text>
-                      Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare.
-                      Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-                      Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti.
+                      La publication électronique du Dictionnaire permet d’en enrichir les données, d’en faciliter
+                      la consultation et d’offrir des possibilités d’interrogation et d’exploitation démultipliées :
+                      visualisation cartographique, repérage d’un type d’objet topographique, liage vers des bases
+                      de connaissances, etc.
                     </v-card-text>
                   </v-card>
                 </v-flex>
@@ -91,12 +92,12 @@
                       <v-icon x-large class="red--text text--darken-2">search</v-icon>
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
-                      <div class="headline text-xs-center">Completely Open Sourced</div>
+                      <div class="headline text-xs-center">Perspectives</div>
                     </v-card-title>
                     <v-card-text>
-                      Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare.
-                      Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-                      Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti.
+                      Couvrant actuellement XXX départements, cet outil a vocation à étendre son périmètre géographique
+                      comme à développer encore ses possibilités d’exploitation des données, en partenariat avec
+                      d’autres projets.
                     </v-card-text>
                   </v-card>
                 </v-flex>
@@ -109,13 +110,13 @@
       <section>
        
           <v-layout column align-center justify-center>
-            <div class="headline white--text mb-3 text-xs-center">Web development has never been easier</div>
             <em>Ce site est activement en cours de développement</em>
             <v-btn
               class="red darken-2 mt-5"
               dark
               large
-              href="/pre-made-themes"
+              @click="$router.push({name: 'about'})"
+
             >
               En savoir plus
             </v-btn>

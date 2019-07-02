@@ -4,6 +4,7 @@ import PlacenamePage from "@/components/pages/PlacenamePage.vue"
 import HomePage from "@/components/pages/HomePage.vue"
 import NotFoundPage from "@/components/pages/NotFoundPage.vue"
 import DocumentationPage from "@/components/pages/DocumentationPage.vue"
+import AboutPage from "@/components/pages/AboutPage.vue"
 import LandingPage from "@/components/pages/LandingPage.vue"
 
 Vue.use(VueRouter)
@@ -30,6 +31,11 @@ export const createRoutes: () => RouteConfig[] = () => [
     path: '/documentation',
     component: DocumentationPage,
     name: 'documentation'
+  },
+  {
+    path: '/about',
+    component: AboutPage,
+    name: 'about'
   },
   {
     path: '*',

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "apisauce": "^1.0.2",
+    "d3": "^5.9.7",
     "geoportal-extensions-leaflet": "^2.0.3",
     "leaflet": "^1.4.0",
     "leaflet.heat": "^0.2.0",

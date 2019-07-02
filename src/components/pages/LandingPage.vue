@@ -110,6 +110,9 @@
       <section>
        
           <v-layout column align-center justify-center>
+
+            <landing-map></landing-map>
+            
             <em>Ce site est activement en cours de développement</em>
             <v-btn
               class="red darken-2 mt-5"
@@ -186,10 +189,11 @@
 
 <script>
   import MainToolbar from '../ui/MainToolbar'
+  import LandingMap from '../LandingMap'
   
   export default {
     name: 'LandingPage',
-    components: { MainToolbar }
+    components: { MainToolbar, LandingMap }
   }
 </script>
 

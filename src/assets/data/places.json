@@ -1,0 +1,298 @@
+[
+{
+"CODE_REG": 82,
+    "NOM_REGION": "Rhône-Alpes",
+    "CODE_DEPT": 1,
+    "NOM_DEPT": "Ain",
+    "NB_PLACES": 11268,
+    "NB_PLACENAMES": 26476
+  },
+  {
+    "CODE_REG": 22,
+    "NOM_REGION": "Picardie",
+    "CODE_DEPT": 2,
+    "NOM_DEPT": "Aisne",
+    "NB_PLACES": 6301,
+    "NB_PLACENAMES": 19054
+  },
+  {
+    "CODE_REG": 93,
+    "NOM_REGION": "Provence-Alpes-Côte d'Azur",
+    "CODE_DEPT": 5,
+    "NOM_DEPT": "Hautes-Alpes",
+    "NB_PLACES": 9661,
+    "NB_PLACENAMES": 15782
+  },
+  {
+    "CODE_REG": 21,
+    "NOM_REGION": "Champagne-Ardenne",
+    "CODE_DEPT": 10,
+    "NOM_DEPT": "Aube",
+    "NB_PLACES": 3710,
+    "NB_PLACENAMES": 12465
+  },
+  {
+    "CODE_REG": 91,
+    "NOM_REGION": "Languedoc-Roussillon",
+    "CODE_DEPT": 11,
+    "NOM_DEPT": "Aude",
+    "NB_PLACES": 14816,
+    "NB_PLACENAMES": 35745
+  },
+  {
+    "CODE_REG": 25,
+    "NOM_REGION": "Basse-Normandie",
+    "CODE_DEPT": 14,
+    "NOM_DEPT": "Calvados",
+    "NB_PLACES": 15318,
+    "NB_PLACENAMES": 20755
+  },
+  {
+    "CODE_REG": 83,
+    "NOM_REGION": "Auvergne",
+    "CODE_DEPT": 15,
+    "NOM_DEPT": "Cantal",
+    "NB_PLACES": 16596,
+    "NB_PLACENAMES": 43714
+  },
+  {
+    "CODE_REG": 24,
+    "NOM_REGION": "Centre",
+    "CODE_DEPT": 18,
+    "NOM_DEPT": "Cher",
+    "NB_PLACES": 15716,
+    "NB_PLACENAMES": 34284
+  },
+  {
+    "CODE_REG": 26,
+    "NOM_REGION": "Bourgogne",
+    "CODE_DEPT": 21,
+    "NOM_DEPT": "Côte-d'Or",
+    "NB_PLACES": 7560,
+    "NB_PLACENAMES": 30117
+  },
+  {
+    "CODE_REG": 72,
+    "NOM_REGION": "Aquitaine",
+    "CODE_DEPT": 24,
+    "NOM_DEPT": "Dordogne",
+    "NB_PLACES": 18550,
+    "NB_PLACENAMES": 28137
+  },
+  {
+    "CODE_REG": 82,
+    "NOM_REGION": "Rhône-Alpes",
+    "CODE_DEPT": 26,
+    "NOM_DEPT": "Drôme",
+    "NB_PLACES": 12385,
+    "NB_PLACENAMES": 26084
+  },
+  {
+    "CODE_REG": 23,
+    "NOM_REGION": "Haute-Normandie",
+    "CODE_DEPT": 27,
+    "NOM_DEPT": "Eure",
+    "NB_PLACES": 11628,
+    "NB_PLACENAMES": 19538
+  },
+  {
+    "CODE_REG": 24,
+    "NOM_REGION": "Centre",
+    "CODE_DEPT": 28,
+    "NOM_DEPT": "Eure-et-Loir",
+    "NB_PLACES": 7263,
+    "NB_PLACENAMES": 15372
+  },
+  {
+    "CODE_REG": 91,
+    "NOM_REGION": "Languedoc-Roussillon",
+    "CODE_DEPT": 30,
+    "NOM_DEPT": "Gard",
+    "NB_PLACES": 7412,
+    "NB_PLACENAMES": 17191
+  },
+  {
+    "CODE_REG": 91,
+    "NOM_REGION": "Languedoc-Roussillon",
+    "CODE_DEPT": 34,
+    "NOM_DEPT": "Hérault",
+    "NB_PLACES": 6482,
+    "NB_PLACENAMES": 15041
+  },
+  {
+    "CODE_REG": 82,
+    "NOM_REGION": "Rhône-Alpes",
+    "CODE_DEPT": 42,
+    "NOM_DEPT": "Loire",
+    "NB_PLACES": 12613,
+    "NB_PLACENAMES": 42009
+  },
+  {
+    "CODE_REG": 83,
+    "NOM_REGION": "Auvergne",
+    "CODE_DEPT": 43,
+    "NOM_DEPT": "Haute-Loire",
+    "NB_PLACES": 9269,
+    "NB_PLACENAMES": 26678
+  },
+  {
+    "CODE_REG": 21,
+    "NOM_REGION": "Champagne-Ardenne",
+    "CODE_DEPT": 51,
+    "NOM_DEPT": "Marne",
+    "NB_PLACES": 6626,
+    "NB_PLACENAMES": 22395
+  },
+  {
+    "CODE_REG": 21,
+    "NOM_REGION": "Champagne-Ardenne",
+    "CODE_DEPT": 52,
+    "NOM_DEPT": "Haute-Marne",
+    "NB_PLACES": 4139,
+    "NB_PLACENAMES": 11923
+  },
+  {
+    "CODE_REG": 41,
+    "NOM_REGION": "Lorraine",
+    "CODE_DEPT": 54,
+    "NOM_DEPT": "Meurthe-et-Moselle",
+    "NB_PLACES": 3926,
+    "NB_PLACENAMES": 10077
+  },
+  {
+    "CODE_REG": 41,
+    "NOM_REGION": "Lorraine",
+    "CODE_DEPT": 55,
+    "NOM_DEPT": "Meuse",
+    "NB_PLACES": 6079,
+    "NB_PLACENAMES": 12923
+  },
+  {
+    "CODE_REG": 53,
+    "NOM_REGION": "Bretagne",
+    "CODE_DEPT": 56,
+    "NOM_DEPT": "Morbihan",
+    "NB_PLACES": 20742,
+    "NB_PLACENAMES": 22448
+  },
+  {
+    "CODE_REG": 41,
+    "NOM_REGION": "Lorraine",
+    "CODE_DEPT": 57,
+    "NOM_DEPT": "Moselle",
+    "NB_PLACES": 3662,
+    "NB_PLACENAMES": 13390
+  },
+  {
+    "CODE_REG": 26,
+    "NOM_REGION": "Bourgogne",
+    "CODE_DEPT": 58,
+    "NOM_DEPT": "Nièvre",
+    "NB_PLACES": 9276,
+    "NB_PLACENAMES": 16438
+  },
+  {
+    "CODE_REG": 31,
+    "NOM_REGION": "Nord-Pas-de-Calais",
+    "CODE_DEPT": 62,
+    "NOM_DEPT": "Pas-de-Calais",
+    "NB_PLACES": 10667,
+    "NB_PLACENAMES": 30132
+  },
+  {
+    "CODE_REG": 72,
+    "NOM_REGION": "Aquitaine",
+    "CODE_DEPT": 64,
+    "NOM_DEPT": "Pyrénées-Atlantiques",
+    "NB_PLACES": 5799,
+    "NB_PLACENAMES": 11213
+  },
+  {
+    "CODE_REG": 73,
+    "NOM_REGION": "Midi-Pyrénées",
+    "CODE_DEPT": 65,
+    "NOM_DEPT": "Hautes-Pyrénées",
+    "NB_PLACES": 6277,
+    "NB_PLACENAMES": 12631
+  },
+  {
+    "CODE_REG": 42,
+    "NOM_REGION": "Alsace",
+    "CODE_DEPT": 68,
+    "NOM_DEPT": "Haut-Rhin",
+    "NB_PLACES": 9247,
+    "NB_PLACENAMES": 16588
+  },
+  {
+    "CODE_REG": 26,
+    "NOM_REGION": "Bourgogne",
+    "CODE_DEPT": 71,
+    "NOM_DEPT": "Saône-et-Loire",
+    "NB_PLACES": 20208,
+    "NB_PLACENAMES": 89377
+  },
+  {
+    "CODE_REG": 52,
+    "NOM_REGION": "Pays de la Loire",
+    "CODE_DEPT": 72,
+    "NOM_DEPT": "Sarthe",
+    "NB_PLACES": 49114,
+    "NB_PLACENAMES": 79945
+  },
+  {
+    "CODE_REG": 23,
+    "NOM_REGION": "Haute-Normandie",
+    "CODE_DEPT": 76,
+    "NOM_DEPT": "Seine-Maritime",
+    "NB_PLACES": 31048,
+    "NB_PLACENAMES": 113790
+  },
+  {
+    "CODE_REG": 11,
+    "NOM_REGION": "Île-de-France",
+    "CODE_DEPT": 77,
+    "NOM_DEPT": "Seine-et-Marne",
+    "NB_PLACES": 17402,
+    "NB_PLACENAMES": 46620
+  },
+  {
+    "CODE_REG": 54,
+    "NOM_REGION": "Poitou-Charentes",
+    "CODE_DEPT": 79,
+    "NOM_DEPT": "Deux-Sèvres",
+    "NB_PLACES": 11651,
+    "NB_PLACENAMES": 24068
+  },
+  {
+    "CODE_REG": 22,
+    "NOM_REGION": "Picardie",
+    "CODE_DEPT": 80,
+    "NOM_DEPT": "Somme",
+    "NB_PLACES": 5379,
+    "NB_PLACENAMES": 38111
+  },
+  {
+    "CODE_REG": 54,
+    "NOM_REGION": "Poitou-Charentes",
+    "CODE_DEPT": 86,
+    "NOM_DEPT": "Vienne",
+    "NB_PLACES": 11934,
+    "NB_PLACENAMES": 34869
+  },
+  {
+    "CODE_REG": 41,
+    "NOM_REGION": "Lorraine",
+    "CODE_DEPT": 88,
+    "NOM_DEPT": "Vosges",
+    "NB_PLACES": 17258,
+    "NB_PLACENAMES": 34032
+  },
+  {
+    "CODE_REG": 26,
+    "NOM_REGION": "Bourgogne",
+    "CODE_DEPT": 89,
+    "NOM_DEPT": "Yonne",
+    "NB_PLACES": 5550,
+    "NB_PLACENAMES": 10133
+  }
+]

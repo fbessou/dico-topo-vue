@@ -58,22 +58,30 @@
   
  
         <placename-search-table
-          v-show="!!inputTerm && !!term && term.length >= minTermLength && meta.totalCount > 0"
+          v-show="!!term && term.length >= minTermLength && !!showTabularResults"
           :searched-term="query"
           :select-item-callback="selectPlacenameOnMap"
         >
-  
           <v-btn
-            v-if="inputTerm && inputTerm.length >= minTermLength && meta.totalCount > 0"
             depressed small
-            @click="showTabularResults = !showTabularResults"
+            @click="showTabularResults = false"
             class="red--text white darken-2"
           >
-            <v-icon v-if="!!showTabularResults">keyboard_arrow_down</v-icon>
-            <v-icon v-else>keyboard_arrow_up</v-icon>
-
+            <v-icon>keyboard_arrow_down</v-icon>
           </v-btn>
         </placename-search-table>
+  
+        <div class="toggle-table-up">
+          <v-btn
+            v-if="!!term && term.length >= minTermLength && !showTabularResults"
+            depressed small
+            @click="showTabularResults = true"
+            class="red--text white darken-2"
+          >
+            <v-icon>keyboard_arrow_up</v-icon>
+          </v-btn>
+        </div>
+        
       </div>
       <placename-card v-if="selectedPlacename"></placename-card>
     </v-content>
@@ -84,7 +92,8 @@
 <script>
   import { mapState, mapGetters, mapActions } from 'vuex'
   import _ from 'lodash';
-
+  import Vue from 'vue';
+  
   import PlacenameSearchTable from '../PlacenameSearchTable'
   import MyAwesomeMap from '../MyAwesomeMap'
   import PlacenameCard from '../PlacenameCard'
@@ -149,12 +158,15 @@
       selectPlacenameOnMap (obj) {
         if (!!obj) {
           this.selectPlacename(obj)
+          Vue.set(this, "showTabularResults", false)
+          this.showTabularResults = false;
         } else {
           this.unselectPlacename()
         }
       },
       onMapClickCallback() {
         this.unselectPlacename();
+        Vue.set(this, "showTabularResults", false)
         this.showTabularResults = false;
       },
       ...mapActions('mapmarkers', ['searchMapMarker', 'clearMapMarkers', 'setMarkersLoading']),
@@ -214,6 +226,16 @@
     vertical-align: middle;
   }
 
+
+  .toggle-table-up {
+    position: fixed;
+    bottom: 0;
+    width: 100px;
+    margin: auto;
+    /* z-index: 1000; */
+    left: calc(50% - 44px);
+  
+  }
   body:after {
     z-index: 100000;
     content: 'beta';

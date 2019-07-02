@@ -27,7 +27,7 @@
       <section>
       <v-container fluid>
        
-          <v-layout justify-center >
+          <v-layout justify-center>
             <v-flex xs8>
               <section>
                 <h1 class="font-weight-bold title mt-5 mb-3"><span class="display-1">L’entreprise éditoriale</span></h1>
@@ -346,7 +346,6 @@
 <style scoped>
   .container {
     text-align: justify;
-    
   }
   .head--section {
     background: lightgrey;

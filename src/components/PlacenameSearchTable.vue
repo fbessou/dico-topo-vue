@@ -1,13 +1,13 @@
 <template>
     <div>
-        <div v-if="showTable" class="toggle-table-down" @click="showTable = !showTable">
+        <div class="toggle-table-down">
           <slot></slot>
         </div>
       
         <v-data-table
             class="elevation-4 fixed-header v-table__overflow"
             style="position: fixed; bottom: 0;  max-height: 60%;"
-            v-show="showTable"
+            
             :headers="headers"
             :items="items"
             :pagination.sync="pagination"
@@ -113,9 +113,7 @@
             </template>
           </v-data-table>
         <!-- FOOTER  -->
-        <div v-show="!showTable" class="toggle-table-up" @click="showTable = !showTable">
-          <slot></slot>
-        </div>
+
         <div v-show="!!showTable"
                class="fixed-agg-footer elevation-3">
               <v-layout row justify-space-between text-xs-center>
@@ -176,7 +174,7 @@
     components: { StatefulButton, LinkingMenu, ExportMenu, FilterResult },
     props: {
       searchedTerm: {type: String, default: ''},
-      selectItemCallback: {type: Function}
+      selectItemCallback: {type: Function},
     },
     data () {
       return {
@@ -198,9 +196,12 @@
         maxPageSize: process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE > 0 ? process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE : 200,
       }
     },
+    mounted() {
+      console.log("search table mounted");
+    },
     watch: {
       pagination: {
-        handler () {
+        handler() {
           console.log("pagination:", this.pagination)
           this.fetchData()
         },

@@ -39,7 +39,8 @@
       selected: [],
       cache: true
     }),
-    mounted() {
+    created() {
+      console.log("filter is created")
       this.selected = [];
     },
     watch: {

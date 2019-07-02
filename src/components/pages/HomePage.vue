@@ -125,16 +125,18 @@
       this.unselectPlacename()
     },
     methods: {
-      startNewSearch: _.debounce(function (newVal, oldVal) {
+      startNewSearch: _.debounce(function (reloadMap) {
         this.setTerm(this.inputTerm);
-        this.initSearch();
+        this.initSearch(reloadMap);
       }, 500),
-      initSearch() {
+      initSearch(reloadMap = true) {
         if (!!this.query) {
           this.unselectPlacename()
-          this.clearMapMarkers()
-          if (this.inputTerm && this.inputTerm.length >= this.minTermLength) {
-            this.searchNextBatchOfMapMarkers()
+          if (!!reloadMap) {
+            this.clearMapMarkers()
+            if (this.inputTerm && this.inputTerm.length >= this.minTermLength) {
+              this.searchNextBatchOfMapMarkers()
+            }
           }
         }
       },
@@ -177,25 +179,22 @@
     watch: {
       meta(val) {
         if (!this.meta.totalCount) { // when 0
-          this.unselectPlacename()
-          this.clearMapMarkers()
+          this.startNewSearch();
         }
       },
       inputTerm (val) {
         this.startNewSearch();
       },
       groupByOption() {
-        //this.setIncludeOldLabels(options['includeOldLabels'])
         this.setGroupbyPlacename(!this.groupByOption)
-        this.initSearch()
+        this.startNewSearch(false);
       },
       computedFilterParam() {
         this.startNewSearch();
       },
       query() {
         if (!this.query) {
-          this.unselectPlacename()
-          this.clearMapMarkers()
+          this.startNewSearch();
         }
       }
     },

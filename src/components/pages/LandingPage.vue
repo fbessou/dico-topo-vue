@@ -109,14 +109,9 @@
       <section>
        
           <v-layout column align-center justify-center>
-
-            <!-- Carte des lieux couverts -->
-            <div id="map"></div>
-            <!-- require('https://d3js.org/d3.v5.min.js') -->
-            <!-- require('@/components/js/landingMap.js') -->
-            <!-- require('@/components/css/colorbrewer.css') -->
-            <!-- require('@/components/css/landingMap.css') -->
-
+            
+            <landing-map></landing-map>
+            
             <em>Ce site est activement en cours de développement</em>
             <v-btn
               class="red darken-2 mt-5"
@@ -192,10 +187,11 @@
 
 <script>
   import MainToolbar from '../ui/MainToolbar'
+  import LandingMap from '../LandingMap'
   
   export default {
     name: 'LandingPage',
-    components: { MainToolbar }
+    components: { MainToolbar, LandingMap }
   }
 </script>
 

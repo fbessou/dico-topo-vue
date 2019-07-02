@@ -9,9 +9,6 @@ export interface MapMarker {
 export interface MapMarkerState {
   items: Map<string, MapMarker>;
 
-  uniqueDepartments: String[];
-  uniqueRegions: String[];
-
   links: Links;
   meta : Meta;
 

@@ -17,6 +17,12 @@ function makeAggUrl(query: String, groupby: String, sort: String, pageSize: Stri
   return `/search?query=${query}${agg}${sort}${pageSize}${after}`;
 }
 
+function makeUniqueDptUrl(query: String) {
+  const dptUrl = `&groupby[doc-type]=insee-ref&groupby[field]=dep-id.keyword&page[size]=1000&without-relationships`;
+
+  return `/search?query=${query}${dptUrl}`;
+}
+
 export const actions: ActionTree<PlacenameState, RootState> = {
   selectPlacename({commit, state, rootState}, placename): any {
     commit('selectItem', placename)
@@ -120,6 +126,15 @@ export const actions: ActionTree<PlacenameState, RootState> = {
           commit('setLoading', false)
         }
         commit('setLoading', false)
+      }).then(() => {
+        return api.get(makeUniqueDptUrl(filteredQuery)).then((res: ApiResponse<any>) => {
+          const {ok, data} = res;
+          if (ok) {
+            data.data.map((d: any) => {
+              commit('addDepartment', `${d.attributes['insee-code']} - ${d.attributes['label']}`);
+            });
+          }
+        })
       })
       .catch((error: any) => {
         commit('setError', error.message)

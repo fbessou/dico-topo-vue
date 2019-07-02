@@ -38,6 +38,7 @@
                      v-show="!!filterStates[h.value]"
                      :items="h.filter"
                      :on-change="h.filterCallback"
+                     :key="searchedTerm"
                    ></filter-result>
                  </span>
                 
@@ -209,6 +210,10 @@
         this.clearAll();
         this.numAggPage = 0;
         this.pagination.page = 1;
+        
+        Vue.set(this.filterSelections, 'department', [])
+        this.setFilter({ filter: 'department', value: [] });
+        
         this.fetchData()
       },
       computedSortParam() {
@@ -376,7 +381,7 @@
           sorted: undefined,
           filter: this.uniqueDepartments,
           filtered: undefined,
-          filterCallback: this.filterDepChanged,
+          filterCallback: _.debounce(this.filterDepChanged, 200),
         };
         const desc = {
           text: 'Description',
@@ -401,9 +406,14 @@
       afterKey() {
         return !!this.meta.after ? Object.values(this.meta.after).join(',') : null
       },
-      ...mapState('placenames', { placenameItems: 'items', meta: 'meta', selectedPlacename: 'selectedItem', afterHistory: 'afterHistory' }),
+      ...mapState('placenames', {
+        placenameItems: 'items',
+        meta: 'meta',
+        selectedPlacename: 'selectedItem',
+        afterHistory: 'afterHistory',
+        uniqueDepartments: 'uniqueDepartments',
+      }),
       ...mapState('searchParameters', ['sortFields', 'groupbyPlacename', 'depFilter']),
-      ...mapState('mapmarkers', ['uniqueDepartments']),
       ...mapGetters('searchParameters', ['computedSortParam', 'computedFilterParam', 'getSortParam'])
     }
   }

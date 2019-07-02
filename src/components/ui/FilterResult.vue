@@ -11,11 +11,13 @@
               multiple
               chips
               clearable
+              :open-on-clear="false"
               dense
               flat
               deletable-chips
               small-chips
-              cache-items
+              hide-selected
+              :cache-items="cache"
             ></v-combobox>
           </v-flex>
           
@@ -35,10 +37,19 @@
     data: () => ({
       menu: false,
       selected: [],
+      cache: true
     }),
+    mounted() {
+      this.selected = [];
+    },
     watch: {
       selected() {
         this.onChange(this.selected);
+      },
+    },
+    methods: {
+      handleBlur() {
+      
       }
     },
     computed: {

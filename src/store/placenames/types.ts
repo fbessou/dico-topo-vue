@@ -24,6 +24,8 @@ export interface PlacenameState {
   items: Map<string, Placename>;
   selectedItem: Placename | undefined;
 
+  uniqueDepartments: String[];
+
   links: Links;
   meta : Meta;
   afterHistory: string[];

@@ -9,6 +9,8 @@ export function getDefaultState(): PlacenameState {
     items: new Map<string, Placename>(),
     selectedItem: undefined,
 
+    uniqueDepartments: [],
+
     links: {},
     meta: {totalCount: 0, after: undefined},
     afterHistory: [],
@@ -28,6 +30,7 @@ export const mutations: MutationTree<PlacenameState> = {
     state.items = newItems
     state.links = links
     state.meta = meta
+    state.uniqueDepartments = Object.assign([]);
     state.error = undefined
   },
   pushAfterHistory(state: PlacenameState) {
@@ -50,11 +53,20 @@ export const mutations: MutationTree<PlacenameState> = {
       state.meta = Object.assign({}, state.meta, {after: undefined});
     }
   },
+  addDepartment(state: PlacenameState, d) {
+    if (state.uniqueDepartments.indexOf(d) === -1) {
+      state.uniqueDepartments.push(d);
+    }
+  },
+  clearDepartment(state: PlacenameState) {
+    state.uniqueDepartments = Object.assign([]);
+  },
   clearAll(state: PlacenameState, {links, meta}) {
     state.items = new Map<string, Placename>()
     state.links = links
     state.meta = meta
-    state.afterHistory = []
+    state.afterHistory = [];
+    state.uniqueDepartments = Object.assign([]);
     state.error = undefined
   },
   selectItem(state, item) {

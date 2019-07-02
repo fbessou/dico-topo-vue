@@ -42,10 +42,6 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
               const longlat: any = m.attributes["longlat"]
               let coords: [string, string] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null;
 
-              /* save unique values */
-              commit('addDepartment', m.attributes['dpt']);
-              commit('addRegion', m.attributes['region']);
-
               return {
                 id: m.type === "placename" ? m.id : m.attributes["placename-id"],
                 coordinates: [parseFloat(coords[1]), parseFloat(coords[0])]

@@ -64,13 +64,14 @@ export const actions: ActionTree<PlacenameState, RootState> = {
             let item
             switch (p.type) {
               case "placename":
+                const oldLabels = p.attributes["old-labels"];
                 item = {
                   id: p.id,
                   type: p.type,
 
                   label: p.attributes["placename-label"],
                   placenameLabel: p.attributes["placename-label"],
-                  oldLabels: p.attributes["old-labels"].reverse(),
+                  oldLabels: !!oldLabels ? oldLabels.reverse() : [],
                   description: p.attributes["desc"],
                   comment: p.attributes["comment"],
 

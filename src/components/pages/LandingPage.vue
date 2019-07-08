@@ -95,7 +95,7 @@
                       <div class="headline text-xs-center">Perspectives</div>
                     </v-card-title>
                     <v-card-text>
-                      Couvrant actuellement XXX départements, cet outil a vocation à étendre son périmètre géographique
+                      Couvrant actuellement 29 départements, cet outil a vocation à étendre son périmètre géographique
                       comme à développer encore ses possibilités d’exploitation des données, en partenariat avec
                       d’autres projets.
                     </v-card-text>

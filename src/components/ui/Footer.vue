@@ -1,7 +1,7 @@
 <template>
   <v-footer
     app
-    color="#696969"
+    color="#d3d3d3"
     absolute="false"
     height="100px"
   >
@@ -10,13 +10,13 @@
 
       <v-layout class="mb-1" row wrap align-center justify-center>
         <v-card-media xs2 class="text-xs-center">
-          <img src="@/assets/logo-an-blanc.png" height="40"/>
+          <img src="@/assets/logo-an-dark.png" height="40"/>
         </v-card-media>
         <v-card-media xs2 class="text-xs-center">
-          <img src="@/assets/logo-enc-blanc.png" height="60"/>
+          <img src="@/assets/logo-enc-noir.png" height="60"/>
         </v-card-media>
         <v-card-media xs2 class="text-xs-center">
-          <img src="@/assets/logo-cths-blanc.png" height="150"/>
+          <img src="@/assets/logo-cths-noir.png" height="150"/>
         </v-card-media>
       </v-layout>
 

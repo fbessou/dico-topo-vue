@@ -235,24 +235,4 @@
     left: calc(50% - 44px);
   
   }
-  body:after {
-    z-index: 100000;
-    content: 'beta';
-    position: fixed;
-    width: 100px;
-    height: 28px;
-    background: #EE8E4A;
-    top: 7px;
-    left: -28px;
-    text-align: center;
-    font-size: 13px;
-    font-family: sans-serif;
-    text-transform: uppercase;
-    font-weight: bold;
-    color: #fff;
-    line-height: 30px;
-    -ms-transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-  }
 </style>

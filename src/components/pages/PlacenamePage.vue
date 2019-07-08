@@ -1,117 +1,124 @@
 <template>
   <v-app>
-    <main-toolbar></main-toolbar>
-  
+    <main-toolbar>
+    
+    </main-toolbar>
     <v-content>
-  
-      <v-container grid-list-md text-xs-center>
-        <v-layout  wrap>
-          
-          <v-flex xs12>
-            <v-layout justify-start align-center>
-              <v-btn  class="elevation-0 blue--text" @click="$router.go(-1)">
-                <v-icon style="padding-right: 8px">chevron_left</v-icon>
-                Retour
-              </v-btn>
-            </v-layout>
-          </v-flex>
-          
-          <v-flex grow
-                  pa-1 xs6>
-            <v-card class="elevation-2" v-if="!!placenameItem">
-              <v-toolbar card>
-                <v-toolbar-title class="text-xs-left">
-                  {{ clean(placenameItem.label) }}
-                </v-toolbar-title>
-                <v-spacer></v-spacer>
-    
-                <v-layout align-center justify-end>
-                  <v-flex sm2>
-                    <linking-menu
-                      :geoname-id="placenameItem.geoname_id"
-                      :wikidata-item-id="placenameItem.wikidata_item_id"
-                      :wikipedia-url="placenameItem.wikipedia_url"
-                      :databnf-ark="placenameItem.databnf_ark"
-                      :viaf-id="placenameItem.viaf_id"
-                    >
-                    </linking-menu>
-                  </v-flex>
-                  <v-flex sm2>
-                    <v-btn :to="`/placenames/${placenameItem.id}`" flat icon fab small>
-                      <v-icon>open_in_new</v-icon>
-                    </v-btn>
-                  </v-flex>
-                  <v-flex sm2>
-                    <export-menu :placename-id="placenameItem.id">
-                    </export-menu>
-                  </v-flex>
-                </v-layout>
-              </v-toolbar>
-  
-  
-              <v-card-text class="text-xs-left" style="min-height: 100px; max-height: 200px; overflow: auto">
-                <p>{{clean(this.placenameItem.description)}}</p>
-              </v-card-text>
-  
-              <v-expansion-panel :value="panel" expand>
-                <v-expansion-panel-content :disabled="!placenameItem.comment">
-                  <template v-slot:header>
-                    <div>
-                      <v-icon>subject</v-icon>
-                      Commentaire
-                    </div>
-                  </template>
-                  <v-card-text style="max-height: 400px; overflow: auto">
-                    {{clean(this.placenameItem.comment)}}
-                  </v-card-text>
-                </v-expansion-panel-content>
-    
-                <v-expansion-panel-content
-                  v-for="item in items"
-                  :disabled="item.items.length == 0"
-                  :key="item.label"
-                >
-                  <template v-slot:header>
-                    <div>
-                      <v-icon>{{item.action}}</v-icon>
-                      {{item.label}}
-                    </div>
-                  </template>
-      
-                  <v-card>
-                    <v-card-text style="max-height: 300px; overflow: auto">
-                      <v-list>
-                        <v-list-tile
-                          v-for="(subItem, subItemIndex) in item.items"
-                          :key="subItem.id"
-                          @click=""
-                        >
-                          <v-list-tile-content>
-                            <v-list-tile-title>
-                              {{ clean(subItem.label) }}
-                              <v-icon v-if="!!subItem.actions.goTo"  small fab @click="$router.push(subItem.actions.goTo)">open_in_new</v-icon>
-                            </v-list-tile-title>
-                            <v-list-tile-sub-title>{{clean(subItem.subLabel)}}</v-list-tile-sub-title>
-                          </v-list-tile-content>
-                        </v-list-tile>
-                      </v-list>
+      <section>
+        <v-container grid-list-md text-xs-center>
+          <v-layout wrap>
+        
+            <v-flex xs12>
+              <v-layout justify-start align-center>
+                <v-btn class="elevation-0 blue--text" @click="$router.go(-1)">
+                  <v-icon style="padding-right: 8px">chevron_left</v-icon>
+                  Retour
+                </v-btn>
+              </v-layout>
+            </v-flex>
+        
+            <v-flex grow
+                    pa-1 xs6>
+              <v-card class="elevation-2" v-if="!!placenameItem">
+                <v-toolbar card>
+                  <v-toolbar-title class="text-xs-left">
+                    {{ clean(placenameItem.label) }}
+                  </v-toolbar-title>
+                  <v-spacer></v-spacer>
+              
+                  <v-layout align-center justify-end>
+                    <v-flex sm2>
+                      <linking-menu
+                        :geoname-id="placenameItem.geoname_id"
+                        :wikidata-item-id="placenameItem.wikidata_item_id"
+                        :wikipedia-url="placenameItem.wikipedia_url"
+                        :databnf-ark="placenameItem.databnf_ark"
+                        :viaf-id="placenameItem.viaf_id"
+                      >
+                      </linking-menu>
+                    </v-flex>
+                    <v-flex sm2>
+                      <v-btn :to="`/placenames/${placenameItem.id}`" flat icon fab small>
+                        <v-icon>open_in_new</v-icon>
+                      </v-btn>
+                    </v-flex>
+                    <v-flex sm2>
+                      <export-menu :placename-id="placenameItem.id">
+                      </export-menu>
+                    </v-flex>
+                  </v-layout>
+                </v-toolbar>
+            
+            
+                <v-card-text class="text-xs-left" style="min-height: 100px; max-height: 200px; overflow: auto">
+                  <p>{{clean(this.placenameItem.description)}}</p>
+                </v-card-text>
+            
+                <v-expansion-panel :value="panel" expand>
+                  <v-expansion-panel-content :disabled="!placenameItem.comment">
+                    <template v-slot:header>
+                      <div>
+                        <v-icon>subject</v-icon>
+                        Commentaire
+                      </div>
+                    </template>
+                    <v-card-text style="max-height: 400px; overflow: auto">
+                      {{clean(this.placenameItem.comment)}}
                     </v-card-text>
-                  </v-card>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-
-            </v-card>
-          </v-flex>
+                  </v-expansion-panel-content>
+              
+                  <v-expansion-panel-content
+                    v-for="item in items"
+                    :disabled="item.items.length == 0"
+                    :key="item.label"
+                  >
+                    <template v-slot:header>
+                      <div>
+                        <v-icon>{{item.action}}</v-icon>
+                        {{item.label}}
+                      </div>
+                    </template>
+                
+                    <v-card>
+                      <v-card-text style="max-height: 300px; overflow: auto">
+                        <v-list>
+                          <v-list-tile
+                            v-for="(subItem, subItemIndex) in item.items"
+                            :key="subItem.id"
+                            @click=""
+                          >
+                            <v-list-tile-content>
+                              <v-list-tile-title>
+                                {{ clean(subItem.label) }}
+                                <v-icon v-if="!!subItem.actions.goTo" small fab
+                                        @click="$router.push(subItem.actions.goTo)">open_in_new
+                                </v-icon>
+                              </v-list-tile-title>
+                              <v-list-tile-sub-title>{{clean(subItem.subLabel)}}</v-list-tile-sub-title>
+                            </v-list-tile-content>
+                          </v-list-tile>
+                        </v-list>
+                      </v-card-text>
+                    </v-card>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
           
-          <v-flex xs6 v-if="!!placenameItem && !!placenameItem.coordinates">
-            <v-card dark color="secondary" >
-              <my-awesome-map :use-heatmap="false" min-height="640px" :initial-zoom="7" :use-fly-animation="false">
-              </my-awesome-map>
-            </v-card>
-          </v-flex>
-          
-        </v-layout>
-      </v-container>
+              </v-card>
+            </v-flex>
+        
+            <v-flex xs6 v-if="!!placenameItem && !!placenameItem.coordinates">
+              <v-card dark color="secondary">
+                <my-awesome-map :use-heatmap="false" min-height="640px" :initial-zoom="7" :use-fly-animation="false">
+                </my-awesome-map>
+              </v-card>
+            </v-flex>
+      
+          </v-layout>
+        </v-container>
+      </section>
+        <section class="foot--section mt-5">
+          <custom-footer></custom-footer>
+        </section>
     </v-content>
   </v-app>
 </template>
@@ -120,6 +127,7 @@
   import { mapState, mapActions } from 'vuex'
   import MyAwesomeMap from '../MyAwesomeMap'
   import LinkingMenu from '../ui/LinkingMenu'
+  import CustomFooter from '../ui/CustomFooter'
   import ExportMenu from '../ui/ExportMenu'
   import MainToolbar from '../ui/MainToolbar'
   import { cleanStr } from '../../utils/helpers'
@@ -131,7 +139,8 @@
       MainToolbar,
       MyAwesomeMap,
       LinkingMenu,
-      ExportMenu
+      ExportMenu,
+      CustomFooter
     },
     data: () => {
       return {

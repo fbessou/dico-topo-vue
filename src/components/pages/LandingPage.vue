@@ -32,13 +32,13 @@
           
           <v-layout class="subheading mb-1 font-weight-light black--text" row wrap align-center justify-center>
                 <v-flex xs2 class="text-xs-center">
-                  <span class=" font-weight-bold">13.485</span> pages de dictionnaire
+                  <span class=" font-weight-bold">29</span> départements
                 </v-flex>
                 <v-flex xs2 class="text-xs-center">
-                  <span class=" font-weight-bold">839.121</span> toponymes identifiés
+                  <span class=" font-weight-bold">370.774 </span> lieux
                 </v-flex>
                 <v-flex xs2 class="text-xs-center">
-                  <span class=" font-weight-bold">234.340</span> toponymes localisés
+                  <span class=" font-weight-bold">908.347 </span> toponymes
                 </v-flex>
            </v-layout>
         </v-parallax>
@@ -126,7 +126,8 @@
           </v-layout>
        
       </section>
-      
+
+      <!--
       <section class="foot--section">
         <v-container grid-list-xl>
           <v-layout row wrap justify-center class="my-5">
@@ -181,6 +182,11 @@
           </v-layout>
         </v-container>
       </section>
+      -->
+
+      <Footer>
+
+      </Footer>
 
 
     </v-content>
@@ -189,20 +195,17 @@
 
 <script>
   import MainToolbar from '../ui/MainToolbar'
+  import Footer from '../ui/Footer'
   import LandingMap from '../LandingMap'
   
   export default {
     name: 'LandingPage',
-    components: { MainToolbar, LandingMap }
+    components: {MainToolbar, LandingMap, Footer}
   }
 </script>
 
 <style scoped>
   .head--section {
     background: lightgrey;
-  }
-  .foot--section {
-    margin-top: 80px;
-    background-color: lightgrey;
   }
 </style>

@@ -4,7 +4,7 @@
     <v-toolbar-title class="headline text-uppercase" @click="$router.push({name: 'landing'})"
                      style="cursor: pointer; ">
   
-      <img src="@/assets/logo-dicotopo.png" height="55px" style="padding-top: 8px; padding-left: 40px"/>
+      <img src="@/assets/logo-dicotopo-cut.png" height="55px" style="padding-top: 8px; padding-left: 40px"/>
       <!--
       <span>DICTIONNAIRE</span>
       <span class="font-weight-light"> TOPONYMIQUE</span>

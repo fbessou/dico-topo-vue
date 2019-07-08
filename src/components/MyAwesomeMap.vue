@@ -69,7 +69,7 @@
           )
         }
   
-        const openStreetMapLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {}).addTo(this.map)
+        const openStreetMapLayer = L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {}).addTo(this.map)
   
         const layerSwitcher = L.geoportalControl.LayerSwitcher({
           layers: [{

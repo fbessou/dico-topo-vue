@@ -32,6 +32,14 @@
     "NB_PLACENAMES": 12465
   },
   {
+    "CODE_REG": 91,
+    "NOM_REGION": "Languedoc-Roussillon",
+    "CODE_DEPT": 11,
+    "NOM_DEPT": "Aude",
+    "NB_PLACES": 14816,
+    "NB_PLACENAMES": 35745
+  },
+  {
     "CODE_REG": 25,
     "NOM_REGION": "Basse-Normandie",
     "CODE_DEPT": 14,
@@ -88,12 +96,28 @@
     "NB_PLACENAMES": 19538
   },
   {
+    "CODE_REG": 24,
+    "NOM_REGION": "Centre",
+    "CODE_DEPT": 28,
+    "NOM_DEPT": "Eure-et-Loir",
+    "NB_PLACES": 7263,
+    "NB_PLACENAMES": 15372
+  },
+  {
     "CODE_REG": 91,
     "NOM_REGION": "Languedoc-Roussillon",
     "CODE_DEPT": 30,
     "NOM_DEPT": "Gard",
     "NB_PLACES": 7412,
     "NB_PLACENAMES": 17191
+  },
+  {
+    "CODE_REG": 91,
+    "NOM_REGION": "Languedoc-Roussillon",
+    "CODE_DEPT": 34,
+    "NOM_DEPT": "Hérault",
+    "NB_PLACES": 6482,
+    "NB_PLACENAMES": 15041
   },
   {
     "CODE_REG": 82,
@@ -168,12 +192,36 @@
     "NB_PLACENAMES": 16438
   },
   {
+    "CODE_REG": 31,
+    "NOM_REGION": "Nord-Pas-de-Calais",
+    "CODE_DEPT": 62,
+    "NOM_DEPT": "Pas-de-Calais",
+    "NB_PLACES": 10667,
+    "NB_PLACENAMES": 30132
+  },
+  {
+    "CODE_REG": 72,
+    "NOM_REGION": "Aquitaine",
+    "CODE_DEPT": 64,
+    "NOM_DEPT": "Pyrénées-Atlantiques",
+    "NB_PLACES": 5799,
+    "NB_PLACENAMES": 11213
+  },
+  {
     "CODE_REG": 73,
     "NOM_REGION": "Midi-Pyrénées",
     "CODE_DEPT": 65,
     "NOM_DEPT": "Hautes-Pyrénées",
     "NB_PLACES": 6277,
     "NB_PLACENAMES": 12631
+  },
+  {
+    "CODE_REG": 42,
+    "NOM_REGION": "Alsace",
+    "CODE_DEPT": 68,
+    "NOM_DEPT": "Haut-Rhin",
+    "NB_PLACES": 9247,
+    "NB_PLACENAMES": 16588
   },
   {
     "CODE_REG": 26,
@@ -224,11 +272,27 @@
     "NB_PLACENAMES": 38111
   },
   {
+    "CODE_REG": 54,
+    "NOM_REGION": "Poitou-Charentes",
+    "CODE_DEPT": 86,
+    "NOM_DEPT": "Vienne",
+    "NB_PLACES": 11934,
+    "NB_PLACENAMES": 34869
+  },
+  {
     "CODE_REG": 41,
     "NOM_REGION": "Lorraine",
     "CODE_DEPT": 88,
     "NOM_DEPT": "Vosges",
     "NB_PLACES": 17258,
     "NB_PLACENAMES": 34032
+  },
+  {
+    "CODE_REG": 26,
+    "NOM_REGION": "Bourgogne",
+    "CODE_DEPT": 89,
+    "NOM_DEPT": "Yonne",
+    "NB_PLACES": 5550,
+    "NB_PLACENAMES": 10133
   }
 ]

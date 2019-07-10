@@ -120,6 +120,22 @@
             });
         });
 
+        svg.append("text")
+          .attr("x", (width / 2))
+          .attr("y", 12)
+          .attr("text-anchor", "middle")
+          .style("font-weight", "300")
+          .style("font-size", "16px")
+          .text("Départements disponibles");
+
+        svg.append("text")
+          .attr("x", (width / 2))
+          .attr("y", 35)
+          .attr("text-anchor", "middle")
+          .style("font-weight", "200")
+          .style("font-size", "14px")
+          .text("Nombre de lieux");
+
 // Append a DIV for the tooltip
         const div = d3.select("body").append("div")
           .attr("class", "tooltip")

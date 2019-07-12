@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <main-toolbar>
-
     </main-toolbar>
     
     <v-content >
@@ -22,9 +21,10 @@
               class="red darken-2 mt-5"
               dark
               large
-              @click="$router.push({name: 'home'})"
+              @click="$router.push({name: 'about'})"
+  
             >
-              Consulter
+              En savoir plus
             </v-btn>
           </v-layout>
       
@@ -108,18 +108,7 @@
       <section>
         <v-layout column align-center justify-center>
           <landing-map>
-      
           </landing-map>
-          <em>Ce site est activement en cours de développement</em>
-          <v-btn
-            class="red darken-2 mt-5"
-            dark
-            large
-            @click="$router.push({name: 'about'})"
-      
-          >
-            En savoir plus
-          </v-btn>
         </v-layout>
       </section>
   
@@ -135,10 +124,34 @@
   import MainToolbar from '../ui/MainToolbar'
   import CustomFooter from '../ui/CustomFooter'
   import LandingMap from '../LandingMap'
-  
+  import { mapState, mapGetters, mapActions } from 'vuex'
+
   export default {
     name: 'LandingPage',
-    components: {MainToolbar, LandingMap, CustomFooter}
+    components: {MainToolbar, LandingMap, CustomFooter},
+    methods: {
+    },
+    watch: {
+      /*
+      query() {
+        if (!!this.query) {
+          this.goToMainPage();
+        }
+      },
+      groupbyPlacename(){
+        if (!!this.query) {
+          this.goToMainPage();
+        }
+      }
+      */
+    },
+    methods: {
+      ...mapActions('searchParameters', ['setTerm', 'setIncludeOldLabels', 'setGroupbyPlacename'])
+    },
+    computed: {
+      ...mapState('searchParameters', ['groupbyPlacename']),
+      ...mapGetters('searchParameters', ['query'])
+    }
   }
 </script>
 

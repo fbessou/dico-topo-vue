@@ -6,7 +6,7 @@
   import * as d3 from "d3";
   
   import deps from '../assets/data/departments.json';
-  import pls from '../assets/data/places.json';
+  import pls from '../assets/data/places_all-dicotopo-xml-src.json';
 
   export default {
     name: 'LandingMap.vue',

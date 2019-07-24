@@ -154,7 +154,6 @@
       // react to route changes...
       // don't forget to call next()
       this.fetchData()
-      console.log(to, from, next)
       next()
     },
     watch: {
@@ -177,6 +176,7 @@
         return cleanStr(str)
       },
       fetchData() {
+        this.clearMapMarkers();
         this.searchMapMarker({
             query: `(id:"${this.placenameId}" AND type:placename)`,
             pageNumber: 1,
@@ -190,7 +190,7 @@
       },
       ...mapActions('placenames', ['selectPlacename', 'unselectPlacename']),
       ...mapActions('placenameCard', ['fetchPlacenameCard']),
-      ...mapActions('mapmarkers', ['searchMapMarker']),
+      ...mapActions('mapmarkers', ['searchMapMarker', 'clearMapMarkers']),
     },
     computed: {
       items () {

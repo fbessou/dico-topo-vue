@@ -1,5 +1,5 @@
 import {ActionTree} from 'vuex';
-import {MapMarkerState, MapMarker} from './types';
+import {MapMarkerState} from './types';
 import {RootState} from '../types';
 import {api} from "@/utils/http-common";
 import {ApiErrorResponse, ApiOkResponse, ApiResponse} from "apisauce";
@@ -27,7 +27,6 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
 
       const filteredQuery = !!filterParam ? `${query} AND ${filterParam}` : query;
 
-
       url = `/search?query=${filteredQuery}&sort=label.keyword&page[size]=${searchPageSize}&page[number]=${searchPageNumber}&facade=map&filter[longlat]`
     }
 
@@ -38,18 +37,15 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
           if (ok) {
 
             /* parse marker items */
-            const items: Array<MapMarker> = data.data.map((m: any) => {
+            const items: string[] = data.data.map((m: any) => {
               const longlat: any = m.attributes["longlat"]
               let coords: [string, string] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null;
 
-              return {
-                id: m.type === "placename" ? m.id : m.attributes["placename-id"],
-                coordinates: [parseFloat(coords[1]), parseFloat(coords[0])]
-              }
+              return `${m.type === "placename" ? m.id : m.attributes["placename-id"]}@${[parseFloat(coords[1]), parseFloat(coords[0])]}`
             })
 
             /* save marker items */
-            commit('setItems', {m: items, links: data.links, meta: {totalCount: data.meta["total-count"]}})
+            commit('setItems', {m: [...new Set(items)], links: data.links, meta: {totalCount: data.meta["total-count"]}})
             /* return a link to the next resource if any */
             resolve(data.links.next)
           } else {

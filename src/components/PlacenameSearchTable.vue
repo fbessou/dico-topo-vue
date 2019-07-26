@@ -57,7 +57,7 @@
               <td v-if="!groupbyPlacename" class="text-xs-left" style="width: 15%; !important;">
                 <v-layout row wrap align-center>
                   <v-flex grow>
-                    <span>{{ cleanStr(props.item.label) }}</span>
+                    <span v-html="clean(props.item.label)"></span>
                   </v-flex>
                 </v-layout>
               </td>
@@ -66,7 +66,7 @@
                   <v-flex grow>
                     <router-link
                       :to="`/placenames/${props.item.type === 'placename' ? props.item.id: props.item.placenameId}`">
-                      {{ cleanStr(props.item.type === 'placename' ? props.item.label : props.item.placenameLabel ) }}
+                      {{ clean(props.item.type === 'placename' ? props.item.label : props.item.placenameLabel ) }}
                     </router-link>
                   </v-flex>
                 </v-layout>
@@ -77,17 +77,19 @@
                     <ul class="two-columns">
                       <li v-for="(oldLabel, index) in props.item.oldLabels"
                           :key="index"
-                          v-if="!!cleanStr(oldLabel)"
+                          v-if="!!clean(oldLabel)"
                           style="margin-right: 8px;"
                       >
-                        {{cleanStr(oldLabel)}}
+                        <span v-html="clean(oldLabel)"></span>
                       </li>
                     </ul>
                   </v-flex>
                 </v-layout>
               </td>
               <td class="text-xs-center" style="width: 50px;">{{ props.item.department }}</td>
-              <td class="text-xs-left">{{ cleanStr(props.item.description) }}</td>
+              <td class="text-xs-left">
+                <span v-html=" clean(props.item.description)"></span>
+              </td>
               <td style="width: 240px;">
                 <v-layout align-center justify-end row fill-height>
                   <v-flex  sm3>
@@ -165,7 +167,9 @@
   import LinkingMenu from './ui/LinkingMenu'
   import ExportMenu from './ui/ExportMenu'
   import StatefulButton from './ui/StatefulButton'
-  import FilterResult from './ui/FilterResult'
+  import FilterResult from './ui/FilterResult';
+  import { cleanStr } from '../utils/helpers'
+
   import Vue from 'vue';
   import _ from 'lodash';
 
@@ -234,11 +238,8 @@
     },
 
     methods: {
-      capitalizeFirstLetter(str) {
-        return str === null || str === undefined ? '' : str.charAt(0).toUpperCase() + str.slice(1)
-      },
-      cleanStr(str) {
-        return str === null || str === undefined ? '' : this.capitalizeFirstLetter(str.replace(/<[^>]*>/g, '').trim())
+      clean (str) {
+        return cleanStr(str)
       },
       goToPageAfter() {
         if (!!this.groupbyPlacename) {

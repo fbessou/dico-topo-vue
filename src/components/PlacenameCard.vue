@@ -4,7 +4,7 @@
       <v-card class="placename-card elevation-3" v-if="placenameItem">
    
         <v-toolbar card>
-          <v-toolbar-title>{{placenameItem.label}}
+          <v-toolbar-title v-html="clean(placenameItem.label)">
           </v-toolbar-title>
           <v-spacer></v-spacer>
 
@@ -32,11 +32,11 @@
         </v-toolbar>
   
         <v-card-text style="min-height: 100px; max-height: 200px; overflow: auto">
-          <p >{{clean(this.placenameItem.description)}}</p>
+          <p v-html="clean(this.placenameItem.description)"></p>
         </v-card-text>
   
-        <v-expansion-panel :value="panel">
-          <v-expansion-panel-content :disabled="!placenameItem.comment">
+        <v-expansion-panel :value="panel" v-if="!!placenameItem.comment">
+          <v-expansion-panel-content>
             <template v-slot:header>
               <div>
                 <v-icon>subject</v-icon>
@@ -44,24 +44,25 @@
               </div>
             </template>
             <v-card-text style="max-height: 400px; overflow: auto">
-              {{clean(this.placenameItem.comment)}}
+              <p v-html="clean(placenameItem.comment)"></p>
             </v-card-text>
           </v-expansion-panel-content>
   
           <v-expansion-panel-content
+            v-if="!!item.items && item.items.length > 0"
             v-for="item in items"
-            :disabled="item.items.length == 0"
             :key="item.label"
           >
             <template v-slot:header>
               <div>
                 <v-icon>{{item.action}}</v-icon>
-                {{item.label}}
+                <span v-html="item.label"></span>
               </div>
             </template>
             
             <v-card>
-              <v-card-text style="max-height: 300px; overflow: auto">
+              <v-card-text style="max-height: 300px; overflow: auto"
+                           v-if="!!item.items && item.items.length > 0">
                 <v-list>
                   <v-list-tile
                     v-for="(subItem, subItemIndex) in item.items"
@@ -70,15 +71,16 @@
                   >
                     <v-list-tile-content>
                       <v-list-tile-title>
-                        {{ clean(subItem.label) }}
-                        <v-icon v-if="!!subItem.actions.goTo" small fab @click="$router.push(subItem.actions.goTo)">
+                        <span v-html="clean(subItem.label)"></span>
+                        <v-icon class="ml-2"  v-if="!!subItem.actions.goTo" small fab @click="$router.push(subItem.actions.goTo)">
                           open_in_new
                         </v-icon>
                       </v-list-tile-title>
-                      <v-list-tile-sub-title>{{clean(subItem.subLabel)}}</v-list-tile-sub-title>
+                      <v-list-tile-sub-title>
+                        <span v-html="clean(subItem.subLabel)"></span>
+                      </v-list-tile-sub-title>
                     </v-list-tile-content>
                   </v-list-tile>
-                </v-list>
                 </v-list>
               </v-card-text>
             </v-card>

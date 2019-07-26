@@ -9,8 +9,8 @@
           <v-layout wrap>
         
             <v-flex xs12>
-              <v-layout justify-start align-center>
-                <v-btn class="elevation-0 blue--text" @click="$router.go(-1)">
+              <v-layout justify-start >
+                <v-btn class="elevation-1 blue--text ma-1" @click="$router.go(-1)">
                   <v-icon style="padding-right: 8px">chevron_left</v-icon>
                   Retour
                 </v-btn>
@@ -19,10 +19,9 @@
         
             <v-flex grow
                     pa-1 xs6>
-              <v-card class="elevation-2" v-if="!!placenameItem">
+              <v-card class="elevation-2 placename-card" v-if="!!placenameItem">
                 <v-toolbar card>
-                  <v-toolbar-title class="text-xs-left">
-                    {{ clean(placenameItem.label) }}
+                  <v-toolbar-title class="text-xs-left" v-html="clean(placenameItem.label)">
                   </v-toolbar-title>
                   <v-spacer></v-spacer>
               
@@ -51,11 +50,11 @@
             
             
                 <v-card-text class="text-xs-left" style="min-height: 100px; max-height: 200px; overflow: auto">
-                  <p>{{clean(this.placenameItem.description)}}</p>
+                  <p v-html="clean(placenameItem.description)"></p>
                 </v-card-text>
             
-                <v-expansion-panel :value="panel" expand>
-                  <v-expansion-panel-content :disabled="!placenameItem.comment">
+                <v-expansion-panel :value="panel" v-if="!!placenameItem.comment" expand>
+                  <v-expansion-panel-content>
                     <template v-slot:header>
                       <div>
                         <v-icon>subject</v-icon>
@@ -63,11 +62,12 @@
                       </div>
                     </template>
                     <v-card-text style="max-height: 400px; overflow: auto">
-                      {{clean(this.placenameItem.comment)}}
+                      <p v-html="clean(placenameItem.comment)"></p>
                     </v-card-text>
                   </v-expansion-panel-content>
               
                   <v-expansion-panel-content
+                    v-if="!!item.items && item.items.length > 0"
                     v-for="item in items"
                     :disabled="item.items.length == 0"
                     :key="item.label"
@@ -81,7 +81,7 @@
                 
                     <v-card>
                       <v-card-text style="max-height: 300px; overflow: auto">
-                        <v-list>
+                        <v-list >
                           <v-list-tile
                             v-for="(subItem, subItemIndex) in item.items"
                             :key="subItem.id"
@@ -89,12 +89,14 @@
                           >
                             <v-list-tile-content>
                               <v-list-tile-title>
-                                {{ clean(subItem.label) }}
-                                <v-icon v-if="!!subItem.actions.goTo" small fab
+                                <span v-html="clean(subItem.label)"></span>
+                                <v-icon class="ml-2"  v-if="!!subItem.actions.goTo" small fab
                                         @click="$router.push(subItem.actions.goTo)">open_in_new
                                 </v-icon>
                               </v-list-tile-title>
-                              <v-list-tile-sub-title>{{clean(subItem.subLabel)}}</v-list-tile-sub-title>
+                              <v-list-tile-sub-title>
+                                <span v-html="clean(subItem.subLabel)"></span>
+                              </v-list-tile-sub-title>
                             </v-list-tile-content>
                           </v-list-tile>
                         </v-list>
@@ -159,7 +161,6 @@
     watch: {
       placenameItem() {
         if (!!this.placenameItem){
-          console.log('set placename', obj)
           const obj = {
             id: this.placenameItem.id,
             coordinates: [
@@ -167,7 +168,8 @@
               parseFloat(this.placenameItem.coordinates[0].trim())
             ]
           }
-          this.selectPlacename(obj)
+          this.selectPlacename(obj);
+          console.log('set placename', obj)
         }
       }
     },
@@ -240,5 +242,7 @@
 </script>
 
 <style scoped>
-
+  .placename-card {
+  
+  }
 </style>

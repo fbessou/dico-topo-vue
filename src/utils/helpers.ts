@@ -8,7 +8,7 @@ function capitalizeFirstLetter(str: String)
 
 function cleanStr(str: String)
 {
-  return str === null || str === undefined ? '' : capitalizeFirstLetter(str.replace(/<[^>]*>/g, '').trim())
+  return str === null || str === undefined ? '' : capitalizeFirstLetter(str.replace(/<a[^>]*>/g, '').trim())
 }
 
 

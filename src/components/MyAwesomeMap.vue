@@ -1,6 +1,9 @@
 <template>
-  <l-map class="l-map" ref="map" :zoom="zoom" :center="center" :max-zoom="17" :style="`min-height: ${minHeight}; min-width: ${minWidth}; `">
-  
+  <l-map class="l-map" ref="map"
+         :zoom="zoom"
+         :center="center"
+         :max-zoom="17"
+         :style="`min-height: ${minHeight}; min-width: ${minWidth}; `">
   </l-map>
 </template>
 
@@ -43,7 +46,7 @@
     data () {
       return {
         zoom: !!this.initialZoom && this.initialZoom > 0 && this.initialZoom <= 17? this.initialZoom : 3,
-        center: [47.853806, 1.73392], //[49.56001319148936, 3.615102414893616],
+        center: [47.853806, 1.73392],
         
         markerLayer: null,
         heatLayer: null,
@@ -70,31 +73,38 @@
         }
   
         const openStreetMapLayer = L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {}).addTo(this.map)
-  
-        const layerSwitcher = L.geoportalControl.LayerSwitcher({
-          layers: [{
-            layer: openStreetMapLayer,
-            config: {
-              title: 'Open Street Map',
-              description: 'Couche Open Street Maps'
-            }
-          }, {
-            layer: this.heatLayer,
-            config: {
-              title: 'Densité toponymique',
-              description: 'Carte de densité des toponymes'
-            }
+        
+        let switchableLayers = [{
+          layer: openStreetMapLayer,
+          config: {
+            title: 'Open Street Map',
+            description: 'Couche Open Street Maps'
           }
-          ]
+        }];
+        
+        if (this.useHeatmap) {
+          switchableLayers.push(
+            {
+              layer: this.heatLayer,
+              config: {
+                title: 'Densité toponymique',
+                description: 'Carte de densité des toponymes'
+              }
+            }
+          );
+        }
+        
+        const layerSwitcher = L.geoportalControl.LayerSwitcher({
+          layers: switchableLayers
         })
         
         this.map.addControl(layerSwitcher)
       },
       
       addMarkers(markers) {
-        
-        let newMarkers = []
+        let newMarkers = [];
         for(let m of markers) {
+          //console.log(m);
           if (this.useMarkers) {
             let newMarker = L.marker(m.coordinates);
             if (this.onMarkerClick) {
@@ -121,14 +131,11 @@
         // clear the heat map markers
         // using a trick to not trigger .redraw when the layer is not on the map
         if (this.map.hasLayer(this.heatLayer)) {
-          if (this.useHeatmap) {
-            this.heatLayer.setLatLngs([])
-          } else {
-            this.heatLayer._latlngs = []
-          }
+          this.heatLayer.setLatLngs([])
         }
         // clear the placename markers
         this.markerLayer.clearLayers()
+        console.log("clear map");
       },
       toggleMarkerLayer()
       {
@@ -155,7 +162,6 @@
       }
     },
     mounted () {
-  
       L.Marker.prototype.options.icon = L.icon({
         iconUrl: icon,
         shadowUrl: iconShadow
@@ -163,7 +169,6 @@
       console.log(`autoconf: ${process.env.BASE_URL}autoconf-https.json`)
       
       Gp.Services.getConfig({
-        //apiKey: '4bgxfnc1ufj44pmxpsloxq6j',
         callbackSuffix: '',
         serverUrl: `${process.env.BASE_URL}autoconf-https.json`,
         onSuccess: this.addIGNServices,
@@ -172,12 +177,15 @@
         }
       })
   
-      this.heatLayer = L.heatLayer([], { radius: 22, blur: 12, minOpacity: 0.25 })
+      if (this.useHeatmap) {
+        this.heatLayer = L.heatLayer([], { radius: 22, blur: 12, minOpacity: 0.25 })
+        this.map.addLayer(this.heatLayer);
+      }
+      
       this.markerLayer = L.markerClusterGroup({
         showCoverageOnHover: false
       })
   
-      this.map.addLayer(this.heatLayer);
       this.map.addLayer(this.markerLayer);
       
       if (this.useHeatmap) {
@@ -201,15 +209,21 @@
     },
     watch: {
       mapmarkerItems() {
-        const items = Array.from(this.mapmarkerItems.values())
-        if (items.length) {
-          this.addMarkers(items)
+        console.log("watching mapmarkerItems", this.mapmarkerItems.length);
+        if (this.mapmarkerItems.length > 0) {
+          this.addMarkers(this.mapmarkerItems.map(m  => {
+            const p = m.split('@')
+            return {
+              id: p[0],
+              coordinates: p[1].split(',')
+            }
+          }))
         } else {
-          this.clearMarkers()
+          this.clearMarkers();
         }
       },
       mapmarkerLoading(val) {
-        if (val) {
+        if (!!this.mapmarkerLoading) {
           this.clearMarkers()
         }
       },

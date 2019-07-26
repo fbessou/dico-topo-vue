@@ -4,7 +4,7 @@
     
     </main-toolbar>
     <v-content>
-      <section>
+      <section style="min-height: 80%">
         <v-container grid-list-md text-xs-center>
           <v-layout wrap>
         

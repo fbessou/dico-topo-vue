@@ -2,7 +2,7 @@ import {MutationTree} from 'vuex';
 import {PlacenameCardState} from './types';
 import Vue from 'vue';
 import {Links} from "@/store/types";
-import {MapMarker, MapMarkerState} from "@/store/mapmarkers/types";
+import {MapMarkerState} from "@/store/mapmarkers/types";
 
 export function getDefaultState(): PlacenameCardState {
   return {

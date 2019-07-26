@@ -6,7 +6,7 @@
       
         <v-data-table
             class="elevation-4 fixed-header v-table__overflow"
-            style="position: fixed; bottom: 0;  max-height: 60%;"
+            style="position: fixed; bottom: 0;  max-height: 55%;"
             
             :headers="headers"
             :items="items"
@@ -437,7 +437,7 @@
   
   .toggle-table-down {
     position: fixed;
-    bottom: 60%;
+    bottom: 55%;
     width: 100px;
     margin-bottom: 48px;
     left: calc(50% - 44px);

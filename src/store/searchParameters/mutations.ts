@@ -1,7 +1,7 @@
 import {MutationTree} from 'vuex';
 import Vue from 'vue';
 import {Links} from "@/store/types";
-import {MapMarker, MapMarkerState} from "@/store/mapmarkers/types";
+import {MapMarkerState} from "@/store/mapmarkers/types";
 import {QueryState, SortableField} from "@/store/searchParameters/types";
 import {Placename, PlacenameState} from "@/store/placenames/types";
 

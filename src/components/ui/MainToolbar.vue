@@ -61,7 +61,11 @@
       
         <span style="width:200px">
           <div>
-                      <time-filter :styles="{height: '32px', position: 'relative'}"></time-filter>
+            <time-filter
+              :start="500"
+              :end="1000"
+              :chart-data="timeFilterData"
+              :styles="{height: '32px', position: 'relative'}"></time-filter>
           </div>
           <div>
              <v-range-slider
@@ -107,7 +111,7 @@
         groupByOption: undefined,
         
         timeRange: [800, 1847],
-        selectedTimeRange: [920, 1500]
+        selectedTimeRange: [10, 80],
       }
     },
     mounted() {
@@ -177,7 +181,20 @@
       ...mapState('placenames', { selectedPlacename: 'selectedItem', meta: 'meta' }),
       ...mapState('mapmarkers', { mapMarkersAreLoading: 'isLoading', mapMarkerItems: 'items' }),
       ...mapState('searchParameters', ['term', 'includeOldLabels', 'groupbyPlacename', 'minTermLength']),
-      ...mapGetters('searchParameters', ['query', 'computedFilterParam'])
+      ...mapGetters('searchParameters', ['query', 'computedFilterParam']),
+  
+      timeFilterData() {
+        return {
+          labels: ['', '', '', '', '', '', '', '', '', '', '', '', '',],
+          datasets: [
+            {
+              backgroundColor: '#d32f2f',
+              data: [150, 500, 561, 878, 879, 920, 900, 1200, 1300, 1100, 1300, 760, 30],
+              _meta: {start: this.selectedTimeRange[0], end: this.selectedTimeRange[1]}
+            }
+          ]
+        }
+      }
     }
   }
 </script>

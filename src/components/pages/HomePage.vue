@@ -102,19 +102,6 @@
 </script>
 
 <style>
-  .toolbar-buttons {
-    display: flex;
-    line-height: 32px;
-    margin-top: 20px;
-    margin-left: 32px;
-    color: grey;
-    font-family: Roboto, sans-serif;
-  }
-
-  .toolbar-buttons span {
-    display: inline-block;
-    vertical-align: middle;
-  }
 
 
   .toggle-table-up {

@@ -29,27 +29,51 @@
   
     <span class="toolbar-buttons">
         
-          <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <span v-on="on">Lieux</span>
-          </template>
-          <span>Les résultats de la recherche sont groupés par lieu identifié</span>
-         </v-tooltip>
-        
-          <v-switch
-            class="ml-2"
-            style="color: #d32f2f !important"
-            v-model="groupByOption"
-            color="lightgrey"
-            :disabled="mapMarkersAreLoading">
-          </v-switch>
-        
-         <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <span v-on="on">Toponymes</span>
-          </template>
-          <span>Les résultats de la recherche ne sont pas groupés par lieu identifié mais par forme toponymique</span>
-         </v-tooltip>
+        <span>
+          <v-layout row>
+            <v-flex>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <span v-on="on">Lieux</span>
+                </template>
+                <span>Les résultats de la recherche sont groupés par lieu identifié</span>
+              </v-tooltip>
+            </v-flex>
+            <v-flex>
+               <v-switch
+                 class="ml-2"
+                 style="color: #d32f2f !important"
+                 v-model="groupByOption"
+                 color="lightgrey"
+                 :disabled="mapMarkersAreLoading">
+               </v-switch>
+            </v-flex>
+            <v-flex>
+               <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <span v-on="on">Toponymes</span>
+                </template>
+                <span>Les résultats de la recherche ne sont pas groupés par lieu identifié mais par forme toponymique</span>
+                </v-tooltip>
+            </v-flex>
+          </v-layout>
+        </span>
+      
+        <span style="width:200px">
+          <div>
+                      <time-filter :styles="{height: '32px', position: 'relative'}"></time-filter>
+          </div>
+          <div>
+             <v-range-slider
+               style="width:100%"
+               :min="timeRange[0]"
+               :max="timeRange[1]"
+               v-model="selectedTimeRange"
+               color="#d32f2f"
+               thumb-color="#d32f2f"
+             ></v-range-slider>
+          </div>
+        </span>
 
       </span>
     
@@ -67,18 +91,23 @@
   
   import _ from 'lodash';
   import { mapState, mapGetters, mapActions } from 'vuex'
+  import TimeFilter from './TimeFilter.vue'
 
   export default {
     name: 'MainToolbar',
     props: {
     },
     components: {
+      TimeFilter
     },
     data () {
       return {
         maxMarkerPerBatch: 5000,
         inputTerm: undefined,
-        groupByOption: undefined
+        groupByOption: undefined,
+        
+        timeRange: [800, 1847],
+        selectedTimeRange: [920, 1500]
       }
     },
     mounted() {
@@ -177,4 +206,19 @@
     -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
   }
+
+  .toolbar-buttons > span {
+    display: flex;
+    line-height: 32px;
+    margin-top: 20px;
+    margin-left: 32px;
+    color: grey;
+    font-family: Roboto, sans-serif;
+  }
+
+  .toolbar-buttons span {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
 </style>

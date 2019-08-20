@@ -6,20 +6,36 @@
   const { reactiveProp } = mixins
 
   Chart.defaults.BoundedBar = Chart.defaults.bar;
+  
+  
+  function drawBB(ctx, meta) {
+    const a = meta.start;
+    const b = meta.end;
+  
+    const selA = meta.selectionStart;
+    const selB = meta.selectionEnd;
+  
+    const startBB = Math.min(a, b);
+    const endBB = Math.max(a, b);
+  
+    const selectionStart = Math.min(selA, selB);
+    const selectionEnd = Math.max(selA, selB);
+  
+    const hSize = Math.abs(endBB) - Math.abs(startBB);
+  
+    const pStart = startBB === selectionStart ? 0 : parseInt(100 * (Math.abs(selectionStart) - Math.abs(startBB)) / hSize)
+    const pEnd = endBB === selectionEnd ? 100 : 100 + parseInt(100 * (Math.abs(selectionEnd) - Math.abs(endBB)) / hSize)
+  
+    ctx.save();
+    ctx.fillStyle = 'lightgrey';
+    ctx.fillRect(pStart * 2, 0, (pEnd - pStart) * 2, 100);
+    ctx.restore();
+  }
+  
   Chart.controllers.BoundedBar = Chart.controllers.bar.extend({
-   
     draw: function (ease) {
-      
-      const startBB = this.chart.config.data.datasets["0"]._meta.start;
-      const endBB = this.chart.config.data.datasets["0"]._meta.end;
-      
-      var ctx = this.chart.chart.ctx;
-      ctx.save();
-      ctx.fillStyle = 'lightgrey';
-      ctx.fillRect(startBB*0.1, 0, (endBB-startBB)*0.1, 100);
-      ctx.restore();
-      
-      Chart.controllers.bar.prototype.draw.call(this, ease);
+      drawBB(this.chart.chart.ctx, this.chart.config.data.datasets["0"]._meta);
+      Chart.controllers.bar.prototype.draw.call(this);
     }
   });
   
@@ -30,10 +46,6 @@
     name: "TimeFilter",
     extends: BoundedBar,
     mixins: [reactiveProp],
-    props: {
-      start: {type: Number},
-      end: {type: Number}
-    },
     data: () => {
       return {
         options : {

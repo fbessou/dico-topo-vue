@@ -60,23 +60,32 @@
         </span>
       
         <span style="width:200px">
-          <div>
+          <v-layout row>
+            <v-flex pr-2>
+               {{selectedTimeRange[0]}}
+            </v-flex>
+            <v-flex>
+              <div>
             <time-filter
-              :start="500"
-              :end="1000"
               :chart-data="timeFilterData"
               :styles="{height: '32px', position: 'relative'}"></time-filter>
           </div>
           <div>
-             <v-range-slider
-               style="width:100%"
-               :min="timeRange[0]"
-               :max="timeRange[1]"
-               v-model="selectedTimeRange"
-               color="#d32f2f"
-               thumb-color="#d32f2f"
-             ></v-range-slider>
+            <v-range-slider
+              :min="timeRange[0]"
+              :max="timeRange[1]"
+              v-model="selectedTimeRange"
+         
+              color="#d32f2f"
+              height="22px"
+            ></v-range-slider>
           </div>
+            </v-flex>
+            <v-flex pl-2>
+               {{selectedTimeRange[1]}}
+            </v-flex>
+          </v-layout>
+          
         </span>
 
       </span>
@@ -110,14 +119,17 @@
         inputTerm: undefined,
         groupByOption: undefined,
         
-        timeRange: [800, 1847],
-        selectedTimeRange: [10, 80],
+        barData: [150, 500, 561, 878, 879, 920, 900, 1200, 1300, 1100, 1300, 760, 30],
+        timeRange: [800, 1841],
+        selectedTimeRange: [800, 1841],
       }
     },
     mounted() {
       this.groupByOption = !this.groupbyPlacename;
       this.unselectPlacename()
       this.inputTerm = this.term
+      
+      this.selectedTimeRange = this.timeRange;
     },
     methods: {
       startNewSearch: _.debounce(function (reloadMap = true) {
@@ -189,8 +201,13 @@
           datasets: [
             {
               backgroundColor: '#d32f2f',
-              data: [150, 500, 561, 878, 879, 920, 900, 1200, 1300, 1100, 1300, 760, 30],
-              _meta: {start: this.selectedTimeRange[0], end: this.selectedTimeRange[1]}
+              data: this.barData,
+              _meta: {
+                start: this.timeRange[0],
+                end: this.timeRange[1],
+                selectionStart: this.selectedTimeRange[0],
+                selectionEnd: this.selectedTimeRange[1]
+              }
             }
           ]
         }
@@ -236,6 +253,10 @@
   .toolbar-buttons span {
     display: inline-block;
     vertical-align: middle;
+  }
+  .toolbar-buttons .v-slider__thumb {
+    height: 20px;
+    width: 20px;
   }
 
 </style>

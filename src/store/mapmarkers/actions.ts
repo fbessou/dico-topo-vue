@@ -14,7 +14,7 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
     commit('clearAll')
     commit("setLoading", false)
   },
-  searchMapMarker({commit, rootState, state}, {query, filterParam, pageSize, nextLink}): any {
+  searchMapMarker({commit, rootState, state}, {query, filterParam, rangeParam, pageSize, nextLink}): any {
     let url: any = null
 
     if (!!nextLink) {
@@ -26,8 +26,9 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
       const searchPageNumber = 1;
 
       const filteredQuery = !!filterParam ? `${query} AND ${filterParam}` : query;
+      const range = !!rangeParam ? `&${rangeParam}`: '';
 
-      url = `/search?query=${filteredQuery}&sort=label.keyword&page[size]=${searchPageSize}&page[number]=${searchPageNumber}&facade=map&filter[longlat]`
+      url = `/search?query=${filteredQuery}${range}&sort=label.keyword&page[size]=${searchPageSize}&page[number]=${searchPageNumber}&facade=map&filter[longlat]`
     }
 
     return new Promise<ApiOkResponse<any>>((resolve, reject) => {

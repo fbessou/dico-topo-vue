@@ -146,7 +146,7 @@
       */
     },
     methods: {
-      ...mapActions('searchParameters', ['setTerm', 'setIncludeOldLabels', 'setGroupbyPlacename'])
+      ...mapActions('searchParameters', ['setTerm', 'setGroupbyPlacename'])
     },
     computed: {
       ...mapState('searchParameters', ['groupbyPlacename']),

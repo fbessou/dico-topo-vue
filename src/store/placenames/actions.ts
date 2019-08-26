@@ -6,15 +6,15 @@ import {ApiResponse} from "apisauce";
 
 
 
-function makeUrl(query: String, sort: String, pageSize: String, pageNumber: String) {
-  return `/search?query=${query}${sort}${pageSize}${pageNumber}`;
+function makeUrl(query: String, rangeParam: String, sort: String, pageSize: String, pageNumber: String) {
+  return `/search?query=${query}${rangeParam}${sort}${pageSize}${pageNumber}`;
 }
 
-function makeAggUrl(query: String, groupby: String, sort: String, pageSize: String, pageAfter: String) {
+function makeAggUrl(query: String, rangeParam: String, groupby: String, sort: String, pageSize: String, pageAfter: String) {
   const agg = `&groupby[doc-type]=placename&groupby[field]=placename-id.keyword`;
   const after = !!pageAfter ? `&page[after]=${pageAfter}` : ''
 
-  return `/search?query=${query}${agg}${sort}${pageSize}${after}`;
+  return `/search?query=${query}${rangeParam}${agg}${sort}${pageSize}${after}`;
 }
 
 function makeUniqueDptUrl(query: String) {
@@ -42,7 +42,7 @@ export const actions: ActionTree<PlacenameState, RootState> = {
   recordCurrentAggPage({commit, state, rootState}, after) {
     commit("pushAfterHistory");
   },
-  searchPlacename({commit, rootState}, {query, filterParam, groupbyPlacename, sortParam, pageSize, pageNumber, after}): any {
+  searchPlacename({commit, rootState}, {query, filterParam, rangeParam, groupbyPlacename, sortParam, pageSize, pageNumber, after}): any {
     commit('setLoading', true)
     const index = `${process.env.VUE_APP_PLACENAME_INDEX}`;
     const maxPageSize: number = process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE;
@@ -51,8 +51,9 @@ export const actions: ActionTree<PlacenameState, RootState> = {
     const pnum = `&page[number]=${pageNumber > 0 ? pageNumber : 1}`;
     const sort = !!sortParam ? `&sort=${sortParam}` : '';
     const filteredQuery = !!filterParam ? `${query} AND ${filterParam}` : query;
+    const range = !!rangeParam ? `&${rangeParam}` : '';
 
-    const url = !!groupbyPlacename ? makeAggUrl(filteredQuery, groupbyPlacename, sort, psize, after) : makeUrl(filteredQuery, sort, psize, pnum);
+    const url = !!groupbyPlacename ? makeAggUrl(filteredQuery, range, groupbyPlacename, sort, psize, after) : makeUrl(filteredQuery, range, sort, psize, pnum);
 
     return api.get(url)
       .then((res: ApiResponse<any>) => {
@@ -97,6 +98,7 @@ export const actions: ActionTree<PlacenameState, RootState> = {
                   oldLabels: [],
                   placenameLabel: p.attributes["placename-label"],
                   description: p.attributes["placename-desc"],
+                  date: p.attributes["text-date"],
 
                   insee_code: p.attributes["localization-insee-code"],
                   department: p.attributes["dpt"],

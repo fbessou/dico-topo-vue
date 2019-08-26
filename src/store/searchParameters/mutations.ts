@@ -2,7 +2,7 @@ import {MutationTree} from 'vuex';
 import Vue from 'vue';
 import {Links} from "@/store/types";
 import {MapMarkerState} from "@/store/mapmarkers/types";
-import {QueryState, SortableField} from "@/store/searchParameters/types";
+import {QueryState, SortableField, RangeParameter} from "@/store/searchParameters/types";
 import {Placename, PlacenameState} from "@/store/placenames/types";
 
 
@@ -11,9 +11,10 @@ export function getDefaultState(): QueryState {
 
   return {
     term: '',
-    includeOldLabels: true,
     groupbyPlacename: true,
     sortFields: new Array <SortableField>(),
+
+    range: {key: '', operators: []},
 
     depFilter: [],
 
@@ -24,9 +25,6 @@ export function getDefaultState(): QueryState {
 export const mutations: MutationTree<QueryState> = {
   setTerm(state: QueryState, t) {
     state.term = t;
-  },
-  setIncludeOldLabels(state: QueryState, b) {
-    state.includeOldLabels = b;
   },
   setGroupbyPlacename(state: QueryState, b) {
     state.groupbyPlacename = b;
@@ -53,7 +51,14 @@ export const mutations: MutationTree<QueryState> = {
       console.log("sort field removed ->", state.sortFields);
     }
   },
-
+  setRange(state: QueryState, range: RangeParameter) {
+    console.log("setting range to", state.range, range);
+    state.range = Object.assign({}, state.range, range);
+  },
+  removeRange(state: QueryState) {
+    console.log("remove range");
+    state.range = Object.assign({}, state.range,{key: '', operators: []});
+  },
   setDepFilter(state: QueryState, value) {
     Vue.set(state, 'depFilter', value);
   }

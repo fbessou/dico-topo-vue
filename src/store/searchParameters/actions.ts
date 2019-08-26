@@ -9,11 +9,14 @@ export const actions: ActionTree<QueryState, RootState> = {
   setTerm({commit, state, rootState}, t): any {
     commit('setTerm', t)
   },
-  setIncludeOldLabels({commit, state, rootState}, t): any {
-    commit('setIncludeOldLabels', t)
-  },
   setGroupbyPlacename({commit, state, rootState}, t): any {
     commit('setGroupbyPlacename', t)
+  },
+  setRange({commit, state}, {key, operators}): any {
+    commit("setRange", {key, operators});
+  },
+  removeRange({commit, state}): any {
+    commit("removeRange");
   },
   addSortField({commit, state, rootState}, {field, order}): any {
     commit('addSortField', {field, order});

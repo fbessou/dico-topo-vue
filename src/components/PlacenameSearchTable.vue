@@ -279,6 +279,7 @@
           const { sortBy, descending, page, rowsPerPage } = this.pagination
           this.searchPlacename({
             query: this.searchedTerm,
+            rangeParam: this.computedRangeParam,
             filterParam: this.computedFilterParam,
             groupbyPlacename: this.groupbyPlacename,
             sortParam: this.computedSortParam,
@@ -339,7 +340,11 @@
       ...mapActions('placenames', ['fetchPlacename', 'searchPlacename', 'clearAll', 'selectPreviousAggPage', 'recordCurrentAggPage']),
       ...mapActions('searchParameters', ['addSortField', 'updateSortField', 'removeSortField', 'setFilter'])
     },
-    
+    watch: {
+      range() {
+        this.fetchData();
+      }
+    },
     computed: {
       headers () {
         const localisation = {
@@ -415,8 +420,8 @@
         afterHistory: 'afterHistory',
         uniqueDepartments: 'uniqueDepartments',
       }),
-      ...mapState('searchParameters', ['sortFields', 'groupbyPlacename', 'depFilter']),
-      ...mapGetters('searchParameters', ['computedSortParam', 'computedFilterParam', 'getSortParam'])
+      ...mapState('searchParameters', ['sortFields', 'groupbyPlacename', 'depFilter', 'range']),
+      ...mapGetters('searchParameters', ['computedSortParam', 'computedRangeParam', 'computedFilterParam', 'getSortParam'])
     }
   }
 </script>

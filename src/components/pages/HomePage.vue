@@ -90,7 +90,7 @@
       ...mapActions('mapmarkers', ['searchMapMarker', 'clearMapMarkers', 'setMarkersLoading']),
       ...mapActions('placenames', ['selectPlacename', 'unselectPlacename']),
       ...mapActions('placenameCard', ['clearPlacenameCard']),
-      ...mapActions('searchParameters', ['setTerm', 'setIncludeOldLabels', 'setGroupbyPlacename'])
+      ...mapActions('searchParameters', ['setTerm', 'setGroupbyPlacename'])
     },
     computed: {
       ...mapState('placenames', { selectedPlacename: 'selectedItem', meta: 'meta' }),

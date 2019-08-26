@@ -28,7 +28,7 @@
   
     ctx.save();
     ctx.fillStyle = 'lightgrey';
-    ctx.fillRect(pStart * 2, 0, (pEnd - pStart) * 2, 100);
+    ctx.fillRect(pStart * 2 - 2, 0, (pEnd - pStart) * 2, 100);
     ctx.restore();
   }
   
@@ -60,7 +60,14 @@
             yAxes: [{
               display: false,
             }]
-          }
+          },
+          animation: {
+            duration: 0 // general animation time
+          },
+          hover: {
+            animationDuration: 0 // duration of animations when hovering an item
+          },
+          responsiveAnimationDuration: 0 // animation duration after a resize
         }
       }
     },

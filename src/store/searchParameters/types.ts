@@ -5,12 +5,19 @@ export interface SortableField {
   order: string;
 }
 
+export interface RangeParameter {
+  key: string;
+  operators: Array<string>;
+}
+
+
 export interface QueryState {
   term: string;
-  includeOldLabels: boolean;
   groupbyPlacename: boolean;
 
   sortFields: Array<SortableField>;
+
+  range: RangeParameter;
 
   depFilter: String[];
 

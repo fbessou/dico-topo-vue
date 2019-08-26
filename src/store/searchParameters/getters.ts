@@ -9,16 +9,11 @@ const minTermLength = 2;
 export const getters: GetterTree<QueryState, RootState> = {
   query(state): any {
     let query = undefined;
-
     if (!state.term || state.term.length < minTermLength) {
       return undefined
     }
-
-    if (!!state.includeOldLabels) {
-      query = `label:${state.term}`  // include old labels means "do not filter on the type field"
-    } else {
-      query = `label:${state.term} AND NOT (type:"placename-old-label")` // do not include old labels means "filter out hte placename-old-label type"
-    }
+    query = `label:${state.term}`  // include old labels means "do not filter on the type field"
+    // query = `label:${state.term} AND NOT (type:"placename-old-label")` // do not include old labels means "filter out hte placename-old-label type"
     return query;
   },
   getSortParam: (state) => (key: any) => {
@@ -42,5 +37,12 @@ export const getters: GetterTree<QueryState, RootState> = {
     const result = filters.join(' AND ');
 
     return result ? `(${result})` : "";
+  },
+  computedRangeParam(state): any  {
+    let result = '';
+    if (state.range.operators.length >= 1) {
+      result = `range[${state.range.key}]=${state.range.operators.join(',')}`
+    }
+    return result;
   }
 };

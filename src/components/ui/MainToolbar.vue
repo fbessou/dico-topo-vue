@@ -61,7 +61,7 @@
       
         <span style="width:200px">
           <v-layout row>
-            <v-flex pr-2>
+            <v-flex pr-2 pt-2 style="min-width:40px;">
                {{selectedTimeRange[0]}}
             </v-flex>
             <v-flex>
@@ -81,7 +81,7 @@
             ></v-range-slider>
           </div>
             </v-flex>
-            <v-flex pl-2>
+            <v-flex pl-2 pt-2 style="min-width:40px;">
                {{selectedTimeRange[1]}}
             </v-flex>
           </v-layout>
@@ -155,6 +155,7 @@
         return this.searchMapMarker({
           query: this.query,
           filterParam: this.computedFilterParam,
+          rangeParam: this.computedRangeParam,
           nextLink: nextLink,
           pageSize: this.maxMarkerPerBatch
         }).then(next => {
@@ -173,7 +174,7 @@
       ...mapActions('mapmarkers', ['searchMapMarker', 'clearMapMarkers', 'setMarkersLoading']),
       ...mapActions('placenames', ['selectPlacename', 'unselectPlacename']),
       ...mapActions('placenameCard', ['clearPlacenameCard']),
-      ...mapActions('searchParameters', ['setTerm', 'setGroupbyPlacename'])
+      ...mapActions('searchParameters', ['setTerm', 'setGroupbyPlacename', 'setRange', 'removeRange'])
     },
     watch: {
       inputTerm (oldVal, newVal) {
@@ -183,17 +184,30 @@
       },
       groupByOption () {
         this.setGroupbyPlacename(!this.groupByOption)
-        //this.startNewSearch(false);
       },
       computedFilterParam () {
         this.startNewSearch();
       },
+      selectedTimeRange() {
+        if (!!this.selectedTimeRange) {
+          const newRange  = {
+            key: "text-date",
+            operators: [`gte:${this.selectedTimeRange[0]}`, `lte:${this.selectedTimeRange[1]}`]
+          };
+          this.setRange(newRange)
+        } else {
+          this.removeRange();
+        }
+      },
+      range() {
+        this.startNewSearch();
+      }
     },
     computed: {
       ...mapState('placenames', { selectedPlacename: 'selectedItem', meta: 'meta' }),
       ...mapState('mapmarkers', { mapMarkersAreLoading: 'isLoading', mapMarkerItems: 'items' }),
-      ...mapState('searchParameters', ['term', 'includeOldLabels', 'groupbyPlacename', 'minTermLength']),
-      ...mapGetters('searchParameters', ['query', 'computedFilterParam']),
+      ...mapState('searchParameters', ['term', 'groupbyPlacename', 'minTermLength', 'range']),
+      ...mapGetters('searchParameters', ['query', 'computedFilterParam', 'computedRangeParam']),
   
       timeFilterData() {
         return {

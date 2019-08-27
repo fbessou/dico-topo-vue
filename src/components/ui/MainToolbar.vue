@@ -29,7 +29,7 @@
   
     <span class="toolbar-buttons">
         
-        <span>
+        <span v-if="showGroupBy">
           <v-layout row>
             <v-flex>
               <v-tooltip bottom>
@@ -59,7 +59,7 @@
           </v-layout>
         </span>
       
-        <span style="width:200px">
+        <span v-if="showTimeRange" style="width:200px">
           <v-layout row>
             <v-flex pr-2 pt-2 style="min-width:40px;">
                {{selectedTimeRange[0]}}
@@ -109,6 +109,8 @@
   export default {
     name: 'MainToolbar',
     props: {
+      showGroupBy: {type: Boolean, default: false},
+      showTimeRange: { type: Boolean, default: false }
     },
     components: {
       TimeFilter
@@ -183,24 +185,33 @@
         }
       },
       groupByOption () {
-        this.setGroupbyPlacename(!this.groupByOption)
+        if (!!this.$props.showGroupBy) {
+          this.setGroupbyPlacename(!this.groupByOption)
+        }
       },
       computedFilterParam () {
         this.startNewSearch();
       },
       selectedTimeRange() {
-        if (!!this.selectedTimeRange) {
-          const newRange  = {
-            key: "text-date",
-            operators: [`gte:${this.selectedTimeRange[0]}`, `lte:${this.selectedTimeRange[1]}`]
-          };
-          this.setRange(newRange)
-        } else {
-          this.removeRange();
+        if (this.$props.showTimeRange) {
+          if (!!this.selectedTimeRange) {
+            const newRange = {
+              key: "text-date",
+              operators: [`gte:${this.selectedTimeRange[0]}`, `lte:${this.selectedTimeRange[1]}`]
+            };
+            this.setRange(newRange)
+          } else {
+            this.removeRange();
+          }
         }
+
       },
-      range() {
-        this.startNewSearch();
+      range(oldVal, newVal) {
+        if (this.$props.showTimeRange) {
+          if (oldVal !== newVal && this.inputTerm.length > 2) {
+            this.startNewSearch();
+          }
+        }
       }
     },
     computed: {

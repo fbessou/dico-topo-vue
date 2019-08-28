@@ -218,7 +218,6 @@
         
         Vue.set(this.filterSelections, 'department', [])
         this.setFilter({ filter: 'department', value: [] });
-        
         this.fetchData()
       },
       computedSortParam() {
@@ -227,13 +226,18 @@
       },
       computedFilterParam() {
         this.pagination.page = 1;
-        console.log(this.computedFilterParam);
+        console.log("computed filter param", this.computedFilterParam);
         this.fetchData();
       },
       groupbyPlacename() {
         this.numAggPage = 0;
         this.pagination.page = 1;
         this.fetchData();
+      },
+      range () {
+        if (!!this.searchedTerm && this.searchedTerm.length > 2) {
+          this.fetchData();
+        }
       }
     },
 
@@ -266,7 +270,6 @@
       },
       getDataFromApi(after=null) {
         this.loading = true
-  
         if (!!this.groupbyPlacename) {
           this.recordCurrentAggPage();
         }
@@ -339,11 +342,6 @@
       },
       ...mapActions('placenames', ['fetchPlacename', 'searchPlacename', 'clearAll', 'selectPreviousAggPage', 'recordCurrentAggPage']),
       ...mapActions('searchParameters', ['addSortField', 'updateSortField', 'removeSortField', 'setFilter'])
-    },
-    watch: {
-      range() {
-        this.fetchData();
-      }
     },
     computed: {
       headers () {

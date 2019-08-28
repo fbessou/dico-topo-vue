@@ -136,10 +136,10 @@
     methods: {
       startNewSearch: _.debounce(function (reloadMap = true) {
         this.setTerm(this.inputTerm);
-        this.initSearch(reloadMap);
         if (this.$router.currentRoute.name !== 'home') {
           this.$router.push({name: 'home'});
         }
+        this.initSearch(reloadMap);
       }, 500),
       initSearch (reloadMap) {
         if (!!this.query) {

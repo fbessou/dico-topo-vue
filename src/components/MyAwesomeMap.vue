@@ -135,7 +135,7 @@
         }
         // clear the placename markers
         this.markerLayer.clearLayers()
-        console.log("clear map");
+        //console.log("clear map");
       },
       toggleMarkerLayer()
       {
@@ -209,7 +209,7 @@
     },
     watch: {
       mapmarkerItems() {
-        console.log("watching mapmarkerItems", this.mapmarkerItems.length);
+        //console.log("watching mapmarkerItems", this.mapmarkerItems.length);
         if (this.mapmarkerItems.length > 0) {
           this.addMarkers(this.mapmarkerItems.map(m  => {
             const p = m.split('@')

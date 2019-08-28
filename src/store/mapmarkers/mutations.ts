@@ -18,7 +18,7 @@ export const mutations: MutationTree<MapMarkerState> = {
     /* add new items to the existing ones */
     //Vue.set(state, 'items', [...new Set([...state.items, ...m])]);
     state.items = Object.assign([], [...new Set([...state.items, ...m])])
-    console.log("set markers in vuex", state.items.length);
+    //console.log("set markers in vuex", state.items.length);
     state.links = links
     state.meta = meta
     state.error = undefined

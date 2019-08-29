@@ -72,8 +72,8 @@
           </div>
           <div>
             <v-range-slider
-              :min="knownYears[0]"
-              :max="knownYears[1]"
+              :min="knownYears[0].year"
+              :max="knownYears[knownYears.length - 1].year"
               v-model="selectedTimeRange"
          
               color="#d32f2f"
@@ -120,8 +120,6 @@
         maxMarkerPerBatch: 5000,
         inputTerm: undefined,
         groupByOption: undefined,
-        
-        barData: [150, 500, 561, 878, 879, 920, 900, 1200, 1300, 1100, 1300, 760, 30],
         selectedTimeRange: [],
       }
     },
@@ -199,8 +197,11 @@
         }
       },
       knownYears() {
-        if (this.selectedTimeRange.length === 0) {
-          this.selectedTimeRange = this.knownYears;
+        if (this.selectedTimeRange.length === 0 && this.knownYears.length >= 2) {
+          console.log("KY", this.knownYears);
+          const lowerBound = this.knownYears[0].year;
+          const upperBound = this.knownYears[this.knownYears.length - 1].year;
+          this.selectedTimeRange = [lowerBound, upperBound];
         }
       },
       range(oldVal, newVal) {
@@ -217,15 +218,18 @@
       ...mapState('searchParameters', ['term', 'groupbyPlacename', 'minTermLength', 'range']),
       ...mapGetters('searchParameters', ['query', 'computedFilterParam', 'computedRangeParam']),
       timeFilterData() {
+        const lowerBound = this.knownYears[0].year;
+        const upperBound = this.knownYears[this.knownYears.length - 1].year;
+        
         return {
-          labels: ['', '', '', '', '', '', '', '', '', '', '', '', '',],
+          labels: this.knownYears.map(y => ''),
           datasets: [
             {
               backgroundColor: '#d32f2f',
-              data: this.barData,
+              data: this.knownYears.map(y => y.count),
               _meta: {
-                start: this.knownYears[0],
-                end: this.knownYears[1],
+                start: lowerBound,
+                end: upperBound,
                 selectionStart: this.selectedTimeRange[0],
                 selectionEnd: this.selectedTimeRange[1]
               }

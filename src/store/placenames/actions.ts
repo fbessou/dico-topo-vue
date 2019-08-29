@@ -24,15 +24,15 @@ function makeUniqueDptUrl(query: String) {
 }
 
 function makeTimeFilterLowerBoundary(query: String) {
-  return `/search?query=${query}&page[size]=1&sort=text-date`;
+  return `/search?query=${query}&page[size]=1&sort=text-date&without-relationships`;
 }
 
-function makeTimeFilterIntermediateStep(query: String, lastStep:Number, step: Number) {
-  return `/search?query=${query}&page[size]=1&sort=-text-date`;
+function makeTimeFilterIntermediateStep(query: String, lastStep : number, step: number, lte: boolean=false) {
+  return `/search?query=${query}&page[size]=1&range[text-date]=gte:${lastStep},${lte ? 'lte' : 'lt'}:${lastStep + step}&without-relationships`;
 }
 
-function makeTimeFilterHigherBoundary(query: String) {
-  return `/search?query=${query}&page[size]=1&sort=-text-date`;
+function makeTimeFilterUpperBoundary(query: String) {
+  return `/search?query=${query}&page[size]=1&sort=-text-date&without-relationships`;
 }
 
 export const actions: ActionTree<PlacenameState, RootState> = {
@@ -67,7 +67,9 @@ export const actions: ActionTree<PlacenameState, RootState> = {
 
     const url = !!groupbyPlacename ? makeAggUrl(filteredQuery, range, groupbyPlacename, sort, psize, after) : makeUrl(filteredQuery, range, sort, psize, pnum);
 
-      return api.get(url)
+    let meta : any;
+
+    return api.get(url)
         .then((res: ApiResponse<any>) => {
           const {ok, data} = res;
           if (ok) {
@@ -128,7 +130,7 @@ export const actions: ActionTree<PlacenameState, RootState> = {
               return item
             })
 
-            let meta: any = {
+            meta = {
               totalCount: data.meta["total-count"]
             };
             if (!!data.meta["after"]) {
@@ -148,17 +150,53 @@ export const actions: ActionTree<PlacenameState, RootState> = {
             console.log("lower time filter boundary:", response.data);
             return response;
           }).then((response: ApiResponse<any>) => {
-
+            const lowerBound = response.data;
             // add the lower boundary
-            let knownYears = [response.data];
 
-            return api.get(makeTimeFilterHigherBoundary(filteredQuery)).then((response: ApiResponse<any>) => {
+            return api.get(makeTimeFilterUpperBoundary(filteredQuery)).then((response: ApiResponse<any>) => {
               response.data = parseInt(response.data.data[0].attributes['text-date'])
-              console.log("higher time filter boundary:", response.data);
+              console.log("upper time filter boundary:", response.data);
               return response;
-            }).then((response: ApiResponse<any>) => {
-              // add the higher boundary
-              knownYears.push(response.data);
+            }).then(async (response: ApiResponse<any>) => {
+              const upperBound = response.data;
+
+              const d = Math.abs(upperBound) - Math.abs(lowerBound)
+
+              let n;
+              if (meta.totalCount <= 100) {
+                n = 10;
+              } else if (meta.totalCount <= 200) {
+                n = 15;
+              } else if (meta.toatlCount <= 500) {
+                n = 20;
+              } else if (meta.toatlCount <= 2000) {
+                n = 25;
+              } else {
+                n = 50;
+              }
+
+              let step = Math.floor(d / n) <= 1 ? 1 : Math.floor(d / n)
+
+              let knownYears = [];
+              let lastStep = lowerBound;
+              for (let i=0; i<=n; i++) {
+                const stepResp: ApiResponse<any> = await api.get(makeTimeFilterIntermediateStep(filteredQuery, lastStep, step))
+                const count = stepResp.data.meta["total-count"];
+                console.log(lastStep, lastStep+step, count)
+                knownYears.push({year: lastStep, count: count});
+                lastStep += step;
+              }
+              const stepResp: ApiResponse<any> = await api.get(makeTimeFilterIntermediateStep(
+                filteredQuery,
+                lastStep,
+                Math.abs(upperBound) - Math.abs(lastStep),
+                true),
+              )
+              const count = stepResp.data.meta["total-count"];
+              console.log(lastStep, lastStep + Math.abs(upperBound) - Math.abs(lastStep), count)
+              knownYears.push({year: lastStep + Math.abs(upperBound) - Math.abs(lastStep), count: count});
+
+
               commit('setKnownYears', knownYears);
             })
 

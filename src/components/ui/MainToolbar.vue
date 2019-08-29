@@ -59,7 +59,7 @@
           </v-layout>
         </span>
       
-        <span v-if="showTimeRange" style="width:200px">
+        <span v-if="showTimeRange && !!knownYears && knownYears.length >= 2" style="width:200px">
           <v-layout row>
             <v-flex pr-2 pt-2 style="min-width:40px;">
                {{selectedTimeRange[0]}}
@@ -72,8 +72,8 @@
           </div>
           <div>
             <v-range-slider
-              :min="timeRange[0]"
-              :max="timeRange[1]"
+              :min="knownYears[0]"
+              :max="knownYears[1]"
               v-model="selectedTimeRange"
          
               color="#d32f2f"
@@ -122,16 +122,13 @@
         groupByOption: undefined,
         
         barData: [150, 500, 561, 878, 879, 920, 900, 1200, 1300, 1100, 1300, 760, 30],
-        timeRange: [800, 1841],
-        selectedTimeRange: [800, 1841],
+        selectedTimeRange: [],
       }
     },
     mounted() {
       this.groupByOption = !this.groupbyPlacename;
       this.unselectPlacename()
       this.inputTerm = this.term
-      
-      this.selectedTimeRange = this.timeRange;
     },
     methods: {
       startNewSearch: _.debounce(function (reloadMap = true) {
@@ -193,33 +190,32 @@
         this.startNewSearch();
       },
       selectedTimeRange() {
-        if (this.$props.showTimeRange) {
-          if (!!this.selectedTimeRange) {
-            const newRange = {
-              key: "text-date",
-              operators: [`gte:${this.selectedTimeRange[0]}`, `lte:${this.selectedTimeRange[1]}`]
-            };
-            this.setRange(newRange)
-          } else {
-            this.removeRange();
-          }
+        if (this.$props.showTimeRange && this.selectedTimeRange.length === 2) {
+          const newRange = {
+            key: "text-date",
+            operators: [`gte:${this.selectedTimeRange[0]}`, `lte:${this.selectedTimeRange[1]}`]
+          };
+          this.setRange(newRange)
         }
-
+      },
+      knownYears() {
+        if (this.selectedTimeRange.length === 0) {
+          this.selectedTimeRange = this.knownYears;
+        }
       },
       range(oldVal, newVal) {
         if (this.$props.showTimeRange) {
-          if (oldVal !== newVal && this.inputTerm.length > 2) {
+          if (oldVal !== newVal && !!this.inputTerm && this.inputTerm.length > 2) {
             this.startNewSearch();
           }
         }
-      }
-    },
+      },
+     },
     computed: {
-      ...mapState('placenames', { selectedPlacename: 'selectedItem', meta: 'meta' }),
+      ...mapState('placenames', { selectedPlacename: 'selectedItem', meta: 'meta', knownYears: 'knownYears' }),
       ...mapState('mapmarkers', { mapMarkersAreLoading: 'isLoading', mapMarkerItems: 'items' }),
       ...mapState('searchParameters', ['term', 'groupbyPlacename', 'minTermLength', 'range']),
       ...mapGetters('searchParameters', ['query', 'computedFilterParam', 'computedRangeParam']),
-  
       timeFilterData() {
         return {
           labels: ['', '', '', '', '', '', '', '', '', '', '', '', '',],
@@ -228,8 +224,8 @@
               backgroundColor: '#d32f2f',
               data: this.barData,
               _meta: {
-                start: this.timeRange[0],
-                end: this.timeRange[1],
+                start: this.knownYears[0],
+                end: this.knownYears[1],
                 selectionStart: this.selectedTimeRange[0],
                 selectionEnd: this.selectedTimeRange[1]
               }

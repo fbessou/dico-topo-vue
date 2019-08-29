@@ -11,6 +11,8 @@ export function getDefaultState(): PlacenameState {
 
     uniqueDepartments: [],
 
+    knownYears: [],
+
     links: {},
     meta: {totalCount: 0, after: undefined},
     afterHistory: [],
@@ -32,6 +34,9 @@ export const mutations: MutationTree<PlacenameState> = {
     state.meta = meta
     state.uniqueDepartments = Object.assign([]);
     state.error = undefined
+  },
+  setKnownYears(state: PlacenameState, years) {
+    state.knownYears = years;
   },
   pushAfterHistory(state: PlacenameState) {
     if (!!state.meta.after) {
@@ -67,6 +72,7 @@ export const mutations: MutationTree<PlacenameState> = {
     state.meta = meta
     state.afterHistory = [];
     state.uniqueDepartments = Object.assign([]);
+    state.knownYears = [];
     state.error = undefined
   },
   selectItem(state, item) {

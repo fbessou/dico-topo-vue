@@ -52,7 +52,6 @@ export const mutations: MutationTree<QueryState> = {
     }
   },
   setRange(state: QueryState, range: RangeParameter) {
-    console.log("setting range to", state.range, range);
     state.range = Object.assign({}, state.range, range);
   },
   removeRange(state: QueryState) {

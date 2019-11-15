@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <main-toolbar :show-time-range="true" :show-group-by="true">
+    <main-toolbar :show-time-range="false" :show-group-by="true">
     
     </main-toolbar>
     

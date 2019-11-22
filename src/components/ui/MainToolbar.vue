@@ -1,14 +1,14 @@
 <template>
   <v-toolbar app>
-    
+
     <v-toolbar-title class="headline text-uppercase" @click="$router.push({name: 'landing'})"
                      style="cursor: pointer; ">
-  
+
       <img src="@/assets/logo-dicotopo-cut.png" height="55px" style="padding-top: 8px; padding-left: 40px"/>
     </v-toolbar-title>
-    
+
     <v-spacer></v-spacer>
-  
+
     <v-text-field
       prepend-inner-icon="search"
       type="text"
@@ -22,13 +22,13 @@
       @keyup.enter.native="onSearchEventPressEnter"
     >
     </v-text-field>
-  
+
     <v-chip v-show="!!inputTerm && inputTerm.length > 3" class="subheading grey--text text--darken-2 ml-3 mr-2">
       {{ meta.totalCount }}
     </v-chip>
-  
+
     <span class="toolbar-buttons">
-        
+
         <span v-if="showGroupBy">
           <v-layout row>
             <v-flex>
@@ -58,7 +58,7 @@
             </v-flex>
           </v-layout>
         </span>
-      
+
         <span v-if="showTimeRange && !!knownYears && knownYears.length >= 2" style="width:200px">
           <v-layout row>
             <v-flex pr-2 pt-2 style="min-width:40px;">
@@ -75,7 +75,7 @@
               :min="knownYears[0].year"
               :max="knownYears[knownYears.length - 1].year"
               v-model="selectedTimeRange"
-         
+
               color="#d32f2f"
               height="22px"
             ></v-range-slider>
@@ -85,13 +85,17 @@
                {{selectedTimeRange[1]}}
             </v-flex>
           </v-layout>
-          
+
         </span>
 
       </span>
-    
+
     <v-spacer></v-spacer>
-    
+
+       <v-btn flat to="/contact" target="_blank">
+      <span class="mr-2">Contact</span>
+    </v-btn>
+
     <v-btn flat to="/documentation" target="_blank">
       <span class="mr-2">API</span>
       <v-icon>code</v-icon>
@@ -101,7 +105,7 @@
 </template>
 
 <script>
-  
+
   import _ from 'lodash';
   import { mapState, mapGetters, mapActions } from 'vuex'
   import TimeFilter from './TimeFilter.vue'
@@ -220,7 +224,7 @@
       timeFilterData() {
         const lowerBound = this.knownYears[0].year;
         const upperBound = this.knownYears[this.knownYears.length - 1].year;
-        
+
         return {
           labels: this.knownYears.map(y => ''),
           datasets: [

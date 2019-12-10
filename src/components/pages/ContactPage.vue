@@ -29,7 +29,7 @@
           <v-layout justify-center>
             <v-flex xs8>
               <section>
-                <h1 class="font-weight-bold title mt-5 mb-3"><span class="display-3">Nous Contacter</span></h1>
+                <h1 class="font-weight-bold title mt-5 mb-3"><span class="display-3">Nous contacter</span></h1>
                 <article class="display-1">
                   <p>Ce site est en cours d'évolution. </p>
                     <p>Si vous souhaitez faire des remarques ou désirez des informations complémentaires

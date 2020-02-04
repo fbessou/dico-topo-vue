@@ -35,7 +35,7 @@
                     <p>Si vous souhaitez faire des remarques ou désirez des informations complémentaires
                     à son sujet, vous pouvez contacter l'équipe en
                     charge du projet à l'adresse :</p>
-                  <a href="mailto:dicotopo@chartes.psl.eu?">dicotopo@chartes.psl.eu</a>
+                  <a href="mailto:dicotopo@cths.fr?">dicotopo@cths.fr</a>
                 </article>
               </section>
             </v-flex>

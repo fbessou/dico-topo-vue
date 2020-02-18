@@ -7,7 +7,7 @@
       offset-x
     >
       <template v-slot:activator="{ on }">
-        
+
         <v-btn
           flat fab small
           v-on="on"
@@ -16,7 +16,7 @@
          <v-icon>link</v-icon> {{title}}
         </v-btn>
       </template>
-      
+
       <v-card>
         <v-list>
           <v-list-tile >
@@ -26,9 +26,9 @@
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
-        
+
         <v-divider></v-divider>
-        
+
         <v-list>
           <v-list-tile v-if="geonameId">
             <v-list-tile-content>
@@ -39,7 +39,7 @@
               <v-list-tile-sub-title>Lien vers l'entrée du lieu identifié dans la base de données géographique GeoNames</v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
-          
+
           <v-list-tile v-if="wikipediaUrl">
             <v-list-tile-content>
               <v-list-tile-title>
@@ -48,7 +48,7 @@
               <v-list-tile-sub-title>Lien vers l'article Wikipedia concernant le lieu identifié</v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
-  
+
           <v-list-tile v-if="wikidataItemId">
             <v-list-tile-content>
               <v-list-tile-title>
@@ -58,7 +58,7 @@
               <v-list-tile-sub-title>Lien vers l'objet Wikidata concernant le lieu identifié</v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
-  
+
           <v-list-tile v-if="databnfArk">
             <v-list-tile-content>
               <v-list-tile-title>
@@ -68,7 +68,7 @@
               <v-list-tile-sub-title>Lien vers l'objet concernant le lieu identifié dans la référentiel data.bnf.fr</v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
-  
+
           <v-list-tile v-if="viafId">
             <v-list-tile-content>
               <v-list-tile-title>
@@ -86,20 +86,20 @@
   </div>
 </template>
 <script>
-  export default {
-    name: 'LinkingMenu',
-    props: {
-      title: {type: String},
-      geonameId : {type: String},
-      wikipediaUrl: { type: String },
-      wikidataItemId: { type: String },
-      databnfArk: { type: String },
-      viafId: { type: String },
-    },
-    data: () => ({
-      menu: false
-    })
-  }
+export default {
+  name: 'LinkingMenu',
+  props: {
+    title: { type: String },
+    geonameId: { type: String },
+    wikipediaUrl: { type: String },
+    wikidataItemId: { type: String },
+    databnfArk: { type: String },
+    viafId: { type: String }
+  },
+  data: () => ({
+    menu: false
+  })
+}
 </script>
 
 <style scoped>

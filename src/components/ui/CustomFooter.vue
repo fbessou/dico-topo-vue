@@ -15,9 +15,9 @@
 </template>
 
 <script>
-  export default {
-    name: 'CustomFooter'
-  }
+export default {
+  name: 'CustomFooter'
+}
 </script>
 
 <style scoped>

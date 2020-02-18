@@ -3,11 +3,11 @@
         <div class="toggle-table-down">
           <slot></slot>
         </div>
-      
+
         <v-data-table
             class="elevation-4 fixed-header v-table__overflow"
             style="position: fixed; bottom: 0;  max-height: 55%;"
-            
+
             :headers="headers"
             :items="items"
             :pagination.sync="pagination"
@@ -28,7 +28,7 @@
                                  :action="(value) => toggleSortField(index, value)"
                 >
                 </stateful-button>
-                
+
                 <span v-if="!!h.filter">
                    <v-btn icon small @click="filterStates[h.value] = !filterStates[h.value]">
                      <v-icon small color="primary" v-if="filterSelections[h.value].length > 0">filter_list</v-icon>
@@ -41,7 +41,7 @@
                      :key="searchedTerm"
                    ></filter-result>
                  </span>
-                
+
               </th>
             </template>
             <template v-slot:items="props">
@@ -121,13 +121,13 @@
               <v-layout row justify-space-between text-xs-center>
                 <v-flex  xs3 pa-1>
                 </v-flex>
-                
+
                 <v-flex xs3 pa-1>
                 </v-flex>
-                
+
                 <v-flex xs3 pa-1 mr-3 class="text-xs-right">
                   <span >
-        
+
                     <span v-if="!!groupbyPlacename">
                       <span >
                          Lieux {{(numAggPage * pagination.rowsPerPage) + 1}} - {{(numAggPage * pagination.rowsPerPage)  + items.length}}  sur {{ totalItems }}
@@ -140,7 +140,7 @@
                         <v-icon>keyboard_arrow_right</v-icon>
                       </v-btn>
                     </span>
-                    
+
                     <span v-else>
                       <span>
                          Toponymes {{(pagination.page - 1) * pagination.rowsPerPage + 1}} - {{((pagination.page -1) * pagination.rowsPerPage) + items.length}}  sur {{ totalItems }}
@@ -153,8 +153,7 @@
                         <v-icon>keyboard_arrow_right</v-icon>
                       </v-btn>
                     </span>
- 
- 
+
                   </span>
                 </v-flex>
               </v-layout>
@@ -163,269 +162,268 @@
 </template>
 
 <script>
-  import { mapActions, mapGetters, mapState } from 'vuex'
-  import LinkingMenu from './ui/LinkingMenu'
-  import ExportMenu from './ui/ExportMenu'
-  import StatefulButton from './ui/StatefulButton'
-  import FilterResult from './ui/FilterResult';
-  import { cleanStr } from '../utils/helpers'
+import { mapActions, mapGetters, mapState } from 'vuex'
+import LinkingMenu from './ui/LinkingMenu'
+import ExportMenu from './ui/ExportMenu'
+import StatefulButton from './ui/StatefulButton'
+import FilterResult from './ui/FilterResult'
+import { cleanStr } from '../utils/helpers'
 
-  import Vue from 'vue';
-  import _ from 'lodash';
+import Vue from 'vue'
+import _ from 'lodash'
 
-  export default {
-    name: "PlacenameSearchTable",
-    components: { StatefulButton, LinkingMenu, ExportMenu, FilterResult },
-    props: {
-      searchedTerm: {type: String, default: ''},
-      selectItemCallback: {type: Function},
-    },
-    data () {
-      return {
-        totalItems: 0,
-        loading: true,
-        items: [],
-        showTable: true,
-        
-        pagination: { rowsPerPage: 100},
-        numAggPage: 0,
-  
-        filterStates: {
-          department: false,
-        },
-        filterSelections: {
-          department: [],
-        },
-        
-        maxPageSize: process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE > 0 ? process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE : 200,
-      }
-    },
-    mounted() {
-      console.log("search table mounted");
-    },
-    watch: {
-      pagination: {
-        handler() {
-          console.log("pagination:", this.pagination)
-          this.fetchData()
-        },
-        deep: true
+export default {
+  name: 'PlacenameSearchTable',
+  components: { StatefulButton, LinkingMenu, ExportMenu, FilterResult },
+  props: {
+    searchedTerm: { type: String, default: '' },
+    selectItemCallback: { type: Function }
+  },
+  data () {
+    return {
+      totalItems: 0,
+      loading: true,
+      items: [],
+      showTable: true,
+
+      pagination: { rowsPerPage: 100 },
+      numAggPage: 0,
+
+      filterStates: {
+        department: false
       },
-      searchedTerm() {
-        this.clearAll();
-        this.numAggPage = 0;
-        this.pagination.page = 1;
-        
-        Vue.set(this.filterSelections, 'department', [])
-        this.setFilter({ filter: 'department', value: [] });
+      filterSelections: {
+        department: []
+      },
+
+      maxPageSize: process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE > 0 ? process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE : 200
+    }
+  },
+  mounted () {
+    console.log('search table mounted')
+  },
+  watch: {
+    pagination: {
+      handler () {
+        console.log('pagination:', this.pagination)
         this.fetchData()
       },
-      computedSortParam() {
-       this.pagination.page = 1;
-       this.fetchData();
-      },
-      computedFilterParam() {
-        this.pagination.page = 1;
-        console.log("computed filter param", this.computedFilterParam);
-        this.fetchData();
-      },
-      groupbyPlacename() {
-        this.numAggPage = 0;
-        this.pagination.page = 1;
-        this.fetchData();
-      },
-      range () {
-        if (!!this.searchedTerm && this.searchedTerm.length > 2) {
-          this.fetchData();
+      deep: true
+    },
+    searchedTerm () {
+      this.clearAll()
+      this.numAggPage = 0
+      this.pagination.page = 1
+
+      Vue.set(this.filterSelections, 'department', [])
+      this.setFilter({ filter: 'department', value: [] })
+      this.fetchData()
+    },
+    computedSortParam () {
+      this.pagination.page = 1
+      this.fetchData()
+    },
+    computedFilterParam () {
+      this.pagination.page = 1
+      console.log('computed filter param', this.computedFilterParam)
+      this.fetchData()
+    },
+    groupbyPlacename () {
+      this.numAggPage = 0
+      this.pagination.page = 1
+      this.fetchData()
+    },
+    range () {
+      if (!!this.searchedTerm && this.searchedTerm.length > 2) {
+        this.fetchData()
+      }
+    }
+  },
+
+  methods: {
+    clean (str) {
+      return cleanStr(str)
+    },
+    goToPageAfter () {
+      if (this.groupbyPlacename) {
+        if (this.meta.after) {
+          console.log('goto page after', this.afterKey)
+          this.fetchData(this.afterKey)
+          this.numAggPage += 1
         }
+      } else {
+        this.pagination.page += 1
+        this.fetchData()
+      }
+    },
+    goToPageBefore () {
+      if (this.groupbyPlacename) {
+        this.selectPreviousAggPage()
+        console.log('goto page before', this.afterKey)
+        this.fetchData(this.afterKey)
+        this.numAggPage += -1
+      } else {
+        this.pagination.page += -1
+        this.fetchData()
+      }
+    },
+    getDataFromApi (after = null) {
+      this.loading = true
+      if (this.groupbyPlacename) {
+        this.recordCurrentAggPage()
+      }
+
+      return new Promise((resolve, reject) => {
+        if (this.searchedTerm.length < 3) {
+          this.loading = false
+          return
+        }
+        const { sortBy, descending, page, rowsPerPage } = this.pagination
+        this.searchPlacename({
+          query: this.searchedTerm,
+          rangeParam: this.computedRangeParam,
+          filterParam: this.computedFilterParam,
+          groupbyPlacename: this.groupbyPlacename,
+          sortParam: this.computedSortParam,
+          pageNumber: page,
+          pageSize: rowsPerPage,
+          after: after
+        }).then(r => {
+          let items = Array.from(this.placenameItems.values())
+          const total = this.meta.totalCount ? this.meta.totalCount : 0
+          resolve({
+            items,
+            total
+          })
+          this.loading = false
+        })
+      })
+    },
+
+    fetchData: _.debounce(function (after) {
+      this.getDataFromApi(after)
+        .then(data => {
+          this.items = data.items
+          this.totalItems = data.total
+        })
+    }, 500
+    ),
+    selectItemWrapper (obj) {
+      if (this.selectItemCallback) {
+        const item = {
+          id: obj.type === 'placename' ? obj.id : obj.placenameId,
+          coordinates: [parseFloat(obj.coordinates[1]), parseFloat(obj.coordinates[0])]
+        }
+        this.selectItemCallback(item)
       }
     },
 
-    methods: {
-      clean (str) {
-        return cleanStr(str)
-      },
-      goToPageAfter() {
-        if (!!this.groupbyPlacename) {
-          if (!!this.meta.after) {
-            console.log("goto page after", this.afterKey);
-            this.fetchData(this.afterKey);
-            this.numAggPage += 1;
-          }
+    toggleSortField (headerIndex, value) {
+      const header = this.headers[headerIndex]
+      console.log(header, value)
+      if (header.sortable) {
+        if (value === null) {
+          this.removeSortField(header.sortKey)
         } else {
-          this.pagination.page += 1;
-          this.fetchData();
-        }
-      },
-      goToPageBefore() {
-        if (!!this.groupbyPlacename) {
-          this.selectPreviousAggPage()
-          console.log("goto page before", this.afterKey);
-          this.fetchData(this.afterKey);
-          this.numAggPage += -1;
-        } else {
-          this.pagination.page += -1;
-          this.fetchData();
-        }
-      },
-      getDataFromApi(after=null) {
-        this.loading = true
-        if (!!this.groupbyPlacename) {
-          this.recordCurrentAggPage();
-        }
-  
-        return new Promise((resolve, reject) => {
-          if (this.searchedTerm.length < 3 ) {
-            this.loading = false
-            return
-          }
-          const { sortBy, descending, page, rowsPerPage } = this.pagination
-          this.searchPlacename({
-            query: this.searchedTerm,
-            rangeParam: this.computedRangeParam,
-            filterParam: this.computedFilterParam,
-            groupbyPlacename: this.groupbyPlacename,
-            sortParam: this.computedSortParam,
-            pageNumber: page,
-            pageSize: rowsPerPage,
-            after: after
-          }).then(r => {
-            let items = Array.from(this.placenameItems.values())
-            const total = this.meta.totalCount ? this.meta.totalCount : 0
-            resolve({
-              items,
-              total
-            })
-            this.loading = false;
-          })
-          
-        })
-      },
-  
-      fetchData: _.debounce(function (after) {
-          this.getDataFromApi(after)
-            .then(data => {
-              this.items = data.items
-              this.totalItems = data.total
-            })
-        }, 500
-      ),
-      selectItemWrapper(obj) {
-        if (this.selectItemCallback) {
-          const item = {
-            id: obj.type === "placename" ? obj.id : obj.placenameId,
-            coordinates: [parseFloat(obj.coordinates[1]), parseFloat(obj.coordinates[0])]
-          }
-          this.selectItemCallback(item)
-        }
-      },
-  
-      toggleSortField(headerIndex, value) {
-        const header = this.headers[headerIndex];
-        console.log(header, value)
-        if (!!header.sortable) {
-          if (value === null) {
-            this.removeSortField(header.sortKey);
+          const p = this.getSortParam(header.sortKey)
+          if (p !== undefined) {
+            this.updateSortField({ field: header.sortKey, order: value ? '-' : '' })
           } else {
-            const p = this.getSortParam(header.sortKey);
-            if (p !== undefined) {
-              this.updateSortField({ field: header.sortKey, order: value ? '-' : '' });
-            } else {
-              this.addSortField({ field: header.sortKey, order: value ? '-' : '' });
-            }
+            this.addSortField({ field: header.sortKey, order: value ? '-' : '' })
           }
         }
-      },
-      filterDepChanged (selected) {
-        Vue.set(this.filterSelections, 'department', !!selected ? selected : [])
-        this.setFilter({ filter: 'department', value: this.filterSelections.department });
-      },
-      ...mapActions('placenames', ['fetchPlacename', 'searchPlacename', 'clearAll', 'selectPreviousAggPage', 'recordCurrentAggPage']),
-      ...mapActions('searchParameters', ['addSortField', 'updateSortField', 'removeSortField', 'setFilter'])
+      }
     },
-    computed: {
-      headers () {
-        const localisation = {
-          text: 'Localisation',
-          align: 'center',
-          value: 'icon',
-          sortable: false,
-          sortKey: 'is-localized',
-          sorted: undefined,
-        };
-        const toponym = {
-          text: 'Toponyme',
-          align: 'left',
-          value: 'label',
-          sortable: true,
-          sortKey: 'label.keyword',
-          sorted: undefined,
-        };
-        const article = {
-          text: 'Lieu',
-          align: 'left',
-          value: 'lieu',
-          sortable: true,
-          sortKey: 'placename-label.keyword',
-          sorted: true,
-        };
-        const oldLabels = {
-          text: 'Formes anciennes',
-          value: 'old-labels',
-          align: 'center',
-          sortable: false,
-          sortKey: 'label.keyword',
-          sorted: undefined,
-        };
-        const dep = {
-          text: 'Département',
-          value: 'department',
-          align: 'center',
-          sortable: true,
-          sortKey: 'dep-id.keyword',
-          sorted: undefined,
-          filter: this.uniqueDepartments,
-          filtered: undefined,
-          filterCallback: _.debounce(this.filterDepChanged, 200),
-        };
-        const desc = {
-          text: 'Description',
-          value: 'description',
-          align: 'left',
-          sortable: false,
-        };
-        const linking = {
-          text: '',
-          value: 'linking',
-          align: 'right',
-          sortable: false
-        };
-        
-        if (!!this.groupbyPlacename) {
-          return [localisation, article, oldLabels, dep, desc, linking];
-        } else {
-          return [localisation, toponym, article, dep, desc, linking];
-        }
-      },
-      
-      afterKey() {
-        return !!this.meta.after ? Object.values(this.meta.after).join(',') : null
-      },
-      ...mapState('placenames', {
-        placenameItems: 'items',
-        meta: 'meta',
-        selectedPlacename: 'selectedItem',
-        afterHistory: 'afterHistory',
-        uniqueDepartments: 'uniqueDepartments',
-      }),
-      ...mapState('searchParameters', ['sortFields', 'groupbyPlacename', 'depFilter', 'range']),
-      ...mapGetters('searchParameters', ['computedSortParam', 'computedRangeParam', 'computedFilterParam', 'getSortParam'])
-    }
+    filterDepChanged (selected) {
+      Vue.set(this.filterSelections, 'department', selected || [])
+      this.setFilter({ filter: 'department', value: this.filterSelections.department })
+    },
+    ...mapActions('placenames', ['fetchPlacename', 'searchPlacename', 'clearAll', 'selectPreviousAggPage', 'recordCurrentAggPage']),
+    ...mapActions('searchParameters', ['addSortField', 'updateSortField', 'removeSortField', 'setFilter'])
+  },
+  computed: {
+    headers () {
+      const localisation = {
+        text: 'Localisation',
+        align: 'center',
+        value: 'icon',
+        sortable: false,
+        sortKey: 'is-localized',
+        sorted: undefined
+      }
+      const toponym = {
+        text: 'Toponyme',
+        align: 'left',
+        value: 'label',
+        sortable: true,
+        sortKey: 'label.keyword',
+        sorted: undefined
+      }
+      const article = {
+        text: 'Lieu',
+        align: 'left',
+        value: 'lieu',
+        sortable: true,
+        sortKey: 'placename-label.keyword',
+        sorted: true
+      }
+      const oldLabels = {
+        text: 'Formes anciennes',
+        value: 'old-labels',
+        align: 'center',
+        sortable: false,
+        sortKey: 'label.keyword',
+        sorted: undefined
+      }
+      const dep = {
+        text: 'Département',
+        value: 'department',
+        align: 'center',
+        sortable: true,
+        sortKey: 'dep-id.keyword',
+        sorted: undefined,
+        filter: this.uniqueDepartments,
+        filtered: undefined,
+        filterCallback: _.debounce(this.filterDepChanged, 200)
+      }
+      const desc = {
+        text: 'Description',
+        value: 'description',
+        align: 'left',
+        sortable: false
+      }
+      const linking = {
+        text: '',
+        value: 'linking',
+        align: 'right',
+        sortable: false
+      }
+
+      if (this.groupbyPlacename) {
+        return [localisation, article, oldLabels, dep, desc, linking]
+      } else {
+        return [localisation, toponym, article, dep, desc, linking]
+      }
+    },
+
+    afterKey () {
+      return this.meta.after ? Object.values(this.meta.after).join(',') : null
+    },
+    ...mapState('placenames', {
+      placenameItems: 'items',
+      meta: 'meta',
+      selectedPlacename: 'selectedItem',
+      afterHistory: 'afterHistory',
+      uniqueDepartments: 'uniqueDepartments'
+    }),
+    ...mapState('searchParameters', ['sortFields', 'groupbyPlacename', 'depFilter', 'range']),
+    ...mapGetters('searchParameters', ['computedSortParam', 'computedRangeParam', 'computedFilterParam', 'getSortParam'])
   }
+}
 </script>
 
 <style>
-  
+
   .fixed-agg-footer {
     position: fixed;
     bottom: 0;
@@ -437,7 +435,7 @@
     font-family: Roboto, sans-serif;
     font-size: 12px;
   }
-  
+
   .toggle-table-down {
     position: fixed;
     bottom: 55%;
@@ -454,9 +452,9 @@
     margin: auto;
     /* z-index: 1000; */
     left: calc(50% - 44px);
-  
+
   }
-  
+
   /* Theme */
   .fixed-header {
     display: flex;

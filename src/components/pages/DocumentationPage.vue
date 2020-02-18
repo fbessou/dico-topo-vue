@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <main-toolbar></main-toolbar>
-    
+
     <v-navigation-drawer permanent app  fixed style="border-top: 1px solid darkgrey">
       <v-toolbar flat>
         <v-list>
@@ -12,11 +12,10 @@
           </v-list-tile>
         </v-list>
       </v-toolbar>
-      
-      
+
       <v-list two-line subheader>
         <v-subheader>Services</v-subheader>
-        
+
         <v-list dense>
           <v-list-tile
             v-for="feat in features"
@@ -29,8 +28,7 @@
           </v-list-tile>
         </v-list>
       </v-list>
-      
-      
+
       <v-list subheader two-line >
         <v-subheader>Ressources</v-subheader>
         <v-list dense>
@@ -45,9 +43,9 @@
         </v-list-tile>
         </v-list>
       </v-list>
-    
+
     </v-navigation-drawer>
-    
+
     <v-content>
       <v-container grid-list-md>
         <v-layout row wrap>
@@ -61,7 +59,7 @@
                 Les resources sont disponibles en HTTPS via la méthode GET
               </p>
           </v-flex>
-  
+
           <h2>Services</h2>
           <v-flex xs12  v-for="feat in features" :key="feat.anchor">
             <v-card class="vcard">
@@ -85,9 +83,9 @@
               </v-card-text>
             </v-card>
           </v-flex>
-          
+
           <h2>Ressources</h2>
-          
+
           <v-flex xs12>
             <v-card class="vcard">
               <v-toolbar flat>
@@ -111,7 +109,7 @@
               </v-card-text>
             </v-card>
           </v-flex>
-          
+
           <v-flex xs12 v-for="res in resources" :key="res.anchor">
             <v-card class="vcard">
               <v-toolbar flat class="blue-grey lighten-1" dark>
@@ -121,7 +119,7 @@
                 <p>{{res.attributes.description}}</p>
                 <h4>Collection</h4>
                 <v-chip label small>Url</v-chip><a :href="res.attributes.endpoints.collection.url" target="_blank">{{res.attributes.endpoints.collection.url}}</a>
-                
+
                 <v-layout row wrap>
                   <v-flex xs6>
                     <h4>Ressource</h4>
@@ -156,7 +154,7 @@
                       </template>
                     </v-data-table>
                   </v-flex>
-                  
+
                   <v-flex xs6>
                       <pre v-show="!!curlOutputs[res.attributes.examples.url]"
                            style="background-color: #f5f5f5;"
@@ -165,10 +163,10 @@
         class="javascript">{{curlOutputs[res.attributes.examples.url]}}</code></pre>
                   </v-flex>
                 </v-layout>
-                
+
               </v-card-text>
             </v-card>
-            
+
           </v-flex>
         </v-layout>
       </v-container>
@@ -177,54 +175,52 @@
 </template>
 
 <script>
-  import MainToolbar from '../ui/MainToolbar'
-  import { api } from "@/utils/http-common";
-  import Vue from 'vue';
+import MainToolbar from '../ui/MainToolbar'
+import { api } from '@/utils/http-common'
+import Vue from 'vue'
 
-
-  export default {
-    name: 'DocumentationPage',
-    components: { MainToolbar },
-    data () {
-      return {
-        capabilities: [],
-        features: [],
-        resources: [],
-        parameters: [],
-        curlOutputs: {}
-      }
-    },
-    created () {
-  
-      api.get(`../1.0?capabilities`).then( r => {
-        this.capabilities = r.data
-        this.features = this.capabilities.data.filter(c => c.type === 'feature').map(c => {
-          return { title: c.id, anchor: `${c.id}`, ...c }
-        })
-        this.parameters = this.capabilities.data.filter(c => c.type === 'parameter').map(c => {
-          return { anchor: `${c.id}`, ...c }
-        })
-        this.resources = this.capabilities.data.filter(c => c.type === 'resource').map(c => {
-          this.runCURL(c.attributes.examples.url)
-          return {
-            title: c.id,
-            anchor: `${c.id}`,
-            ...c
-          }
-        })
-      })
-    },
-    methods: {
-      runCURL(url) {
-        return api.get(url).then(r => {
-          Vue.set(this.curlOutputs, url, r.data)
-        })
-      }
-    },
-    computed: {
-    
+export default {
+  name: 'DocumentationPage',
+  components: { MainToolbar },
+  data () {
+    return {
+      capabilities: [],
+      features: [],
+      resources: [],
+      parameters: [],
+      curlOutputs: {}
     }
+  },
+  created () {
+    api.get(`../1.0?capabilities`).then(r => {
+      this.capabilities = r.data
+      this.features = this.capabilities.data.filter(c => c.type === 'feature').map(c => {
+        return { title: c.id, anchor: `${c.id}`, ...c }
+      })
+      this.parameters = this.capabilities.data.filter(c => c.type === 'parameter').map(c => {
+        return { anchor: `${c.id}`, ...c }
+      })
+      this.resources = this.capabilities.data.filter(c => c.type === 'resource').map(c => {
+        this.runCURL(c.attributes.examples.url)
+        return {
+          title: c.id,
+          anchor: `${c.id}`,
+          ...c
+        }
+      })
+    })
+  },
+  methods: {
+    runCURL (url) {
+      return api.get(url).then(r => {
+        Vue.set(this.curlOutputs, url, r.data)
+      })
+    }
+  },
+  computed: {
+
   }
+}
 </script>
 
 <style scoped>

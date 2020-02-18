@@ -2,18 +2,18 @@
   <v-app>
     <main-toolbar>
     </main-toolbar>
-    
+
     <v-content >
       <section class="head--section">
         <v-parallax :src="require('@/assets/hero.jpeg')" height="450">
-      
+
           <v-layout
             column
             align-center
             justify-center
             class="black--text"
           >
-        
+
             <h1 class=" text-uppercase mt-5 mb-2 display-1 text-xs-center">Dictionnaire
                                                                            topographique<span> de la France</span></h1>
             <div class="headline  mb-3 font-weight-light">Comprenant les noms de lieux anciens et modernes</div>
@@ -22,12 +22,12 @@
               dark
               large
               @click="$router.push({name: 'about'})"
-  
+
             >
               En savoir plus
             </v-btn>
           </v-layout>
-      
+
           <v-layout class="subheading mb-1 font-weight-light black--text" row wrap align-center justify-center>
             <v-flex xs2 class="text-xs-center">
               <span class=" font-weight-bold">29</span> départements
@@ -41,7 +41,7 @@
           </v-layout>
         </v-parallax>
       </section>
-  
+
       <section>
         <v-layout
           column
@@ -49,7 +49,7 @@
           class="my-5"
           align-center
         >
-      
+
           <v-flex xs12>
             <v-container grid-list-xl>
               <v-layout row wrap align-center>
@@ -104,14 +104,14 @@
           </v-flex>
         </v-layout>
       </section>
-  
+
       <section>
         <v-layout column align-center justify-center>
           <landing-map>
           </landing-map>
         </v-layout>
       </section>
-  
+
       <section class="foot--section mt-5">
         <custom-footer></custom-footer>
       </section>
@@ -121,18 +121,18 @@
 </template>
 
 <script>
-  import MainToolbar from '../ui/MainToolbar'
-  import CustomFooter from '../ui/CustomFooter'
-  import LandingMap from '../LandingMap'
-  import { mapState, mapGetters, mapActions } from 'vuex'
+import MainToolbar from '../ui/MainToolbar'
+import CustomFooter from '../ui/CustomFooter'
+import LandingMap from '../LandingMap'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
-  export default {
-    name: 'LandingPage',
-    components: {MainToolbar, LandingMap, CustomFooter},
-    methods: {
-    },
-    watch: {
-      /*
+export default {
+  name: 'LandingPage',
+  components: { MainToolbar, LandingMap, CustomFooter },
+  methods: {
+  },
+  watch: {
+    /*
       query() {
         if (!!this.query) {
           this.goToMainPage();
@@ -144,15 +144,15 @@
         }
       }
       */
-    },
-    methods: {
-      ...mapActions('searchParameters', ['setTerm', 'setGroupbyPlacename'])
-    },
-    computed: {
-      ...mapState('searchParameters', ['groupbyPlacename']),
-      ...mapGetters('searchParameters', ['query'])
-    }
+  },
+  methods: {
+    ...mapActions('searchParameters', ['setTerm', 'setGroupbyPlacename'])
+  },
+  computed: {
+    ...mapState('searchParameters', ['groupbyPlacename']),
+    ...mapGetters('searchParameters', ['query'])
   }
+}
 </script>
 
 <style>

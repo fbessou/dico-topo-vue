@@ -1,37 +1,36 @@
-import {ActionTree} from 'vuex';
-import {QueryState, SortableField} from './types';
-import {RootState} from '../types';
-import {api} from "@/utils/http-common";
-import {ApiResponse} from "apisauce";
-
+import { ActionTree } from 'vuex'
+import { QueryState, SortableField } from './types'
+import { RootState } from '../types'
+import { api } from '@/utils/http-common'
+import { ApiResponse } from 'apisauce'
 
 export const actions: ActionTree<QueryState, RootState> = {
-  setTerm({commit, state, rootState}, t): any {
+  setTerm ({ commit, state, rootState }, t): any {
     commit('setTerm', t)
   },
-  setGroupbyPlacename({commit, state, rootState}, t): any {
+  setGroupbyPlacename ({ commit, state, rootState }, t): any {
     commit('setGroupbyPlacename', t)
   },
-  setRange({commit, state}, {key, operators}): any {
-    commit("setRange", {key, operators});
+  setRange ({ commit, state }, { key, operators }): any {
+    commit('setRange', { key, operators })
   },
-  removeRange({commit, state}): any {
-    commit("removeRange");
+  removeRange ({ commit, state }): any {
+    commit('removeRange')
   },
-  addSortField({commit, state, rootState}, {field, order}): any {
-    commit('addSortField', {field, order});
+  addSortField ({ commit, state, rootState }, { field, order }): any {
+    commit('addSortField', { field, order })
   },
-  updateSortField({commit, state, rootState}, {field, order}): any {
-    commit('updateSortField', {field, order});
+  updateSortField ({ commit, state, rootState }, { field, order }): any {
+    commit('updateSortField', { field, order })
   },
-  removeSortField({commit, state, rootState}, field): any {
+  removeSortField ({ commit, state, rootState }, field): any {
     commit('removeSortField', field)
   },
-  setFilter({commit, state, rootState}, {filter, value}): any {
+  setFilter ({ commit, state, rootState }, { filter, value }): any {
     switch (filter) {
-      case "department":
-        commit('setDepFilter', value);
-        break;
+      case 'department':
+        commit('setDepFilter', value)
+        break
     }
-  },
-};
+  }
+}

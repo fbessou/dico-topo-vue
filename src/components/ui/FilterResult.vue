@@ -3,7 +3,7 @@
 
       <v-container >
         <v-layout wrap>
-         
+
           <v-flex xs12>
             <v-combobox
               v-model="selected"
@@ -20,43 +20,43 @@
               :cache-items="cache"
             ></v-combobox>
           </v-flex>
-          
+
         </v-layout>
       </v-container>
-    
+
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'FilterResult',
-    props:  {
-      items: {default: [], required: true},
-      onChange: {type: Function, required: true}
-    },
-    data: () => ({
-      menu: false,
-      selected: [],
-      cache: true
-    }),
-    created() {
-      console.log("filter is created")
-      this.selected = [];
-    },
-    watch: {
-      selected() {
-        this.onChange(this.selected);
-      },
-    },
-    methods: {
-      handleBlur() {
-      
-      }
-    },
-    computed: {
-    
+export default {
+  name: 'FilterResult',
+  props: {
+    items: { default: [], required: true },
+    onChange: { type: Function, required: true }
+  },
+  data: () => ({
+    menu: false,
+    selected: [],
+    cache: true
+  }),
+  created () {
+    console.log('filter is created')
+    this.selected = []
+  },
+  watch: {
+    selected () {
+      this.onChange(this.selected)
     }
+  },
+  methods: {
+    handleBlur () {
+
+    }
+  },
+  computed: {
+
   }
+}
 </script>
 
 <style scoped>

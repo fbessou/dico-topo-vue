@@ -1,6 +1,6 @@
 // types.ts
-import {Links, Meta} from "@/store/types";
-import {Placename} from "@/store/placenames/types";
+import { Links, Meta } from '@/store/types'
+import { Placename } from '@/store/placenames/types'
 
 export interface PlacenameOldLabel {
   id: string;

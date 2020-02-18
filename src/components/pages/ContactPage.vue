@@ -16,8 +16,6 @@
             class="black--text"
           >
 
-
-
           </v-layout>
 
         </v-parallax>
@@ -52,13 +50,13 @@
 </template>
 
 <script>
-    import MainToolbar from '../ui/MainToolbar'
-  import CustomFooter from '../ui/CustomFooter'
+import MainToolbar from '../ui/MainToolbar'
+import CustomFooter from '../ui/CustomFooter'
 
-    export default {
-        name: "ContactPage",
-        components: {MainToolbar, CustomFooter}
-    }
+export default {
+  name: 'ContactPage',
+  components: { MainToolbar, CustomFooter }
+}
 </script>
 
 <style scoped>

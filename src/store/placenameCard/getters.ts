@@ -1,7 +1,7 @@
 // profile/getters.ts
-import {GetterTree} from 'vuex';
-import {PlacenameCardState} from './types';
-import {RootState} from '../types';
+import { GetterTree } from 'vuex'
+import { PlacenameCardState } from './types'
+import { RootState } from '../types'
 
 export const getters: GetterTree<PlacenameCardState, RootState> = {
   /*
@@ -12,4 +12,4 @@ export const getters: GetterTree<PlacenameCardState, RootState> = {
     return `${firstName} ${lastName}`;
   }
   */
-};
+}

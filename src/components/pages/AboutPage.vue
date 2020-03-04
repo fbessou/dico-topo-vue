@@ -23,10 +23,10 @@
 
         </v-parallax>
       </section>
-  
+
       <section>
       <v-container fluid>
-       
+
           <v-layout justify-center>
             <v-flex xs8>
               <section>
@@ -99,7 +99,7 @@
                      nouveaux recueils toponymiques.</p>
                 </article>
               </section>
-              
+
               <section>
                 <h1 class="font-weight-bold title mt-5 mb-3"><span class="display-1">Contenus et usages</span></h1>
                 <article class="body-1">
@@ -223,7 +223,7 @@
                      outil de recherche.</p>
                 </article>
               </section>
-              
+
               <section>
                 <h1 class="font-weight-bold title mt-5 mb-3">Partenaires/crédits</h1>
                 <article>
@@ -269,25 +269,24 @@
               </section>
             </v-flex>
           </v-layout>
+
         </v-container>
        </section>
-  
-      <section class="foot--section mt-5">
-        <custom-footer></custom-footer>
-      </section>
 
     </v-content>
+       <custom-footer></custom-footer>
+
   </v-app>
 </template>
 
 <script>
-  import MainToolbar from '../ui/MainToolbar'
-  import CustomFooter from '../ui/CustomFooter'
+import MainToolbar from '../ui/MainToolbar'
+import CustomFooter from '../ui/CustomFooter'
 
-  export default {
-    name: 'LandingPage',
-    components: {MainToolbar, CustomFooter}
-  }
+export default {
+  name: 'LandingPage',
+  components: { MainToolbar, CustomFooter }
+}
 </script>
 
 <style scoped>

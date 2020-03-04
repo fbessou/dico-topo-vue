@@ -1,5 +1,5 @@
 <template>
-  <v-footer absolute height="150">
+  <v-footer  height="150">
     <v-layout row wrap justify-center class="pt-5 pb-5">
       <v-flex class="text-xs-center">
         <img src="@/assets/logo-an-dark.png" height="60"/>

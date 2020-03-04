@@ -22,7 +22,7 @@ module.exports = {
     extract: false
   },
 
-  publicPath: process.env.NODE_ENV === 'production' ? '/dico-topo/static' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/dico-topo' : '/',
 
   outputDir: undefined,
   assetsDir: undefined,

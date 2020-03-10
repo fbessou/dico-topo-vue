@@ -8,8 +8,8 @@ export const actions: ActionTree<QueryState, RootState> = {
   setTerm ({ commit, state, rootState }, t): any {
     commit('setTerm', t)
   },
-  setGroupbyPlacename ({ commit, state, rootState }, t): any {
-    commit('setGroupbyPlacename', t)
+  setGroupbyPlace ({ commit, state, rootState }, t): any {
+    commit('setGroupbyPlace', t)
   },
   setRange ({ commit, state }, { key, operators }): any {
     commit('setRange', { key, operators })

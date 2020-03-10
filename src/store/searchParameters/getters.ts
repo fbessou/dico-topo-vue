@@ -12,7 +12,7 @@ export const getters: GetterTree<QueryState, RootState> = {
       return undefined
     }
     query = `label:${state.term}` // include old labels means "do not filter on the type field"
-    // query = `label:${state.term} AND NOT (type:"placename-old-label")` // do not include old labels means "filter out hte placename-old-label type"
+    // query = `label:${state.term} AND NOT (type:"place-old-label")` // do not include old labels means "filter out hte place-old-label type"
     return query
   },
   getSortParam: (state) => (key: any) => {

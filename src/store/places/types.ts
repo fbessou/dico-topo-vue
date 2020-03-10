@@ -1,7 +1,7 @@
 // types.ts
 import { Links, Meta } from '@/store/types'
 
-export interface Placename {
+export interface Place {
   id: string;
   label: string;
   description: string;
@@ -20,9 +20,9 @@ export interface Placename {
   viaf_id?: string;
 }
 
-export interface PlacenameState {
-  items: Map<string, Placename>;
-  selectedItem: Placename | undefined;
+export interface PlaceState {
+  items: Map<string, Place>;
+  selectedItem: Place | undefined;
 
   knownYears: Object[];
 

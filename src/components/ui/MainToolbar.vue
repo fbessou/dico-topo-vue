@@ -98,8 +98,8 @@ export default {
     }
   },
   mounted () {
-    this.groupByOption = !this.groupbyPlacename
-    this.unselectPlacename()
+    this.groupByOption = !this.groupbyPlace
+    this.unselectPlace()
     this.inputTerm = this.term
   },
   methods: {
@@ -112,7 +112,7 @@ export default {
     }, 500),
     initSearch (reloadMap) {
       if (this.query) {
-        this.unselectPlacename()
+        this.unselectPlace()
         if (reloadMap) {
           this.clearMapMarkers()
           if (this.inputTerm && this.inputTerm.length >= this.minTermLength) {
@@ -143,9 +143,9 @@ export default {
       this.startNewSearch()
     },
     ...mapActions('mapmarkers', ['searchMapMarker', 'clearMapMarkers', 'setMarkersLoading']),
-    ...mapActions('placenames', ['selectPlacename', 'unselectPlacename']),
-    ...mapActions('placenameCard', ['clearPlacenameCard']),
-    ...mapActions('searchParameters', ['setTerm', 'setGroupbyPlacename', 'setRange', 'removeRange'])
+    ...mapActions('places', ['selectPlace', 'unselectPlace']),
+    ...mapActions('PlaceCard', ['clearPlaceCard']),
+    ...mapActions('searchParameters', ['setTerm', 'setGroupbyPlace', 'setRange', 'removeRange'])
   },
   watch: {
     inputTerm (oldVal, newVal) {
@@ -155,7 +155,7 @@ export default {
     },
     groupByOption () {
       if (this.$props.showGroupBy) {
-        this.setGroupbyPlacename(!this.groupByOption)
+        this.setGroupbyPlace(!this.groupByOption)
       }
     },
     computedFilterParam () {
@@ -187,9 +187,9 @@ export default {
     }
   },
   computed: {
-    ...mapState('placenames', { selectedPlacename: 'selectedItem', meta: 'meta', knownYears: 'knownYears' }),
+    ...mapState('places', { selectedPlace: 'selectedItem', meta: 'meta', knownYears: 'knownYears' }),
     ...mapState('mapmarkers', { mapMarkersAreLoading: 'isLoading', mapMarkerItems: 'items' }),
-    ...mapState('searchParameters', ['term', 'groupbyPlacename', 'minTermLength', 'range']),
+    ...mapState('searchParameters', ['term', 'groupbyPlace', 'minTermLength', 'range']),
     ...mapGetters('searchParameters', ['query', 'computedFilterParam', 'computedRangeParam']),
     timeFilterData () {
       const lowerBound = this.knownYears[0].year

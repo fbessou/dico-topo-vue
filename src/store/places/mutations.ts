@@ -1,12 +1,12 @@
 import { MutationTree } from 'vuex'
-import { PlacenameState, Placename } from './types'
+import { PlaceState, Place } from './types'
 import Vue from 'vue'
 import { Links } from '@/store/types'
 import { MapMarkerState } from '@/store/mapmarkers/types'
 
-export function getDefaultState (): PlacenameState {
+export function getDefaultState (): PlaceState {
   return {
-    items: new Map<string, Placename>(),
+    items: new Map<string, Place>(),
     selectedItem: undefined,
 
     uniqueDepartments: [],
@@ -22,9 +22,9 @@ export function getDefaultState (): PlacenameState {
   }
 };
 
-export const mutations: MutationTree<PlacenameState> = {
-  setItems (state: PlacenameState, { p, links, meta }) {
-    let newItems = new Map<string, Placename>()
+export const mutations: MutationTree<PlaceState> = {
+  setItems (state: PlaceState, { p, links, meta }) {
+    let newItems = new Map<string, Place>()
     /* replace all items at once */
     p.map((i: any) => {
       newItems.set(i.id, i)
@@ -35,15 +35,15 @@ export const mutations: MutationTree<PlacenameState> = {
     state.uniqueDepartments = Object.assign([])
     state.error = undefined
   },
-  setKnownYears (state: PlacenameState, years) {
+  setKnownYears (state: PlaceState, years) {
     state.knownYears = years
   },
-  pushAfterHistory (state: PlacenameState) {
+  pushAfterHistory (state: PlaceState) {
     if (state.meta.after) {
       state.afterHistory.push(state.meta.after)
     }
   },
-  popAfterHistory (state: PlacenameState, meta) {
+  popAfterHistory (state: PlaceState, meta) {
     if (state.afterHistory.length > 0) {
       state.afterHistory.pop()
     }
@@ -57,16 +57,16 @@ export const mutations: MutationTree<PlacenameState> = {
       state.meta = Object.assign({}, state.meta, { after: undefined })
     }
   },
-  addDepartment (state: PlacenameState, d) {
+  addDepartment (state: PlaceState, d) {
     if (state.uniqueDepartments.indexOf(d) === -1) {
       state.uniqueDepartments.push(d)
     }
   },
-  clearDepartment (state: PlacenameState) {
+  clearDepartment (state: PlaceState) {
     state.uniqueDepartments = Object.assign([])
   },
-  clearAll (state: PlacenameState, { links, meta }) {
-    state.items = new Map<string, Placename>()
+  clearAll (state: PlaceState, { links, meta }) {
+    state.items = new Map<string, Place>()
     state.links = links
     state.meta = meta
     state.afterHistory = []

@@ -1,5 +1,5 @@
 import { ActionTree } from 'vuex'
-import { PlacenameState, Placename } from './types'
+import { PlaceState, Place } from './types'
 import { RootState } from '../types'
 import { api } from '@/utils/http-common'
 import { ApiOkResponse, ApiResponse } from 'apisauce'
@@ -9,7 +9,7 @@ function makeUrl (query: String, rangeParam: String, sort: String, pageSize: Str
 }
 
 function makeAggUrl (query: String, rangeParam: String, groupby: String, sort: String, pageSize: String, pageAfter: String) {
-  const agg = `&groupby[doc-type]=placename&groupby[field]=placename-id.keyword`
+  const agg = `&groupby[doc-type]=place&groupby[field]=place-id.keyword`
   const after = pageAfter ? `&page[after]=${pageAfter}` : ''
 
   return `/search?query=${query}${rangeParam}${agg}${sort}${pageSize}${after}`
@@ -33,11 +33,11 @@ function makeTimeFilterUpperBoundary (query: String) {
   return `/search?query=${query}&page[size]=1&sort=-text-date&without-relationships`
 }
 
-export const actions: ActionTree<PlacenameState, RootState> = {
-  selectPlacename ({ commit, state, rootState }, placename): any {
-    commit('selectItem', placename)
+export const actions: ActionTree<PlaceState, RootState> = {
+  selectPlace ({ commit, state, rootState }, place): any {
+    commit('selectItem', place)
   },
-  unselectPlacename ({ commit, state, rootState }): any {
+  unselectPlace ({ commit, state, rootState }): any {
     commit('unselectItem')
   },
   clearAll ({ commit }, meta) {
@@ -52,10 +52,10 @@ export const actions: ActionTree<PlacenameState, RootState> = {
   recordCurrentAggPage ({ commit, state, rootState }, after) {
     commit('pushAfterHistory')
   },
-  searchPlacename ({ commit, rootState }, { query, filterParam, rangeParam, groupbyPlacename, sortParam, pageSize, pageNumber, after }): any {
+  searchPlace ({ commit, rootState }, { query, filterParam, rangeParam, groupbyPlace, sortParam, pageSize, pageNumber, after }): any {
     commit('setLoading', true)
-    const index = `${process.env.VUE_APP_PLACENAME_INDEX}`
-    const maxPageSize: number = process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE
+    const index = `${process.env.VUE_APP_PLACE_INDEX}`
+    const maxPageSize: number = process.env.VUE_APP_PLACE_INDEX_PAGE_SIZE
 
     const psize = `&page[size]=${pageSize > maxPageSize || pageSize === -1 ? maxPageSize : pageSize}`
     const pnum = `&page[number]=${pageNumber > 0 ? pageNumber : 1}`
@@ -63,7 +63,7 @@ export const actions: ActionTree<PlacenameState, RootState> = {
     const filteredQuery = filterParam ? `${query} AND ${filterParam}` : query
     const range = rangeParam ? `&${rangeParam}` : ''
 
-    const url = groupbyPlacename ? makeAggUrl(filteredQuery, range, groupbyPlacename, sort, psize, after) : makeUrl(filteredQuery, range, sort, psize, pnum)
+    const url = groupbyPlace ? makeAggUrl(filteredQuery, range, groupbyPlace, sort, psize, after) : makeUrl(filteredQuery, range, sort, psize, pnum)
 
     let meta : any
 
@@ -71,19 +71,19 @@ export const actions: ActionTree<PlacenameState, RootState> = {
       .then((res: ApiResponse<any>) => {
         const { ok, data } = res
         if (ok) {
-          const items: Array<Placename> = data.data.map((p: any) => {
+          const items: Array<Place> = data.data.map((p: any) => {
             const longlat: any = p.attributes['longlat']
             let coords: [number, number] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
             let item
             switch (p.type) {
-              case 'placename':
+              case 'place':
                 const oldLabels = p.attributes['old-labels']
                 item = {
                   id: p.id,
                   type: p.type,
 
-                  label: p.attributes['placename-label'],
-                  placenameLabel: p.attributes['placename-label'],
+                  label: p.attributes['place-label'],
+                  placeLabel: p.attributes['place-label'],
                   oldLabels: oldLabels ? oldLabels.reverse() : [],
                   description: p.attributes['desc'],
                   comment: p.attributes['comment'],
@@ -100,16 +100,16 @@ export const actions: ActionTree<PlacenameState, RootState> = {
                   viaf_id: p.attributes['viaf-id']
                 }
                 break
-              case 'placename-old-label':
+              case 'place-old-label':
                 item = {
                   id: p.id,
                   type: p.type,
                   label: p.attributes['rich-label'],
 
-                  placenameId: p.attributes['placename-id'],
+                  placeId: p.attributes['place-id'],
                   oldLabels: [],
-                  placenameLabel: p.attributes['placename-label'],
-                  description: p.attributes['placename-desc'],
+                  placeLabel: p.attributes['place-label'],
+                  description: p.attributes['place-desc'],
                   date: p.attributes['text-date'],
 
                   insee_code: p.attributes['localization-insee-code'],

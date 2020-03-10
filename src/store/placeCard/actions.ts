@@ -1,11 +1,11 @@
 import { ActionTree } from 'vuex'
-import { PlacenameCardState, PlacenameOldLabel } from './types'
-import { Placename } from '@/store/placenames/types'
+import { PlaceCardState, PlaceOldLabel } from './types'
+import { Place } from '@/store/places/types'
 import { RootState } from '../types'
 import { api } from '@/utils/http-common'
 import { ApiResponse } from 'apisauce'
 
-const index = `${process.env.VUE_APP_PLACENAME_INDEX}`
+const index = `${process.env.VUE_APP_PLACE_INDEX}`
 
 function buildCoords (obj: any) {
   const longlat: any = obj.attributes['longlat']
@@ -13,12 +13,12 @@ function buildCoords (obj: any) {
   return coords
 }
 
-function buildPlacename (obj: any) {
+function buildPlace (obj: any) {
   let coords = buildCoords(obj)
   return {
     id: obj.id,
     type: obj.type,
-    label: obj.attributes['placename-label'],
+    label: obj.attributes['place-label'],
     old_labels: [],
     description: obj.attributes['desc'],
     comment: obj.attributes['comment'],
@@ -36,19 +36,19 @@ function buildPlacename (obj: any) {
   }
 }
 
-export const actions: ActionTree<PlacenameCardState, RootState> = {
-  clearPlacenameCard ({ commit }) {
+export const actions: ActionTree<PlaceCardState, RootState> = {
+  clearPlaceCard ({ commit }) {
     commit('clearAll')
   },
-  fetchPlacenameCard ({ commit, rootState }, id: any): any {
+  fetchPlaceCard ({ commit, rootState }, id: any): any {
     commit('setLoading', true)
-    return api.get(`/search?query=(id:"${id}" AND type:placename)&page[size]=1`)
+    return api.get(`/search?query=(id:"${id}" AND type:place)&page[size]=1`)
       .then((res: ApiResponse<any>) => {
         const { ok, data } = res
         if (ok) {
           const obj = data.data[0]
           if (obj) {
-            const p: Placename = buildPlacename(obj)
+            const p: Place = buildPlace(obj)
             commit('setItem', p)
             return p
           } else {
@@ -64,11 +64,11 @@ export const actions: ActionTree<PlacenameCardState, RootState> = {
         // commit('setLoading', false)
       })
       .then(r => {
-        return api.get(`/placenames/${id}/old-labels?without-relationships`)
+        return api.get(`/places/${id}/old-labels?without-relationships`)
           .then((res: ApiResponse<any>) => {
             const { ok, data } = res
             if (ok) {
-              const items: Array<PlacenameOldLabel> = data.data.map((p: any) => {
+              const items: Array<PlaceOldLabel> = data.data.map((p: any) => {
                 return {
                   id: p.id,
                   type: p.type,
@@ -83,11 +83,11 @@ export const actions: ActionTree<PlacenameCardState, RootState> = {
           })
       })
       .then(r => {
-        return api.get(`/placenames/${id}/linked-placenames?without-relationships`)
+        return api.get(`/places/${id}/linked-places?without-relationships`)
           .then((res: ApiResponse<any>) => {
             const { ok, data } = res
             if (ok) {
-              const items: Array<Placename> = data.data.map((obj: any) => {
+              const items: Array<Place> = data.data.map((obj: any) => {
                 // TODO: pas de coords car pas de champ longlat dans ces objets (pas retournés par l'api search)
                 const coords = buildCoords(obj)
                 return {
@@ -102,7 +102,7 @@ export const actions: ActionTree<PlacenameCardState, RootState> = {
                 }
               })
 
-              commit('setLinkedPlacenames', items)
+              commit('setLinkedPlaces', items)
             }
           })
       })

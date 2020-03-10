@@ -11,7 +11,7 @@
         <v-btn
           flat fab small
           v-on="on"
-          :disabled="!placenameId"
+          :disabled="!placeId"
         >
          <v-icon>get_app</v-icon> {{title}}
         </v-btn>
@@ -23,7 +23,7 @@
             <v-list-tile-content>
               <v-list-tile-title>Export des données</v-list-tile-title>
               <v-list-tile-sub-title>Export des données du lieu identifié
-                <v-chip small label class="ref-chip">{{placenameId}}</v-chip>
+                <v-chip small label class="ref-chip">{{placeId}}</v-chip>
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
@@ -35,7 +35,7 @@
           <v-list-tile>
             <v-list-tile-content>
               <v-list-tile-title>
-               <a :href="`${apiUrl}/placenames/${placenameId}`" target="_blank">JSONAPI</a>
+               <a :href="`${apiUrl}/places/${placeId}`" target="_blank">JSONAPI</a>
               </v-list-tile-title>
               <v-list-tile-sub-title>
                 Export du lieu identifié au format <a href='https://jsonapi.org/format/1.0/'>JSON API 1.0</a></v-list-tile-sub-title>
@@ -45,7 +45,7 @@
           <v-list-tile>
             <v-list-tile-content>
               <v-list-tile-title>
-                <a :href="`${apiUrl}/placenames/${placenameId}?export=linkedplaces`"
+                <a :href="`${apiUrl}/places/${placeId}?export=linkedplaces`"
                    target="_blank">Linked Places</a>
               </v-list-tile-title>
               <v-list-tile-sub-title>
@@ -65,7 +65,7 @@ export default {
   name: 'ExportMenu',
   props: {
     title: { type: String },
-    placenameId: { type: String }
+    placeId: { type: String }
   },
   data: () => ({
     menu: false

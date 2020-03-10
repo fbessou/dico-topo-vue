@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter, { Location, Route, RouteConfig } from 'vue-router'
-import PlacenamePage from '@/components/pages/PlacenamePage.vue'
+import PlacePage from '@/components/pages/PlacePage.vue'
 import HomePage from '@/components/pages/HomePage.vue'
 import NotFoundPage from '@/components/pages/NotFoundPage.vue'
 import DocumentationPage from '@/components/pages/DocumentationPage.vue'
@@ -23,9 +23,9 @@ export const createRoutes: () => RouteConfig[] = () => [
     props: (route) => ({ query: route.query.q })
   },
   {
-    path: '/placenames/:placenameId',
-    component: PlacenamePage,
-    name: 'placename',
+    path: '/places/:placeId',
+    component: PlacePage,
+    name: 'place',
     props: true
   },
   {

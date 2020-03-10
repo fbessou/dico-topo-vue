@@ -54,7 +54,7 @@
                   </v-btn>
                 </v-flex>
               </td>
-              <td v-if="!groupbyPlacename" class="text-xs-left" style="width: 15%; !important;">
+              <td v-if="!groupbyPlace" class="text-xs-left" style="width: 15%; !important;">
                 <v-layout row wrap align-center>
                   <v-flex grow>
                     <span v-html="clean(props.item.label)"></span>
@@ -65,13 +65,13 @@
                 <v-layout row wrap align-center>
                   <v-flex grow>
                     <router-link
-                      :to="`/placenames/${props.item.type === 'placename' ? props.item.id: props.item.placenameId}`">
-                      {{ clean(props.item.type === 'placename' ? props.item.label : props.item.placenameLabel ) }}
+                      :to="`/places/${props.item.type === 'place' ? props.item.id: props.item.placeId}`">
+                      {{ clean(props.item.type === 'place' ? props.item.label : props.item.placeLabel ) }}
                     </router-link>
                   </v-flex>
                 </v-layout>
               </td>
-              <td v-if="!!groupbyPlacename" class="text-xs-left" style="width: 25%;">
+              <td v-if="!!groupbyPlace" class="text-xs-left" style="width: 25%;">
                 <v-layout row wrap align-center>
                   <v-flex grow>
                     <ul class="two-columns">
@@ -104,7 +104,7 @@
                   </v-flex>
                   <v-flex sm3>
                     <export-menu
-                      :placename-id="props.item.type === 'placename' ? props.item.id: props.item.placenameId">
+                      :place-id="props.item.type === 'place' ? props.item.id: props.item.placeId">
                     </export-menu>
                   </v-flex>
                 </v-layout>
@@ -128,7 +128,7 @@
                 <v-flex xs3 pa-1 mr-3 class="text-xs-right">
                   <span >
 
-                    <span v-if="!!groupbyPlacename">
+                    <span v-if="!!groupbyPlace">
                       <span >
                          Lieux {{(numAggPage * pagination.rowsPerPage) + 1}} - {{(numAggPage * pagination.rowsPerPage)  + items.length}}  sur {{ totalItems }}
                       </span>
@@ -173,7 +173,7 @@ import Vue from 'vue'
 import _ from 'lodash'
 
 export default {
-  name: 'PlacenameSearchTable',
+  name: 'PlaceSearchTable',
   components: { StatefulButton, LinkingMenu, ExportMenu, FilterResult },
   props: {
     searchedTerm: { type: String, default: '' },
@@ -196,7 +196,7 @@ export default {
         department: []
       },
 
-      maxPageSize: process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE > 0 ? process.env.VUE_APP_PLACENAME_INDEX_PAGE_SIZE : 200
+      maxPageSize: process.env.VUE_APP_PLACE_INDEX_PAGE_SIZE > 0 ? process.env.VUE_APP_PLACE_INDEX_PAGE_SIZE : 200
     }
   },
   mounted () {
@@ -228,7 +228,7 @@ export default {
       console.log('computed filter param', this.computedFilterParam)
       this.fetchData()
     },
-    groupbyPlacename () {
+    groupbyPlace () {
       this.numAggPage = 0
       this.pagination.page = 1
       this.fetchData()
@@ -245,7 +245,7 @@ export default {
       return cleanStr(str)
     },
     goToPageAfter () {
-      if (this.groupbyPlacename) {
+      if (this.groupbyPlace) {
         if (this.meta.after) {
           console.log('goto page after', this.afterKey)
           this.fetchData(this.afterKey)
@@ -257,7 +257,7 @@ export default {
       }
     },
     goToPageBefore () {
-      if (this.groupbyPlacename) {
+      if (this.groupbyPlace) {
         this.selectPreviousAggPage()
         console.log('goto page before', this.afterKey)
         this.fetchData(this.afterKey)
@@ -269,7 +269,7 @@ export default {
     },
     getDataFromApi (after = null) {
       this.loading = true
-      if (this.groupbyPlacename) {
+      if (this.groupbyPlace) {
         this.recordCurrentAggPage()
       }
 
@@ -279,17 +279,17 @@ export default {
           return
         }
         const { sortBy, descending, page, rowsPerPage } = this.pagination
-        this.searchPlacename({
+        this.searchPlace({
           query: this.searchedTerm,
           rangeParam: this.computedRangeParam,
           filterParam: this.computedFilterParam,
-          groupbyPlacename: this.groupbyPlacename,
+          groupbyPlace: this.groupbyPlace,
           sortParam: this.computedSortParam,
           pageNumber: page,
           pageSize: rowsPerPage,
           after: after
         }).then(r => {
-          let items = Array.from(this.placenameItems.values())
+          let items = Array.from(this.placeItems.values())
           const total = this.meta.totalCount ? this.meta.totalCount : 0
           resolve({
             items,
@@ -311,7 +311,7 @@ export default {
     selectItemWrapper (obj) {
       if (this.selectItemCallback) {
         const item = {
-          id: obj.type === 'placename' ? obj.id : obj.placenameId,
+          id: obj.type === 'place' ? obj.id : obj.placeId,
           coordinates: [parseFloat(obj.coordinates[1]), parseFloat(obj.coordinates[0])]
         }
         this.selectItemCallback(item)
@@ -338,7 +338,7 @@ export default {
       Vue.set(this.filterSelections, 'department', selected || [])
       this.setFilter({ filter: 'department', value: this.filterSelections.department })
     },
-    ...mapActions('placenames', ['fetchPlacename', 'searchPlacename', 'clearAll', 'selectPreviousAggPage', 'recordCurrentAggPage']),
+    ...mapActions('places', ['fetchPlace', 'searchPlace', 'clearAll', 'selectPreviousAggPage', 'recordCurrentAggPage']),
     ...mapActions('searchParameters', ['addSortField', 'updateSortField', 'removeSortField', 'setFilter'])
   },
   computed: {
@@ -364,7 +364,7 @@ export default {
         align: 'left',
         value: 'lieu',
         sortable: true,
-        sortKey: 'placename-label.keyword',
+        sortKey: 'place-label.keyword',
         sorted: true
       }
       const oldLabels = {
@@ -399,7 +399,7 @@ export default {
         sortable: false
       }
 
-      if (this.groupbyPlacename) {
+      if (this.groupbyPlace) {
         return [localisation, article, oldLabels, dep, desc, linking]
       } else {
         return [localisation, toponym, article, dep, desc, linking]
@@ -409,14 +409,14 @@ export default {
     afterKey () {
       return this.meta.after ? Object.values(this.meta.after).join(',') : null
     },
-    ...mapState('placenames', {
-      placenameItems: 'items',
+    ...mapState('places', {
+      placeItems: 'items',
       meta: 'meta',
-      selectedPlacename: 'selectedItem',
+      selectedPlace: 'selectedItem',
       afterHistory: 'afterHistory',
       uniqueDepartments: 'uniqueDepartments'
     }),
-    ...mapState('searchParameters', ['sortFields', 'groupbyPlacename', 'depFilter', 'range']),
+    ...mapState('searchParameters', ['sortFields', 'groupbyPlace', 'depFilter', 'range']),
     ...mapGetters('searchParameters', ['computedSortParam', 'computedRangeParam', 'computedFilterParam', 'getSortParam'])
   }
 }

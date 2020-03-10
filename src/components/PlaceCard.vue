@@ -1,41 +1,41 @@
 <template>
-  <v-layout row wrap class="placename-layout">
+  <v-layout row wrap class="place-layout">
     <v-flex>
-      <v-card class="placename-card elevation-3" v-if="placenameItem">
+      <v-card class="place-card elevation-3" v-if="placeItem">
 
         <v-toolbar card>
-          <v-toolbar-title v-html="clean(placenameItem.label)">
+          <v-toolbar-title v-html="clean(placeItem.label)">
           </v-toolbar-title>
           <v-spacer></v-spacer>
 
           <v-layout align-center justify-end grow>
             <v-flex sm2 class="">
               <linking-menu
-                :geoname-id="placenameItem.geoname_id"
-                :wikidata-item-id="placenameItem.wikidata_item_id"
-                :wikipedia-url="placenameItem.wikipedia_url"
-                :databnf-ark="placenameItem.databnf_ark"
-                :viaf-id="placenameItem.viaf_id"
+                :geoname-id="placeItem.geoname_id"
+                :wikidata-item-id="placeItem.wikidata_item_id"
+                :wikipedia-url="placeItem.wikipedia_url"
+                :databnf-ark="placeItem.databnf_ark"
+                :viaf-id="placeItem.viaf_id"
               >
               </linking-menu>
             </v-flex>
             <v-flex sm2>
-              <v-btn :to="`/placenames/${placenameItem.id}`" flat icon fab small>
+              <v-btn :to="`/places/${placeItem.id}`" flat icon fab small>
                 <v-icon>open_in_new</v-icon>
               </v-btn>
             </v-flex>
             <v-flex sm2>
-              <export-menu :placename-id="placenameItem.id">
+              <export-menu :place-id="placeItem.id">
               </export-menu>
             </v-flex>
           </v-layout>
         </v-toolbar>
 
         <v-card-text style="min-height: 100px; max-height: 200px; overflow: auto">
-          <p v-html="clean(this.placenameItem.description)"></p>
+          <p v-html="clean(this.placeItem.description)"></p>
         </v-card-text>
 
-        <v-expansion-panel :value="panel" v-if="!!placenameItem.comment">
+        <v-expansion-panel :value="panel" v-if="!!placeItem.comment">
           <v-expansion-panel-content>
             <template v-slot:header>
               <div>
@@ -44,7 +44,7 @@
               </div>
             </template>
             <v-card-text style="max-height: 400px; overflow: auto">
-              <p v-html="clean(placenameItem.comment)"></p>
+              <p v-html="clean(placeItem.comment)"></p>
             </v-card-text>
           </v-expansion-panel-content>
 
@@ -99,7 +99,7 @@ import ExportMenu from './ui/ExportMenu'
 import { cleanStr } from '../utils/helpers'
 
 export default {
-  name: 'PlacenameCard',
+  name: 'PlaceCard',
   components: { LinkingMenu, ExportMenu },
   props: {
 
@@ -111,9 +111,9 @@ export default {
     }
   },
   created () {
-    if (this.selectedPlacename) {
-      this.fetchPlacenameCard(this.selectedPlacename.id).then(r => {
-        console.log('placenamecard fetched', this.selectedPlacename.id)
+    if (this.selectedPlace) {
+      this.fetchPlaceCard(this.selectedPlace.id).then(r => {
+        console.log('placecard fetched', this.selectedPlace.id)
       })
     }
   },
@@ -124,7 +124,7 @@ export default {
     clean (str) {
       return cleanStr(str)
     },
-    ...mapActions('placenameCard', ['fetchPlacenameCard'])
+    ...mapActions('PlaceCard', ['fetchPlaceCard'])
   },
   computed: {
     items () {
@@ -132,7 +132,7 @@ export default {
         {
           action: 'share',
           label: 'Lieux liés',
-          items: this.linkedPlacenames ? this.linkedPlacenames.map(p => {
+          items: this.linkedPlaces ? this.linkedPlaces.map(p => {
             return {
               id: p.id,
               type: p.type,
@@ -140,7 +140,7 @@ export default {
               subLabel: p.description,
               coordinates: p.coordinates,
               actions: {
-                goTo: `/placenames/${p.id}`
+                goTo: `/places/${p.id}`
               }
             }
           }) : []
@@ -153,7 +153,7 @@ export default {
         {
           action: 'history',
           label: 'Formes anciennes',
-          items: this.placenameOldLabels ? this.placenameOldLabels.map(p => {
+          items: this.placeOldLabels ? this.placeOldLabels.map(p => {
             return {
               id: p.id,
               type: p.type,
@@ -166,14 +166,14 @@ export default {
         }
       ]
     },
-    ...mapState('placenameCard', ['placenameItem', 'placenameOldLabels', 'linkedPlacenames']),
-    ...mapState('placenames', { selectedPlacename: 'selectedItem' })
+    ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),
+    ...mapState('places', { selectedPlace: 'selectedItem' })
   },
   watch: {
-    selectedPlacename (val) {
+    selectedPlace (val) {
       if (val) {
-        this.fetchPlacenameCard(this.selectedPlacename.id).then(r => {
-          console.log('placenamecard fetched', this.selectedPlacename.id)
+        this.fetchPlaceCard(this.selectedPlace.id).then(r => {
+          console.log('placecard fetched', this.selectedPlace.id)
         })
       }
     }
@@ -182,7 +182,7 @@ export default {
 </script>
 
 <style scoped>
-  .placename-layout {
+  .place-layout {
     position: fixed;
     float: right;
     top: 88px;
@@ -190,7 +190,7 @@ export default {
     width: 33%;
     min-width: 20%;
   }
-  .placename-card{
+  .place-card{
     z-index: 10000;
     height: 100%;
   }

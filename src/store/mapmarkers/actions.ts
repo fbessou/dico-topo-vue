@@ -19,8 +19,8 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
     if (nextLink) {
       url = nextLink
     } else {
-      const index = `${process.env.VUE_APP_PLACENAME_INDEX}`
-      const maxPageSize: number = process.env.VUE_APP_PLACENAME_INDEX_MAP_PAGE_SIZE
+      const index = `${process.env.VUE_APP_PLACE_INDEX}`
+      const maxPageSize: number = process.env.VUE_APP_PLACE_INDEX_MAP_PAGE_SIZE
       const searchPageSize = pageSize > maxPageSize || pageSize === -1 ? maxPageSize : pageSize
       const searchPageNumber = 1
 
@@ -40,7 +40,7 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
               const longlat: any = m.attributes['longlat']
               let coords: [string, string] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
 
-              return `${m.type === 'placename' ? m.id : m.attributes['placename-id']}@${[parseFloat(coords[1]), parseFloat(coords[0])]}`
+              return `${m.type === 'place' ? m.id : m.attributes['place-id']}@${[parseFloat(coords[1]), parseFloat(coords[0])]}`
             })
 
             /* save marker items */

@@ -3,12 +3,11 @@ import Vue from 'vue'
 import { Links } from '@/store/types'
 import { MapMarkerState } from '@/store/mapmarkers/types'
 import { QueryState, SortableField, RangeParameter } from '@/store/searchParameters/types'
-import { Placename, PlacenameState } from '@/store/placenames/types'
-
+import { Place, PlaceState } from '@/store/places/types'
 export function getDefaultState (): QueryState {
   return {
     term: '',
-    groupbyPlacename: true,
+    groupbyPlace: true,
     sortFields: new Array <SortableField>(),
 
     range: { key: '', operators: [] },
@@ -23,8 +22,8 @@ export const mutations: MutationTree<QueryState> = {
   setTerm (state: QueryState, t) {
     state.term = t
   },
-  setGroupbyPlacename (state: QueryState, b) {
-    state.groupbyPlacename = b
+  setGroupbyPlace (state: QueryState, b) {
+    state.groupbyPlace = b
   },
   addSortField (state: QueryState, { field, order }) {
     console.log('add sort field', { key: field, order: order })

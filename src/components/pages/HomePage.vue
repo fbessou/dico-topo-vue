@@ -7,16 +7,16 @@
     <v-content>
       <div style="height:100%">
         <my-awesome-map
-          :on-marker-click="selectPlacename"
+          :on-marker-click="selectPlace"
           :on-map-click="onMapClickCallback"
           :use-fly-animation="false"
         >
         </my-awesome-map>
 
-        <placename-search-table
+        <place-search-table
           v-show="!!term && term.length >= minTermLength && !!showTabularResults"
           :searched-term="query"
-          :select-item-callback="selectPlacenameOnMap"
+          :select-item-callback="selectPlaceOnMap"
         >
           <v-btn
             depressed small
@@ -25,7 +25,7 @@
           >
             <v-icon>keyboard_arrow_down</v-icon>
           </v-btn>
-        </placename-search-table>
+        </place-search-table>
 
         <div class="toggle-table-up">
           <v-btn
@@ -39,7 +39,7 @@
         </div>
 
       </div>
-      <placename-card v-if="selectedPlacename"></placename-card>
+      <place-card v-if="selectedPlace"></place-card>
     </v-content>
 
   </v-app>
@@ -49,17 +49,17 @@
 import { mapState, mapGetters, mapActions } from 'vuex'
 import Vue from 'vue'
 
-import PlacenameSearchTable from '../PlacenameSearchTable'
+import PlaceSearchTable from '../PlaceSearchTable'
 import MyAwesomeMap from '../MyAwesomeMap'
-import PlacenameCard from '../PlacenameCard'
+import PlaceCard from '../PlaceCard'
 import MainToolbar from '../ui/MainToolbar'
 
 export default {
   name: 'HomePage',
   components: {
     MainToolbar,
-    PlacenameSearchTable,
-    PlacenameCard,
+    PlaceSearchTable,
+    PlaceCard,
     MyAwesomeMap
   },
   data () {
@@ -68,33 +68,33 @@ export default {
     }
   },
   mounted () {
-    this.unselectPlacename()
+    this.unselectPlace()
     this.inputTerm = this.term
   },
   methods: {
-    selectPlacenameOnMap (obj) {
+    selectPlaceOnMap (obj) {
       if (obj) {
-        this.selectPlacename(obj)
+        this.selectPlace(obj)
         Vue.set(this, 'showTabularResults', false)
         this.showTabularResults = false
       } else {
-        this.unselectPlacename()
+        this.unselectPlace()
       }
     },
     onMapClickCallback () {
-      this.unselectPlacename()
+      this.unselectPlace()
       Vue.set(this, 'showTabularResults', false)
       this.showTabularResults = false
     },
     ...mapActions('mapmarkers', ['searchMapMarker', 'clearMapMarkers', 'setMarkersLoading']),
-    ...mapActions('placenames', ['selectPlacename', 'unselectPlacename']),
-    ...mapActions('placenameCard', ['clearPlacenameCard']),
-    ...mapActions('searchParameters', ['setTerm', 'setGroupbyPlacename'])
+    ...mapActions('places', ['selectPlace', 'unselectPlace']),
+    ...mapActions('PlaceCard', ['clearPlaceCard']),
+    ...mapActions('searchParameters', ['setTerm', 'setGroupbyPlace'])
   },
   computed: {
-    ...mapState('placenames', { selectedPlacename: 'selectedItem', meta: 'meta' }),
+    ...mapState('places', { selectedPlace: 'selectedItem', meta: 'meta' }),
     ...mapState('mapmarkers', { mapMarkersAreLoading: 'isLoading', mapMarkerItems: 'items' }),
-    ...mapState('searchParameters', ['term', 'includeOldLabels', 'groupbyPlacename', 'minTermLength']),
+    ...mapState('searchParameters', ['term', 'includeOldLabels', 'groupbyPlace', 'minTermLength']),
     ...mapGetters('searchParameters', ['query', 'computedFilterParam'])
   }
 }

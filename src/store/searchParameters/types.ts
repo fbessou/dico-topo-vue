@@ -12,7 +12,7 @@ export interface RangeParameter {
 
 export interface QueryState {
   term: string;
-  groupbyPlacename: boolean;
+  groupbyPlace: boolean;
 
   sortFields: Array<SortableField>;
 

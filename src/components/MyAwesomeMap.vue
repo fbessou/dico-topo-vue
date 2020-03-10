@@ -118,7 +118,7 @@ export default {
       if (this.map.hasLayer(this.heatLayer)) {
         this.heatLayer.setLatLngs([])
       }
-      // clear the placename markers
+      // clear the place markers
       this.markerLayer.clearLayers()
       // console.log("clear map");
     },
@@ -202,7 +202,7 @@ export default {
   },
   computed: {
     ...mapState('mapmarkers', { mapmarkerItems: 'items', mapmarkerLoading: 'isLoading' }),
-    ...mapState('placenames', ['selectedItem']),
+    ...mapState('places', ['selectedItem']),
 
     map () { return this.$refs.map.mapObject }
   },

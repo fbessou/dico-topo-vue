@@ -136,7 +136,7 @@ export default {
           this.goToMainPage();
         }
       },
-      groupbyPlacename(){
+      groupbyPlace(){
         if (!!this.query) {
           this.goToMainPage();
         }
@@ -144,10 +144,10 @@ export default {
       */
   },
   methods: {
-    ...mapActions('searchParameters', ['setTerm', 'setGroupbyPlacename'])
+    ...mapActions('searchParameters', ['setTerm', 'setGroupbyPlace'])
   },
   computed: {
-    ...mapState('searchParameters', ['groupbyPlacename']),
+    ...mapState('searchParameters', ['groupbyPlace']),
     ...mapGetters('searchParameters', ['query'])
   }
 }

@@ -8,16 +8,18 @@ import Vuetify from 'vuetify'
 
 import { Icon } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+/*
 import HomePage from '@/components/pages/HomePage.vue'
-import PlacenamePage from '@/components/pages/PlacenamePage.vue'
+import PlacePage from '@/components/pages/PlacePage.vue'
 
 import VueRouter, { RouteConfig, RouterOptions } from 'vue-router'
 
-import { Placename } from '@/store/placenames/types'
+import { Place } from '@/store/places/types'
+*/
 import { createRouter } from '@/router'
 
 Vue.config.productionTip = true
-// Vue.use(Vuetify)
+Vue.use(Vuetify)
 
 // this part resolve an issue where the markers would not appear
 // delete Icon.Default.prototype._getIconUrl

@@ -61,7 +61,9 @@
         </v-container>
        </section>
 
-      <custom-footer></custom-footer>
+      <section class="foot--section mt-5">
+        <custom-footer></custom-footer>
+      </section>
 
     </v-content>
   </v-app>

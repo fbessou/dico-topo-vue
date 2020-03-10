@@ -78,7 +78,7 @@
                     </v-card-title>
                     <v-card-text>
                       La publication électronique du Dictionnaire permet d’en enrichir les données, d’en faciliter
-                      la consultation et d’offrir des possibilités d’interrogation et d’exploitation démultipliées :
+                      la consultation et d’offrir des possibilités d’interrogation et d’exploitation démultipliées :
                       visualisation cartographique, repérage d’un type d’objet topographique, liage vers des bases
                       de connaissances, etc.
                     </v-card-text>
@@ -112,7 +112,9 @@
         </v-layout>
       </section>
 
-      <custom-footer></custom-footer>
+      <section class="foot--section mt-5">
+        <custom-footer></custom-footer>
+      </section>
 
     </v-content>
   </v-app>
@@ -127,8 +129,6 @@ import { mapState, mapGetters, mapActions } from 'vuex'
 export default {
   name: 'LandingPage',
   components: { MainToolbar, LandingMap, CustomFooter },
-  methods: {
-  },
   watch: {
     /*
       query() {

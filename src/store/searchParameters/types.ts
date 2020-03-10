@@ -10,7 +10,6 @@ export interface RangeParameter {
   operators: Array<string>;
 }
 
-
 export interface QueryState {
   term: string;
   groupbyPlacename: boolean;

@@ -1,5 +1,5 @@
 // types.ts
-import {Links, Meta} from "@/store/types";
+import { Links, Meta } from '@/store/types'
 
 export interface Placename {
   id: string;

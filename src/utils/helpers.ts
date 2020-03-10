@@ -1,15 +1,10 @@
 
-
-
-function capitalizeFirstLetter(str: String)
-{
+function capitalizeFirstLetter (str: String) {
   return str === null || str === undefined ? '' : str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-function cleanStr(str: String)
-{
+function cleanStr (str: String) {
   return str === null || str === undefined ? '' : capitalizeFirstLetter(str.replace(/<a[^>]*>/g, '').trim())
 }
 
-
-export {cleanStr }
+export { cleanStr }

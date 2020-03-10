@@ -39,17 +39,17 @@
                 </article>
                 <article class="body-1">
                   <header><h2 class="font-weight-bold subheading mb-3">Un projet à l’échelle nationale</h2></header>
-                  <p>Son lancement officiel remonte à l’année 1859 : cette année-là, l’historien et membre du Comité
+                  <p>Son lancement officiel remonte à l’année 1859 : cette année-là, l’historien et membre du Comité
                      Léopold
-                     Delisle publiait dans la <i>Revue des sociétés savantes des départements</i> un rapport sur « le
+                     Delisle publiait dans la <i>Revue des sociétés savantes des départements</i> un rapport sur « le
                      plan d’un
-                     dictionnaire géographique de la France ancienne et moderne ». Alors que la science historique
+                     dictionnaire géographique de la France ancienne et moderne ». Alors que la science historique
                      commençait à
                      se pratiquer de façon méthodique, il s’agissait de doter les savants d’un outil de travail pour
                      l’étude de
                      l’histoire, de la géographie et de la topographie anciennes des provinces françaises. L’ambition
                      était dès
-                     l’origine nationale : c’est un – et un seul – dictionnaire que le Comité entendait alors élaborer,
+                     l’origine nationale : c’est un – et un seul – dictionnaire que le Comité entendait alors élaborer,
                      sorte
                      de
                      pendant scientifique du dictionnaire des postes. En raison de la longueur prévisible de
@@ -61,7 +61,7 @@
                 </article>
                 <article class="body-1">
                   <header><h2 class="font-weight-bold subheading mb-3">Trente-cinq départements couverts</h2></header>
-                  <p>Les débuts furent prometteurs : pas moins de dix-neuf dictionnaires parurent entre 1861 et 1884,
+                  <p>Les débuts furent prometteurs : pas moins de dix-neuf dictionnaires parurent entre 1861 et 1884,
                      dus
                      principalement aux archivistes départementaux, parfois à d’autres érudits, correspondants locaux du
                      Comité.
@@ -74,18 +74,18 @@
                      aujourd’hui trente-cinq départements qui sont couverts, représentant plus du tiers du territoire
                      national
                      métropolitain.</p>
-                  <p>L’on peut légitimement trouver ce taux insuffisant ; c’est que la réalisation d’un dictionnaire
+                  <p>L’on peut légitimement trouver ce taux insuffisant ; c’est que la réalisation d’un dictionnaire
                      topographique est une œuvre de longue haleine, reposant sur le dépouillement de masses
                      documentaires
                      considérables. Du reste, l’apport du Comité des travaux historiques et scientifiques ne se limite
                      pas aux
-                     seuls volumes publiés par ses soins. En lançant son projet de « Dictionnaire géographique de la
+                     seuls volumes publiés par ses soins. En lançant son projet de « Dictionnaire géographique de la
                      France
-                     ancienne et moderne », le Comité proposait en effet, pour la collecte et le classement des noms de
+                     ancienne et moderne », le Comité proposait en effet, pour la collecte et le classement des noms de
                      lieux
                      anciens, un cadre et un modèle dont purent ensuite s’emparer les érudits désireux de constituer des
                      corpus
-                     de toponymie historique : nombre de leurs travaux, imprimés ou restés manuscrits, reprennent, sinon
+                     de toponymie historique : nombre de leurs travaux, imprimés ou restés manuscrits, reprennent, sinon
                      les
                      normes de présentation, du moins l’esprit de la collection du <i>Dictionnaire topographique de la
                                                                                       France</i>.
@@ -106,12 +106,12 @@
                   <header>
                     <h2 class="font-weight-bold subheading mb-3">Du papier…</h2>
                   </header>
-                  <p>L’appellation « dictionnaire topographique » ne reflète qu’imparfaitemement le contenu des
+                  <p>L’appellation « dictionnaire topographique » ne reflète qu’imparfaitemement le contenu des
                      dictionnaires
                      édités par le CTHS. Dans ses instructions initiales (1859), Léopold Delisle évoquait un
                      dictionnaire
-                     « géographique » ; dans l’absolu, l’adjectif « toponymique » pourrait tout aussi bien convenir.</p>
-                  <p>Topographiques, les dictionnaires le sont assurément : leur introduction comprenait, aux premiers
+                     « géographique » ; dans l’absolu, l’adjectif « toponymique » pourrait tout aussi bien convenir.</p>
+                  <p>Topographiques, les dictionnaires le sont assurément : leur introduction comprenait, aux premiers
                      temps
                      du
                      moins, une description physique du département, et leur nomenclature est en très grande partie
@@ -128,32 +128,32 @@
                      fiefs, abbayes, hôpitaux, vieux chemins, etc.), mais aussi, et surtout, de plus ou moins longues
                      énumérations des formes anciennes du nom de lieu auquel se trouve consacrée la notice. De manière
                      générale,
-                     Léopold Delisle enjoignait aux futurs rédacteurs de « n’écarter aucun nom qui ait un caractère
+                     Léopold Delisle enjoignait aux futurs rédacteurs de « n’écarter aucun nom qui ait un caractère
                      d’ancienneté
-                     et qui présente un intérêt historique ou philologique ».</p>
-                  <p> L’ensemble des dictionnaires a été élaboré selon un seul et même plan tripartite :</p>
+                     et qui présente un intérêt historique ou philologique ».</p>
+                  <p> L’ensemble des dictionnaires a été élaboré selon un seul et même plan tripartite :</p>
                   <ul>
-                    <li>une introduction, consacrée à la géographie, notamment historique, du département ;</li>
+                    <li>une introduction, consacrée à la géographie, notamment historique, du département ;</li>
                     <li>le corps même du dictionnaire, composé d’articles comprenant, sous une vedette (nom de lieu)
-                        « moderne », tout ou partie des informations suivantes : nature et localisation du lieu concerné
+                        « moderne », tout ou partie des informations suivantes : nature et localisation du lieu concerné
                         – la
                         localisation s’effectuant par rapport à la circonscription administrative immédiatement
                         supérieure –,
                         formes anciennes du nom, datées et munies de leur référence documentaire (archivistique ou
                         bibliographique), enfin informations historiques diverses (circonscriptions d’appartenance sous
                         l’Ancien
-                        régime, etc.) ;
+                        régime, etc.) ;
                     </li>
-                    <li>un index (dit « table ») des formes anciennes contenues dans les articles.</li>
+                    <li>un index (dit « table ») des formes anciennes contenues dans les articles.</li>
                   </ul>
                   <p>Si l’on met de côté l’introduction, rédigée, il existe deux façons de consulter un dictionnaire
                      topographique
-                     sous forme papier : rechercher directement un article ou consulter la table des formes anciennes –
+                     sous forme papier : rechercher directement un article ou consulter la table des formes anciennes –
                      qui
                      renvoie
                      aux articles. Le premier mode de consultation est celui du chercheur ayant à l’esprit une forme
                      toponymique
-                     « moderne » (XIX<sup>e</sup> - XX<sup>e</sup> siècle) et souhaitant, tel l’historien, vérifier
+                     « moderne » (XIX<sup>e</sup> - XX<sup>e</sup> siècle) et souhaitant, tel l’historien, vérifier
                      l’identification
                      de telle localité ou
                      connaître sa situation administrative sous l’Ancien Régime, ou bien, tel le toponymiste, déterminer
@@ -179,11 +179,11 @@
                      masse de données qu’elle contient. C’est ce qui a décidé le CTHS à engager un projet de publication
                      et
                      restructuration sous forme électronique des dictionnaires imprimés.</p>
-                  <p>L’opération a été rendue possible par la structure des dictionnaires édités par le CTHS : tous ont
+                  <p>L’opération a été rendue possible par la structure des dictionnaires édités par le CTHS : tous ont
                      obéi à
                      des prescriptions éditoriales précises et les ont assez bien respectées. Le corps de chaque
                      dictionnaire
-                     départemental a ainsi pu être saisi et balisé au format XML, suivant dix unités de sens : article,
+                     départemental a ainsi pu être saisi et balisé au format XML, suivant dix unités de sens : article,
                      vedette,
                      définition, localisation, typologie, forme ancienne, commentaire, date, référence et renvoi. C’est
                      à
@@ -194,7 +194,7 @@
                      plusieurs dictionnaires (et à terme, l’ensemble de la collection), d’affiner sa requête et de trier
                      les
                      réponses obtenues en combinant divers critères, elle permet de s’affranchir totalement de l’ordre
-                     alphabétique – condition même de toute publication sur un support papier – ; des études portant par
+                     alphabétique – condition même de toute publication sur un support papier – ; des études portant par
                      exemple
                      sur les suffixes des noms de lieux s’en trouveront facilitées. Elle permet également d’introduire
                      des
@@ -209,7 +209,7 @@
                      contemporains
                      (code officiel géographique de l’INSEE et données de géolocalisation de l’IGN). Toutefois, cette
                      géolocalisation reste pour l’heure limitée à l’échelle communale, faute de données suffisamment
-                     précises :
+                     précises :
                      tous les toponymes situés sur le territoire d’une commune sont donc localisés au centroïde de cette
                      commune.
                      En dépit de cette limite, le présent outil de recherche offre désormais la possibilité de
@@ -273,8 +273,11 @@
         </v-container>
        </section>
 
+      <section class="foot--section mt-5">
+        <custom-footer></custom-footer>
+      </section>
+
     </v-content>
-       <custom-footer></custom-footer>
 
   </v-app>
 </template>

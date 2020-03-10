@@ -3,151 +3,148 @@
 </template>
 
 <script>
-  import * as d3 from "d3";
-  
-  import deps from '../assets/data/departments.json';
-  import pls from '../assets/data/places_all-dicotopo-xml-src.json';
+import * as d3 from 'd3'
 
-  export default {
-    name: 'LandingMap.vue',
-    data() {
-      return {
-        departments: deps,
-        places: pls,
-        
-        svg: null,
-      }
-    },
-    created() {
+import deps from '../assets/data/departments.json'
+import pls from '../assets/data/places_all-dicotopo-xml-src.json'
 
-    },
-    mounted() {
-      if (!document.querySelector("svg")) {
-  
-        const width = 700, height = 550;
+export default {
+  name: 'LandingMap.vue',
+  data () {
+    return {
+      departments: deps,
+      places: pls,
 
-// Create a path object to manipulate geo data
-        const path = d3.geoPath();
-
-// Define projection property
-        const projection = d3.geoConicConformal() // Lambert-93
-          .center([2.454071, 46.279229]) // Center on France
-          .scale(2600)
-          .translate([width / 2 - 50, height / 2]);
-  
-        path.projection(projection); // Assign projection to path object
-
-// Create the DIV that will contain our map
-        const svg = d3.select('#map').append("svg")
-          .attr("id", "svg")
-          .attr("width", width)
-          .attr("height", height)
-          .attr("class", "YlOrBr"); // choice : YlGn, YlGnBu, GnBu, BuGn, PuBuGn, PuBu, BuPu, RdPu, PuRd, OrRd, YlOrRd, YlOrBr, Purples, Blues, Greens, Oranges, Reds, Greys
-
-// Append the group that will contain our paths
-        const deps = svg.append("g");
-  
-        var features = deps
-          .selectAll("path")
-          .data(this.departments.features)
-          .enter()
-          .append("path")
-          .attr("class", "nodata") // default, no value
-          .attr('id', function (d) {
-            return "d" + d.properties.CODE_DEPT;
-          })
-          .attr("d", path);
-  
-        // Quantile scales map an input domain to a discrete range, 0...max(population) to 1...9
-        var quantile = d3.scaleQuantile()
-          .domain([0, d3.max(this.places, function (e) {
-            return +e.NB_PLACES;
-          })])
-          .range(d3.range(7));
-  
-        var legend = svg.append('g')
-          .attr('transform', 'translate(525, 150)')
-          .attr('id', 'legend');
-  
-        legend.selectAll('.colorbar')
-          .data(d3.range(9))
-          .enter().append('svg:rect')
-          .attr('y', function (d) {
-            return d * 20 + 'px';
-          })
-          .attr('height', '20px')
-          .attr('width', '20px')
-          .attr('x', '0px')
-          .attr("class", function (d) {
-            return "q" + d + "-9";
-          });
-  
-        var legendScale = d3.scaleLinear()
-          .domain([
-            d3.min(this.places, function (e) {
-              return +e.NB_PLACES;
-            }),
-            d3.max(this.places, function (e) {
-              return +e.NB_PLACES;
-            })
-          ])
-          .range([0, 9 * 20]);
-  
-        var legendAxis = svg.append("g")
-          .attr('transform', 'translate(550, 150)')
-          .call(d3.axisRight(legendScale).ticks());
-  
-        this.places.forEach(function (e, i) {
-          d3.select("#d" + e.CODE_DEPT)
-            .attr("class", function (d) {
-              return "department q" + quantile(+e.NB_PLACES) + "-9";
-            })
-            .on("mouseover", function (d) {
-              div.transition()
-                .duration(200)
-                .style("opacity", .9);
-              div.html("<b>Department : </b>" + e.NOM_DEPT + "<br>"
-                + "<b>Places : </b>" + e.NB_PLACES + "<br>"
-                + "<b>Placenames : </b>" + e.NB_PLACENAMES)
-                .style("left", (d3.event.pageX + 30) + "px")
-                .style("top", (d3.event.pageY - 30) + "px");
-            })
-            .on("mouseout", function (d) {
-              div.style("opacity", 0);
-              div.html("")
-                .style("left", "-500px")
-                .style("top", "-500px");
-            });
-        });
-
-        svg.append("text")
-          .attr("x", (width / 2))
-          .attr("y", 12)
-          .attr("text-anchor", "middle")
-          .style("font-weight", "300")
-          .style("font-size", "16px")
-          .text("Départements disponibles");
-
-        svg.append("text")
-          .attr("x", (width / 2))
-          .attr("y", 35)
-          .attr("text-anchor", "middle")
-          .style("font-weight", "200")
-          .style("font-size", "14px")
-          .text("Nombre de lieux");
-
-// Append a DIV for the tooltip
-        const div = d3.select("body").append("div")
-          .attr("class", "tooltip")
-          .style("opacity", 0);
-    
-      }
-  
-    },
-    methods: {
-    
+      svg: null
     }
+  },
+  created () {
+
+  },
+  mounted () {
+    if (!document.querySelector('svg')) {
+      const width = 700; const height = 550
+
+      // Create a path object to manipulate geo data
+      const path = d3.geoPath()
+
+      // Define projection property
+      const projection = d3.geoConicConformal() // Lambert-93
+        .center([2.454071, 46.279229]) // Center on France
+        .scale(2600)
+        .translate([width / 2 - 50, height / 2])
+
+      path.projection(projection) // Assign projection to path object
+
+      // Create the DIV that will contain our map
+      const svg = d3.select('#map').append('svg')
+        .attr('id', 'svg')
+        .attr('width', width)
+        .attr('height', height)
+        .attr('class', 'YlOrBr') // choice : YlGn, YlGnBu, GnBu, BuGn, PuBuGn, PuBu, BuPu, RdPu, PuRd, OrRd, YlOrRd, YlOrBr, Purples, Blues, Greens, Oranges, Reds, Greys
+
+      // Append the group that will contain our paths
+      const deps = svg.append('g')
+
+      var features = deps
+        .selectAll('path')
+        .data(this.departments.features)
+        .enter()
+        .append('path')
+        .attr('class', 'nodata') // default, no value
+        .attr('id', function (d) {
+          return 'd' + d.properties.CODE_DEPT
+        })
+        .attr('d', path)
+
+      // Quantile scales map an input domain to a discrete range, 0...max(population) to 1...9
+      var quantile = d3.scaleQuantile()
+        .domain([0, d3.max(this.places, function (e) {
+          return +e.NB_PLACES
+        })])
+        .range(d3.range(7))
+
+      var legend = svg.append('g')
+        .attr('transform', 'translate(525, 150)')
+        .attr('id', 'legend')
+
+      legend.selectAll('.colorbar')
+        .data(d3.range(9))
+        .enter().append('svg:rect')
+        .attr('y', function (d) {
+          return d * 20 + 'px'
+        })
+        .attr('height', '20px')
+        .attr('width', '20px')
+        .attr('x', '0px')
+        .attr('class', function (d) {
+          return 'q' + d + '-9'
+        })
+
+      var legendScale = d3.scaleLinear()
+        .domain([
+          d3.min(this.places, function (e) {
+            return +e.NB_PLACES
+          }),
+          d3.max(this.places, function (e) {
+            return +e.NB_PLACES
+          })
+        ])
+        .range([0, 9 * 20])
+
+      var legendAxis = svg.append('g')
+        .attr('transform', 'translate(550, 150)')
+        .call(d3.axisRight(legendScale).ticks())
+
+      this.places.forEach(function (e, i) {
+        d3.select('#d' + e.CODE_DEPT)
+          .attr('class', function (d) {
+            return 'department q' + quantile(+e.NB_PLACES) + '-9'
+          })
+          .on('mouseover', function (d) {
+            div.transition()
+              .duration(200)
+              .style('opacity', 0.9)
+            div.html('<b>Department : </b>' + e.NOM_DEPT + '<br>' +
+                '<b>Places : </b>' + e.NB_PLACES + '<br>' +
+                '<b>Placenames : </b>' + e.NB_PLACENAMES)
+              .style('left', (d3.event.pageX + 30) + 'px')
+              .style('top', (d3.event.pageY - 30) + 'px')
+          })
+          .on('mouseout', function (d) {
+            div.style('opacity', 0)
+            div.html('')
+              .style('left', '-500px')
+              .style('top', '-500px')
+          })
+      })
+
+      svg.append('text')
+        .attr('x', (width / 2))
+        .attr('y', 12)
+        .attr('text-anchor', 'middle')
+        .style('font-weight', '300')
+        .style('font-size', '16px')
+        .text('Départements disponibles')
+
+      svg.append('text')
+        .attr('x', (width / 2))
+        .attr('y', 35)
+        .attr('text-anchor', 'middle')
+        .style('font-weight', '200')
+        .style('font-size', '14px')
+        .text('Nombre de lieux')
+
+      // Append a DIV for the tooltip
+      const div = d3.select('body').append('div')
+        .attr('class', 'tooltip')
+        .style('opacity', 0)
+    }
+  },
+  methods: {
+
   }
+}
 </script>
 
 <style >

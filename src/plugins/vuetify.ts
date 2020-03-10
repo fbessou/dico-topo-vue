@@ -8,5 +8,5 @@ Vue.use(Vuetify, {
   lang: {
     locales: { fr },
     current: 'fr'
-  },
+  }
 })

@@ -66,7 +66,7 @@
                   </v-expansion-panel-content>
 
                   <v-expansion-panel-content
-                    v-if="!!item.items && item.items.length > 0"
+
                     v-for="item in items"
                     :disabled="item.items.length == 0"
                     :key="item.label"
@@ -77,14 +77,13 @@
                         {{item.label}}
                       </div>
                     </template>
-
+                    <div  v-if="!!item.items && item.items.length > 0">
                     <v-card>
                       <v-card-text style="max-height: 300px; overflow: auto">
                         <v-list >
                           <v-list-tile
-                            v-for="(subItem, subItemIndex) in item.items"
+                            v-for="subItem in item.items"
                             :key="subItem.id"
-                            @click=""
                           >
                             <v-list-tile-content>
                               <v-list-tile-title>
@@ -101,6 +100,8 @@
                         </v-list>
                       </v-card-text>
                     </v-card>
+                                      </div>
+
                   </v-expansion-panel-content>
                 </v-expansion-panel>
 
@@ -241,7 +242,5 @@ export default {
 </script>
 
 <style scoped>
-  .place-card {
 
-  }
 </style>

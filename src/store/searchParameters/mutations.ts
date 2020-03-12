@@ -1,9 +1,7 @@
 import { MutationTree } from 'vuex'
 import Vue from 'vue'
-import { Links } from '@/store/types'
-import { MapMarkerState } from '@/store/mapmarkers/types'
+
 import { QueryState, SortableField, RangeParameter } from '@/store/searchParameters/types'
-import { Place, PlaceState } from '@/store/places/types'
 export function getDefaultState (): QueryState {
   return {
     term: '',

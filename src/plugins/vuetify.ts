@@ -1,12 +1,10 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify/lib'
-import 'vuetify/src/stylus/app.styl'
-import fr from 'vuetify/src/locale/fr'
 
-Vue.use(Vuetify, {
-  iconfont: 'md',
-  lang: {
-    locales: { fr },
-    current: 'fr'
+Vue.use(Vuetify)
+
+export default new Vuetify({
+  icons: {
+    iconfont: 'md'
   }
 })

@@ -5,6 +5,7 @@ import { places } from './places/index'
 import { mapmarkers } from './mapmarkers/index'
 import { PlaceCard } from './placeCard/index'
 import { searchParameters } from '@/store/searchParameters'
+import { commune } from '@/store/commune/index'
 
 const debug = process.env.NODE_ENV !== 'production'
 
@@ -18,7 +19,8 @@ const store: StoreOptions<RootState> = {
     places,
     mapmarkers,
     PlaceCard,
-    searchParameters
+    searchParameters,
+    commune
   }
 }
 

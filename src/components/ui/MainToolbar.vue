@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar app>
+  <v-app-bar app>
 
     <v-toolbar-title class="headline text-uppercase" @click="$router.push({name: 'landing'})"
                      style="cursor: pointer; ">
@@ -63,15 +63,15 @@
 
     <v-spacer></v-spacer>
 
-       <v-btn flat to="/contact">
+       <v-btn text to="/contact">
       <span class="mr-2">Contact</span>
     </v-btn>
 
-    <v-btn flat to="/documentation">
+    <v-btn text to="/documentation">
       <span class="mr-2">API</span>
       <v-icon>code</v-icon>
     </v-btn>
-  </v-toolbar>
+  </v-app-bar>
 
 </template>
 

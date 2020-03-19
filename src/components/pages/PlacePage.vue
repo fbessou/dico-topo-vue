@@ -17,94 +17,28 @@
               </v-layout>
             </v-flex>
 
-            <v-flex grow
-                    pa-1 xs6>
-              <v-card class="elevation-2 place-card" v-if="!!placeItem">
-                <v-toolbar card>
-                  <v-toolbar-title class="text-xs-left" v-html="clean(placeItem.label)">
-                  </v-toolbar-title>
-                  <v-spacer></v-spacer>
+            <v-flex grow pa-1 xs6>
+              <v-card v-if="!!placeItem">
+                  <v-toolbar dense flat>
+                    <v-toolbar-title>
+                        <div class="title" v-html="placeItem.label" />
+                    </v-toolbar-title>
 
-                  <v-layout align-center justify-end>
-                    <v-flex sm2>
-                      <linking-menu
-                        :geoname-id="placeItem.geoname_id"
-                        :wikidata-item-id="placeItem.wikidata_item_id"
-                        :wikipedia-url="placeItem.wikipedia_url"
-                        :databnf-ark="placeItem.databnf_ark"
-                        :viaf-id="placeItem.viaf_id"
-                      >
-                      </linking-menu>
-                    </v-flex>
-                    <v-flex sm2>
-                      <v-btn :to="`/places/${placeItem.id}`" flat icon fab small>
-                        <v-icon>open_in_new</v-icon>
-                      </v-btn>
-                    </v-flex>
-                    <v-flex sm2>
-                      <export-menu :place-id="placeItem.id">
-                      </export-menu>
-                    </v-flex>
-                  </v-layout>
-                </v-toolbar>
+                    <administrative-breadcrumbs :insee-code="placeItem.insee_code"/>
+                    <v-spacer></v-spacer>
 
-                <v-card-text class="text-xs-left" style="min-height: 100px; max-height: 200px; overflow: auto">
-                  <p v-html="clean(placeItem.description)"></p>
-                </v-card-text>
+                    <v-btn icon>
+                      <v-icon>mdi-magnify</v-icon>
+                    </v-btn>
 
-                <v-expansion-panel :value="panel" v-if="!!placeItem.comment" expand>
-                  <v-expansion-panel-content>
-                    <template v-slot:header>
-                      <div>
-                        <v-icon>subject</v-icon>
-                        Commentaire
-                      </div>
-                    </template>
-                    <v-card-text style="max-height: 400px; overflow: auto">
-                      <p v-html="clean(placeItem.comment)"></p>
-                    </v-card-text>
-                  </v-expansion-panel-content>
+                    <v-btn icon>
+                      <v-icon>mdi-heart</v-icon>
+                    </v-btn>
 
-                  <v-expansion-panel-content
-
-                    v-for="item in items"
-                    :disabled="item.items.length == 0"
-                    :key="item.label"
-                  >
-                    <template v-slot:header>
-                      <div>
-                        <v-icon>{{item.action}}</v-icon>
-                        {{item.label}}
-                      </div>
-                    </template>
-                    <div  v-if="!!item.items && item.items.length > 0">
-                    <v-card>
-                      <v-card-text style="max-height: 300px; overflow: auto">
-                        <v-list >
-                          <v-list-tile
-                            v-for="subItem in item.items"
-                            :key="subItem.id"
-                          >
-                            <v-list-tile-content>
-                              <v-list-tile-title>
-                                <span v-html="clean(subItem.label)"></span>
-                                <v-icon class="ml-2"  v-if="!!subItem.actions.goTo" small fab
-                                        @click="$router.push(subItem.actions.goTo)">open_in_new
-                                </v-icon>
-                              </v-list-tile-title>
-                              <v-list-tile-sub-title>
-                                <span v-html="clean(subItem.subLabel)"></span>
-                              </v-list-tile-sub-title>
-                            </v-list-tile-content>
-                          </v-list-tile>
-                        </v-list>
-                      </v-card-text>
-                    </v-card>
-                                      </div>
-
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-
+                    <v-btn icon>
+                      <v-icon>mdi-dots-vertical</v-icon>
+                    </v-btn>
+                      </v-toolbar>
               </v-card>
             </v-flex>
 
@@ -133,6 +67,7 @@ import CustomFooter from '../ui/CustomFooter'
 import ExportMenu from '../ui/ExportMenu'
 import MainToolbar from '../ui/MainToolbar'
 import { cleanStr } from '../../utils/helpers'
+import AdministrativeBreadcrumbs from '../AdministrativeBreadcrumbs'
 
 export default {
   name: 'PlacePage',
@@ -142,11 +77,11 @@ export default {
     MyAwesomeMap,
     LinkingMenu,
     ExportMenu,
+    AdministrativeBreadcrumbs,
     CustomFooter
   },
   data: () => {
     return {
-      panel: [true, false, true, true]
     }
   },
   created () {
@@ -177,18 +112,15 @@ export default {
     clean (str) {
       return cleanStr(str)
     },
-    fetchData () {
+    async fetchData () {
       this.clearMapMarkers()
-      this.searchMapMarker({
+      await this.searchMapMarker({
         query: `(id:"${this.placeId}" AND type:place)`,
         pageNumber: 1,
         pageSize: 1
       }
-      ).then(r => {
-        this.fetchPlaceCard(this.placeId).then(r => {
-          console.log('placecard fetched', this.placeId)
-        })
-      })
+      )
+      await this.fetchPlaceCard(this.placeId)
     },
     ...mapActions('places', ['selectPlace', 'unselectPlace']),
     ...mapActions('PlaceCard', ['fetchPlaceCard']),
@@ -230,9 +162,12 @@ export default {
               coordinates: undefined,
               actions: {}
             }
-          }).reverse() : []
+          }) : []
         }
       ]
+    },
+    breadCrumbs () {
+      return []
     },
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),
     ...mapState('places', ['selectedItem']),

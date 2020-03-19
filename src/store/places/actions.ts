@@ -2,7 +2,6 @@ import { ActionTree } from 'vuex'
 import { PlaceState, Place } from './types'
 import { RootState } from '../types'
 import { api } from '@/utils/http-common'
-import { ApiOkResponse, ApiResponse } from 'apisauce'
 
 function makeUrl (query: String, rangeParam: String, sort: String, pageSize: String, pageNumber: String) {
   return `/search?query=${query}${rangeParam}${sort}${pageSize}${pageNumber}`
@@ -52,7 +51,7 @@ export const actions: ActionTree<PlaceState, RootState> = {
   recordCurrentAggPage ({ commit, state, rootState }, after) {
     commit('pushAfterHistory')
   },
-  searchPlace ({ commit, rootState }, { query, filterParam, rangeParam, groupbyPlace, sortParam, pageSize, pageNumber, after }): any {
+  async searchPlace ({ commit, rootState }, { query, filterParam, rangeParam, groupbyPlace, sortParam, pageSize, pageNumber, after }) {
     commit('setLoading', true)
     const index = `${process.env.VUE_APP_PLACE_INDEX}`
     const maxPageSize: number = process.env.VUE_APP_PLACE_INDEX_PAGE_SIZE
@@ -67,81 +66,93 @@ export const actions: ActionTree<PlaceState, RootState> = {
 
     let meta : any
 
+    let res = await api.get(url)
+    let data = res.data
+    const items: Array<Place> = data.data.map((p: any) => {
+      const longlat: any = p.attributes['longlat']
+      let coords: [number, number] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
+      let item
+      switch (p.type) {
+        case 'place':
+          const oldLabels = p.attributes['old-labels']
+          item = {
+            id: p.id,
+            type: p.type,
+
+            label: p.attributes['place-label'],
+            placeLabel: p.attributes['place-label'],
+            oldLabels: oldLabels ? oldLabels.reverse() : [],
+            description: p.attributes['desc'],
+            comment: p.attributes['comment'],
+
+            insee_code: p.attributes['localization-insee-code'],
+            department: p.attributes['dpt'],
+            region: p.attributes['region'],
+            coordinates: coords,
+
+            geoname_id: p.attributes['geoname-id'],
+            wikidata_item_id: p.attributes['wikidata-item-id'],
+            wikipedia_url: p.attributes['wikipedia-url'],
+            databnf_ark: p.attributes['databnf-ark'],
+            viaf_id: p.attributes['viaf-id']
+          }
+          break
+        case 'place-old-label':
+          item = {
+            id: p.id,
+            type: p.type,
+            label: p.attributes['rich-label'],
+
+            placeId: p.attributes['place-id'],
+            oldLabels: [],
+            placeLabel: p.attributes['place-label'],
+            description: p.attributes['place-desc'],
+            date: p.attributes['text-date'],
+
+            insee_code: p.attributes['localization-insee-code'],
+            department: p.attributes['dpt'],
+            region: p.attributes['region'],
+            coordinates: coords,
+
+            geoname_id: p.attributes['geoname-id'],
+            wikidata_item_id: p.attributes['wikidata-item-id'],
+            wikipedia_url: p.attributes['wikipedia-url'],
+            databnf_ark: p.attributes['databnf-ark'],
+            viaf_id: p.attributes['viaf-id']
+          }
+          break
+      }
+      return item
+    })
+
+    meta = {
+      totalCount: data.meta['total-count']
+    }
+    if (data.meta['after']) {
+      meta['after'] = data.meta['after']
+    }
+
+    commit('setItems', { p: items, links: data.links, meta: meta })
+
+    res = await api.get(makeUniqueDptUrl(filteredQuery))
+    data = res.data
+    data.data.map((d: any) => {
+      commit('addDepartment', `${d.attributes['insee-code']} - ${d.attributes['label']}`)
+    })
+  }
+
+  /*
     return api.get(url)
       .then((res: ApiResponse<any>) => {
         const { ok, data } = res
         if (ok) {
-          const items: Array<Place> = data.data.map((p: any) => {
-            const longlat: any = p.attributes['longlat']
-            let coords: [number, number] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
-            let item
-            switch (p.type) {
-              case 'place':
-                const oldLabels = p.attributes['old-labels']
-                item = {
-                  id: p.id,
-                  type: p.type,
 
-                  label: p.attributes['place-label'],
-                  placeLabel: p.attributes['place-label'],
-                  oldLabels: oldLabels ? oldLabels.reverse() : [],
-                  description: p.attributes['desc'],
-                  comment: p.attributes['comment'],
-
-                  insee_code: p.attributes['localization-insee-code'],
-                  department: p.attributes['dpt'],
-                  region: p.attributes['region'],
-                  coordinates: coords,
-
-                  geoname_id: p.attributes['geoname-id'],
-                  wikidata_item_id: p.attributes['wikidata-item-id'],
-                  wikipedia_url: p.attributes['wikipedia-url'],
-                  databnf_ark: p.attributes['databnf-ark'],
-                  viaf_id: p.attributes['viaf-id']
-                }
-                break
-              case 'place-old-label':
-                item = {
-                  id: p.id,
-                  type: p.type,
-                  label: p.attributes['rich-label'],
-
-                  placeId: p.attributes['place-id'],
-                  oldLabels: [],
-                  placeLabel: p.attributes['place-label'],
-                  description: p.attributes['place-desc'],
-                  date: p.attributes['text-date'],
-
-                  insee_code: p.attributes['localization-insee-code'],
-                  department: p.attributes['dpt'],
-                  region: p.attributes['region'],
-                  coordinates: coords,
-
-                  geoname_id: p.attributes['geoname-id'],
-                  wikidata_item_id: p.attributes['wikidata-item-id'],
-                  wikipedia_url: p.attributes['wikipedia-url'],
-                  databnf_ark: p.attributes['databnf-ark'],
-                  viaf_id: p.attributes['viaf-id']
-                }
-                break
-            }
-            return item
-          })
-
-          meta = {
-            totalCount: data.meta['total-count']
-          }
-          if (data.meta['after']) {
-            meta['after'] = data.meta['after']
-          }
-
-          commit('setItems', { p: items, links: data.links, meta: meta })
         } else {
           commit('setError', data)
           commit('setLoading', false)
         }
       }).then(() => {
-        /* fetch data to feed the TimeFilter */
+        // fetch data to feed the TimeFilter
         api.get(makeTimeFilterLowerBoundary(filteredQuery)).then((response: ApiResponse<any>) => {
           response.data = parseInt(response.data.data[0].attributes['text-date'])
           console.log('lower time filter boundary:', response.data)
@@ -196,20 +207,6 @@ export const actions: ActionTree<PlaceState, RootState> = {
             commit('setKnownYears', knownYears)
           })
         })
+*/
 
-        return api.get(makeUniqueDptUrl(filteredQuery)).then((res: ApiResponse<any>) => {
-          const { ok, data } = res
-          if (ok) {
-            data.data.map((d: any) => {
-              commit('addDepartment', `${d.attributes['insee-code']} - ${d.attributes['label']}`)
-            })
-            commit('setLoading', false)
-          }
-        })
-      })
-      .catch((error: any) => {
-        commit('setError', error.message)
-        commit('setLoading', false)
-      })
-  }
 }

@@ -1,22 +1,18 @@
 
-import { create } from 'apisauce'
+import axios from 'axios'
+const _baseApiURL = `${process.env.VUE_APP_API_BASE_URL}`
+// const _baseAppURL = `${process.env.VUE_APP_ROOT_URL}`;
 
-// import { getCookie } from './cookies-helpers'
+export const baseApiURL = _baseApiURL
+// export const baseAppURL = _baseAppURL;
 
-export const api = create({
-  baseURL: `${process.env.VUE_APP_API_BASE_URL}`,
-  headers: { Accept: 'application/vnd.api+json; charset=utf-8' }
+export const api = axios.create({
+  baseURL: _baseApiURL,
+  headers: {
+    Accept: 'application/vnd.api+json; charset=utf-8'
+    // 'X-CSRF-TOKEN': getCookie('csrf_refresh_token')
+  }
+  // withCredentials: true
 })
 
-/*
-function http_with_csrf_token () {
-  return axios.create({
-    baseURL: _baseApiURL,
-    headers: {
-      'X-CSRF-Token': getCookie('csrf_access_token')
-    }
-  })
-}
-
-export default http_with_csrf_token
-*/
+export default api

@@ -7,6 +7,7 @@
     <v-content>
       <div style="height:100%">
         <my-awesome-map
+          :mapMarkerItems="mapMarkerItems"
           :on-marker-click="selectPlace"
           :on-map-click="onMapClickCallback"
           :use-fly-animation="false"

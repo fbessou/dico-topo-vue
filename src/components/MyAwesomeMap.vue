@@ -1,7 +1,7 @@
 <template>
   <l-map class="l-map" ref="map"
          :zoom="zoom"
-         :center="center"
+         :center="initialCenter"
          :max-zoom="17"
          :style="`min-height: ${minHeight}; min-width: ${minWidth}; `">
   </l-map>
@@ -29,6 +29,7 @@ export default {
     LMap
   },
   props: {
+    mapmarkerItems: { type: Array, default: () => [] },
     onMarkerClick: { type: Function },
     onMapClick: { type: Function },
     useMarkers: { type: Boolean, default: true },
@@ -36,13 +37,12 @@ export default {
     useFlyAnimation: { type: Boolean, default: true },
     minHeight: { type: String, default: '100px' },
     minWidth: { type: String, default: '100px' },
-    initialZoom: { type: Number, default: 3 }
+    initialZoom: { type: Number, default: 3 },
+    initialCenter: { type: Array, default: () => [47.853806, 1.73392] }
   },
   data () {
     return {
       zoom: !!this.initialZoom && this.initialZoom > 0 && this.initialZoom <= 17 ? this.initialZoom : 3,
-      center: [47.853806, 1.73392],
-
       markerLayer: null,
       heatLayer: null
     }
@@ -89,7 +89,6 @@ export default {
     addMarkers (markers) {
       let newMarkers = []
       for (let m of markers) {
-        // console.log(m);
         if (this.useMarkers) {
           let newMarker = L.marker(m.coordinates)
           if (this.onMarkerClick) {
@@ -196,27 +195,47 @@ export default {
       this.map.on('click', this.onMapClick)
     }
 
-    if (this.selectedItem) {
-      this.flyToCoordinates(this.coords)
-    }
-  },
-  computed: {
-    ...mapState('mapmarkers', { mapmarkerItems: 'items', mapmarkerLoading: 'isLoading' }),
-    ...mapState('places', ['selectedItem']),
+    console.log('wth with markers', this.mapmarkerItems)
 
-    map () { return this.$refs.map.mapObject }
-  },
-  watch: {
-    mapmarkerItems () {
-      // console.log("watching mapmarkerItems", this.mapmarkerItems.length);
-      if (this.mapmarkerItems.length > 0) {
-        this.addMarkers(this.mapmarkerItems.map(m => {
+    if (this.mapmarkerItems.length > 0) {
+      this.addMarkers(this.mapmarkerItems)
+      /*
+         this.addMarkers(this.mapmarkerItems.map(m => {
           const p = m.split('@')
           return {
             id: p[0],
             coordinates: p[1].split(',')
           }
         }))
+        */
+    } else {
+      this.clearMarkers()
+    }
+
+    if (this.selectedItem) {
+      this.flyToCoordinates(this.coords)
+    }
+  },
+  computed: {
+    ...mapState('mapmarkers', { mapmarkerLoading: 'isLoading' }),
+    ...mapState('places', ['selectedItem']),
+
+    map () { return this.$refs.map.mapObject }
+  },
+  watch: {
+    mapmarkerItems () {
+      console.log('watching mapmarkerItems', this.mapmarkerItems.length)
+      if (this.mapmarkerItems.length > 0) {
+        this.addMarkers(this.mapmarkerItems)
+        /*
+         this.addMarkers(this.mapmarkerItems.map(m => {
+          const p = m.split('@')
+          return {
+            id: p[0],
+            coordinates: p[1].split(',')
+          }
+        }))
+        */
       } else {
         this.clearMarkers()
       }

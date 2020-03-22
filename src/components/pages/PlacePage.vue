@@ -19,7 +19,7 @@
                     DT76, 1982, p. n°23 (exemple)
                   </v-card-subtitle>
 
-                  <v-card-text class="text-justify text--primary body-1">
+                  <v-card-text class="text-justify text--primary body-1" style="min-height: 80px">
                     <p v-html="placeItem.description"/>
                   </v-card-text>
 
@@ -28,7 +28,7 @@
                         <v-expansion-panel-header class="grey lighten-4">
                           <div class="subtitle-1 font-weight-medium">Formes anciennes</div>
                         </v-expansion-panel-header>
-                        <v-expansion-panel-content class="body-2 pt-4">
+                        <v-expansion-panel-content class="body-2 pt-4" v-show="placeOldLabels && placeOldLabels.length > 0">
                         <a class="caption">Table des abréviations</a>
                          <ol class="mt-2">
                            <li v-for="oldLabel in placeOldLabels" :key="oldLabel.id" >
@@ -68,10 +68,16 @@
               </v-card>
             </v-flex>
 
-            <v-flex xs5 v-if="!!placeItem && !!placeItem.coordinates">
-              <v-card >
-                <my-awesome-map :use-heatmap="false" min-height="400px" :initial-zoom="7" :use-fly-animation="false">
-                </my-awesome-map>
+            <v-flex xs5>
+              <v-card  v-if="mapItems && mapItems.length > 0 && mapItems[0].coordinates">
+                <my-awesome-map
+                 min-height="400px"
+                :use-heatmap="false"
+                :use-markers="true"
+                :initial-zoom="8"
+                :initialCenter="mapItems[0].coordinates"
+                :key="placeItem.id"
+                :mapmarker-items="mapItems"/>
               </v-card>
 
                <v-card class="mt-4">
@@ -79,7 +85,7 @@
                       Sur le web
                     </v-card-title>
 
-                    <ul class="pa-8">
+                    <ul class="pa-8" v-if="placeItem">
                       <li class="d-flex justify-space-between  mb-4" v-if="placeItem.databnf_ark">
                         <a :href="`https://data.bnf.fr/${placeItem.databnf_ark}`" target="_blank">data.bnf.fr</a>
                         <v-chip small label class="ml-4">{{placeItem.databnf_ark}}</v-chip>
@@ -106,7 +112,7 @@
                       Utiliser cette donnée
                     </v-card-title>
 
-                    <ul class="pa-8">
+                    <ul class="pa-8"  v-if="placeItem">
                       <li class="d-flex justify-space-between  mb-4" v-if="placeItem.databnf_ark">
                         <a :href="`https://data.bnf.fr/${placeItem.databnf_ark}`" target="_blank">data.bnf.fr</a>
                         <v-chip small label class="ml-4">{{placeItem.databnf_ark}}</v-chip>
@@ -144,9 +150,7 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import MyAwesomeMap from '../MyAwesomeMap'
-import LinkingMenu from '../ui/LinkingMenu'
 import CustomFooter from '../ui/CustomFooter'
-import ExportMenu from '../ui/ExportMenu'
 import MainToolbar from '../ui/MainToolbar'
 import { cleanStr } from '../../utils/helpers'
 import AdministrativeBreadcrumbs from '../AdministrativeBreadcrumbs'
@@ -157,8 +161,6 @@ export default {
   components: {
     MainToolbar,
     MyAwesomeMap,
-    LinkingMenu,
-    ExportMenu,
     AdministrativeBreadcrumbs,
     CustomFooter
   },
@@ -178,7 +180,7 @@ export default {
   },
   watch: {
     placeItem () {
-      if (this.placeItem) {
+      if (this.placeItem && this.placeItem.coordinates) {
         const obj = {
           id: this.placeItem.id,
           coordinates: [
@@ -187,7 +189,6 @@ export default {
           ]
         }
         this.selectPlace(obj)
-        console.log('set place', obj)
       }
     }
   },
@@ -196,13 +197,7 @@ export default {
       return cleanStr(str)
     },
     async fetchData () {
-      this.clearMapMarkers()
-      await this.searchMapMarker({
-        query: `(id:"${this.placeId}" AND type:place)`,
-        pageNumber: 1,
-        pageSize: 1
-      }
-      )
+      // this.clearMapMarkers()
       await this.fetchPlaceCard(this.placeId)
     },
     ...mapActions('places', ['selectPlace', 'unselectPlace']),
@@ -210,51 +205,17 @@ export default {
     ...mapActions('mapmarkers', ['searchMapMarker', 'clearMapMarkers'])
   },
   computed: {
-    items () {
-      return [
-        {
-          action: 'share',
-          label: 'Lieux liés',
-          items: this.linkedPlaces ? this.linkedPlaces.map(p => {
-            return {
-              id: p.id,
-              type: p.type,
-              label: p.label,
-              subLabel: p.description,
-              coordinates: p.coordinates,
-              actions: {
-                goTo: `/places/${p.id}`
-              }
-            }
-          }) : []
-        },
-        {
-          action: 'call_split',
-          label: 'Formes alternatives',
-          items: []
-        },
-        {
-          action: 'history',
-          label: 'Formes anciennes',
-          items: this.placeOldLabels ? this.placeOldLabels.map(p => {
-            return {
-              id: p.id,
-              type: p.type,
-              label: p.label,
-              subLabel: p.labelNode,
-              coordinates: undefined,
-              actions: {}
-            }
-          }) : []
-        }
-      ]
-    },
-    breadCrumbs () {
-      return []
-    },
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),
     ...mapState('places', ['selectedItem']),
-    ...mapState('mapmarkers', { mapmarkerItems: 'items' })
+    mapItems () {
+      return this.placeItem ? [ {
+        id: this.placeItem.id,
+        coordinates: [
+          parseFloat(this.placeItem.coordinates[1].trim()),
+          parseFloat(this.placeItem.coordinates[0].trim())
+        ]
+      }] : []
+    }
   }
 }
 </script>

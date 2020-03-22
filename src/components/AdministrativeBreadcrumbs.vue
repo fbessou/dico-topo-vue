@@ -9,17 +9,33 @@ import { mapState, mapActions } from 'vuex'
 export default {
   name: 'AdministrativeBreadcrumbs',
   props: ['inseeCode'],
-  components: [],
+  components: {},
 
-  create () {
+  mounted () {
     this.$store.dispatch('commune/fetch', this.$props.inseeCode)
+  },
+  watch: {
+    inseeCode () {
+      this.$store.dispatch('commune/fetch', this.$props.inseeCode)
+    }
   },
   computed: {
     ...mapState('commune', ['region', 'arrondissement', 'canton', 'departement', 'commune']),
     items () {
-      return [this.region, this.departement, this.canton, this.arrondissement]
+      let items = []
+      if (this.region) { items.push({ text: this.region.label }) }
+      if (this.departement) { items.push({ text: `${this.departement.label} (${this.departement['insee-code']}) ` }) }
+      if (this.canton) { items.push({ text: this.canton.label }) }
+      if (this.arrondissement) { items.push({ text: this.arrondissement.label }) }
+      return items
     }
   }
 }
 
 </script>
+
+<style scoped>
+  .v-breadcrumbs {
+
+  }
+</style>

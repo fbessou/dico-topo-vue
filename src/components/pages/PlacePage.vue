@@ -18,27 +18,49 @@
             </v-flex>
 
             <v-flex grow pa-1 xs6>
-              <v-card v-if="!!placeItem">
-                  <v-toolbar dense flat>
-                    <v-toolbar-title>
-                        <div class="title" v-html="placeItem.label" />
-                    </v-toolbar-title>
+              <v-card v-if="!!placeItem" class="mx-auto">
 
-                    <administrative-breadcrumbs :insee-code="placeItem.insee_code"/>
-                    <v-spacer></v-spacer>
+                  <div class="d-flex justify-space-between permanent-hover">
+                    <v-card-title v-html="placeItem.label"/>
 
-                    <v-btn icon>
-                      <v-icon>mdi-magnify</v-icon>
-                    </v-btn>
+                    <administrative-breadcrumbs class="overline" :insee-code="placeItem.insee_code"/>
+                  </div>
 
-                    <v-btn icon>
-                      <v-icon>mdi-heart</v-icon>
-                    </v-btn>
+                  <v-card-subtitle>
+                    DT76, 1982, p. n°23 (exemple)
+                  </v-card-subtitle>
 
-                    <v-btn icon>
-                      <v-icon>mdi-dots-vertical</v-icon>
-                    </v-btn>
-                      </v-toolbar>
+                  <v-card-text class="text-justify text--primary body-1">
+                    <p v-html="placeItem.description"/>
+                  </v-card-text>
+
+                  <v-expansion-panels accordion flat hover multiple light v-model="panel">
+                      <v-expansion-panel>
+                        <v-expansion-panel-header class="permanent-hover">
+                          <div class="subtitle-1 font-weight-medium">Formes anciennes</div>
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content class="body-2 pt-4">
+                        <a class="caption">Table des abréviations</a>
+                         <ol class="mt-2">
+                           <li v-for="oldLabel in placeOldLabels" :key="oldLabel.id">
+                             <span class="font-weight-medium" v-html="oldLabel.label"/>,
+                             <span v-html="oldLabel.date"/>
+                             (<span v-html="oldLabel.reference"/>)
+                           </li>
+                         </ol>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+
+                    <v-expansion-panel>
+                        <v-expansion-panel-header  class="permanent-hover">
+                          <div class="subtitle-1 font-weight-medium">Commentaire</div>
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content class="text-justify body-1 pt-4">
+                          <p class="" v-html="placeItem.comment" />
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+                  </v-expansion-panels>
+
               </v-card>
             </v-flex>
 
@@ -82,6 +104,7 @@ export default {
   },
   data: () => {
     return {
+      panel: [0]
     }
   },
   created () {
@@ -90,7 +113,7 @@ export default {
   beforeRouteUpdate (to, from, next) {
     // react to route changes...
     // don't forget to call next()
-    this.fetchData()
+    // this.fetchData()
     next()
   },
   watch: {
@@ -177,5 +200,10 @@ export default {
 </script>
 
 <style scoped>
-
+  p::first-letter {
+    text-transform: uppercase ;
+  }
+  .permanent-hover {
+    background-color:rgba(0, 0, 0, 0.04);
+  }
 </style>

@@ -1,9 +1,5 @@
 <template>
-  <v-app>
-    <main-toolbar>
-    </main-toolbar>
-
-    <v-content >
+  <default-layout>
       <section class="head--section">
         <v-parallax :src="require('@/assets/hero.jpeg')" height="450">
 
@@ -112,23 +108,17 @@
         </v-layout>
       </section>
 
-      <section class="foot--section mt-5">
-        <custom-footer></custom-footer>
-      </section>
-
-    </v-content>
-  </v-app>
+   </default-layout>
 </template>
 
 <script>
-import MainToolbar from '../ui/MainToolbar'
-import CustomFooter from '../ui/CustomFooter'
+import DefaultLayout from '../DefaultLayout'
 import LandingMap from '../LandingMap'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'LandingPage',
-  components: { MainToolbar, LandingMap, CustomFooter },
+  components: { DefaultLayout, LandingMap },
   watch: {
     /*
       query() {

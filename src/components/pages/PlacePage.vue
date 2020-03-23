@@ -1,9 +1,5 @@
 <template>
-  <v-app>
-    <main-toolbar>
-
-    </main-toolbar>
-    <v-content>
+  <default-layout>
       <section style="min-height: 80%">
         <v-container grid-list-md mt-8 >
           <v-layout >
@@ -147,19 +143,14 @@
 
           </v-layout>
         </v-container>
-      </section>
-        <section class="foot--section mt-5">
-          <custom-footer></custom-footer>
-        </section>
-    </v-content>
-  </v-app>
+    </section>
+  </default-layout>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
 import MyAwesomeMap from '../MyAwesomeMap'
-import CustomFooter from '../ui/CustomFooter'
-import MainToolbar from '../ui/MainToolbar'
+import DefaultLayout from '../DefaultLayout'
 import { cleanStr } from '../../utils/helpers'
 import AdministrativeBreadcrumbs from '../AdministrativeBreadcrumbs'
 
@@ -167,10 +158,9 @@ export default {
   name: 'PlacePage',
   props: ['placeId'],
   components: {
-    MainToolbar,
     MyAwesomeMap,
     AdministrativeBreadcrumbs,
-    CustomFooter
+    DefaultLayout
   },
   data: () => {
     return {

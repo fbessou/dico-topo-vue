@@ -1,21 +1,18 @@
 <template>
-  <v-app>
-    <main-toolbar></main-toolbar>
-
-    <v-content>
-      <v-container fluid>
-        <span class="title text-xs-center orange--text">Page non trouvée</span>
-      </v-container>
-    </v-content>
-  </v-app>
+  <default-layout>
+    <v-container fluid>
+      <span class="title text-xs-center orange--text">Page non trouvée</span>
+    </v-container>
+  </default-layout>
 </template>
 
 <script>
 import MainToolbar from '../ui/MainToolbar'
+import DefaultLayout from '../DefaultLayout'
 
 export default {
   name: 'NotFoundPage',
-  components: { MainToolbar }
+  components: { DefaultLayout }
 }
 </script>
 

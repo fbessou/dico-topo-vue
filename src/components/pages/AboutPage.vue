@@ -1,14 +1,7 @@
 <template>
-  <v-app>
-    <main-toolbar>
-
-    </main-toolbar>
-
-    <v-content>
-
+  <default-layout>
       <section class="head--section" >
         <v-parallax :src="require('@/assets/hero.jpeg')" height="250">
-
           <v-layout
             column
             align-center
@@ -20,7 +13,6 @@
               topographique<span> de la France</span></h1>
             <div class="headline  mb-3 font-weight-light">Présentation</div>
           </v-layout>
-
         </v-parallax>
       </section>
 
@@ -272,23 +264,15 @@
 
         </v-container>
        </section>
-
-      <section class="foot--section mt-5">
-        <custom-footer></custom-footer>
-      </section>
-
-    </v-content>
-
-  </v-app>
+  </default-layout>
 </template>
 
 <script>
-import MainToolbar from '../ui/MainToolbar'
-import CustomFooter from '../ui/CustomFooter'
+import DefaultLayout from '../DefaultLayout'
 
 export default {
   name: 'LandingPage',
-  components: { MainToolbar, CustomFooter }
+  components: { DefaultLayout }
 }
 </script>
 
@@ -298,11 +282,6 @@ export default {
   }
   .head--section {
     background: lightgrey;
-  }
-
-  .foot--section {
-    margin-top: 80px;
-    background-color: lightgrey;
   }
 
   /*

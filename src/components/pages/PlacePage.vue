@@ -53,10 +53,10 @@
                         <v-expansion-panel-header class="grey lighten-4">
                           <div class="subtitle-1 font-weight-medium">Lieux alentours</div>
                         </v-expansion-panel-header>
-                        <v-expansion-panel-content class="text-justify body-2 pt-4">
+                        <v-expansion-panel-content class="text-justify body-2 pt-4"  v-show="linkedPlaces && linkedPlaces.length > 0">
                           <ol class="mt-2">
                             <li v-for="lp in linkedPlaces" :key="lp.id">
-                              <a href="" class="font-weight-medium" @click="$router.push({name: 'place', params: {placeId: lp.id}})">{{lp.label}}</a>
+                              <router-link class="font-weight-medium" :to="{name: 'place', params: {placeId: lp.id}}">{{lp.label}}</router-link>
                               <div class="capitalize-first-letter" v-html="lp.description" />
                             </li>
                           </ol>
@@ -80,12 +80,16 @@
                 :mapmarker-items="mapItems"/>
               </v-card>
 
-               <v-card class="mt-4">
+              <v-card class="mt-4">
                     <v-card-title class="headline  grey lighten-4">
                       Sur le web
                     </v-card-title>
 
                     <ul class="pa-8" v-if="placeItem">
+                      <li class="d-flex justify-space-between  mb-4" >
+                        <span class="overline">Site</span>
+                        <span class="overline">Identifiant</span>
+                      </li>
                       <li class="d-flex justify-space-between  mb-4" v-if="placeItem.databnf_ark">
                         <a :href="`https://data.bnf.fr/${placeItem.databnf_ark}`" target="_blank">data.bnf.fr</a>
                         <v-chip small label class="ml-4">{{placeItem.databnf_ark}}</v-chip>
@@ -112,26 +116,30 @@
                       Utiliser cette donnée
                     </v-card-title>
 
-                    <ul class="pa-8"  v-if="placeItem">
-                      <li class="d-flex justify-space-between  mb-4" v-if="placeItem.databnf_ark">
-                        <a :href="`https://data.bnf.fr/${placeItem.databnf_ark}`" target="_blank">data.bnf.fr</a>
-                        <v-chip small label class="ml-4">{{placeItem.databnf_ark}}</v-chip>
+                    <div class="d-flex text-justify pa-8 mt-2" v-if="placeItem">
+                      <span>
+                          Vous pouvez citer ce lieu dans vos travaux en utilisant
+                          <router-link class="font-weight-medium" :to="{name: 'place', params: {placeId: placeItem.id}}">ce permalien</router-link>
+                          ou utiliser les liens vers notre <router-link to="/documentation">API</router-link > pour exporter les données :
+                      </span>
+                    </div>
+
+                    <ul class="pa-8 pt-0" v-if="placeItem">
+                      <li class="d-flex justify-space-between  mb-4" >
+                        <span class="overline">Format</span>
+                        <span class="overline">Téléchargement</span>
                       </li>
-                      <li class="d-flex justify-space-between mt-2 mb-4" v-if="placeItem.geoname_id">
-                        <a :href="`http://www.geonames.org/${placeItem.geoname_id}`" target="_blank">GeoNames</a>
-                        <v-chip small label class="ml-4">{{placeItem.geoname_id}}</v-chip>
+                      <li class="d-flex justify-space-between mt-2 mb-4">
+                        <span><a href='https://jsonapi.org/format/1.0/'>JSON API 1.0</a></span>
+                        <v-btn icon small depressed :href="`${apiUrl}/places/${placeId}`">
+                          <v-icon>get_app</v-icon>
+                        </v-btn>
                       </li>
-                      <li class="d-flex justify-space-between  mb-4" v-if="placeItem.viaf_id">
-                        <a :href="`https://viaf.org/viaf/${placeItem.viaf_id}`" target="_blank">VIAF</a>
-                        <v-chip small label class="ml-4">{{placeItem.viaf_id}}</v-chip>
-                      </li>
-                      <li class="d-flex justify-space-between  mb-4" v-if="placeItem.wikipedia_url">
-                        <a :href="placeItem.wikipedia_url" target="_blank">Wikipédia</a>
-                        <v-chip small label class="ml-4">{{placeItem.wikipedia_url}}</v-chip>
-                      </li>
-                      <li class="d-flex justify-space-between  mb-4" v-if="placeItem.wikidata_item_id">
-                        <a :href="`https://www.wikidata.org/wiki/${placeItem.wikidata_item_id}`" target="_blank">Wikidata</a>
-                        <v-chip small label class="ml-4">{{placeItem.wikidata_item_id}}</v-chip>
+                      <li class="d-flex justify-space-between mb-4">
+                        <span><a href='https://github.com/LinkedPasts/linked-places'>LinkedPlaces</a></span>
+                        <v-btn icon small depressed :href="`${apiUrl}/places/${placeItem.id}?export=linkedplaces`">
+                          <v-icon>get_app</v-icon>
+                        </v-btn>
                       </li>
                     </ul>
               </v-card>
@@ -170,12 +178,10 @@ export default {
     }
   },
   created () {
-    this.fetchData()
+    this.fetchData(this.placeId)
   },
   beforeRouteUpdate (to, from, next) {
-    // react to route changes...
-    // don't forget to call next()
-    this.fetchData()
+    this.fetchData(to.params.placeId)
     next()
   },
   watch: {
@@ -196,13 +202,13 @@ export default {
     clean (str) {
       return cleanStr(str)
     },
-    async fetchData () {
-      // this.clearMapMarkers()
-      await this.fetchPlaceCard(this.placeId)
+    fetchData (id) {
+      console.log('clear then fetch', id)
+      this.clearPlaceCard()
+      this.fetchPlaceCard(id)
     },
     ...mapActions('places', ['selectPlace', 'unselectPlace']),
-    ...mapActions('PlaceCard', ['fetchPlaceCard']),
-    ...mapActions('mapmarkers', ['searchMapMarker', 'clearMapMarkers'])
+    ...mapActions('PlaceCard', ['fetchPlaceCard', 'clearPlaceCard'])
   },
   computed: {
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),
@@ -215,6 +221,9 @@ export default {
           parseFloat(this.placeItem.coordinates[0].trim())
         ]
       }] : []
+    },
+    apiUrl () {
+      return process.env.VUE_APP_API_BASE_URL
     }
   }
 }

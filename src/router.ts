@@ -56,5 +56,8 @@ const rootUrl = `${process.env.VUE_APP_ROOT_URL}`
 export const createRouter = () => new VueRouter({
   base: rootUrl,
   mode: 'history',
-  routes: createRoutes()
+  routes: createRoutes(),
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
 })

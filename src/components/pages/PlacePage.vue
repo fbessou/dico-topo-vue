@@ -1,6 +1,6 @@
 <template>
   <default-layout>
-    <section style="min-height: 80%">
+    <section style="min-height: 80%" class="mb-10">
         <v-container grid-list-md mt-8 >
           <v-layout >
             <v-flex grow pa-1 xs7>
@@ -116,7 +116,7 @@
                       <span>
                           Vous pouvez citer ce lieu dans vos travaux en utilisant
                           <router-link class="font-weight-medium" :to="{name: 'place', params: {placeId: placeItem.id}}">ce permalien</router-link>
-                          ou utiliser les liens vers notre <router-link to="/documentation">API</router-link > pour exporter les données :
+                          ou utiliser les liens suivants pour exporter les données
                       </span>
                     </div>
 

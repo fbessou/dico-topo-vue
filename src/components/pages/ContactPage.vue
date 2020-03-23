@@ -1,5 +1,6 @@
 <template>
   <default-layout>
+    <section>
       <section class="head--section" >
         <v-parallax :src="require('@/assets/hero.jpeg')" height="450">
           <v-layout
@@ -38,7 +39,7 @@
       </section>
 
       <section>
-      <v-container fluid>
+        <v-container fluid>
           <v-layout justify-center>
             <v-flex xs4>
               <section class="contact mt-5">
@@ -56,6 +57,7 @@
           </v-layout>
         </v-container>
       </section>
+    </section>
   </default-layout>
 </template>
 

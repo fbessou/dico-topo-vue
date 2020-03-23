@@ -1,5 +1,6 @@
 <template>
   <default-layout>
+    <section>
       <section class="head--section">
         <v-parallax :src="require('@/assets/hero.jpeg')" height="450">
 
@@ -101,13 +102,13 @@
         </v-layout>
       </section>
 
-      <section style="height: 800px">
+      <section style="height: 800px; padding-top: 80px">
         <v-layout column align-center justify-center>
           <landing-map>
           </landing-map>
         </v-layout>
       </section>
-
+    </section>
    </default-layout>
 </template>
 

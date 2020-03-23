@@ -1,6 +1,6 @@
 <template>
   <default-layout>
-      <section style="min-height: 80%">
+    <section style="min-height: 80%">
         <v-container grid-list-md mt-8 >
           <v-layout >
             <v-flex grow pa-1 xs7>

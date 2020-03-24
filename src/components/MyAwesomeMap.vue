@@ -87,6 +87,7 @@ export default {
     },
 
     addMarkers (markers) {
+      console.log('add markers', markers)
       let newMarkers = []
       for (let m of markers) {
         if (this.useMarkers) {
@@ -120,6 +121,10 @@ export default {
       // clear the place markers
       this.markerLayer.clearLayers()
       // console.log("clear map");
+    },
+    setMarkers (markers) {
+      this.clearMarkers()
+      this.addMarkers(markers)
     },
     toggleMarkerLayer () {
       if (this.map.getZoom() < 10) {
@@ -224,21 +229,8 @@ export default {
   },
   watch: {
     mapmarkerItems () {
-      console.log('watching mapmarkerItems', this.mapmarkerItems.length)
-      if (this.mapmarkerItems.length > 0) {
-        this.addMarkers(this.mapmarkerItems)
-        /*
-         this.addMarkers(this.mapmarkerItems.map(m => {
-          const p = m.split('@')
-          return {
-            id: p[0],
-            coordinates: p[1].split(',')
-          }
-        }))
-        */
-      } else {
-        this.clearMarkers()
-      }
+      console.log('setting mapmarkerItems', this.mapmarkerItems.length)
+      this.setMarkers(this.mapmarkerItems)
     },
     mapmarkerLoading (val) {
       if (this.mapmarkerLoading) {

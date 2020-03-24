@@ -8,7 +8,7 @@
 
                   <div class="d-flex justify-space-between grey lighten-4">
                     <v-card-title class="display-1 font-weight-medium" v-html="placeItem.label"/>
-                    <administrative-breadcrumbs class="overline" :insee-code="placeItem.insee_code"/>
+                    <administrative-breadcrumbs class="overline"/>
                   </div>
 
                   <v-card-subtitle>
@@ -65,18 +65,17 @@
             </v-flex>
 
             <v-flex xs5>
-              <v-card  v-if="mapItems && mapItems.length > 0 && mapItems[0].coordinates">
+              <v-card  v-if="coordinates.length > 0" class="mb-2">
                 <my-awesome-map
                  min-height="400px"
                 :use-heatmap="false"
                 :use-markers="true"
                 :initial-zoom="8"
-                :initialCenter="mapItems[0].coordinates"
-                :key="placeItem.id"
+                :initialCenter="coordinates"
                 :mapmarker-items="mapItems"/>
               </v-card>
 
-              <v-card class="mt-4">
+              <v-card>
                     <v-card-title class="headline  grey lighten-4">
                       Sur le web
                     </v-card-title>
@@ -175,42 +174,39 @@ export default {
     next()
   },
   watch: {
-    placeItem () {
-      if (this.placeItem && this.placeItem.coordinates) {
-        const obj = {
-          id: this.placeItem.id,
-          coordinates: [
-            parseFloat(this.placeItem.coordinates[1].trim()),
-            parseFloat(this.placeItem.coordinates[0].trim())
-          ]
-        }
-        this.selectPlace(obj)
-      }
-    }
+
   },
   methods: {
     clean (str) {
       return cleanStr(str)
     },
-    fetchData (id) {
-      console.log('clear then fetch', id)
+    buildCoords (obj) {
+      console.log('biuldcords', obj)
+      const longlat = obj.attributes['longlat']
+      const coords = longlat ? longlat.substr(1, longlat.length - 2).split(',') : []
+      if (coords) {
+        coords[0] = parseFloat(coords[0].trim())
+        coords[1] = parseFloat(coords[1].trim())
+      }
+      return coords.reverse()
+    },
+    async fetchData (id) {
       this.clearPlaceCard()
-      this.fetchPlaceCard(id)
+      await this.fetchPlaceCard(id)
+      this.fetchCommune(this.placeItem.insee_code)
     },
     ...mapActions('places', ['selectPlace', 'unselectPlace']),
-    ...mapActions('PlaceCard', ['fetchPlaceCard', 'clearPlaceCard'])
+    ...mapActions('PlaceCard', ['fetchPlaceCard', 'clearPlaceCard']),
+    ...mapActions('commune', { fetchCommune: 'fetch' })
   },
   computed: {
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),
-    ...mapState('places', ['selectedItem']),
+    ...mapState('commune', ['commune']),
+    coordinates () {
+      return this.commune && this.commune.data ? this.buildCoords(this.commune.data) : []
+    },
     mapItems () {
-      return this.placeItem ? [ {
-        id: this.placeItem.id,
-        coordinates: [
-          parseFloat(this.placeItem.coordinates[1].trim()),
-          parseFloat(this.placeItem.coordinates[0].trim())
-        ]
-      }] : []
+      return this.placeItem ? [{ id: this.placeItem.id, coordinates: this.coordinates }] : []
     },
     apiUrl () {
       return process.env.VUE_APP_API_BASE_URL

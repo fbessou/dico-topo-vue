@@ -28,7 +28,7 @@
           </v-btn>
         </place-search-table>
 
-        <div class="toggle-table-up">
+        <div class="toggle-table-up elevation-5">
           <v-btn
             v-if="!!term && term.length >= minTermLength && !showTabularResults"
             depressed small
@@ -106,7 +106,7 @@ export default {
   .toggle-table-up {
     position: fixed;
     bottom: 0;
-    width: 100px;
+    width: 50px;
     margin: auto;
     /* z-index: 1000; */
     left: calc(50% - 44px);

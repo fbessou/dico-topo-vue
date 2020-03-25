@@ -2,7 +2,10 @@
   <default-layout>
     <section style="min-height: 80%" class="mb-10">
         <v-container grid-list-md mt-8 >
-          <v-layout >
+
+          <router-link to="/search">Retourner vers la recherche</router-link>
+
+          <v-layout class="mt-4">
             <v-flex grow pa-1 xs7>
               <v-card v-if="!!placeItem" class="mx-auto">
 

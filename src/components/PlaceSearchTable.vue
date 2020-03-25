@@ -1,49 +1,58 @@
 <template>
     <div>
-        <div class="toggle-table-down">
-          <slot></slot>
-        </div>
-
         <v-data-table
-            class="elevation-4 fixed-header v-table__overflow"
-            style="position: fixed; bottom: 0;  max-height: 55%;"
+            class="fixed-header v-table__overflow"
+            style="position: absolute; bottom: 0; max-height: 55%; width:100%"
 
+            hide-default-header
+            hide-default-footer
             :headers="headers"
             :items="items"
-            :pagination.sync="pagination"
-            :total-items="totalItems"
-            rows-per-page-text="Nombre d'éléments par page"
-            :rows-per-page-items="[100,200,maxPageSize]"
-            hide-actions
+
+            :server-items-length="totalItems"
+            :footer-props="footerProps"
             color="rgb(211, 47, 47)"
+            dense
           >
-          <template v-slot:headers>
-              <th v-for="(h, index) in headers" :key="h.text" class="table-header">
-                {{h.text}}
-                <stateful-button v-if="!!h.sortable"
-                                 inactive-icon="arrow_downward"
-                                 active-icon="arrow_upward"
-                                 :active="!!h.sorted"
-                                 :disabled="true"
-                                 :action="(value) => toggleSortField(index, value)"
-                >
-                </stateful-button>
 
-                <span v-if="!!h.filter">
-                   <v-btn icon small @click="filterStates[h.value] = !filterStates[h.value]">
-                     <v-icon small color="primary" v-if="filterSelections[h.value].length > 0">filter_list</v-icon>
-                     <v-icon small  v-else>filter_list</v-icon>
-                   </v-btn>
-                   <filter-result
-                     v-show="!!filterStates[h.value]"
-                     :items="h.filter"
-                     :on-change="h.filterCallback"
-                     :key="searchedTerm"
-                   ></filter-result>
-                 </span>
+            <template v-slot:header="{ props: { headers } }">
+              <div class="toggle-table-down elevation-5">
+                <slot></slot>
+              </div>
+              <thead class="elevation-2">
+                <tr>
+                  <th v-for="(h, index) in headers" :key="index" class="table-header">
 
-              </th>
+                    <v-icon small v-if="h.prependIcon">{{h.prependIcon}}</v-icon>
+                    {{h.text}}
+
+                    <stateful-button v-if="!!h.sortable"
+                                    inactive-icon="arrow_downward"
+                                    active-icon="arrow_upward"
+                                    :active="!!h.sorted"
+                                    :disabled="true"
+                                    :action="(value) => toggleSortField(index, value)"
+                    >
+                    </stateful-button>
+
+                    <span v-if="!!h.filter">
+                      <v-btn icon small @click="filterStates[h.value] = !filterStates[h.value]">
+                        <v-icon small color="primary" v-if="filterSelections[h.value].length > 0">filter_list</v-icon>
+                        <v-icon small  v-else>filter_list</v-icon>
+                      </v-btn>
+                      <filter-result
+                        v-show="!!filterStates[h.value]"
+                        :items="h.filter"
+                        :on-change="h.filterCallback"
+                        :key="searchedTerm"
+                      ></filter-result>
+                    </span>
+
+                  </th>
+                </tr>
+              </thead>
             </template>
+
             <template v-slot:items="props">
               <td class="text-xs-left" style="width: 50px; !important">
                 <v-flex shrink>
@@ -90,74 +99,45 @@
               <td class="text-xs-left">
                 <span v-html=" clean(props.item.description)"></span>
               </td>
-              <td style="width: 240px;">
-                <v-layout align-center justify-end row fill-height>
-                  <v-flex  sm3>
-                    <linking-menu
-                      :geoname-id="props.item.geoname_id"
-                      :wikidata-item-id="props.item.wikidata_item_id"
-                      :wikipedia-url="props.item.wikipedia_url"
-                      :databnf-ark="props.item.databnf_ark"
-                      :viaf-id="props.item.viaf_id"
-                    >
-                    </linking-menu>
-                  </v-flex>
-                  <v-flex sm3>
-                    <export-menu
-                      :place-id="props.item.type === 'place' ? props.item.id: props.item.placeId">
-                    </export-menu>
-                  </v-flex>
-                </v-layout>
-              </td>
             </template>
-            <template v-slot:pageText="props">
-              Toponymes {{ props.pageStart }} - {{ props.pageStop }} sur {{ props.itemsLength }}
+            <template v-slot:footer>
+              <div v-show="!!showTable" class="fixed-agg-footer elevation-5">
+                  <v-layout row justify-space-between text-xs-center>
+                    <v-flex  xs3 pa-1> </v-flex>
+                    <v-flex xs3 pa-1></v-flex>
+                    <v-flex xs3 pa-1 mr-3 class="text-xs-right">
+                      <span>
+                        <span v-if="!!groupbyPlace">
+                          <span>
+                            Lieux {{(numAggPage * pagination.rowsPerPage) + 1}} - {{(numAggPage * pagination.rowsPerPage)  + items.length}}  sur {{ totalItems }}
+                          </span>
+                          <v-btn icon @click="goToPageBefore" :disabled="loading || numAggPage === 0">
+                            <v-icon>keyboard_arrow_left</v-icon>
+                          </v-btn>
+                          <v-btn icon @click="goToPageAfter"
+                                :disabled="loading || !meta.after || ((numAggPage * pagination.rowsPerPage)  + items.length) >= totalItems">
+                            <v-icon>keyboard_arrow_right</v-icon>
+                          </v-btn>
+                        </span>
+
+                        <span v-else>
+                          <span>
+                            Toponymes {{(pagination.page - 1) * pagination.rowsPerPage + 1}} - {{((pagination.page -1) * pagination.rowsPerPage) + items.length}}  sur {{ totalItems }}
+                          </span>
+                          <v-btn icon @click="goToPageBefore" :disabled="loading || pagination.page <= 1">
+                            <v-icon>keyboard_arrow_left</v-icon>
+                          </v-btn>
+                          <v-btn icon @click="goToPageAfter"
+                                :disabled="loading || (((pagination.page - 1) * pagination.rowsPerPage) + items.length) >= totalItems">
+                            <v-icon>keyboard_arrow_right</v-icon>
+                          </v-btn>
+                        </span>
+                      </span>
+                    </v-flex>
+                  </v-layout>
+              </div>
             </template>
           </v-data-table>
-        <!-- FOOTER  -->
-
-        <div v-show="!!showTable"
-               class="fixed-agg-footer elevation-3">
-              <v-layout row justify-space-between text-xs-center>
-                <v-flex  xs3 pa-1>
-                </v-flex>
-
-                <v-flex xs3 pa-1>
-                </v-flex>
-
-                <v-flex xs3 pa-1 mr-3 class="text-xs-right">
-                  <span >
-
-                    <span v-if="!!groupbyPlace">
-                      <span >
-                         Lieux {{(numAggPage * pagination.rowsPerPage) + 1}} - {{(numAggPage * pagination.rowsPerPage)  + items.length}}  sur {{ totalItems }}
-                      </span>
-                      <v-btn icon @click="goToPageBefore" :disabled="loading || numAggPage === 0">
-                        <v-icon>keyboard_arrow_left</v-icon>
-                      </v-btn>
-                      <v-btn icon @click="goToPageAfter"
-                             :disabled="loading || !meta.after || ((numAggPage * pagination.rowsPerPage)  + items.length) >= totalItems">
-                        <v-icon>keyboard_arrow_right</v-icon>
-                      </v-btn>
-                    </span>
-
-                    <span v-else>
-                      <span>
-                         Toponymes {{(pagination.page - 1) * pagination.rowsPerPage + 1}} - {{((pagination.page -1) * pagination.rowsPerPage) + items.length}}  sur {{ totalItems }}
-                      </span>
-                      <v-btn icon @click="goToPageBefore" :disabled="loading || pagination.page <= 1">
-                        <v-icon>keyboard_arrow_left</v-icon>
-                      </v-btn>
-                      <v-btn icon @click="goToPageAfter"
-                             :disabled="loading || (((pagination.page - 1) * pagination.rowsPerPage) + items.length) >= totalItems">
-                        <v-icon>keyboard_arrow_right</v-icon>
-                      </v-btn>
-                    </span>
-
-                  </span>
-                </v-flex>
-              </v-layout>
-          </div>
     </div>
 </template>
 
@@ -344,7 +324,8 @@ export default {
   computed: {
     headers () {
       const localisation = {
-        text: 'Localisation',
+        text: '',
+        prependIcon: 'location_on',
         align: 'center',
         value: 'icon',
         sortable: false,
@@ -392,17 +373,27 @@ export default {
         align: 'left',
         sortable: false
       }
-      const linking = {
-        text: '',
-        value: 'linking',
-        align: 'right',
-        sortable: false
-      }
-
       if (this.groupbyPlace) {
-        return [localisation, article, oldLabels, dep, desc, linking]
+        return [localisation, article, oldLabels, dep, desc]
       } else {
-        return [localisation, toponym, article, dep, desc, linking]
+        return [localisation, toponym, article, dep, desc]
+      }
+    },
+
+    footerProps () {
+      return {
+        itemsPerPageText: "Nombre d'éléments par page",
+        itemsPerPageOptions: [100, 200, this.maxPageSize]
+        /*
+          pagination: {
+            page: number
+            itemsPerPage: number
+            pageStart: number
+            pageStop: number
+            pageCount: number
+            itemsLength: number
+          }
+         */
       }
     },
 
@@ -425,10 +416,7 @@ export default {
 <style>
 
   .fixed-agg-footer {
-    position: fixed;
-    bottom: 0;
     width: 100%;
-    height: 56px;
     background-color: #f5f5f5;
     border-top: 1px solid lightgrey;
     color: grey;
@@ -437,31 +425,16 @@ export default {
   }
 
   .toggle-table-down {
-    position: fixed;
-    bottom: 55%;
-    width: 100px;
-    margin-bottom: 48px;
+    position: absolute;
+    top: -23px;
     left: calc(50% - 44px);
-    /* z-index: 1000; */
-  }
-
-  .toggle-table-up {
-    position: fixed;
-    bottom: 0;
-    width: 100px;
-    margin: auto;
-    /* z-index: 1000; */
-    left: calc(50% - 44px);
-
   }
 
   /* Theme */
   .fixed-header {
     display: flex;
     flex-direction: column;
-    height: 100%;
     background-color: white;
-    bottom: 56px !important;
   }
 
   .fixed-header table {
@@ -480,11 +453,15 @@ export default {
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 100%;
+
   }
 
   .fixed-header tr.v-datatable__progress th {
     height: 1px;
+  }
+
+  .v-data-table__empty-wrapper  {
+    height: 250px;
   }
 
   .fixed-header .v-table__overflow {

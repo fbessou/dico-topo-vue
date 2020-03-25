@@ -1,8 +1,10 @@
 <template>
   <l-map class="l-map" ref="map"
-         :zoom="zoom"
+         :zoom="initialZoom"
          :center="initialCenter"
-         :max-zoom="17"
+         :max-zoom="maxZoom"
+         :min-zoom="minZoom"
+         :options="options"
          :style="`min-height: ${minHeight}; min-width: ${minWidth}; `">
   </l-map>
 </template>
@@ -37,14 +39,19 @@ export default {
     useFlyAnimation: { type: Boolean, default: true },
     minHeight: { type: String, default: '100px' },
     minWidth: { type: String, default: '100px' },
-    initialZoom: { type: Number, default: 3 },
-    initialCenter: { type: Array, default: () => [47.853806, 1.73392] }
+    initialZoom: { type: Number, default: 6.25 },
+    maxZoom: { type: Number, default: 17 },
+    minZoom: { type: Number, default: 6.25 },
+    initialCenter: { type: Array, default: () => [46.453806, 2.65392] }
   },
   data () {
     return {
-      zoom: !!this.initialZoom && this.initialZoom > 0 && this.initialZoom <= 17 ? this.initialZoom : 3,
       markerLayer: null,
-      heatLayer: null
+      heatLayer: null,
+      options: {
+        zoomSnap: 0,
+        zoomDelta: 0.5
+      }
     }
   },
   methods: {
@@ -150,6 +157,8 @@ export default {
     }
   },
   mounted () {
+    this.map.setMaxBounds(this.map.getBounds())
+
     L.Marker.prototype.options.icon = L.icon({
       iconUrl: icon,
       shadowUrl: iconShadow

@@ -215,11 +215,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
   p::first-letter, .capitalize-first-letter::first-letter {
     text-transform: uppercase ;
   }
   ul {
     list-style-type: none;
+  }
+  .sc {
+    font-variant: small-caps;
   }
 </style>

@@ -5,13 +5,12 @@
          :max-zoom="maxZoom"
          :min-zoom="minZoom"
          :options="options"
-         :style="`min-height: ${minHeight}; min-width: ${minWidth}; `">
+         :style="`min-height:${minHeight}; min-width: ${minWidth}; `">
   </l-map>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
-
 import { LMap, LTileLayer, LMarker, LPopup, LGeoJson } from 'vue2-leaflet'
 // import * as Gp from 'geoportal-extensions-leaflet'
 // import styles from '../../node_modules/geoportal-extensions-leaflet/dist/GpPluginLeaflet.css'
@@ -41,7 +40,7 @@ export default {
     minWidth: { type: String, default: '100px' },
     initialZoom: { type: Number, default: 6.25 },
     maxZoom: { type: Number, default: 17 },
-    minZoom: { type: Number, default: 6.25 },
+    minZoom: { type: Number, default: 6 },
     initialCenter: { type: Array, default: () => [46.453806, 2.65392] }
   },
   data () {
@@ -50,11 +49,53 @@ export default {
       heatLayer: null,
       options: {
         zoomSnap: 0,
-        zoomDelta: 0.5
+        zoomDelta: 1.0
       }
     }
   },
   methods: {
+    init () {
+      let switchableLayers = [{
+        layer: L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {}).addTo(this.map),
+        config: {
+          title: 'Open Street Map',
+          description: 'Couche Open Street Maps'
+        }
+      }]
+      /*
+    Gp.Services.getConfig({
+      callbackSuffix: '',
+      serverUrl: `${process.env.BASE_URL}autoconf-https.json`,
+      onSuccess: () => this.addIGNServices(switchableLayers),
+      onFailure: function () {
+        console.error('GP failure')
+      }
+    })
+*/
+      this.markerLayer = L.markerClusterGroup({
+        showCoverageOnHover: false
+      })
+      this.map.addLayer(this.markerLayer)
+
+      if (this.useHeatmap) {
+        this.heatLayer = L.heatLayer([], { radius: 22, blur: 12, minOpacity: 0.25 })
+        this.map.addLayer(this.heatLayer)
+        this.toggleMarkerLayer()
+        this.map.on('zoomend', this.toggleMarkerLayer)
+      }
+
+      if (this.onMapClick) {
+        this.map.on('click', this.onMapClick)
+      }
+
+      this.setMarkers(this.mapmarkerItems)
+
+      if (this.selectedItem) {
+        this.flyToCoordinates(this.coords)
+      }
+
+      this.map.setMaxBounds(this.map.getBounds())
+    },
     addIGNServices: function (layers) {
       const ignLayers = [
         // 'GEOGRAPHICALGRIDSYSTEMS.CASSINI',
@@ -111,6 +152,7 @@ export default {
       }
       if (this.useMarkers) {
         this.markerLayer.addLayers(newMarkers)
+        console.log('add marker layer with markers', newMarkers)
       }
       if (this.useHeatmap) {
         // Yet i want to redraw the heatmap layer if it is currently visible
@@ -120,6 +162,7 @@ export default {
       }
     },
     clearMarkers () {
+      console.log('clear markers')
       // clear the heat map markers
       // using a trick to not trigger .redraw when the layer is not on the map
       if (this.map.hasLayer(this.heatLayer)) {
@@ -127,7 +170,6 @@ export default {
       }
       // clear the place markers
       this.markerLayer.clearLayers()
-      // console.log("clear map");
     },
     setMarkers (markers) {
       this.clearMarkers()
@@ -156,79 +198,19 @@ export default {
       }
     }
   },
-  mounted () {
-    this.map.setMaxBounds(this.map.getBounds())
-
+  created () {
     L.Marker.prototype.options.icon = L.icon({
       iconUrl: icon,
       shadowUrl: iconShadow
     })
-    console.log(`autoconf: ${process.env.BASE_URL}autoconf-https.json`)
-
-    const openStreetMapLayer = L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {}).addTo(this.map)
-
-    let switchableLayers = [{
-      layer: openStreetMapLayer,
-      config: {
-        title: 'Open Street Map',
-        description: 'Couche Open Street Maps'
-      }
-    }]
-
-    function addIGN () {
-      return this.addIGNServices(switchableLayers)
-    }
-
-    /*
-    Gp.Services.getConfig({
-      callbackSuffix: '',
-      serverUrl: `${process.env.BASE_URL}autoconf-https.json`,
-      onSuccess: addIGN,
-      onFailure: function () {
-        console.error('GP failure')
-      }
-    })
-*/
-    if (this.useHeatmap) {
-      this.heatLayer = L.heatLayer([], { radius: 22, blur: 12, minOpacity: 0.25 })
-      this.map.addLayer(this.heatLayer)
-    }
-
-    this.markerLayer = L.markerClusterGroup({
-      showCoverageOnHover: false
-    })
-
-    this.map.addLayer(this.markerLayer)
-
-    if (this.useHeatmap) {
-      this.toggleMarkerLayer()
-      this.map.on('zoomend', this.toggleMarkerLayer)
-    }
-
-    if (this.onMapClick) {
-      this.map.on('click', this.onMapClick)
-    }
-
-    console.log('wth with markers', this.mapmarkerItems)
-
-    if (this.mapmarkerItems.length > 0) {
-      this.addMarkers(this.mapmarkerItems)
-      /*
-         this.addMarkers(this.mapmarkerItems.map(m => {
-          const p = m.split('@')
-          return {
-            id: p[0],
-            coordinates: p[1].split(',')
-          }
-        }))
-        */
-    } else {
-      this.clearMarkers()
-    }
-
-    if (this.selectedItem) {
-      this.flyToCoordinates(this.coords)
-    }
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.init()
+    next()
+  },
+  mounted () {
+    // console.log(`autoconf: ${process.env.BASE_URL}autoconf-https.json`)
+    this.init()
   },
   computed: {
     ...mapState('mapmarkers', { mapmarkerLoading: 'isLoading' }),
@@ -238,7 +220,6 @@ export default {
   },
   watch: {
     mapmarkerItems () {
-      console.log('setting mapmarkerItems', this.mapmarkerItems.length)
       this.setMarkers(this.mapmarkerItems)
     },
     mapmarkerLoading (val) {

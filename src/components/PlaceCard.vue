@@ -120,7 +120,7 @@ export default {
     }
   },
   mounted () {
-
+    s
   },
   methods: {
     clean (str) {

@@ -1,11 +1,12 @@
 <template>
-    <div>
         <v-data-table
-            class="fixed-header v-table__overflow"
-            style="position: absolute; bottom: 0; max-height: 55%; width:100%"
+            class="fixed-header v-table__overflow elevation-2"
+            style="position: absolute; bottom: 0; max-height: 45%; width:100%"
 
             hide-default-header
             hide-default-footer
+            fixed-header
+
             :headers="headers"
             :items="items"
 
@@ -14,16 +15,15 @@
             color="rgb(211, 47, 47)"
             dense
           >
-
             <template v-slot:header="{ props: { headers } }">
               <div class="toggle-table-down elevation-5">
                 <slot></slot>
               </div>
-              <thead class="elevation-2">
+              <thead>
                 <tr>
-                  <th v-for="(h, index) in headers" :key="index" class="table-header">
+                  <th v-for="(h, index) in headers" :key="index" :class="h.class">
 
-                    <v-icon small v-if="h.prependIcon">{{h.prependIcon}}</v-icon>
+                    <v-icon  small v-if="h.prependIcon">{{h.prependIcon}}</v-icon>
                     {{h.text}}
 
                     <stateful-button v-if="!!h.sortable"
@@ -53,53 +53,36 @@
               </thead>
             </template>
 
-            <template v-slot:items="props">
-              <td class="text-xs-left" style="width: 50px; !important">
-                <v-flex shrink>
-                  <v-btn flat fab small class="elevation-0 blue--text"
-                         @click="() => selectItemWrapper(props.item)"
-                         :disabled="!props.item.coordinates">
-                    <v-icon>location_on</v-icon>
-                  </v-btn>
-                </v-flex>
-              </td>
-              <td v-if="!groupbyPlace" class="text-xs-left" style="width: 15%; !important;">
-                <v-layout row wrap align-center>
-                  <v-flex grow>
-                    <span v-html="clean(props.item.label)"></span>
-                  </v-flex>
-                </v-layout>
-              </td>
-              <td class="text-xs-left" style="width: 12%;">
-                <v-layout row wrap align-center>
-                  <v-flex grow>
+            <template  v-slot:body="{items}">
+             <tbody>
+                <tr v-for="item in items" :key="item.id">
+                  <td class="text-xs-left" >
+                      <v-btn icon fab small class="blue--text very-small"
+                            @click="() => selectItemWrapper(item)"
+                            :disabled="!item.coordinates">
+                        <v-icon>location_on</v-icon>
+                      </v-btn>
+                  </td>
+                  <td v-if="!groupbyPlace" class="text-xs-left">
+                    <span v-html="clean(item.label)"></span>
+                  </td>
+                  <td class="text-xs-left">
                     <router-link
-                      :to="`/places/${props.item.type === 'place' ? props.item.id: props.item.placeId}`">
-                      {{ clean(props.item.type === 'place' ? props.item.label : props.item.placeLabel ) }}
+                      :to="`/places/${item.type === 'place' ? item.id: item.placeId}`">
+                        {{ clean(item.type === 'place' ? item.label : item.placeLabel ) }}
                     </router-link>
-                  </v-flex>
-                </v-layout>
-              </td>
-              <td v-if="!!groupbyPlace" class="text-xs-left" style="width: 25%;">
-                <v-layout row wrap align-center>
-                  <v-flex grow>
-                    <ul class="two-columns">
-                      <li v-for="(oldLabel, index) in props.item.oldLabels"
-                          :key="index"
-                          v-if="!!clean(oldLabel)"
-                          style="margin-right: 8px;"
-                      >
-                        <span v-html="clean(oldLabel)"></span>
-                      </li>
-                    </ul>
-                  </v-flex>
-                </v-layout>
-              </td>
-              <td class="text-xs-center" style="width: 50px;">{{ props.item.department }}</td>
-              <td class="text-xs-left">
-                <span v-html=" clean(props.item.description)"></span>
-              </td>
+                  </td>
+                  <td v-if="groupbyPlace" class="text-xs-left" >
+                      <span v-html="clean(item.oldLabels.join('; '))"></span>
+                  </td>
+                  <td class="text-center" >{{ item.department }}</td>
+                  <td class="text-xs-left">
+                    <span v-html=" clean(item.description)"></span>
+                  </td>
+                </tr>
+              </tbody>
             </template>
+
             <template v-slot:footer>
               <div v-show="!!showTable" class="fixed-agg-footer elevation-5">
                   <v-layout row justify-space-between text-xs-center>
@@ -138,13 +121,10 @@
               </div>
             </template>
           </v-data-table>
-    </div>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
-import LinkingMenu from './ui/LinkingMenu'
-import ExportMenu from './ui/ExportMenu'
 import StatefulButton from './ui/StatefulButton'
 import FilterResult from './ui/FilterResult'
 import { cleanStr } from '../utils/helpers'
@@ -154,16 +134,14 @@ import _ from 'lodash'
 
 export default {
   name: 'PlaceSearchTable',
-  components: { StatefulButton, LinkingMenu, ExportMenu, FilterResult },
+  components: { StatefulButton, FilterResult },
   props: {
     searchedTerm: { type: String, default: '' },
     selectItemCallback: { type: Function }
   },
   data () {
     return {
-      totalItems: 0,
       loading: true,
-      items: [],
       showTable: true,
 
       pagination: { rowsPerPage: 100 },
@@ -268,24 +246,14 @@ export default {
           pageNumber: page,
           pageSize: rowsPerPage,
           after: after
-        }).then(r => {
-          let items = Array.from(this.placeItems.values())
-          const total = this.meta.totalCount ? this.meta.totalCount : 0
-          resolve({
-            items,
-            total
-          })
-          this.loading = false
         })
+        // let items = Array.from(this.placeItems.values())
+        this.loading = false
       })
     },
 
     fetchData: _.debounce(function (after) {
       this.getDataFromApi(after)
-        .then(data => {
-          this.items = data.items
-          this.totalItems = data.total
-        })
     }, 500
     ),
     selectItemWrapper (obj) {
@@ -330,7 +298,8 @@ export default {
         value: 'icon',
         sortable: false,
         sortKey: 'is-localized',
-        sorted: undefined
+        sorted: undefined,
+        class: 'localisation-header'
       }
       const toponym = {
         text: 'Toponyme',
@@ -338,7 +307,9 @@ export default {
         value: 'label',
         sortable: true,
         sortKey: 'label.keyword',
-        sorted: undefined
+        sorted: undefined,
+        class: 'place-header'
+
       }
       const article = {
         text: 'Lieu',
@@ -346,32 +317,36 @@ export default {
         value: 'lieu',
         sortable: true,
         sortKey: 'place-label.keyword',
-        sorted: true
+        sorted: true,
+        class: 'place-header'
       }
       const oldLabels = {
         text: 'Formes anciennes',
         value: 'old-labels',
-        align: 'center',
+        align: 'left',
         sortable: false,
         sortKey: 'label.keyword',
-        sorted: undefined
+        sorted: undefined,
+        class: 'old-labels-header'
       }
       const dep = {
-        text: 'Département',
+        text: 'Dép.',
         value: 'department',
-        align: 'center',
+        align: 'left',
         sortable: true,
         sortKey: 'dep-id.keyword',
         sorted: undefined,
         filter: this.uniqueDepartments,
         filtered: undefined,
-        filterCallback: _.debounce(this.filterDepChanged, 200)
+        filterCallback: _.debounce(this.filterDepChanged, 200),
+        class: 'departement-header'
       }
       const desc = {
         text: 'Description',
         value: 'description',
         align: 'left',
-        sortable: false
+        sortable: false,
+        class: 'description-header'
       }
       if (this.groupbyPlace) {
         return [localisation, article, oldLabels, dep, desc]
@@ -408,12 +383,40 @@ export default {
       uniqueDepartments: 'uniqueDepartments'
     }),
     ...mapState('searchParameters', ['sortFields', 'groupbyPlace', 'depFilter', 'range']),
-    ...mapGetters('searchParameters', ['computedSortParam', 'computedRangeParam', 'computedFilterParam', 'getSortParam'])
+    ...mapGetters('searchParameters', ['computedSortParam', 'computedRangeParam', 'computedFilterParam', 'getSortParam']),
+    items () {
+      return this.placeItems ? Array.from(this.placeItems.values()) : []
+    },
+    totalItems () {
+      return this.meta && this.meta.totalCount ? this.meta.totalCount : 0
+    }
   }
 }
 </script>
 
 <style>
+  .location-header {
+    min-width: 60px;
+  }
+  .place-header {
+    min-width: 250px;
+  }
+  .old-labels-header {
+    min-width: 400px;
+  }
+  .departement-header {
+    min-width: 120px;
+  }
+  .description-header {
+    min-width: 800px;
+  }
+  .very-small {
+    height: 26px;
+    width: 26px;
+  }
+  dfn {
+    font-style: normal !important;
+  }
 
   .fixed-agg-footer {
     width: 100%;
@@ -446,6 +449,7 @@ export default {
     top: 0;
     z-index: 5;
     background-color: #f5f5f5;
+
   }
 
   .fixed-header th:after {

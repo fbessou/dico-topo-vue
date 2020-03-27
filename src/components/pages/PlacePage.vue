@@ -74,16 +74,19 @@
                 :use-heatmap="false"
                 :use-markers="true"
                 :initial-zoom="8"
-                :initialCenter="coordinates"
+                :initial-center="coordinates"
                 :mapmarker-items="mapItems"/>
               </v-card>
 
-              <v-card>
+              <v-card  v-if="placeItem">
+
+                    <div v-if="placeItem.databnf_ark || placeItem.geoname_id || placeItem.viaf_id || placeItem.wikidata_item_id || placeItem.wikipedia_url"
+                    class="mb-2">
                     <v-card-title class="headline  grey lighten-4">
                       Sur le web
                     </v-card-title>
 
-                    <ul class="pa-8" v-if="placeItem">
+                    <ul class="pa-8">
                       <li class="d-flex justify-space-between  mb-4" >
                         <span class="overline">Site</span>
                         <span class="overline">Identifiant</span>
@@ -109,8 +112,9 @@
                         <v-chip small label class="ml-4">{{placeItem.wikidata_item_id}}</v-chip>
                       </li>
                     </ul>
+                    </div>
 
-                    <v-card-title class="headline grey lighten-4 mt-2">
+                    <v-card-title class="headline grey lighten-4">
                       Utiliser cette donnée
                     </v-card-title>
 
@@ -169,7 +173,7 @@ export default {
       panel: [0]
     }
   },
-  created () {
+  mounted () {
     this.fetchData(this.placeId)
   },
   beforeRouteUpdate (to, from, next) {
@@ -184,7 +188,6 @@ export default {
       return cleanStr(str)
     },
     buildCoords (obj) {
-      console.log('biuldcords', obj)
       const longlat = obj.attributes['longlat']
       const coords = longlat ? longlat.substr(1, longlat.length - 2).split(',') : []
       if (coords) {
@@ -194,13 +197,17 @@ export default {
       return coords.reverse()
     },
     async fetchData (id) {
+      console.log('fetch place page data', id)
       this.clearPlaceCard()
+      this.clearCommune()
       await this.fetchPlaceCard(id)
-      this.fetchCommune(this.placeItem.insee_code)
+      if (this.placeItem.insee_code) {
+        await this.fetchCommune(this.placeItem.insee_code)
+      }
     },
     ...mapActions('places', ['selectPlace', 'unselectPlace']),
     ...mapActions('PlaceCard', ['fetchPlaceCard', 'clearPlaceCard']),
-    ...mapActions('commune', { fetchCommune: 'fetch' })
+    ...mapActions('commune', { fetchCommune: 'fetch', clearCommune: 'clear' })
   },
   computed: {
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),

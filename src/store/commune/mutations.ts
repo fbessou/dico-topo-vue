@@ -13,6 +13,9 @@ export function getDefaultState (): CommuneState {
 };
 
 export const mutations: MutationTree<CommuneState> = {
+  clear (state: CommuneState) {
+    Object.assign(state, getDefaultState())
+  },
   setCommune (state: CommuneState, t) {
     state.commune = Object.assign({}, state.commune, t)
   },
@@ -23,7 +26,6 @@ export const mutations: MutationTree<CommuneState> = {
     state.region = Object.assign({}, state.region, t)
   },
   setArrondissement (state: CommuneState, t) {
-    console.log('setting arr', state, t)
     state.arrondissement = Object.assign({}, state.arrondissement, t)
   },
   setDepartement (state: CommuneState, t) {

@@ -28,7 +28,7 @@
                           <div class="subtitle-1 font-weight-medium">Formes anciennes</div>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content class="body-2 pt-4" v-show="placeOldLabels && placeOldLabels.length > 0">
-                        <a class="caption">Table des abréviations</a>
+                         <!-- <a class="caption">Table des abréviations</a> -->
                          <ol class="mt-2">
                            <li v-for="oldLabel in placeOldLabels" :key="oldLabel.id" >
                              <span class="font-weight-medium" v-html="oldLabel.label"/>,

@@ -7,7 +7,7 @@
     <v-content>
       <div style="height:100%">
         <my-awesome-map
-          :mapMarkerItems="mapMarkerItems"
+          :mapmarker-items="mapMarkerItems"
           :on-marker-click="selectPlace"
           :on-map-click="onMapClickCallback"
           :use-fly-animation="false"
@@ -16,7 +16,6 @@
 
         <place-search-table
           v-show="!!term && term.length >= minTermLength && !!showTabularResults"
-          :searched-term="query"
           :select-item-callback="selectPlaceOnMap"
         >
           <v-btn
@@ -95,8 +94,7 @@ export default {
   computed: {
     ...mapState('places', { selectedPlace: 'selectedItem', meta: 'meta' }),
     ...mapState('mapmarkers', { mapMarkersAreLoading: 'isLoading', mapMarkerItems: 'items' }),
-    ...mapState('searchParameters', ['term', 'includeOldLabels', 'groupbyPlace', 'minTermLength']),
-    ...mapGetters('searchParameters', ['query', 'computedFilterParam'])
+    ...mapState('searchParameters', ['term', 'includeOldLabels', 'groupbyPlace', 'minTermLength'])
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
         <v-data-table
             class="fixed-header v-table__overflow elevation-2"
-            style="position: absolute; bottom: 0; max-height: 45%; width:100%"
+            style="position: absolute; bottom: 0; max-height: 50%; width:100%"
 
             hide-default-header
             hide-default-footer
@@ -23,7 +23,7 @@
                 <tr>
                   <th v-for="(h, index) in headers" :key="index" :class="h.class">
 
-                    <v-icon  small v-if="h.prependIcon">{{h.prependIcon}}</v-icon>
+                    <v-icon small v-if="h.prependIcon">{{h.prependIcon}}</v-icon>
                     {{h.text}}
 
                     <stateful-button v-if="!!h.sortable"
@@ -44,7 +44,7 @@
                         v-show="!!filterStates[h.value]"
                         :items="h.filter"
                         :on-change="h.filterCallback"
-                        :key="searchedTerm"
+                        :key="query"
                       ></filter-result>
                     </span>
 
@@ -56,8 +56,8 @@
             <template  v-slot:body="{items}">
              <tbody>
                 <tr v-for="item in items" :key="item.id">
-                  <td class="text-xs-left" >
-                      <v-btn icon fab small class="blue--text very-small"
+                  <td class="text-center" >
+                      <v-btn icon fab class="blue--text very-small"
                             @click="() => selectItemWrapper(item)"
                             :disabled="!item.coordinates">
                         <v-icon>location_on</v-icon>
@@ -76,6 +76,9 @@
                       <span v-html="clean(item.oldLabels.join('; '))"></span>
                   </td>
                   <td class="text-center" >{{ item.department }}</td>
+                  <td class="text-xs-left">
+                    <span v-html="clean(item.communeLabel)"></span>
+                  </td>
                   <td class="text-xs-left">
                     <span v-html=" clean(item.description)"></span>
                   </td>
@@ -136,7 +139,6 @@ export default {
   name: 'PlaceSearchTable',
   components: { StatefulButton, FilterResult },
   props: {
-    searchedTerm: { type: String, default: '' },
     selectItemCallback: { type: Function }
   },
   data () {
@@ -168,7 +170,8 @@ export default {
       },
       deep: true
     },
-    searchedTerm () {
+    term () {
+      console.log('term changed')
       this.clearAll()
       this.numAggPage = 0
       this.pagination.page = 1
@@ -192,7 +195,7 @@ export default {
       this.fetchData()
     },
     range () {
-      if (!!this.searchedTerm && this.searchedTerm.length > 2) {
+      if (!!this.query && this.query.length > 2) {
         this.fetchData()
       }
     }
@@ -232,13 +235,13 @@ export default {
       }
 
       return new Promise((resolve, reject) => {
-        if (this.searchedTerm.length < 3) {
+        if (this.term.length < 3) {
           this.loading = false
           return
         }
         const { sortBy, descending, page, rowsPerPage } = this.pagination
         this.searchPlace({
-          query: this.searchedTerm,
+          query: this.query,
           rangeParam: this.computedRangeParam,
           filterParam: this.computedFilterParam,
           groupbyPlace: this.groupbyPlace,
@@ -341,6 +344,15 @@ export default {
         filterCallback: _.debounce(this.filterDepChanged, 200),
         class: 'departement-header'
       }
+      const commune = {
+        text: 'Commune',
+        align: 'left',
+        value: 'commune',
+        sortable: true,
+        sortKey: 'commune-label.keyword',
+        sorted: undefined,
+        class: 'commune-header'
+      }
       const desc = {
         text: 'Description',
         value: 'description',
@@ -349,12 +361,17 @@ export default {
         class: 'description-header'
       }
       if (this.groupbyPlace) {
-        return [localisation, article, oldLabels, dep, desc]
+        return [localisation, article, oldLabels, dep, commune, desc]
       } else {
-        return [localisation, toponym, article, dep, desc]
+        return [localisation, toponym, article, dep, commune, desc]
       }
     },
-
+    items () {
+      return this.placeItems ? Array.from(this.placeItems.values()) : []
+    },
+    totalItems () {
+      return this.meta && this.meta.totalCount ? this.meta.totalCount : 0
+    },
     footerProps () {
       return {
         itemsPerPageText: "Nombre d'éléments par page",
@@ -382,24 +399,19 @@ export default {
       afterHistory: 'afterHistory',
       uniqueDepartments: 'uniqueDepartments'
     }),
-    ...mapState('searchParameters', ['sortFields', 'groupbyPlace', 'depFilter', 'range']),
-    ...mapGetters('searchParameters', ['computedSortParam', 'computedRangeParam', 'computedFilterParam', 'getSortParam']),
-    items () {
-      return this.placeItems ? Array.from(this.placeItems.values()) : []
-    },
-    totalItems () {
-      return this.meta && this.meta.totalCount ? this.meta.totalCount : 0
-    }
+    ...mapState('searchParameters', ['sortFields', 'groupbyPlace', 'depFilter', 'range', 'term']),
+    ...mapGetters('searchParameters', ['computedSortParam', 'computedRangeParam', 'computedFilterParam', 'getSortParam', 'query'])
   }
 }
 </script>
 
 <style>
-  .location-header {
+  .localisation-header {
     min-width: 60px;
+    text-align: center !important;
   }
   .place-header {
-    min-width: 250px;
+    min-width: 230px;
   }
   .old-labels-header {
     min-width: 400px;
@@ -407,12 +419,15 @@ export default {
   .departement-header {
     min-width: 120px;
   }
+  .commune-header {
+    min-width: 200px;
+  }
   .description-header {
-    min-width: 800px;
+    min-width: 650px;
   }
   .very-small {
-    height: 26px;
-    width: 26px;
+    height: 26px !important;
+    width: 26px !important;
   }
   dfn {
     font-style: normal !important;

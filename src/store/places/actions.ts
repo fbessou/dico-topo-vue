@@ -86,6 +86,7 @@ export const actions: ActionTree<PlaceState, RootState> = {
             comment: p.attributes['comment'],
 
             insee_code: p.attributes['localization-insee-code'],
+            communeLabel: p.attributes['commune-label'],
             department: p.attributes['dpt'],
             region: p.attributes['region'],
             coordinates: coords,
@@ -110,6 +111,7 @@ export const actions: ActionTree<PlaceState, RootState> = {
             date: p.attributes['text-date'],
 
             insee_code: p.attributes['localization-insee-code'],
+            communeLabel: p.attributes['commune-label'],
             department: p.attributes['dpt'],
             region: p.attributes['region'],
             coordinates: coords,

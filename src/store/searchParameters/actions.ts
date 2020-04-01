@@ -16,6 +16,9 @@ export const actions: ActionTree<QueryState, RootState> = {
   removeRange ({ commit, state }): any {
     commit('removeRange')
   },
+  setPagination ({ commit, state, rootState }, t): any {
+    commit('setPagination', t)
+  },
   addSortField ({ commit, state, rootState }, { field, order }): any {
     commit('addSortField', { field, order })
   },

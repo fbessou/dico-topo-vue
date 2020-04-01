@@ -13,12 +13,9 @@ export interface RangeParameter {
 export interface QueryState {
   term: string;
   groupbyPlace: boolean;
-
   sortFields: Array<SortableField>;
-
   range: RangeParameter;
-
   depFilter: String[];
-
   minTermLength: number;
+  pagination: Object;
 }

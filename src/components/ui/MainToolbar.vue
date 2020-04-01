@@ -20,7 +20,6 @@
       placeholder="Ex. Laon"
       v-model="inputTerm"
       :autofocus="true"
-      :loading="mapMarkersAreLoading"
       clearable
       style="width: 0; padding-top: 16px"
       color="rgb(211, 47, 47)"
@@ -55,7 +54,6 @@
               style="color: #d32f2f !important"
               v-model="groupByOption"
               color="lightgrey"
-              :disabled="mapMarkersAreLoading"
             >
             </v-switch>
           </v-flex>
@@ -88,19 +86,18 @@
 </template>
 
 <script>
-import _ from 'lodash'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'MainToolbar',
   props: {
     showGroupBy: { type: Boolean, default: false },
-    showTimeRange: { type: Boolean, default: false }
+    showTimeRange: { type: Boolean, default: false },
+    search: { type: Function, default: () => {} }
   },
   components: {},
   data () {
     return {
-      maxMarkerPerBatch: 5000,
       inputTerm: undefined,
       groupByOption: undefined,
       selectedTimeRange: []
@@ -108,59 +105,12 @@ export default {
   },
   mounted () {
     this.groupByOption = !this.groupbyPlace
-    this.unselectPlace()
     this.inputTerm = this.term
   },
   methods: {
-    startNewSearch: _.debounce(function (reloadMap = true) {
-      this.setTerm(this.inputTerm)
-      if (this.$router.currentRoute.name !== 'home') {
-        this.$router.push({ name: 'home' })
-      }
-      this.initSearch(reloadMap)
-    }, 500),
-    initSearch (reloadMap) {
-      if (this.query) {
-        this.unselectPlace()
-        if (reloadMap) {
-          this.clearMapMarkers()
-          if (this.inputTerm && this.inputTerm.length >= this.minTermLength) {
-            this.searchNextBatchOfMapMarkers()
-          }
-        }
-      }
-    },
-    searchNextBatchOfMapMarkers (nextLink) {
-      this.setMarkersLoading(true)
-      return this.searchMapMarker({
-        query: this.query,
-        filterParam: this.computedFilterParam,
-        rangeParam: this.computedRangeParam,
-        nextLink: nextLink,
-        pageSize: this.maxMarkerPerBatch
-      })
-        .then(next => {
-          if (next) {
-            this.searchNextBatchOfMapMarkers(next)
-          }
-        })
-        .catch(r => {
-          console.warn(r)
-        })
-        .finally(r => {
-          this.setMarkersLoading(false)
-        })
-    },
     onSearchEventPressEnter () {
-      this.startNewSearch()
+      this.search()
     },
-    ...mapActions('mapmarkers', [
-      'searchMapMarker',
-      'clearMapMarkers',
-      'setMarkersLoading'
-    ]),
-    ...mapActions('places', ['selectPlace', 'unselectPlace']),
-    ...mapActions('PlaceCard', ['clearPlaceCard']),
     ...mapActions('searchParameters', [
       'setTerm',
       'setGroupbyPlace',
@@ -171,8 +121,11 @@ export default {
   watch: {
     inputTerm (oldVal, newVal) {
       if (newVal) {
-        this.startNewSearch()
+        this.setTerm(this.inputTerm)
       }
+    },
+    term () {
+      this.search()
     },
     groupByOption () {
       if (this.$props.showGroupBy) {
@@ -180,7 +133,7 @@ export default {
       }
     },
     computedFilterParam () {
-      this.startNewSearch()
+      this.search()
     },
     selectedTimeRange () {
       if (this.$props.showTimeRange && this.selectedTimeRange.length === 2) {
@@ -209,20 +162,15 @@ export default {
           !!this.inputTerm &&
           this.inputTerm.length > 2
         ) {
-          this.startNewSearch()
+          this.search()
         }
       }
     }
   },
   computed: {
     ...mapState('places', {
-      selectedPlace: 'selectedItem',
       meta: 'meta',
       knownYears: 'knownYears'
-    }),
-    ...mapState('mapmarkers', {
-      mapMarkersAreLoading: 'isLoading',
-      mapMarkerItems: 'items'
     }),
     ...mapState('searchParameters', [
       'term',
@@ -231,7 +179,6 @@ export default {
       'range'
     ]),
     ...mapGetters('searchParameters', [
-      'query',
       'computedFilterParam',
       'computedRangeParam'
     ]),

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <main-toolbar :show-time-range="false" :show-group-by="true">
+    <main-toolbar :show-time-range="false" :show-group-by="true" :search="searchCallback">
 
     </main-toolbar>
 
@@ -17,6 +17,7 @@
         <place-search-table
           v-show="!!term && term.length >= minTermLength && !!showTabularResults"
           :select-item-callback="selectPlaceOnMap"
+          :search="fetchTableResults"
         >
           <v-btn
             depressed small
@@ -53,6 +54,7 @@ import PlaceSearchTable from '../PlaceSearchTable'
 import MyAwesomeMap from '../MyAwesomeMap'
 import PlaceCard from '../PlaceCard'
 import MainToolbar from '../ui/MainToolbar'
+import _ from 'lodash'
 
 export default {
   name: 'HomePage',
@@ -72,6 +74,8 @@ export default {
     this.inputTerm = this.term
   },
   methods: {
+    ...mapActions('places', ['fetchPlace', 'searchPlace', 'clearAll', 'selectPreviousAggPage', 'recordCurrentAggPage']),
+
     selectPlaceOnMap (obj) {
       if (obj) {
         this.selectPlace(obj)
@@ -86,6 +90,59 @@ export default {
       Vue.set(this, 'showTabularResults', false)
       this.showTabularResults = false
     },
+    searchCallback: _.debounce(function (reloadMap = true) {
+      console.log('fullsearch')
+      if (this.$router.currentRoute.name !== 'home') {
+        this.$router.push({ name: 'home' })
+      }
+      // start the search from here
+      this.fetchMapResults()
+      this.fetchTableResults()
+    }, 500),
+    async fetchMapResults () {
+      // send a fake query just to get the total count
+      const meta = await this.searchMapMarker({
+        query: this.query,
+        filterParam: this.computedFilterParam,
+        rangeParam: this.computedRangeParam,
+        pageSize: 1
+      })
+      // currently does not handle larger result sets
+      const max = 10000
+      if (meta['total-count'] > max) {
+        console.error('result is too large: ', meta['total-count'])
+        return
+      }
+      this.clearMapMarkers()
+      const nbPages = meta['total-count'] >= max / 2 ? 2 : 1
+      const pPromises = [...Array(nbPages).keys()].map(k => {
+        return this.searchMapMarker({
+          query: this.query,
+          filterParam: this.computedFilterParam,
+          rangeParam: this.computedRangeParam,
+          pageSize: Math.ceil(max / nbPages),
+          pageNumber: k + 1
+        })
+      })
+      await Promise.all(pPromises)
+    },
+    fetchTableResults: _.debounce(function (after = null) {
+      if (this.groupbyPlace) {
+        this.recordCurrentAggPage()
+      }
+      // const { sortBy, descending, page, rowsPerPage } = this.pagination
+      this.searchPlace({
+        query: this.query,
+        rangeParam: this.computedRangeParam,
+        filterParam: this.computedFilterParam,
+        groupbyPlace: this.groupbyPlace,
+        sortParam: this.computedSortParam,
+        pageNumber: this.storedPagination.page, // TODO
+        pageSize: this.storedPagination.rowsPerPage, // TODO
+        after: after
+      })
+      // let items = Array.from(this.placeItems.values())
+    }, 500),
     ...mapActions('mapmarkers', ['searchMapMarker', 'clearMapMarkers', 'setMarkersLoading']),
     ...mapActions('places', ['selectPlace', 'unselectPlace']),
     ...mapActions('PlaceCard', ['clearPlaceCard']),
@@ -94,7 +151,14 @@ export default {
   computed: {
     ...mapState('places', { selectedPlace: 'selectedItem', meta: 'meta' }),
     ...mapState('mapmarkers', { mapMarkersAreLoading: 'isLoading', mapMarkerItems: 'items' }),
-    ...mapState('searchParameters', ['term', 'includeOldLabels', 'groupbyPlace', 'minTermLength'])
+    ...mapState('searchParameters', ['term', 'range', 'includeOldLabels', 'groupbyPlace', 'minTermLength']),
+    ...mapState('searchParameters', { storedPagination: 'pagination' }),
+
+    ...mapGetters('searchParameters', [
+      'query',
+      'computedFilterParam',
+      'computedRangeParam'
+    ])
   }
 }
 </script>

@@ -12,7 +12,7 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
     commit('clearAll')
     commit('setLoading', false)
   },
-  async searchMapMarker ({ commit, rootState, state }, { query, filterParam, rangeParam, pageSize, nextLink }) {
+  searchMapMarker ({ commit, rootState, state }, { query, filterParam, rangeParam, pageSize, pageNumber, nextLink }): any {
     let url: any = null
 
     if (nextLink) {
@@ -21,7 +21,7 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
       // const index = `${process.env.VUE_APP_PLACE_INDEX}`
       const maxPageSize: number = process.env.VUE_APP_PLACE_INDEX_MAP_PAGE_SIZE
       const searchPageSize = pageSize > maxPageSize || pageSize === -1 ? maxPageSize : pageSize
-      const searchPageNumber = 1
+      const searchPageNumber = pageNumber || 1
 
       const filteredQuery = filterParam ? `${query} AND ${filterParam}` : query
       const range = rangeParam ? `&${rangeParam}` : ''
@@ -29,20 +29,31 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
       url = `/search?query=${filteredQuery}${range}&sort=label.keyword&page[size]=${searchPageSize}&page[number]=${searchPageNumber}&facade=map&filter[longlat]`
     }
 
-    const response = await api.get(url)
-    const data = response.data
+    return new Promise((resolve, reject) => {
+      api.get(url)
+        .then((response) => {
+          /* parse marker items */
+          const items: string[] = response.data.data.map((m: any) => {
+            const longlat: any = m.attributes['longlat']
+            let coords: [string, string] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
+            return {
+              id: m.type === 'place' ? m.id : m.attributes['place-id'],
+              coordinates: [parseFloat(coords[1]), parseFloat(coords[0])]
+            }
+          })
 
-    /* parse marker items */
-    const items: string[] = data.data.map((m: any) => {
-      const longlat: any = m.attributes['longlat']
-      let coords: [string, string] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
-
-      return {
-        id: m.type === 'place' ? m.id : m.attributes['place-id'],
-        coordinates: [parseFloat(coords[1]), parseFloat(coords[0])] }
+          /* save marker items */
+          commit('setItems', { m: [...new Set(items)], links: response.data.data.links, meta: { totalCount: response.data.meta['total-count'] } })
+          /* return a link to the next resource if any */
+          // resolve(data.links.next)
+          resolve(response.data.meta)
+          // commit('setLoading', false)
+        })
+        .catch((error: any) => {
+          // commit('clearAll')
+          commit('setError', error.message)
+          reject(state.error)
+        })
     })
-
-    /* save marker items */
-    commit('setItems', { m: [...new Set(items)], links: data.links, meta: { totalCount: data.meta['total-count'] } })
   }
 }

@@ -97,11 +97,11 @@
                           <span>
                             Lieux {{(numAggPage * pagination.rowsPerPage) + 1}} - {{(numAggPage * pagination.rowsPerPage)  + items.length}}  sur {{ totalItems }}
                           </span>
-                          <v-btn icon @click="goToPageBefore" :disabled="loading || numAggPage === 0">
+                          <v-btn icon @click="goToPageBefore" :disabled="numAggPage === 0">
                             <v-icon>keyboard_arrow_left</v-icon>
                           </v-btn>
                           <v-btn icon @click="goToPageAfter"
-                                :disabled="loading || !meta.after || ((numAggPage * pagination.rowsPerPage)  + items.length) >= totalItems">
+                                :disabled="!meta.after || ((numAggPage * pagination.rowsPerPage)  + items.length) >= totalItems">
                             <v-icon>keyboard_arrow_right</v-icon>
                           </v-btn>
                         </span>
@@ -110,11 +110,11 @@
                           <span>
                             Toponymes {{(pagination.page - 1) * pagination.rowsPerPage + 1}} - {{((pagination.page -1) * pagination.rowsPerPage) + items.length}}  sur {{ totalItems }}
                           </span>
-                          <v-btn icon @click="goToPageBefore" :disabled="loading || pagination.page <= 1">
+                          <v-btn icon @click="goToPageBefore" :disabled="pagination.page <= 1">
                             <v-icon>keyboard_arrow_left</v-icon>
                           </v-btn>
                           <v-btn icon @click="goToPageAfter"
-                                :disabled="loading || (((pagination.page - 1) * pagination.rowsPerPage) + items.length) >= totalItems">
+                                :disabled="(((pagination.page - 1) * pagination.rowsPerPage) + items.length) >= totalItems">
                             <v-icon>keyboard_arrow_right</v-icon>
                           </v-btn>
                         </span>
@@ -139,14 +139,14 @@ export default {
   name: 'PlaceSearchTable',
   components: { StatefulButton, FilterResult },
   props: {
-    selectItemCallback: { type: Function }
+    selectItemCallback: { type: Function },
+    search: { type: Function, default: () => {} }
   },
   data () {
     return {
       loading: true,
       showTable: true,
 
-      pagination: { rowsPerPage: 100 },
       numAggPage: 0,
 
       filterStates: {
@@ -154,22 +154,13 @@ export default {
       },
       filterSelections: {
         department: []
-      },
-
-      maxPageSize: process.env.VUE_APP_PLACE_INDEX_PAGE_SIZE > 0 ? process.env.VUE_APP_PLACE_INDEX_PAGE_SIZE : 200
+      }
     }
   },
   mounted () {
     console.log('search table mounted')
   },
   watch: {
-    pagination: {
-      handler () {
-        console.log('pagination:', this.pagination)
-        this.fetchData()
-      },
-      deep: true
-    },
     term () {
       console.log('term changed')
       this.clearAll()
@@ -178,25 +169,25 @@ export default {
 
       Vue.set(this.filterSelections, 'department', [])
       this.setFilter({ filter: 'department', value: [] })
-      this.fetchData()
+      this.search()
     },
     computedSortParam () {
       this.pagination.page = 1
-      this.fetchData()
+      this.search()
     },
     computedFilterParam () {
       this.pagination.page = 1
       console.log('computed filter param', this.computedFilterParam)
-      this.fetchData()
+      this.search()
     },
     groupbyPlace () {
       this.numAggPage = 0
       this.pagination.page = 1
-      this.fetchData()
+      this.search()
     },
     range () {
       if (!!this.query && this.query.length > 2) {
-        this.fetchData()
+        this.search()
       }
     }
   },
@@ -209,56 +200,25 @@ export default {
       if (this.groupbyPlace) {
         if (this.meta.after) {
           console.log('goto page after', this.afterKey)
-          this.fetchData(this.afterKey)
+          this.search(this.afterKey)
           this.numAggPage += 1
         }
       } else {
         this.pagination.page += 1
-        this.fetchData()
+        this.search()
       }
     },
     goToPageBefore () {
       if (this.groupbyPlace) {
         this.selectPreviousAggPage()
         console.log('goto page before', this.afterKey)
-        this.fetchData(this.afterKey)
+        this.search(this.afterKey)
         this.numAggPage += -1
       } else {
         this.pagination.page += -1
-        this.fetchData()
+        this.search()
       }
     },
-    getDataFromApi (after = null) {
-      this.loading = true
-      if (this.groupbyPlace) {
-        this.recordCurrentAggPage()
-      }
-
-      return new Promise((resolve, reject) => {
-        if (this.term.length < 3) {
-          this.loading = false
-          return
-        }
-        const { sortBy, descending, page, rowsPerPage } = this.pagination
-        this.searchPlace({
-          query: this.query,
-          rangeParam: this.computedRangeParam,
-          filterParam: this.computedFilterParam,
-          groupbyPlace: this.groupbyPlace,
-          sortParam: this.computedSortParam,
-          pageNumber: page,
-          pageSize: rowsPerPage,
-          after: after
-        })
-        // let items = Array.from(this.placeItems.values())
-        this.loading = false
-      })
-    },
-
-    fetchData: _.debounce(function (after) {
-      this.getDataFromApi(after)
-    }, 500
-    ),
     selectItemWrapper (obj) {
       if (this.selectItemCallback) {
         const item = {
@@ -290,7 +250,7 @@ export default {
       this.setFilter({ filter: 'department', value: this.filterSelections.department })
     },
     ...mapActions('places', ['fetchPlace', 'searchPlace', 'clearAll', 'selectPreviousAggPage', 'recordCurrentAggPage']),
-    ...mapActions('searchParameters', ['addSortField', 'updateSortField', 'removeSortField', 'setFilter'])
+    ...mapActions('searchParameters', ['addSortField', 'updateSortField', 'removeSortField', 'setFilter', 'setPagination'])
   },
   computed: {
     headers () {
@@ -375,7 +335,7 @@ export default {
     footerProps () {
       return {
         itemsPerPageText: "Nombre d'éléments par page",
-        itemsPerPageOptions: [100, 200, this.maxPageSize]
+        itemsPerPageOptions: [50, 100, 200]
         /*
           pagination: {
             page: number
@@ -400,7 +360,16 @@ export default {
       uniqueDepartments: 'uniqueDepartments'
     }),
     ...mapState('searchParameters', ['sortFields', 'groupbyPlace', 'depFilter', 'range', 'term']),
-    ...mapGetters('searchParameters', ['computedSortParam', 'computedRangeParam', 'computedFilterParam', 'getSortParam', 'query'])
+    ...mapState('searchParameters', { storedPagination: 'pagination' }),
+    ...mapGetters('searchParameters', ['computedSortParam', 'computedRangeParam', 'computedFilterParam', 'getSortParam', 'query']),
+    pagination: {
+      get () {
+        return this.storedPagination
+      },
+      set (value) {
+        this.setPagination(value)
+      }
+    }
   }
 }
 </script>

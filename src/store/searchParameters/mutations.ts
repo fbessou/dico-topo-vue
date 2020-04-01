@@ -1,18 +1,16 @@
 import { MutationTree } from 'vuex'
 import Vue from 'vue'
-
 import { QueryState, SortableField, RangeParameter } from '@/store/searchParameters/types'
+
 export function getDefaultState (): QueryState {
   return {
     term: '',
     groupbyPlace: true,
     sortFields: new Array <SortableField>(),
-
     range: { key: '', operators: [] },
-
     depFilter: [],
-
-    minTermLength: 2
+    minTermLength: 2,
+    pagination: { rowsPerPage: 200, page: 1 }
   }
 };
 
@@ -54,5 +52,8 @@ export const mutations: MutationTree<QueryState> = {
   },
   setDepFilter (state: QueryState, value) {
     Vue.set(state, 'depFilter', value)
+  },
+  setPagination (state: QueryState, value) {
+    state.pagination = Object.assign({}, state.pagination, value)
   }
 }

@@ -1,9 +1,21 @@
 <template>
  <v-card v-if="!!placeItem" class="mx-auto" :class="`${popup ? 'place-card-popup' : 'place-card'}`">
 
-                  <div class="d-flex justify-space-between grey lighten-4">
-                    <v-card-title class="display-1 font-weight-medium" v-html="placeItem.label"/>
-                    <administrative-breadcrumbs class="overline"/>
+                  <div class="grey lighten-4">
+                    <v-card-title class="display-1 font-weight-medium">
+                      <div style="width: 100%">
+                        <span class="" v-html="placeItem.label"/>
+                        <span v-if="popup" class="title-buttons">
+                          <v-btn small icon :to="`/places/${placeItem.id}`">
+                            <v-icon>mdi-open-in-new</v-icon>
+                          </v-btn>
+                          <v-btn small icon class="ml-2" @click="unselectPlace">
+                            <v-icon>close</v-icon>
+                          </v-btn>
+                        </span>
+                      </div>
+                      <administrative-breadcrumbs/>
+                    </v-card-title>
                   </div>
 
                   <v-card-subtitle>
@@ -68,14 +80,14 @@ import AdministrativeBreadcrumbs from './AdministrativeBreadcrumbs'
 export default {
   name: 'PlaceCard',
   components: { AdministrativeBreadcrumbs },
-  props: { placeId: { type: String }, popup: { type: Boolean, default: true } },
+  props: {
+    placeId: { type: String },
+    popup: { type: Boolean, default: true }
+  },
   data: () => {
     return {
       panel: [0]
     }
-  },
-  created () {
-
   },
   mounted () {
     this.fetchData(this.placeId)
@@ -100,9 +112,6 @@ export default {
   computed: {
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),
     ...mapState('commune', ['commune'])
-  },
-  watch: {
-
   }
 }
 </script>
@@ -114,6 +123,9 @@ export default {
     left: 50px;
     width: 600px;
     z-index: 10000;
+  }
+  .title-buttons {
+    float: right;
   }
   .scrollable {
     max-height: 350px;

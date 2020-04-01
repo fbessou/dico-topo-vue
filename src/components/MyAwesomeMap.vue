@@ -15,12 +15,30 @@ import { LMap, LTileLayer, LMarker, LPopup, LGeoJson } from 'vue2-leaflet'
 // import * as Gp from 'geoportal-extensions-leaflet'
 // import styles from '../../node_modules/geoportal-extensions-leaflet/dist/GpPluginLeaflet.css'
 
-import icon from 'leaflet/dist/images/marker-icon.png'
-import iconShadow from 'leaflet/dist/images/marker-shadow.png'
+// import icon from 'leaflet/dist/images/marker-icon.png'
+// import iconShadow from 'leaflet/dist/images/marker-shadow.png'
 
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import 'leaflet.markercluster/dist/leaflet.markercluster.js'
+
+const idleIcon = new L.Icon({
+  iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+})
+
+const redIcon = new L.Icon({
+  iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+})
 
 require('leaflet.heat')
 
@@ -38,9 +56,9 @@ export default {
     useFlyAnimation: { type: Boolean, default: true },
     minHeight: { type: String, default: '100px' },
     minWidth: { type: String, default: '100px' },
-    initialZoom: { type: Number, default: 6 },
+    initialZoom: { type: Number, default: 6.5 },
     maxZoom: { type: Number, default: 17 },
-    minZoom: { type: Number, default: 6 },
+    minZoom: { type: Number, default: 6.5 },
     initialCenter: { type: Array, default: () => [46.453806, 2.65392] }
   },
   data () {
@@ -135,13 +153,16 @@ export default {
     },
 
     addMarkers (markers) {
-      console.log('add markers', markers)
       let newMarkers = []
       for (let m of markers) {
         if (this.useMarkers) {
           let newMarker = L.marker(m.coordinates)
+          newMarker.placeId = m.id
           if (this.onMarkerClick) {
-            newMarker.on('click', () => this.onMarkerClick({ id: m.id, coordinates: m.coordinates }))
+            newMarker.on('click', () => {
+              this.selectMarkerIcon(newMarker)
+              this.onMarkerClick({ id: m.id, coordinates: m.coordinates })
+            })
           }
           newMarkers.push(newMarker)
         }
@@ -171,6 +192,14 @@ export default {
       // clear the place markers
       this.markerLayer.clearLayers()
     },
+    selectMarkerIcon (marker) {
+      this.markerLayer.eachLayer((m) => {
+        m.setIcon(idleIcon)
+      })
+      if (marker) {
+        marker.setIcon(redIcon)
+      }
+    },
     setMarkers (markers) {
       this.clearMarkers()
       this.addMarkers(markers)
@@ -199,10 +228,7 @@ export default {
     }
   },
   created () {
-    L.Marker.prototype.options.icon = L.icon({
-      iconUrl: icon,
-      shadowUrl: iconShadow
-    })
+    L.Marker.prototype.options.icon = idleIcon
   },
   beforeRouteUpdate (to, from, next) {
     this.init()
@@ -213,7 +239,7 @@ export default {
     this.init()
   },
   computed: {
-    ...mapState('mapmarkers', { mapmarkerLoading: 'isLoading' }),
+    ...mapState('mapmarkers', { mapmarkerLoading: 'isLoading', flyToItem: 'flyToItem' }),
     ...mapState('places', ['selectedItem']),
 
     map () { return this.$refs.map.mapObject }
@@ -227,9 +253,18 @@ export default {
         this.clearMarkers()
       }
     },
+    flyToItem (val) {
+      if (val) {
+        this.flyToCoordinates(this.flyToItem.coordinates)
+        const marker = this.markerLayer.getLayers().find(l => l.placeId === this.flyToItem.id)
+        this.selectMarkerIcon(marker)
+      }
+    },
     selectedItem (val) {
       if (val) {
-        this.flyToCoordinates(val.coordinates)
+
+      } else {
+        this.selectMarkerIcon()
       }
     }
   }

@@ -1,5 +1,5 @@
 <template>
-  <v-breadcrumbs :items="items"></v-breadcrumbs>
+  <v-breadcrumbs class="overline font-weight-small" :items="items"></v-breadcrumbs>
 </template>
 
 <script>
@@ -27,4 +27,10 @@ export default {
 </script>
 
 <style scoped>
+  ul {
+    padding-left: 2px;
+  }
+  .v-breadcrumbs {
+    padding-top: 10px;
+  }
 </style>

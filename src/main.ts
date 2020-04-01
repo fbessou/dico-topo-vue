@@ -4,7 +4,7 @@ import '@/plugins/highlight'
 // import App from './App.vue'
 import store from './store/index'
 
-import { Icon } from 'leaflet'
+// import { Icon } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
 import { createRouter } from '@/router'

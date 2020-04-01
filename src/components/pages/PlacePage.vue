@@ -123,10 +123,6 @@ export default {
   mounted () {
 
   },
-  beforeRouteUpdate (to, from, next) {
-    // this.fetchData(to.params.placeId)
-    next()
-  },
   watch: {
 
   },
@@ -142,19 +138,7 @@ export default {
         coords[1] = parseFloat(coords[1].trim())
       }
       return coords.reverse()
-    },
-    async fetchData (id) {
-      console.log('fetch place page data', id)
-      this.clearPlaceCard()
-      this.clearCommune()
-      await this.fetchPlaceCard(id)
-      if (this.placeItem.insee_code) {
-        await this.fetchCommune(this.placeItem.insee_code)
-      }
-    },
-    ...mapActions('places', ['selectPlace', 'unselectPlace']),
-    ...mapActions('PlaceCard', ['fetchPlaceCard', 'clearPlaceCard']),
-    ...mapActions('commune', { fetchCommune: 'fetch', clearCommune: 'clear' })
+    }
   },
   computed: {
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),

@@ -8,6 +8,7 @@ export function getDefaultState (): MapMarkerState {
     items: [],
     links: {},
     meta: { totalCount: 0 },
+    flyToItem: {},
     error: undefined,
     isLoading: false
   }
@@ -36,5 +37,8 @@ export const mutations: MutationTree<MapMarkerState> = {
   },
   setLoading (state, value: boolean) {
     state.isLoading = value
+  },
+  setFlyToItem (state, item) {
+    state.flyToItem = Object.assign({}, state.flyToItem, item)
   }
 }

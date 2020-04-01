@@ -7,6 +7,9 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
   setMarkersLoading ({ commit }, loading: Boolean) {
     commit('setLoading', loading)
   },
+  setFlyToItem ({ commit }, item) {
+    commit('setFlyToItem', item)
+  },
   clearMapMarkers ({ commit }) : any {
     commit('setLoading', true)
     commit('clearAll')
@@ -42,8 +45,11 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
             }
           })
 
+          const newItems = items.filter((thing, index, self) =>
+            index === self.findIndex((t) => (t.id === thing.id))
+          )
           /* save marker items */
-          commit('setItems', { m: [...new Set(items)], links: response.data.data.links, meta: { totalCount: response.data.meta['total-count'] } })
+          commit('setItems', { m: [...newItems], links: response.data.data.links, meta: { totalCount: response.data.meta['total-count'] } })
           /* return a link to the next resource if any */
           // resolve(data.links.next)
           resolve(response.data.meta)

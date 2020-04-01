@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <main-toolbar :show-time-range="false" :show-group-by="true" :search="searchCallback">
-
     </main-toolbar>
 
     <v-content style="height:100%">

@@ -225,6 +225,7 @@ export default {
           coordinates: [parseFloat(obj.coordinates[1]), parseFloat(obj.coordinates[0])]
         }
         this.selectItemCallback(item)
+        this.setFlyToItem(item)
       }
     },
 
@@ -248,6 +249,7 @@ export default {
       Vue.set(this.filterSelections, 'department', selected || [])
       this.setFilter({ filter: 'department', value: this.filterSelections.department })
     },
+    ...mapActions('mapmarkers', ['setFlyToItem']),
     ...mapActions('places', ['fetchPlace', 'searchPlace', 'clearAll', 'selectPreviousAggPage', 'recordCurrentAggPage']),
     ...mapActions('searchParameters', ['addSortField', 'updateSortField', 'removeSortField', 'setFilter', 'setPagination'])
   },

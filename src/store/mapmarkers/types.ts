@@ -6,6 +6,7 @@ export interface MapMarkerState {
 
   links: Links;
   meta : Meta;
+  flyToItem?: Object;
 
   error?: string;
   isLoading: boolean;

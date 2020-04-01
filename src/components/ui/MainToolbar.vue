@@ -28,7 +28,7 @@
     </v-text-field>
 
     <v-chip
-      v-show="!!inputTerm && inputTerm.length > 3"
+      v-show="!!meta"
       class="subheading grey--text text--darken-2 ml-3 mr-2"
     >
       {{ meta.totalCount }}

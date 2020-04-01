@@ -7,64 +7,11 @@
 
           <v-layout class="mt-4">
             <v-flex grow pa-1 xs7>
-              <v-card v-if="!!placeItem" class="mx-auto">
-
-                  <div class="d-flex justify-space-between grey lighten-4">
-                    <v-card-title class="display-1 font-weight-medium" v-html="placeItem.label"/>
-                    <administrative-breadcrumbs class="overline"/>
-                  </div>
-
-                  <v-card-subtitle>
-                    DT76, 1982, p. n°23 (exemple)
-                  </v-card-subtitle>
-
-                  <v-card-text class="text-justify text--primary body-1" style="min-height: 80px">
-                    <p v-html="placeItem.description"/>
-                  </v-card-text>
-
-                  <v-expansion-panels accordion flat hover multiple light v-model="panel">
-                      <v-expansion-panel :disabled="placeOldLabels && placeOldLabels.length === 0">
-                        <v-expansion-panel-header class="grey lighten-4">
-                          <div class="subtitle-1 font-weight-medium">Formes anciennes</div>
-                        </v-expansion-panel-header>
-                        <v-expansion-panel-content class="body-2 pt-4" v-show="placeOldLabels && placeOldLabels.length > 0">
-                         <!-- <a class="caption">Table des abréviations</a> -->
-                         <ol class="mt-2">
-                           <li v-for="oldLabel in placeOldLabels" :key="oldLabel.id" >
-                             <span class="font-weight-medium" v-html="oldLabel.label"/>,
-                             <span v-html="oldLabel.date"/>
-                             (<span v-html="oldLabel.reference"/>)
-                           </li>
-                         </ol>
-                        </v-expansion-panel-content>
-                    </v-expansion-panel>
-
-                    <v-expansion-panel :disabled="placeItem && !placeItem.comment">
-                        <v-expansion-panel-header  class="grey lighten-4">
-                          <div class="subtitle-1 font-weight-medium">Commentaire</div>
-                        </v-expansion-panel-header>
-                        <v-expansion-panel-content class="text-justify body-1 pt-4">
-                          <p class="" v-html="placeItem.comment" />
-                        </v-expansion-panel-content>
-                    </v-expansion-panel>
-
-                    <v-expansion-panel :disabled="linkedPlaces && linkedPlaces.length === 0">
-                        <v-expansion-panel-header class="grey lighten-4">
-                          <div class="subtitle-1 font-weight-medium">Lieux alentours</div>
-                        </v-expansion-panel-header>
-                        <v-expansion-panel-content class="text-justify body-2 pt-4"  v-show="linkedPlaces && linkedPlaces.length > 0">
-                          <ol class="mt-2">
-                            <li v-for="lp in linkedPlaces" :key="lp.id">
-                              <router-link class="font-weight-medium" :to="{name: 'place', params: {placeId: lp.id}}">{{lp.label}}</router-link>
-                              <div class="capitalize-first-letter" v-html="lp.description" />
-                            </li>
-                          </ol>
-                        </v-expansion-panel-content>
-                  </v-expansion-panel>
-
-                </v-expansion-panels>
-
-              </v-card>
+              <place-card v-show="placeItem"
+                :place-id="placeId"
+                :key="placeId"
+                :popup="false">
+              </place-card>
             </v-flex>
 
             <v-flex xs5>
@@ -158,26 +105,26 @@ import { mapState, mapActions } from 'vuex'
 import MyAwesomeMap from '../MyAwesomeMap'
 import DefaultLayout from '../DefaultLayout'
 import { cleanStr } from '../../utils/helpers'
-import AdministrativeBreadcrumbs from '../AdministrativeBreadcrumbs'
+import PlaceCard from '../PlaceCard'
 
 export default {
   name: 'PlacePage',
   props: ['placeId'],
   components: {
     MyAwesomeMap,
-    AdministrativeBreadcrumbs,
+    PlaceCard,
     DefaultLayout
   },
   data: () => {
     return {
-      panel: [0]
+
     }
   },
   mounted () {
-    this.fetchData(this.placeId)
+
   },
   beforeRouteUpdate (to, from, next) {
-    this.fetchData(to.params.placeId)
+    // this.fetchData(to.params.placeId)
     next()
   },
   watch: {
@@ -226,13 +173,5 @@ export default {
 </script>
 
 <style>
-  p::first-letter, .capitalize-first-letter::first-letter {
-    text-transform: uppercase ;
-  }
-  ul {
-    list-style-type: none;
-  }
-  .sc {
-    font-variant: small-caps;
-  }
+
 </style>

@@ -4,8 +4,7 @@
 
     </main-toolbar>
 
-    <v-content>
-      <div style="height:100%">
+    <v-content style="height:100%">
         <my-awesome-map
           :mapmarker-items="mapMarkerItems"
           :on-marker-click="selectPlace"
@@ -39,10 +38,12 @@
           </v-btn>
         </div>
 
-      </div>
-      <place-card v-if="selectedPlace"></place-card>
+        <place-card v-if="selectedPlace"
+          :place-id="selectedPlace.id"
+          :key="selectedPlace.id"
+          :popup="true">
+        </place-card>
     </v-content>
-
   </v-app>
 </template>
 
@@ -86,7 +87,7 @@ export default {
       }
     },
     onMapClickCallback () {
-      this.unselectPlace()
+      // this.unselectPlace()
       Vue.set(this, 'showTabularResults', false)
       this.showTabularResults = false
     },
@@ -95,6 +96,7 @@ export default {
       if (this.$router.currentRoute.name !== 'home') {
         this.$router.push({ name: 'home' })
       }
+      this.unselectPlace()
       // start the search from here
       this.fetchMapResults()
       this.fetchTableResults()
@@ -130,18 +132,16 @@ export default {
       if (this.groupbyPlace) {
         this.recordCurrentAggPage()
       }
-      // const { sortBy, descending, page, rowsPerPage } = this.pagination
       this.searchPlace({
         query: this.query,
         rangeParam: this.computedRangeParam,
         filterParam: this.computedFilterParam,
         groupbyPlace: this.groupbyPlace,
         sortParam: this.computedSortParam,
-        pageNumber: this.storedPagination.page, // TODO
-        pageSize: this.storedPagination.rowsPerPage, // TODO
+        pageNumber: this.storedPagination.page,
+        pageSize: this.storedPagination.rowsPerPage,
         after: after
       })
-      // let items = Array.from(this.placeItems.values())
     }, 500),
     ...mapActions('mapmarkers', ['searchMapMarker', 'clearMapMarkers', 'setMarkersLoading']),
     ...mapActions('places', ['selectPlace', 'unselectPlace']),

@@ -11,7 +11,6 @@
             :items="items"
 
             :server-items-length="totalItems"
-            :footer-props="footerProps"
             color="rgb(211, 47, 47)"
             dense
           >
@@ -331,22 +330,6 @@ export default {
     },
     totalItems () {
       return this.meta && this.meta.totalCount ? this.meta.totalCount : 0
-    },
-    footerProps () {
-      return {
-        itemsPerPageText: "Nombre d'éléments par page",
-        itemsPerPageOptions: [50, 100, 200]
-        /*
-          pagination: {
-            page: number
-            itemsPerPage: number
-            pageStart: number
-            pageStop: number
-            pageCount: number
-            itemsLength: number
-          }
-         */
-      }
     },
 
     afterKey () {

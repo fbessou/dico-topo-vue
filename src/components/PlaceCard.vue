@@ -121,7 +121,7 @@ export default {
     position: absolute;
     top: 30px;
     left: 50px;
-    width: 600px;
+    width: 650px;
     z-index: 10000;
   }
   .title-buttons {

@@ -1,5 +1,5 @@
 <template>
-  <v-data-table  v-show="meta.totalCount"
+  <v-data-table
     class="fixed-header v-table__overflow elevation-2"
     :class="fullscreen ? 'fullscreen-table' : 'normal-table'"
     hide-default-header
@@ -61,7 +61,7 @@
             <v-btn
               small
               icon
-              flat
+              text
               class="fullscreen-table-btn mr-3"
               v-if="index === headers.length - 1"
               @click="toggleFullscreen"
@@ -309,7 +309,7 @@ export default {
       })
     },
     toggleFullscreen () {
-      this.unselectPlace()
+      // this.unselectPlace()
       this.fullscreen = !this.fullscreen
     },
     ...mapActions('mapmarkers', ['setFlyToItem']),
@@ -483,7 +483,7 @@ dfn {
 .fullscreen-table {
   position: absolute;
   bottom: 0;
-  max-height: 100%;
+  height: 100%;
   width:100%
 }
 .normal-table {
@@ -494,6 +494,8 @@ dfn {
 }
 
 .fixed-agg-footer {
+  position: absolute;
+  bottom: 0;
   width: 100%;
   border: 1px solid grey;
   box-sizing: border-box !important;
@@ -542,6 +544,9 @@ dfn {
   flex-shrink: 1;
   overflow-x: hidden;
   overflow-y: auto;
+}
+.v-data-table--fixed-header .v-data-table__wrapper {
+  height: 100%;
 }
 
 .fixed-header .v-datatable.v-table {

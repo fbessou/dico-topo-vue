@@ -14,29 +14,27 @@
         </my-awesome-map>
 
         <place-search-table
-          v-show="!!showTabularResults"
+          v-show="!!showTabularResults && meta.totalCount"
           :select-item-callback="selectPlaceOnMap"
           :search="fetchTableResults"
         >
           <v-btn
             depressed small
             @click="showTabularResults = false"
-            class="toggle-table"
+            class="toggle-table grey lighten-3 text-center"
           >
             <v-icon>keyboard_arrow_down</v-icon>
           </v-btn>
         </place-search-table>
 
-        <div class="toggle-table-up elevation-5  grey lighten-3 text-center">
           <v-btn
             v-if="!showTabularResults"
             depressed small
             @click="showTabularResults = true"
-            class="toggle-table"
+            class="toggle-table toggle-table-up elevation-5 grey lighten-3 text-center"
           >
             <v-icon>keyboard_arrow_up</v-icon>
           </v-btn>
-        </div>
 
         <place-card v-if="selectedPlace"
           :place-id="selectedPlace.id"
@@ -80,16 +78,16 @@ export default {
     selectPlaceOnMap (obj) {
       if (obj) {
         this.selectPlace(obj)
-        Vue.set(this, 'showTabularResults', false)
-        this.showTabularResults = false
+        // Vue.set(this, 'showTabularResults', false)
+        // this.showTabularResults = false
       } else {
         this.unselectPlace()
       }
     },
     onMapClickCallback () {
       // this.unselectPlace()
-      Vue.set(this, 'showTabularResults', false)
-      this.showTabularResults = false
+      // Vue.set(this, 'showTabularResults', false)
+      // this.showTabularResults = false
     },
     searchCallback: _.debounce(function (reloadMap = true) {
       console.log('fullsearch')

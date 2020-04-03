@@ -27,7 +27,7 @@
           </v-btn>
         </place-search-table>
 
-        <div class="toggle-table-up elevation-5  grey lighten-4 text-center">
+        <div class="toggle-table-up elevation-5  grey lighten-3 text-center">
           <v-btn
             v-if="!showTabularResults"
             depressed small

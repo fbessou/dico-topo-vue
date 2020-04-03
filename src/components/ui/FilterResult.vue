@@ -40,7 +40,6 @@ export default {
     cache: true
   }),
   created () {
-    console.log('filter is created')
     this.selected = []
   },
   watch: {

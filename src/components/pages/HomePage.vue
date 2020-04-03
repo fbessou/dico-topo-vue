@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <main-toolbar :show-time-range="false" :show-group-by="true" :search="searchCallback">
+
     </main-toolbar>
 
     <v-content style="height:100%">
@@ -92,10 +93,6 @@ export default {
     },
     searchCallback: _.debounce(function (reloadMap = true) {
       console.log('fullsearch')
-      if (this.$router.currentRoute.name !== 'home') {
-        this.$router.push({ name: 'home' })
-      }
-      this.unselectPlace()
       // start the search from here
       this.fetchMapResults()
       this.fetchTableResults()

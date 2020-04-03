@@ -93,7 +93,7 @@ export default {
   props: {
     showGroupBy: { type: Boolean, default: false },
     showTimeRange: { type: Boolean, default: false },
-    search: { type: Function, default: () => {} }
+    search: { type: Function, default: undefined }
   },
   components: {},
   data () {
@@ -121,6 +121,11 @@ export default {
   watch: {
     inputTerm (oldVal, newVal) {
       if (newVal) {
+        if (!this.search) {
+          if (this.$router.currentRoute.name !== 'home') {
+            this.$router.push({ name: 'home' })
+          }
+        }
         this.setTerm(this.inputTerm)
       }
     },

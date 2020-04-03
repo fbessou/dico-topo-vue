@@ -56,9 +56,9 @@ export default {
     useFlyAnimation: { type: Boolean, default: true },
     minHeight: { type: String, default: '100px' },
     minWidth: { type: String, default: '100px' },
-    initialZoom: { type: Number, default: 6.5 },
+    initialZoom: { type: Number, default: 6 },
     maxZoom: { type: Number, default: 17 },
-    minZoom: { type: Number, default: 6.5 },
+    minZoom: { type: Number, default: 6 },
     initialCenter: { type: Array, default: () => [46.453806, 2.65392] }
   },
   data () {

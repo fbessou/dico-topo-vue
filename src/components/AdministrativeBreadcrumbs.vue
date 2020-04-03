@@ -28,7 +28,7 @@ export default {
 
 <style scoped>
   ul {
-    padding-left: 2px;
+    padding-left: 2px !important;
   }
   .v-breadcrumbs {
     padding-top: 10px;

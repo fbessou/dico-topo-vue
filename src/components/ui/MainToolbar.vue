@@ -28,7 +28,7 @@
     </v-text-field>
 
     <v-chip
-      v-show="!!meta"
+      v-show="!!meta && $router.currentRoute.name === 'home'"
       class="subheading grey--text text--darken-2 ml-3 mr-2"
     >
       {{ meta.totalCount }}

@@ -80,10 +80,11 @@
 
     <v-btn text to="/documentation">
       <span class="pr-2 pl-2">API</span>
-      <v-icon>code</v-icon>
+      <v-icon>mdi-code-braces</v-icon>
     </v-btn>
+
   </v-app-bar>
-</template>
+</template>text
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'

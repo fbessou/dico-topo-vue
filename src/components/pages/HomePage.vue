@@ -14,25 +14,25 @@
         </my-awesome-map>
 
         <place-search-table
-          v-show="!!term && term.length >= minTermLength && !!showTabularResults"
+          v-show="!!showTabularResults"
           :select-item-callback="selectPlaceOnMap"
           :search="fetchTableResults"
         >
           <v-btn
             depressed small
             @click="showTabularResults = false"
-            class="red--text white darken-2"
+            class="toggle-table"
           >
             <v-icon>keyboard_arrow_down</v-icon>
           </v-btn>
         </place-search-table>
 
-        <div class="toggle-table-up elevation-5">
+        <div class="toggle-table-up elevation-5  grey lighten-4 text-center">
           <v-btn
-            v-if="!!term && term.length >= minTermLength && !showTabularResults"
+            v-if="!showTabularResults"
             depressed small
             @click="showTabularResults = true"
-            class="red--text white darken-2"
+            class="toggle-table"
           >
             <v-icon>keyboard_arrow_up</v-icon>
           </v-btn>
@@ -160,14 +160,17 @@ export default {
 </script>
 
 <style>
-
   .toggle-table-up {
     position: fixed;
     bottom: 0;
-    width: 50px;
     margin: auto;
     /* z-index: 1000; */
-    left: calc(50% - 44px);
-
+    left: calc(50% - 35px);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+  }
+  .toggle-table {
+    width: 70px;
+    height: 36px;
   }
 </style>

@@ -41,6 +41,7 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
             let coords: [string, string] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
             return {
               id: m.type === 'place' ? m.id : m.attributes['place-id'],
+              label: m.attributes['place-label'],
               coordinates: [parseFloat(coords[1]), parseFloat(coords[0])]
             }
           })

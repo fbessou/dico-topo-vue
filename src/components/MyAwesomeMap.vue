@@ -158,6 +158,7 @@ export default {
         if (this.useMarkers) {
           let newMarker = L.marker(m.coordinates)
           newMarker.placeId = m.id
+          newMarker.bindTooltip(m.label, { direction: 'right', offset: L.point({ x: 16, y: -24 }) })
           if (this.onMarkerClick) {
             newMarker.on('click', () => {
               this.selectMarkerIcon(newMarker)

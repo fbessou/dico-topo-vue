@@ -15,12 +15,12 @@
             dense
           >
             <template v-slot:header="{ props: { headers } }">
-              <div class="toggle-table-down elevation-5">
+              <div class="toggle-table-down elevation-5 grey lighten-4 text-center">
                 <slot></slot>
               </div>
               <thead>
                 <tr>
-                  <th v-for="(h, index) in headers" :key="index" :class="h.class">
+                  <th v-for="(h, index) in headers" :key="index" class="overline font-weight-medium grey lighten-4" :class="h.class">
 
                     <v-icon small v-if="h.prependIcon">{{h.prependIcon}}</v-icon>
                     {{h.text}}
@@ -86,12 +86,8 @@
             </template>
 
             <template v-slot:footer>
-              <div v-show="!!showTable" class="fixed-agg-footer elevation-5">
-                  <v-layout row justify-space-between text-xs-center>
-                    <v-flex  xs3 pa-1> </v-flex>
-                    <v-flex xs3 pa-1></v-flex>
-                    <v-flex xs3 pa-1 mr-3 class="text-xs-right">
-                      <span>
+              <div v-show="!!showTable" class="fixed-agg-footer grey lighten-4">
+                      <span class="overline font-weight-regular text-xs-right float-right mr-5">
                         <span v-if="!!groupbyPlace">
                           <span>
                             Lieux {{(numAggPage * pagination.rowsPerPage) + 1}} - {{(numAggPage * pagination.rowsPerPage)  + items.length}}  sur {{ totalItems }}
@@ -118,8 +114,7 @@
                           </v-btn>
                         </span>
                       </span>
-                    </v-flex>
-                  </v-layout>
+
               </div>
             </template>
           </v-data-table>
@@ -368,7 +363,7 @@ export default {
     min-width: 230px;
   }
   .old-labels-header {
-    min-width: 400px;
+    min-width: 550px;
   }
   .departement-header {
     min-width: 120px;
@@ -377,7 +372,7 @@ export default {
     min-width: 200px;
   }
   .description-header {
-    min-width: 650px;
+    min-width: 500px;
   }
   .very-small {
     height: 26px !important;
@@ -389,36 +384,30 @@ export default {
 
   .fixed-agg-footer {
     width: 100%;
-    background-color: #f5f5f5;
-    border-top: 1px solid lightgrey;
-    color: grey;
-    font-family: Roboto, sans-serif;
-    font-size: 12px;
+    border: 1px solid grey;
+    box-sizing: border-box !important;
+    -moz-box-sizing: border-box !important;
+    -webkit-box-sizing: border-box !important;
   }
 
   .toggle-table-down {
     position: absolute;
-    top: -23px;
-    left: calc(50% - 44px);
+    top: -26px;
+    left: calc(50% - 35px);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
   }
 
   /* Theme */
   .fixed-header {
     display: flex;
     flex-direction: column;
-    background-color: white;
-  }
-
-  .fixed-header table {
-    background-color: #fafafa;
   }
 
   .fixed-header th {
     position: sticky;
     top: 0;
     z-index: 5;
-    background-color: #f5f5f5;
-
   }
 
   .fixed-header th:after {

@@ -167,19 +167,18 @@ export default {
           }
           newMarkers.push(newMarker)
         }
-        if (this.useHeatmap) {
-          // add the point heatmap using a trick to not trigger .redraw when the layer is not on the map
-          this.heatLayer._latlngs.push(m.coordinates)
-        }
       }
+
       if (this.useMarkers) {
         this.markerLayer.addLayers(newMarkers)
         console.log('add marker layer with markers', newMarkers)
       }
       if (this.useHeatmap) {
-        // Yet i want to redraw the heatmap layer if it is currently visible
+        const ll = markers.map(m => m.coordinates)
         if (this.map.hasLayer(this.heatLayer)) {
-          this.heatLayer.redraw()
+          this.heatLayer.setLatLngs(ll)
+        } else {
+          this.heatLayer._latlngs = ll
         }
       }
     },
@@ -189,6 +188,8 @@ export default {
       // using a trick to not trigger .redraw when the layer is not on the map
       if (this.map.hasLayer(this.heatLayer)) {
         this.heatLayer.setLatLngs([])
+      } else {
+        this.heatLayer._latlngs = []
       }
       // clear the place markers
       this.markerLayer.clearLayers()

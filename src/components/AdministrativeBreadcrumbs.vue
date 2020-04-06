@@ -12,6 +12,8 @@ export default {
 
   computed: {
     ...mapState('commune', ['region', 'arrondissement', 'canton', 'departement', 'commune']),
+    ...mapState('PlaceCard', ['placeItem']),
+
     items () {
       let items = []
       if (this.region) { items.push({ text: this.region.label }) }
@@ -19,6 +21,8 @@ export default {
       // if (this.arrondissement) { items.push({ text: this.arrondissement.label }) }
       // if (this.canton) { items.push({ text: this.canton.label }) }
       if (this.commune.data) { items.push({ text: this.commune.data.attributes['NCCENR'] }) }
+      if (this.placeItem) { items.push({ text: this.placeItem.label }) }
+
       return items
     }
   }

@@ -9,6 +9,9 @@
           :mapmarker-items="mapMarkerItems"
           :on-marker-click="selectPlace"
           :on-map-click="onMapClickCallback"
+          :initial-zoom="zoom"
+          :initial-center="center"
+          :save-position="true"
           :use-fly-animation="false"
         >
         </my-awesome-map>
@@ -145,12 +148,13 @@ export default {
   computed: {
     ...mapState('places', { selectedPlace: 'selectedItem', meta: 'meta' }),
     ...mapState('mapmarkers', { mapMarkersAreLoading: 'isLoading', mapMarkerItems: 'items' }),
-    ...mapState('searchParameters', ['term', 'range', 'includeOldLabels', 'groupbyPlace', 'minTermLength']),
+    ...mapState('searchParameters', ['term', 'range', 'includeOldLabels', 'groupbyPlace', 'minTermLength', 'zoom', 'center']),
     ...mapState('searchParameters', { storedPagination: 'pagination' }),
 
     ...mapGetters('searchParameters', [
       'query',
       'computedFilterParam',
+      'computedSortParam',
       'computedRangeParam'
     ])
   }

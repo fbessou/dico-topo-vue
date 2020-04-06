@@ -31,7 +31,6 @@
               inactive-icon="arrow_downward"
               active-icon="arrow_upward"
               :active="!!h.sorted"
-              :disabled="true"
               :action="value => toggleSortField(index, value)"
             >
             </stateful-button>
@@ -489,7 +488,7 @@ dfn {
 .normal-table {
   position: absolute;
   bottom: 0;
-  max-height: 40%;
+  height: 40%;
   width:100%
 }
 
@@ -509,6 +508,10 @@ dfn {
   left: calc(50% - 35px);
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
+}
+
+.sc {
+  font-variant: small-caps;
 }
 
 /* Theme */

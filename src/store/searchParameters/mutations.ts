@@ -10,7 +10,9 @@ export function getDefaultState (): QueryState {
     range: { key: '', operators: [] },
     depFilter: [],
     minTermLength: 2,
-    pagination: { rowsPerPage: 200, page: 1 }
+    pagination: { rowsPerPage: 200, page: 1 },
+    zoom: 6,
+    center: { lat: 46.453806, lng: 2.65392 }
   }
 };
 
@@ -55,5 +57,9 @@ export const mutations: MutationTree<QueryState> = {
   },
   setPagination (state: QueryState, value) {
     state.pagination = Object.assign({}, state.pagination, value)
+  },
+  saveZoom (state: QueryState, { zoom, center }) {
+    state.zoom = zoom
+    state.center = center
   }
 }

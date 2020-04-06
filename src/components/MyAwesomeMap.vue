@@ -1,11 +1,14 @@
 <template>
-  <l-map class="l-map" ref="map"
-         :zoom="initialZoom"
-         :center="initialCenter"
-         :max-zoom="maxZoom"
-         :min-zoom="minZoom"
-         :options="options"
-         :style="`min-height:${minHeight}; min-width: ${minWidth}; `">
+  <l-map
+    class="l-map"
+    ref="map"
+    :zoom="zoom"
+    :center="center"
+    :max-zoom="maxZoom"
+    :min-zoom="minZoom"
+    :options="options"
+    :style="`min-height:${minHeight}; min-width: ${minWidth}; `"
+  >
   </l-map>
 </template>
 
@@ -23,8 +26,10 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import 'leaflet.markercluster/dist/leaflet.markercluster.js'
 
 const idleIcon = new L.Icon({
-  iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconUrl:
+    'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+  shadowUrl:
+    'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
@@ -32,8 +37,10 @@ const idleIcon = new L.Icon({
 })
 
 const redIcon = new L.Icon({
-  iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconUrl:
+    'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+  shadowUrl:
+    'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
@@ -53,13 +60,14 @@ export default {
     onMapClick: { type: Function },
     useMarkers: { type: Boolean, default: true },
     useHeatmap: { type: Boolean, default: true },
-    useFlyAnimation: { type: Boolean, default: true },
+    useFlyAnimation: { type: Boolean, default: false },
     minHeight: { type: String, default: '100px' },
     minWidth: { type: String, default: '100px' },
-    initialZoom: { type: Number, default: 6 },
     maxZoom: { type: Number, default: 17 },
     minZoom: { type: Number, default: 6 },
-    initialCenter: { type: Array, default: () => [46.453806, 2.65392] }
+    initialZoom: { type: Number, default: 6 },
+    initialCenter: { type: Object, default: undefined },
+    savePosition: { type: Boolean, default: false }
   },
   data () {
     return {
@@ -73,13 +81,18 @@ export default {
   },
   methods: {
     init () {
-      let switchableLayers = [{
-        layer: L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {}).addTo(this.map),
-        config: {
-          title: 'Open Street Map',
-          description: 'Couche Open Street Maps'
+      let switchableLayers = [
+        {
+          layer: L.tileLayer(
+            'https://{s}.tile.osm.org/{z}/{x}/{y}.png',
+            {}
+          ).addTo(this.map),
+          config: {
+            title: 'Open Street Map',
+            description: 'Couche Open Street Maps'
+          }
         }
-      }]
+      ]
       /*
     Gp.Services.getConfig({
       callbackSuffix: '',
@@ -96,7 +109,11 @@ export default {
       this.map.addLayer(this.markerLayer)
 
       if (this.useHeatmap) {
-        this.heatLayer = L.heatLayer([], { radius: 22, blur: 12, minOpacity: 0.25 })
+        this.heatLayer = L.heatLayer([], {
+          radius: 22,
+          blur: 12,
+          minOpacity: 0.25
+        })
         this.map.addLayer(this.heatLayer)
         this.toggleMarkerLayer()
         this.map.on('zoomend', this.toggleMarkerLayer)
@@ -108,11 +125,21 @@ export default {
 
       this.setMarkers(this.mapmarkerItems)
 
-      if (this.selectedItem) {
-        this.flyToCoordinates(this.coords)
-      }
+      // this.map.setMaxBounds(this.map.getBounds())
 
-      this.map.setMaxBounds(this.map.getBounds())
+      if (this.initialCenter) {
+        this.flyToCoordinates(this.initialCenter)
+      }
+      if (this.initialZoom) {
+        this.map.setZoom(this.initialZoom)
+      }
+      // if (this.selectedItem) {
+      //  this.flyToCoordinates(this.selectedItem.coords)
+      // }
+      if (this.savePosition) {
+        this.map.on('zoomend', this.saveZoom)
+        this.map.on('dragend', this.saveZoom)
+      }
     },
     addIGNServices: function (layers) {
       const ignLayers = [
@@ -134,15 +161,13 @@ export default {
       }
 
       if (this.useHeatmap) {
-        layers.push(
-          {
-            layer: this.heatLayer,
-            config: {
-              title: 'Densité toponymique',
-              description: 'Carte de densité des toponymes'
-            }
+        layers.push({
+          layer: this.heatLayer,
+          config: {
+            title: 'Densité toponymique',
+            description: 'Carte de densité des toponymes'
           }
-        )
+        })
       }
 
       const layerSwitcher = L.geoportalControl.LayerSwitcher({
@@ -158,12 +183,21 @@ export default {
         if (this.useMarkers) {
           let newMarker = L.marker(m.coordinates)
           newMarker.placeId = m.id
-          newMarker.bindTooltip(m.label, { direction: 'right', offset: L.point({ x: 16, y: -24 }) })
+          if (m.label) {
+            newMarker.bindTooltip(m.label, {
+              direction: 'right',
+              offset: L.point({ x: 16, y: -24 })
+            })
+          }
+
           if (this.onMarkerClick) {
             newMarker.on('click', () => {
               this.selectMarkerIcon(newMarker)
               this.onMarkerClick({ id: m.id, coordinates: m.coordinates })
             })
+          }
+          if (m.active) {
+            this.selectMarkerIcon(newMarker)
           }
           newMarkers.push(newMarker)
         }
@@ -175,10 +209,12 @@ export default {
       }
       if (this.useHeatmap) {
         const ll = markers.map(m => m.coordinates)
-        if (this.map.hasLayer(this.heatLayer)) {
-          this.heatLayer.setLatLngs(ll)
-        } else {
-          this.heatLayer._latlngs = ll
+        if (this.heatLayer) {
+          if (this.map.hasLayer(this.heatLayer)) {
+            this.heatLayer.setLatLngs(ll)
+          } else {
+            this.heatLayer._latlngs = ll
+          }
         }
       }
     },
@@ -186,16 +222,18 @@ export default {
       console.log('clear markers')
       // clear the heat map markers
       // using a trick to not trigger .redraw when the layer is not on the map
-      if (this.map.hasLayer(this.heatLayer)) {
-        this.heatLayer.setLatLngs([])
-      } else {
-        this.heatLayer._latlngs = []
+      if (this.heatLayer) {
+        if (this.map.hasLayer(this.heatLayer)) {
+          this.heatLayer.setLatLngs([])
+        } else {
+          this.heatLayer._latlngs = []
+        }
       }
       // clear the place markers
       this.markerLayer.clearLayers()
     },
     selectMarkerIcon (marker) {
-      this.markerLayer.eachLayer((m) => {
+      this.markerLayer.eachLayer(m => {
         m.setIcon(idleIcon)
       })
       if (marker) {
@@ -227,6 +265,9 @@ export default {
           this.map.panTo(coords)
         }
       }
+    },
+    saveZoom () {
+      this.$store.dispatch('searchParameters/saveZoom', { zoom: this.map.getZoom(), center: this.map.getCenter() })
     }
   },
   created () {
@@ -241,10 +282,17 @@ export default {
     this.init()
   },
   computed: {
-    ...mapState('mapmarkers', { mapmarkerLoading: 'isLoading', flyToItem: 'flyToItem' }),
+    ...mapState('mapmarkers', {
+      mapmarkerLoading: 'isLoading',
+      flyToItem: 'flyToItem'
+    }),
     ...mapState('places', ['selectedItem']),
+    ...mapState('searchParameters', ['zoom', 'center']),
 
-    map () { return this.$refs.map.mapObject }
+    map () {
+      return this.$refs.map.mapObject
+    }
+
   },
   watch: {
     mapmarkerItems () {
@@ -258,13 +306,14 @@ export default {
     flyToItem (val) {
       if (val) {
         this.flyToCoordinates(this.flyToItem.coordinates)
-        const marker = this.markerLayer.getLayers().find(l => l.placeId === this.flyToItem.id)
+        const marker = this.markerLayer
+          .getLayers()
+          .find(l => l.placeId === this.flyToItem.id)
         this.selectMarkerIcon(marker)
       }
     },
     selectedItem (val) {
       if (val) {
-
       } else {
         this.selectMarkerIcon()
       }
@@ -274,10 +323,10 @@ export default {
 </script>
 
 <style scoped>
-  .l-map {
-    z-index: 0;
-    min-height: 100px;
-    min-width: 100px;
-    background-color: white;
-  }
+.l-map {
+  z-index: 0;
+  min-height: 100px;
+  min-width: 100px;
+  background-color: white;
+}
 </style>

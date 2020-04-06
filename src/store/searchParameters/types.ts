@@ -18,4 +18,6 @@ export interface QueryState {
   depFilter: String[];
   minTermLength: number;
   pagination: Object;
+  zoom: Number;
+  center?: Object;
 }

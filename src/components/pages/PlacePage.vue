@@ -21,7 +21,7 @@
                 :use-heatmap="false"
                 :use-markers="true"
                 :initial-zoom="8"
-                :initial-center="coordinates"
+                :initial-center="{lat:coordinates[0], lng:coordinates[1]}"
                 :mapmarker-items="mapItems"/>
               </v-card>
 
@@ -127,6 +127,7 @@ export default {
 
   },
   methods: {
+    ...mapActions('places', ['selectPlace', 'unselectPlace']),
     clean (str) {
       return cleanStr(str)
     },
@@ -147,7 +148,7 @@ export default {
       return this.commune && this.commune.data ? this.buildCoords(this.commune.data) : []
     },
     mapItems () {
-      return this.placeItem ? [{ id: this.placeItem.id, coordinates: this.coordinates }] : []
+      return this.placeItem ? [{ id: this.placeItem.id, coordinates: this.coordinates, active: true }] : []
     },
     apiUrl () {
       return process.env.VUE_APP_API_BASE_URL

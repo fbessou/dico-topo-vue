@@ -97,7 +97,7 @@
             </router-link>
           </td>
           <td v-if="groupbyPlace" class="text-xs-left">
-            <span v-html="clean(item.oldLabels.join('; '))"></span>
+            <span v-html="clean(item.oldLabels.join(' ; '))"></span>
           </td>
           <td class="text-center">{{ item.department }}</td>
           <td class="text-xs-left">

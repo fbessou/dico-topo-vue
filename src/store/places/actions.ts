@@ -53,7 +53,7 @@ export const actions: ActionTree<PlaceState, RootState> = {
   },
   async searchPlace ({ commit, rootState }, { query, filterParam, rangeParam, groupbyPlace, sortParam, pageSize, pageNumber, after }) {
     commit('setLoading', true)
-    const index = `${process.env.VUE_APP_PLACE_INDEX}`
+    // const index = `${process.env.VUE_APP_PLACE_INDEX}`
     const maxPageSize: number = process.env.VUE_APP_PLACE_INDEX_PAGE_SIZE
 
     const psize = `&page[size]=${pageSize > maxPageSize || pageSize === -1 ? maxPageSize : pageSize}`

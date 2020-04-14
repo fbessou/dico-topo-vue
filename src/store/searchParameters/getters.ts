@@ -11,7 +11,7 @@ export const getters: GetterTree<QueryState, RootState> = {
     if (!state.term || state.term.length < minTermLength) {
       return undefined
     }
-    query = `label:${state.term}` // include old labels means "do not filter on the type field"
+    query = `label.folded:${state.term}` // include old labels means "do not filter on the type field"
     // query = `label:${state.term} AND NOT (type:"place-old-label")` // do not include old labels means "filter out hte place-old-label type"
     return query
   },

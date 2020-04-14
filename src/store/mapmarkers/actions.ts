@@ -29,7 +29,7 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
       const filteredQuery = filterParam ? `${query} AND ${filterParam}` : query
       const range = rangeParam ? `&${rangeParam}` : ''
 
-      url = `/search?query=${filteredQuery}${range}&sort=label.keyword&page[size]=${searchPageSize}&page[number]=${searchPageNumber}&facade=map&filter[longlat]`
+      url = `/search?query=${filteredQuery}${range}&sort=label.folded&page[size]=${searchPageSize}&page[number]=${searchPageNumber}&facade=map&filter[longlat]`
     }
 
     return new Promise((resolve, reject) => {
@@ -46,8 +46,8 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
             }
           })
 
-          const newItems = items.filter((thing, index, self) =>
-            index === self.findIndex((t) => (t.id === thing.id))
+          const newItems = items.filter((thing: any, index, self) =>
+            index === self.findIndex((t :any) => (t.id === thing.id))
           )
           /* save marker items */
           commit('setItems', { m: [...newItems], links: response.data.data.links, meta: { totalCount: response.data.meta['total-count'] } })

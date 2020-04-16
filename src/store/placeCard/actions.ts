@@ -25,7 +25,8 @@ function buildPlace (obj: any) {
     wikidata_item_id: obj.attributes['wikidata-item-id'],
     wikipedia_url: obj.attributes['wikipedia-url'],
     databnf_ark: obj.attributes['databnf-ark'],
-    viaf_id: obj.attributes['viaf-id']
+    viaf_id: obj.attributes['viaf-id'],
+    siaf_id: obj.attributes['siaf-id']
   }
 }
 

@@ -95,7 +95,8 @@ export const actions: ActionTree<PlaceState, RootState> = {
             wikidata_item_id: p.attributes['wikidata-item-id'],
             wikipedia_url: p.attributes['wikipedia-url'],
             databnf_ark: p.attributes['databnf-ark'],
-            viaf_id: p.attributes['viaf-id']
+            viaf_id: p.attributes['viaf-id'],
+            siaf_id: p.attributes['siaf-id']
           }
           break
         case 'place-old-label':
@@ -120,7 +121,8 @@ export const actions: ActionTree<PlaceState, RootState> = {
             wikidata_item_id: p.attributes['wikidata-item-id'],
             wikipedia_url: p.attributes['wikipedia-url'],
             databnf_ark: p.attributes['databnf-ark'],
-            viaf_id: p.attributes['viaf-id']
+            viaf_id: p.attributes['viaf-id'],
+            siaf_id: p.attributes['siaf-id']
           }
           break
       }

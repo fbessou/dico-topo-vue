@@ -58,6 +58,10 @@
                         <a :href="`https://www.wikidata.org/wiki/${placeItem.wikidata_item_id}`" target="_blank">Wikidata</a>
                         <v-chip small label class="ml-4">{{placeItem.wikidata_item_id}}</v-chip>
                       </li>
+                      <li class="d-flex justify-space-between  mb-4" v-if="placeItem.siaf_id">
+                        <a :href="`https://francearchives.fr/fr/location/${placeItem.siaf_id}`" target="_blank">France Archives</a>
+                        <v-chip small label class="ml-4">{{placeItem.siaf_id}}</v-chip>
+                      </li>
                     </ul>
                     </div>
 

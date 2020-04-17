@@ -29,7 +29,7 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
       const filteredQuery = filterParam ? `${query} AND ${filterParam}` : query
       const range = rangeParam ? `&${rangeParam}` : ''
 
-      url = `/search?query=${filteredQuery}${range}&sort=label.folded&page[size]=${searchPageSize}&page[number]=${searchPageNumber}&facade=map&filter[longlat]`
+      url = `/search?query=${filteredQuery}${range}&page[size]=${searchPageSize}&page[number]=${searchPageNumber}&facade=map&filter[longlat]`
     }
 
     return new Promise((resolve, reject) => {

@@ -345,7 +345,7 @@ export default {
         align: 'left',
         value: 'label',
         sortable: true,
-        sortKey: 'label.folded',
+        sortKey: 'label.keyword',
         sorted: undefined,
         class: 'place-header'
       }
@@ -354,7 +354,7 @@ export default {
         align: 'left',
         value: 'lieu',
         sortable: true,
-        sortKey: 'place-label.folded',
+        sortKey: 'place-label.keyword',
         sorted: true,
         class: 'place-header'
       }
@@ -363,7 +363,7 @@ export default {
         value: 'old-labels',
         align: 'left',
         sortable: false,
-        sortKey: 'label.folded',
+        sortKey: 'place-label.keyword',
         sorted: undefined,
         class: 'old-labels-header'
       }
@@ -384,7 +384,7 @@ export default {
         align: 'left',
         value: 'commune',
         sortable: true,
-        sortKey: 'commune-label.folded',
+        sortKey: 'commune-label.keyword',
         sorted: undefined,
         class: 'commune-header'
       }

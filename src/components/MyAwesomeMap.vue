@@ -18,18 +18,17 @@ import { LMap, LTileLayer, LMarker, LPopup, LGeoJson } from 'vue2-leaflet'
 // import * as Gp from 'geoportal-extensions-leaflet'
 // import styles from '../../node_modules/geoportal-extensions-leaflet/dist/GpPluginLeaflet.css'
 
-// import icon from 'leaflet/dist/images/marker-icon.png'
-// import iconShadow from 'leaflet/dist/images/marker-shadow.png'
+import iconIdle from '../../src/assets/marker-icon-2x-blue.png'
+import iconRed from '../../src/assets/marker-icon-2x-red.png'
+import iconShadow from '../../src/assets/marker-shadow.png'
 
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import 'leaflet.markercluster/dist/leaflet.markercluster.js'
 
 const idleIcon = new L.Icon({
-  iconUrl:
-    'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
-  shadowUrl:
-    'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconUrl: iconIdle,
+  shadowUrl: iconShadow,
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
@@ -37,10 +36,8 @@ const idleIcon = new L.Icon({
 })
 
 const redIcon = new L.Icon({
-  iconUrl:
-    'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-  shadowUrl:
-    'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconUrl: iconRed,
+  shadowUrl: iconShadow,
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],

@@ -14,9 +14,11 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+
 import { LMap, LTileLayer, LMarker, LPopup, LGeoJson } from 'vue2-leaflet'
-// import * as Gp from 'geoportal-extensions-leaflet'
-// import styles from '../../node_modules/geoportal-extensions-leaflet/dist/GpPluginLeaflet.css'
+
+import * as Gp from 'geoportal-extensions-leaflet'
+import styles from '../../node_modules/geoportal-extensions-leaflet/dist/GpPluginLeaflet.css'
 
 import iconIdle from '../../src/assets/marker-icon-2x-blue.png'
 import iconRed from '../../src/assets/marker-icon-2x-red.png'
@@ -90,16 +92,16 @@ export default {
           }
         }
       ]
-      /*
-    Gp.Services.getConfig({
-      callbackSuffix: '',
-      serverUrl: `${process.env.BASE_URL}autoconf-https.json`,
-      onSuccess: () => this.addIGNServices(switchableLayers),
-      onFailure: function () {
-        console.error('GP failure')
-      }
-    })
-*/
+
+      Gp.Services.getConfig({
+        callbackSuffix: '',
+        serverUrl: `${process.env.BASE_URL}autoconf-https.json`,
+        onSuccess: () => this.addIGNServices(switchableLayers),
+        onFailure: function () {
+          console.error('GP failure')
+        }
+      })
+
       this.markerLayer = L.markerClusterGroup({
         showCoverageOnHover: false
       })

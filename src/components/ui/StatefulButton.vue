@@ -48,7 +48,7 @@ export default {
   },
   computed: {
     myClasses () {
-      if (this.state == 2) {
+      if (this.state === 2) {
         return 'disabled-state'
       } else {
         return 'enabled-state'

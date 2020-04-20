@@ -20,7 +20,6 @@
           <v-list-tile
             v-for="feat in features"
             :key="feat.anchor"
-            @click=""
           >
             <v-list-tile-content >
               <v-list-tile-title><a :href="'#' + feat.anchor">{{ feat.attributes.title }}</a></v-list-tile-title>
@@ -35,7 +34,6 @@
         <v-list-tile
           v-for="res in resources"
           :key="res.anchor"
-          @click=""
         >
           <v-list-tile-content >
             <v-list-tile-title><a :href="'#' + res.anchor">{{ res.title }}</a></v-list-tile-title>

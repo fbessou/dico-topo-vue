@@ -142,7 +142,7 @@ export default {
     },
     addIGNServices: function (layers) {
       const ignLayers = [
-        // 'GEOGRAPHICALGRIDSYSTEMS.CASSINI',
+        // 'GEOGRAPHICALGRIDSYSTEMS.CASSINI'
         // 'ORTHOIMAGERY.ORTHOPHOTOS',
         // 'GEOGRAPHICALGRIDSYSTEMS.CASSINI'
         // "CADASTRALPARCELS.PARCELS",

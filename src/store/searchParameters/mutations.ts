@@ -6,7 +6,7 @@ export function getDefaultState (): QueryState {
   return {
     term: '',
     groupbyPlace: true,
-    sortFields: new Array <SortableField>(),
+    sortFields: [],
     range: { key: '', operators: [] },
     depFilter: [],
     minTermLength: 2,

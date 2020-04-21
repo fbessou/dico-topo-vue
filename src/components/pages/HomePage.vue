@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <main-toolbar :show-time-range="false" :show-group-by="true" :search="searchCallback">
+    <main-toolbar :show-time-range="false"  :search="searchCallback">
 
     </main-toolbar>
 
@@ -97,7 +97,7 @@ export default {
       // start the search from here
       this.fetchMapResults()
       this.fetchTableResults()
-    }, 500),
+    }, 250),
     async fetchMapResults () {
       // send a fake query just to get the total count
       const meta = await this.searchMapMarker({

@@ -31,6 +31,7 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
 
       url = `/search?query=${filteredQuery}${range}&page[size]=${searchPageSize}&page[number]=${searchPageNumber}&facade=map&filter[longlat]`
     }
+    commit('setLoading', true)
 
     return new Promise((resolve, reject) => {
       api.get(url)
@@ -51,13 +52,12 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
           )
           /* save marker items */
           commit('setItems', { m: [...newItems], links: response.data.data.links, meta: { totalCount: response.data.meta['total-count'] } })
-          /* return a link to the next resource if any */
-          // resolve(data.links.next)
+
           resolve(response.data.meta)
-          // commit('setLoading', false)
+          commit('setLoading', false)
         })
         .catch((error: any) => {
-          // commit('clearAll')
+          commit('clearAll')
           commit('setError', error.message)
           reject(state.error)
         })

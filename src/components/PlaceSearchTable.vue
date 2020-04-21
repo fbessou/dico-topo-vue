@@ -21,10 +21,12 @@
             v-for="(h, index) in headers"
             :key="index"
             class="overline font-weight-regular grey lighten-3"
-            :class="h.class"
+            :class="fullscreen ? `fullscreen-table-th ${h.class}` : h.class"
           >
             <v-icon small v-if="h.prependIcon">{{ h.prependIcon }}</v-icon>
+
             {{ h.text }}
+            <group-by-widget class="ml-3" v-if="index === 1" />
 
             <stateful-button
               v-if="!!h.sortable"
@@ -113,7 +115,7 @@
     <template v-slot:footer>
       <div v-show="!!showTable" class="fixed-agg-footer grey lighten-3">
         <span
-          class="overline font-weight-regular text-xs-right float-right mr-5"
+          class="overline font-weight-regular text-xs-right d-flex justify-end mr-5"
         >
           <span v-if="!!groupbyPlace">
             <span v-show="meta.totalCount">
@@ -174,6 +176,8 @@
 import { mapActions, mapGetters, mapState } from 'vuex'
 import StatefulButton from './ui/StatefulButton'
 import FilterResult from './ui/FilterResult'
+import GroupByWidget from './ui/GroupByWidget'
+
 import { cleanStr } from '../utils/helpers'
 
 import Vue from 'vue'
@@ -181,7 +185,7 @@ import _ from 'lodash'
 
 export default {
   name: 'PlaceSearchTable',
-  components: { StatefulButton, FilterResult },
+  components: { StatefulButton, FilterResult, GroupByWidget },
   props: {
     selectItemCallback: { type: Function },
     search: { type: Function, default: () => {} }
@@ -447,23 +451,27 @@ export default {
 
 <style>
 .localisation-header {
-  min-width: 60px;
+  width: 60px;
   text-align: center !important;
 }
 .place-header {
-  min-width: 230px;
+  width: 230px;
+  min-width: 170px;
 }
 .old-labels-header {
-  min-width: 550px;
+  min-width: 190px;
+  width: 550px;
 }
 .departement-header {
-  min-width: 120px;
+  width: 120px;
 }
 .commune-header {
-  min-width: 200px;
+  width: 200px;
+  min-width: 100px;
 }
 .description-header {
-  min-width: 500px;
+  width: 500px;
+  min-width: 320px;
 }
 .very-small {
   height: 26px !important;
@@ -473,23 +481,27 @@ dfn {
   font-style: normal !important;
 }
 .fullscreen-table-btn {
-    position: absolute;
-    right: 0px;
-    clear: both;
-    top: 2px;
+  position: absolute;
+  right: 0px;
+  clear: both;
+  top: 2px;
 }
 
 .fullscreen-table {
   position: absolute;
   bottom: 0;
   height: 100%;
-  width:100%
+  width: 100%;
+}
+
+.fullscreen-table-th {
+  height: 60px !important;
 }
 .normal-table {
   position: absolute;
   bottom: 0;
   height: 40%;
-  width:100%
+  width: 100%;
 }
 
 .fixed-agg-footer {

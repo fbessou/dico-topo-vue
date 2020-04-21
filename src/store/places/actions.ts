@@ -66,153 +66,76 @@ export const actions: ActionTree<PlaceState, RootState> = {
 
     let meta : any
 
-    let res = await api.get(url)
-    let data = res.data
-    const items: Array<Place> = data.data.map((p: any) => {
-      const longlat: any = p.attributes['longlat']
-      let coords: [number, number] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
-      let item
-      switch (p.type) {
-        case 'place':
-          const oldLabels = p.attributes['old-labels']
-          item = {
-            id: p.id,
-            type: p.type,
+    try {
+      let res = await api.get(url)
+      let data = res.data
+      const items: Array<Place> = data.data.map((p: any) => {
+        const longlat: any = p.attributes['longlat']
+        let coords: [number, number] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
+        let item
+        switch (p.type) {
+          case 'place':
+            const oldLabels = p.attributes['old-labels']
+            item = {
+              id: p.id,
+              type: p.type,
 
-            label: p.attributes['place-label'],
-            placeLabel: p.attributes['place-label'],
-            oldLabels: oldLabels ? oldLabels.reverse() : [],
-            description: p.attributes['desc'],
-            comment: p.attributes['comment'],
+              label: p.attributes['place-label'],
+              placeLabel: p.attributes['place-label'],
+              oldLabels: oldLabels ? oldLabels.reverse() : [],
+              description: p.attributes['desc'],
+              comment: p.attributes['comment'],
 
-            insee_code: p.attributes['localization-insee-code'],
-            communeLabel: p.attributes['commune-label'],
-            department: p.attributes['dpt'],
-            region: p.attributes['region'],
-            coordinates: coords
-            /*
-            geoname_id: p.attributes['geoname-id'],
-            wikidata_item_id: p.attributes['wikidata-item-id'],
-            wikipedia_url: p.attributes['wikipedia-url'],
-            databnf_ark: p.attributes['databnf-ark'],
-            viaf_id: p.attributes['viaf-id'],
-            siaf_id: p.attributes['siaf-id']
-            */
-          }
-          break
-        case 'place-old-label':
-          item = {
-            id: p.id,
-            type: p.type,
-            label: p.attributes['rich-label'],
+              insee_code: p.attributes['localization-insee-code'],
+              communeLabel: p.attributes['commune-label'],
+              department: p.attributes['dpt'],
+              region: p.attributes['region'],
+              coordinates: coords
+            }
+            break
+          case 'place-old-label':
+            item = {
+              id: p.id,
+              type: p.type,
+              label: p.attributes['rich-label'],
 
-            placeId: p.attributes['place-id'],
-            oldLabels: [],
-            placeLabel: p.attributes['place-label'],
-            description: p.attributes['place-desc'],
-            date: p.attributes['text-date'],
+              placeId: p.attributes['place-id'],
+              oldLabels: [],
+              placeLabel: p.attributes['place-label'],
+              description: p.attributes['place-desc'],
+              date: p.attributes['text-date'],
 
-            insee_code: p.attributes['localization-insee-code'],
-            communeLabel: p.attributes['commune-label'],
-            department: p.attributes['dpt'],
-            region: p.attributes['region'],
-            coordinates: coords
-            /*
-            geoname_id: p.attributes['geoname-id'],
-            wikidata_item_id: p.attributes['wikidata-item-id'],
-            wikipedia_url: p.attributes['wikipedia-url'],
-            databnf_ark: p.attributes['databnf-ark'],
-            viaf_id: p.attributes['viaf-id'],
-            siaf_id: p.attributes['siaf-id']
-            */
-          }
-          break
-      }
-      return item
-    })
-
-    meta = {
-      totalCount: data.meta['total-count']
-    }
-    if (data.meta['after']) {
-      meta['after'] = data.meta['after']
-    }
-
-    commit('setItems', { p: items, links: data.links, meta: meta })
-
-    res = await api.get(makeUniqueDptUrl(filteredQuery))
-    data = res.data
-    data.data.map((d: any) => {
-      commit('addDepartment', `${d.attributes['insee-code']} - ${d.attributes['label']}`)
-    })
-  }
-
-  /*
-    return api.get(url)
-      .then((res: ApiResponse<any>) => {
-        const { ok, data } = res
-        if (ok) {
-
-        } else {
-          commit('setError', data)
-          commit('setLoading', false)
+              insee_code: p.attributes['localization-insee-code'],
+              communeLabel: p.attributes['commune-label'],
+              department: p.attributes['dpt'],
+              region: p.attributes['region'],
+              coordinates: coords
+            }
+            break
         }
-      }).then(() => {
-        // fetch data to feed the TimeFilter
-        api.get(makeTimeFilterLowerBoundary(filteredQuery)).then((response: ApiResponse<any>) => {
-          response.data = parseInt(response.data.data[0].attributes['text-date'])
-          console.log('lower time filter boundary:', response.data)
-          return response
-        }).then((response: ApiResponse<any>) => {
-          const lowerBound = response.data
-          // add the lower boundary
+        return item
+      })
 
-          return api.get(makeTimeFilterUpperBoundary(filteredQuery)).then((response: ApiResponse<any>) => {
-            response.data = parseInt(response.data.data[0].attributes['text-date'])
-            console.log('upper time filter boundary:', response.data)
-            return response
-          }).then(async (response: ApiResponse<any>) => {
-            const upperBound = response.data
+      meta = {
+        totalCount: data.meta['total-count']
+      }
+      if (data.meta['after']) {
+        meta['after'] = data.meta['after']
+      }
+      // finally commit data to the store
+      commit('setItems', { p: items, links: data.links, meta: meta })
 
-            const d = Math.abs(upperBound) - Math.abs(lowerBound)
+      /* generate the departement list to use for filtering operations */
+      res = await api.get(makeUniqueDptUrl(filteredQuery))
+      data = res.data
+      data.data.map((d: any) => {
+        commit('addDepartment', `${d.attributes['insee-code']} - ${d.attributes['label']}`)
+      })
+    } catch (error) {
 
-            let n
-            if (meta.totalCount <= 100) {
-              n = 10
-            } else if (meta.totalCount <= 200) {
-              n = 15
-            } else if (meta.toatlCount <= 500) {
-              n = 20
-            } else if (meta.toatlCount <= 2000) {
-              n = 25
-            } else {
-              n = 50
-            }
-
-            let step = Math.floor(d / n) <= 1 ? 1 : Math.floor(d / n)
-
-            let knownYears = []
-            let lastStep = lowerBound
-            for (let i = 0; i <= n; i++) {
-              const stepResp: ApiResponse<any> = await api.get(makeTimeFilterIntermediateStep(filteredQuery, lastStep, step))
-              const count = stepResp.data.meta['total-count']
-              console.log(lastStep, lastStep + step, count)
-              knownYears.push({ year: lastStep, count: count })
-              lastStep += step
-            }
-            const stepResp: ApiResponse<any> = await api.get(makeTimeFilterIntermediateStep(
-              filteredQuery,
-              lastStep,
-              Math.abs(upperBound) - Math.abs(lastStep),
-              true)
-            )
-            const count = stepResp.data.meta['total-count']
-            console.log(lastStep, lastStep + Math.abs(upperBound) - Math.abs(lastStep), count)
-            knownYears.push({ year: lastStep + Math.abs(upperBound) - Math.abs(lastStep), count: count })
-
-            commit('setKnownYears', knownYears)
-          })
-        })
-*/
+    } finally {
+      commit('setLoading', false)
+    }
+  }
 
 }

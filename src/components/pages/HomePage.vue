@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <main-toolbar :show-time-range="false"  :search="searchCallback">
+    <main-toolbar :show-time-range="false" :show-filters="true" :search="searchCallback">
 
     </main-toolbar>
 

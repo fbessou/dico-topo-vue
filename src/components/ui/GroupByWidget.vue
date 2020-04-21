@@ -1,6 +1,5 @@
 <template>
-  <span>
-    <!--
+  <!--
     <v-flex>
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
@@ -12,19 +11,16 @@
       </v-tooltip>
     </v-flex>
     !-->
-    <v-tooltip top>
-      <template v-slot:activator="{ on }">
-        <span>
-          <v-switch class="mr-3" v-model="groupByOption" dense inset>
-          </v-switch>
-        </span>
-      </template>
-      <span
-        >Les résultats de la recherche ne sont pas groupés par lieu identifié
-        mais par forme toponymique</span
-      >
-    </v-tooltip>
-    <!--
+  <v-tooltip top>
+    <template v-slot:activator="{ on }">
+      <v-switch class="mr-3" v-model="groupByOption" dense inset> </v-switch>
+    </template>
+    <span
+      >Les résultats de la recherche ne sont pas groupés par lieu identifié mais
+      par forme toponymique</span
+    >
+  </v-tooltip>
+  <!--
     <v-flex>
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
@@ -37,7 +33,6 @@
       </v-tooltip>
     </v-flex>
     -->
-  </span>
 </template>
 
 <script>
@@ -74,8 +69,9 @@ export default {
   position: relative;
   height: 10px;
   top: 5px;
+  left: 12px;
   display: inline-flex;
-  transform: scale(0.800);
+  transform: scale(0.8);
   transform-origin: left;
 }
 </style>

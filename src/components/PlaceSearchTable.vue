@@ -25,8 +25,8 @@
           >
             <v-icon small v-if="h.prependIcon">{{ h.prependIcon }}</v-icon>
 
-            {{ h.text }}
-            <group-by-widget class="ml-3" v-if="index === 1" />
+            <span class="mr-1">{{ h.text }}</span>
+            <group-by-widget v-if="index === 1" />
 
             <stateful-button
               v-if="!!h.sortable"

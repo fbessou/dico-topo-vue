@@ -16,7 +16,7 @@
       type="text"
       placeholder="Ex. Saint Simon"
       v-model="inputTerm"
-      style="min-width: 80px; width: 360px; max-width: 360px; padding-top: 26px; margin-left: 10px"
+      style="min-width: 80px; width: 360px; max-width: 360px; padding-top: 26px; margin-left: 10px "
       color="rgb(211, 47, 47)"
       @keyup.enter.native="onSearchEventPressEnter"
       :disabled="tableResultIsLoading || mapIsLoading"
@@ -39,10 +39,8 @@
       {{ meta.totalCount }}
     </v-chip>
 -->
-    <span class="toolbar-buttons">
-
-      <v-btn text color="grey darken-3">Départements</v-btn>
-
+    <span v-if="showFilters" class="toolbar-buttons">
+      <department-filter-menu />
     </span>
 
     <v-spacer></v-spacer>
@@ -61,17 +59,19 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
-
+import DepartmentFilterMenu from '../DepartmentFilterMenu'
 export default {
   name: 'MainToolbar',
   props: {
     showTimeRange: { type: Boolean, default: false },
-    search: { type: Function, default: undefined }
+    search: { type: Function, default: undefined },
+    showFilters: { type: Boolean, default: false }
   },
-  components: {},
+  components: { DepartmentFilterMenu },
   data () {
     return {
       inputTerm: undefined,
+      showDepartmentFilterMenu: false,
       selectedTimeRange: []
     }
   },
@@ -202,13 +202,11 @@ body:after {
   transform: rotate(-45deg);
 }
 
-.toolbar-buttons > span {
+.toolbar-buttons {
   display: flex;
   line-height: 32px;
-  margin-top: 20px;
-  margin-left: 32px;
-  color: grey;
-  font-family: Roboto, sans-serif;
+  position: relative;
+  left: 30px;
 }
 
 .toolbar-buttons span {
@@ -219,7 +217,7 @@ body:after {
   height: 20px;
   width: 20px;
 }
-.search-icon:hover {
+.search-bar {
   cursor: pointer;
   color:brown;
 }

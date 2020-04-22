@@ -18,7 +18,7 @@
                     </v-card-title>
                   </div>
 
-                  <v-card-subtitle v-html="bibl.bibl"/>
+                  <v-card-subtitle v-if="biblItem" v-html="biblItem.bibl"/>
 
                   <v-card-text class="text-justify text--primary body-1" style="min-height: 80px" :class="`${popup ? 'scrollable' : ''}`">
                     <p v-html="placeItem.description"/>
@@ -117,7 +117,7 @@ export default {
   computed: {
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),
     ...mapState('commune', ['commune']),
-    ...mapState('bibls', ['bibl']),
+    ...mapState('bibls', { biblItem: 'bibl' }),
     linkedPlacesPanelLabel () {
       if (!this.commune || !this.commune.data || !this.linkedPlaces) {
         return 'Autres lieux'

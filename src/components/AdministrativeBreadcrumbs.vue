@@ -47,12 +47,14 @@ export default {
       }
       // lieu
       if (this.placeItem) {
-        let newItem = { text: this.placeItem.label }
+        if (this.commune.data && this.commune.data.attributes['place-id'] !== this.placeItem.id) {
+          let newItem = { text: this.placeItem.label }
 
-        const route = this.$router.resolve({ name: 'place', params: { placeId: this.placeItem.id } })
-        newItem['href'] = route.href
+          const route = this.$router.resolve({ name: 'place', params: { placeId: this.placeItem.id } })
+          newItem['href'] = route.href
 
-        items.push(newItem)
+          items.push(newItem)
+        }
       }
 
       return items

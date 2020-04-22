@@ -7,7 +7,6 @@ import { api } from '@/utils/http-common'
 const index = `${process.env.VUE_APP_PLACE_INDEX}`
 
 function buildPlace (obj: any) {
-  // let coords = buildCoords(obj)
   return {
     id: obj.id,
     type: obj.type,
@@ -53,8 +52,8 @@ export const actions: ActionTree<PlaceCardState, RootState> = {
           id: p.id,
           type: p.type,
           label: p.attributes['rich-label'],
-          labelNode: p.attributes['text-label-node'],
-          date: p.attributes['text-date'],
+          // labelNode: p.attributes['text-label-node'],
+          date: p.attributes['rich-date'],
           reference: p.attributes['rich-reference']
         }
       })

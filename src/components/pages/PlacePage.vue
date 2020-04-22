@@ -22,6 +22,7 @@
                 :use-markers="true"
                 :initial-zoom="8"
                 :initial-center="{lat:coordinates[0], lng:coordinates[1]}"
+                :save-position="false"
                 :mapmarker-items="mapItems"/>
               </v-card>
 

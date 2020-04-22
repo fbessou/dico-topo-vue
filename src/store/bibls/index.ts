@@ -7,7 +7,7 @@ import { BiblState } from '@/store/bibls/types'
 
 const namespaced: boolean = true
 
-export const commune: Module<BiblState, RootState> = {
+export const bibls: Module<BiblState, RootState> = {
   namespaced,
   state: getDefaultState(),
   getters,

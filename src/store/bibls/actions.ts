@@ -10,7 +10,7 @@ export const actions: ActionTree<BiblState, RootState> = {
   async fetch ({ commit }, placeId) {
     if (placeId) {
       const res = await api.get(`/places/${placeId}/bibl?without-relationships`)
-      commit('setBibl', res.data)
+      commit('setBibl', res.data.data.attributes)
     }
   }
 }

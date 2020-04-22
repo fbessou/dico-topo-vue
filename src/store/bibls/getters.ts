@@ -1,8 +1,8 @@
 // profile/getters.ts
 import { GetterTree } from 'vuex'
-import { CommuneState } from './types'
+import { BiblState } from './types'
 import { RootState } from '../types'
 
-export const getters: GetterTree<CommuneState, RootState> = {
+export const getters: GetterTree<BiblState, RootState> = {
 
 }

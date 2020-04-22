@@ -18,9 +18,7 @@
                     </v-card-title>
                   </div>
 
-                  <v-card-subtitle>
-                    DT76, 1982, p. n°23 (exemple)
-                  </v-card-subtitle>
+                  <v-card-subtitle v-html="bibl.bibl"/>
 
                   <v-card-text class="text-justify text--primary body-1" style="min-height: 80px" :class="`${popup ? 'scrollable' : ''}`">
                     <p v-html="placeItem.description"/>
@@ -99,7 +97,9 @@ export default {
       console.log('fetch place page data', id)
       this.clearPlaceCard()
       this.clearCommune()
+      this.clearBibl()
       await this.fetchPlaceCard(id)
+      await this.fetchBibl(id)
       if (this.placeItem.insee_code) {
         await this.fetchCommune(this.placeItem.insee_code)
       }
@@ -111,11 +111,13 @@ export default {
     },
     ...mapActions('places', ['selectPlace', 'unselectPlace']),
     ...mapActions('PlaceCard', ['fetchPlaceCard', 'clearPlaceCard']),
-    ...mapActions('commune', { fetchCommune: 'fetch', clearCommune: 'clear' })
+    ...mapActions('commune', { fetchCommune: 'fetch', clearCommune: 'clear' }),
+    ...mapActions('bibls', { fetchBibl: 'fetch', clearBibl: 'clear' })
   },
   computed: {
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),
     ...mapState('commune', ['commune']),
+    ...mapState('bibls', ['bibl']),
     linkedPlacesPanelLabel () {
       if (!this.commune || !this.commune.data || !this.linkedPlaces) {
         return 'Autres lieux'

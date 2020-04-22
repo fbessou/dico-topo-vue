@@ -20,8 +20,9 @@
                  min-height="400px"
                 :use-heatmap="false"
                 :use-markers="true"
-                :initial-zoom="8"
+                :initial-zoom="9"
                 :initial-center="{lat:coordinates[0], lng:coordinates[1]}"
+                :save-position="false"
                 :mapmarker-items="mapItems"/>
               </v-card>
 

@@ -36,9 +36,8 @@
                          <!-- <a class="caption">Table des abréviations</a> -->
                          <ol class="mt-2">
                            <li v-for="oldLabel in placeOldLabels" :key="oldLabel.id" >
-                             <span class="font-weight-medium" v-html="oldLabel.label"/>,
-                             <span v-html="oldLabel.date"/>
-                             (<span v-html="oldLabel.reference"/>)
+                             <span class="font-weight-medium" v-html="oldLabel.label"/>
+                             <span v-html="prettifyOldLabel(oldLabel)"/>
                            </li>
                          </ol>
                         </v-expansion-panel-content>
@@ -55,7 +54,7 @@
 
                     <v-expansion-panel :disabled="linkedPlaces && linkedPlaces.length === 0">
                         <v-expansion-panel-header class="grey lighten-4">
-                          <div class="subtitle-1 font-weight-medium">Lieux alentours</div>
+                          <div class="subtitle-1 font-weight-medium" :key="commune.id">{{linkedPlacesPanelLabel}}</div>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content class="text-justify body-2 pt-4" :class="`${popup ? 'scrollable' : ''}`"
                          v-show="linkedPlaces && linkedPlaces.length > 0">
@@ -105,13 +104,24 @@ export default {
         await this.fetchCommune(this.placeItem.insee_code)
       }
     },
+    prettifyOldLabel (o) {
+      const date = o.date ? o.date : ''
+      const ref = o.reference ? `(${o.reference})` : ''
+      return `, ${date} ${ref}`
+    },
     ...mapActions('places', ['selectPlace', 'unselectPlace']),
     ...mapActions('PlaceCard', ['fetchPlaceCard', 'clearPlaceCard']),
     ...mapActions('commune', { fetchCommune: 'fetch', clearCommune: 'clear' })
   },
   computed: {
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),
-    ...mapState('commune', ['commune'])
+    ...mapState('commune', ['commune']),
+    linkedPlacesPanelLabel () {
+      if (!this.commune || !this.commune.data || !this.linkedPlaces) {
+        return 'Autres lieux'
+      }
+      return `${this.linkedPlaces.length === 1 ? 'Autre lieu à' : 'Autres lieux à'} ${this.commune.data.attributes['NCCENR']}`
+    }
   }
 }
 </script>

@@ -23,6 +23,7 @@ export const actions: ActionTree<CommuneState, RootState> = {
             commit('setArrondissement', { id: element.id, ...element.attributes })
             break
           case 'CT':
+          case 'CTNP':
             commit('setCanton', { id: element.id, ...element.attributes })
             break
         }

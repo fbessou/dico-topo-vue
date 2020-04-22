@@ -54,7 +54,7 @@
 
                     <v-expansion-panel :disabled="linkedPlaces && linkedPlaces.length === 0">
                         <v-expansion-panel-header class="grey lighten-4">
-                          <div class="subtitle-1 font-weight-medium" :key="commune">{{linkedPlacesPanelLabel}}</div>
+                          <div class="subtitle-1 font-weight-medium" :key="commune.id">{{linkedPlacesPanelLabel}}</div>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content class="text-justify body-2 pt-4" :class="`${popup ? 'scrollable' : ''}`"
                          v-show="linkedPlaces && linkedPlaces.length > 0">
@@ -117,7 +117,7 @@ export default {
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),
     ...mapState('commune', ['commune']),
     linkedPlacesPanelLabel () {
-      if (!this.commune || !this.linkedPlaces) {
+      if (!this.commune || !this.commune.data || !this.linkedPlaces) {
         return 'Autres lieux'
       }
       return `${this.linkedPlaces.length === 1 ? 'Autre lieu à' : 'Autres lieux à'} ${this.commune.data.attributes['NCCENR']}`

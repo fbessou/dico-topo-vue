@@ -2,12 +2,9 @@
   <l-map
     class="l-map"
     ref="map"
-    :zoom="zoom"
-    :center="center"
     :max-zoom="maxZoom"
     :min-zoom="minZoom"
     :options="options"
-    :style="`min-height:${minHeight}; min-width: ${minWidth}; `"
   >
   </l-map>
 </template>
@@ -135,10 +132,9 @@ export default {
       // if (this.selectedItem) {
       //  this.flyToCoordinates(this.selectedItem.coords)
       // }
-      if (this.savePosition) {
-        this.map.on('zoomend', this.saveZoom)
-        this.map.on('dragend', this.saveZoom)
-      }
+      this.map.on('zoomend', this.saveZoom)
+      this.map.on('dragend', this.saveZoom)
+      this.saveZoom()
     },
     addIGNServices: function (layers) {
       const ignLayers = [
@@ -244,29 +240,39 @@ export default {
       this.addMarkers(markers)
     },
     toggleMarkerLayer () {
-      if (this.map.getZoom() < 10) {
-        this.map.removeLayer(this.markerLayer)
-        this.map.addLayer(this.heatLayer)
-      } else {
-        this.map.removeLayer(this.heatLayer)
-        this.map.addLayer(this.markerLayer)
-      }
-      if (this.map.hasLayer(this.heatLayer)) {
-        this.heatLayer.redraw()
+      if (this.map) {
+        if (this.map.getZoom() < 10) {
+          this.map.removeLayer(this.markerLayer)
+          this.map.addLayer(this.heatLayer)
+        } else {
+          this.map.removeLayer(this.heatLayer)
+          this.map.addLayer(this.markerLayer)
+        }
+        if (this.map.hasLayer(this.heatLayer)) {
+          this.heatLayer.redraw()
+        }
       }
     },
     flyToCoordinates (coords) {
       if (coords) {
-        const latlgns = L.latLng(coords[0], coords[1])
+        const latlgns = L.latLng(coords)
         if (this.useFlyAnimation) {
-          this.map.flyTo(coords, 13, { easeLinearity: 0.8, duration: 1.6 })
+          // this.map.flyTo(latlgns, 13, { easeLinearity: 0.8, duration: 1.6 })
         } else {
-          this.map.panTo(coords)
+          console.log('pan to', coords, latlgns)
+          // this.map.panTo(latlgns)
+          this.map.panTo(latlgns)
         }
+        this.saveZoom()
       }
     },
     saveZoom () {
-      this.$store.dispatch('searchParameters/saveZoom', { zoom: this.map.getZoom(), center: this.map.getCenter() })
+      if (this.savePosition) {
+        this.$store.dispatch('searchParameters/saveZoom', {
+          zoom: this.map.getZoom(),
+          center: this.map.getCenter()
+        })
+      }
     }
   },
   created () {
@@ -291,7 +297,6 @@ export default {
     map () {
       return this.$refs.map.mapObject
     }
-
   },
   watch: {
     mapmarkerItems () {
@@ -324,8 +329,11 @@ export default {
 <style scoped>
 .l-map {
   z-index: 0;
-  min-height: 100px;
-  min-width: 100px;
-  background-color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: lightgrey;
 }
 </style>

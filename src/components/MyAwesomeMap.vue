@@ -5,7 +5,6 @@
     :max-zoom="maxZoom"
     :min-zoom="minZoom"
     :options="options"
-    :style="`min-height:${minHeight}; min-width: ${minWidth}; `"
   >
   </l-map>
 </template>
@@ -330,8 +329,11 @@ export default {
 <style scoped>
 .l-map {
   z-index: 0;
-  min-height: 100px;
-  min-width: 100px;
-  background-color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: lightgrey;
 }
 </style>

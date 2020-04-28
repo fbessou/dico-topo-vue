@@ -56,7 +56,7 @@
                         <v-expansion-panel-header class="grey lighten-4">
                           <div class="subtitle-1 font-weight-medium" :key="commune.id">{{linkedPlacesPanelLabel}}</div>
                         </v-expansion-panel-header>
-                        <v-expansion-panel-content class="text-justify body-2 pt-4" :class="`${popup ? 'scrollable' : ''}`"
+                        <v-expansion-panel-content class="text-justify body-2 pt-4" :class="`${popup ? 'scrollable' : 'scrollable-tall'}`"
                          v-show="linkedPlaces && linkedPlaces.length > 0">
                           <ol class="mt-2">
                             <li v-for="lp in linkedPlaces" :key="lp.id">
@@ -139,6 +139,10 @@ export default {
   }
   .scrollable {
     max-height: 350px;
+    overflow-y: auto;
+  }
+  .scrollable-tall {
+    max-height: 800px;
     overflow-y: auto;
   }
   p::first-letter, .capitalize-first-letter::first-letter {

@@ -5,16 +5,18 @@
     </main-toolbar>
 
     <v-content style="height:100%">
-        <my-awesome-map
-          :mapmarker-items="mapMarkerItems"
-          :on-marker-click="selectPlace"
-          :on-map-click="onMapClickCallback"
-          :initial-zoom="zoom"
-          :initial-center="center"
-          :save-position="true"
-          :use-fly-animation="false"
-        >
-        </my-awesome-map>
+        <div class="map-container">
+          <my-awesome-map
+            :mapmarker-items="mapMarkerItems"
+            :on-marker-click="selectPlace"
+            :on-map-click="onMapClickCallback"
+            :initial-zoom="zoom"
+            :initial-center="center"
+            :save-position="true"
+            :use-fly-animation="false"
+          >
+          </my-awesome-map>
+        </div>
 
         <place-search-table
           v-show="!!showTabularResults && meta.totalCount"
@@ -162,6 +164,10 @@ export default {
 </script>
 
 <style>
+  .map-container {
+    width: 100%;
+    height: 100%;
+  }
   .toggle-table-up {
     position: fixed;
     bottom: 0;

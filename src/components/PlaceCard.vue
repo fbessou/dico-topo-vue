@@ -29,17 +29,17 @@
                   <v-expansion-panels accordion flat hover light v-model="panel" :multiple="!popup">
                       <v-expansion-panel :disabled="placeOldLabels && placeOldLabels.length === 0">
                         <v-expansion-panel-header class="grey lighten-4">
-                          <div class="subtitle-1 font-weight-medium">Formes anciennes</div>
+                          <div class="subtitle-1 font-weight-medium">Formes anciennes ({{placeOldLabels.length}})</div>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content class="body-2 pt-4" :class="`${popup ? 'scrollable' : ''}`"
                           v-show="placeOldLabels && placeOldLabels.length > 0">
                          <!-- <a class="caption">Table des abréviations</a> -->
-                         <ol class="mt-2">
+                         <ul class="mt-2">
                            <li v-for="oldLabel in placeOldLabels" :key="oldLabel.id" >
                              <span class="font-weight-medium" v-html="oldLabel.label"/>
                              <span v-html="prettifyOldLabel(oldLabel)"/>
                            </li>
-                         </ol>
+                         </ul>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
 
@@ -54,16 +54,16 @@
 
                     <v-expansion-panel :disabled="linkedPlaces && linkedPlaces.length === 0">
                         <v-expansion-panel-header class="grey lighten-4">
-                          <div class="subtitle-1 font-weight-medium" :key="commune.id">{{linkedPlacesPanelLabel}}</div>
+                          <div class="subtitle-1 font-weight-medium" :key="commune.id">{{linkedPlacesPanelLabel}} ({{linkedPlacesPanelLabel.length}})</div>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content class="text-justify body-2 pt-4" :class="`${popup ? 'scrollable' : 'scrollable-tall'}`"
                          v-show="linkedPlaces && linkedPlaces.length > 0">
-                          <ol class="mt-2">
+                          <ul class="mt-2">
                             <li v-for="lp in linkedPlaces" :key="lp.id">
                               <router-link class="font-weight-medium" :to="{name: 'place', params: {placeId: lp.id}}">{{lp.label}}</router-link>
                               <div class="capitalize-first-letter" v-html="lp.description" />
                             </li>
-                          </ol>
+                          </ul>
                         </v-expansion-panel-content>
                   </v-expansion-panel>
 
@@ -149,7 +149,7 @@ export default {
     text-transform: uppercase ;
   }
   ul {
-    list-style-type: none;
+    list-style-type: dot;
   }
   .sc {
     font-variant: small-caps;

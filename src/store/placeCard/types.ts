@@ -12,8 +12,8 @@ export interface PlaceOldLabel {
 
 export interface PlaceCardState {
   placeItem?: Place;
-  placeOldLabels?: Array<PlaceOldLabel>;
-  linkedPlaces?: Array<Place>;
+  placeOldLabels: Array<PlaceOldLabel>;
+  linkedPlaces: Array<Place>;
 
   error?: string;
   isLoading: boolean;

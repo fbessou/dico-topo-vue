@@ -31,16 +31,17 @@
       </template>
     </v-text-field>
 
-<!--
     <v-chip
       v-show="!!meta && $router.currentRoute.name === 'home'"
       class="subheading grey--text text--darken-2 ml-3 mr-2"
     >
       {{ meta.totalCount }}
     </v-chip>
--->
+
     <span v-if="showFilters" class="toolbar-buttons">
+      <!--
       <department-filter-menu />
+      -->
     </span>
 
     <v-spacer></v-spacer>

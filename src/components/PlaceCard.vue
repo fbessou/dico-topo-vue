@@ -18,7 +18,7 @@
                     </v-card-title>
                   </div>
 
-                  <v-card-subtitle v-if="biblItem" v-html="biblItem.bibl"/>
+                  <v-card-subtitle v-if="biblItem" v-html="biblItem.bibl + ' p.' +placeItem.num_start_page" />
 
                   <v-card-text class="text-justify text--primary body-1" style="min-height: 80px" :class="`${popup ? 'scrollable' : ''}`">
                     <p v-html="placeItem.description"/>

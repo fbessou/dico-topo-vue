@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import VueRouter, { Location, Route, RouteConfig } from 'vue-router'
-import PlacePage from '@/components/pages/PlacePage.vue'
-import HomePage from '@/components/pages/HomePage.vue'
-import NotFoundPage from '@/components/pages/NotFoundPage.vue'
-import DocumentationPage from '@/components/pages/DocumentationPage.vue'
-import AboutPage from '@/components/pages/AboutPage.vue'
-import LandingPage from '@/components/pages/LandingPage.vue'
-import ContactPage from '@/components/pages/ContactPage.vue'
+
+const HomePage = () => import(/* webpackChunkName: "primary-pages" */ '@/components/pages/HomePage.vue')
+const PlacePage = () => import(/* webpackChunkName: "primary-pages" */ '@/components/pages/PlacePage.vue')
+
+const DocumentationPage = () => import(/* webpackChunkName: "secondary-pages" */ '@/components/pages/DocumentationPage.vue')
+const AboutPage = () => import(/* webpackChunkName: "secondary-pages" */ '@/components/pages/AboutPage.vue')
+const LandingPage = () => import(/* webpackChunkName: "secondary-pages" */ '@/components/pages/LandingPage.vue')
+const ContactPage = () => import(/* webpackChunkName: "secondary-pages" */ '@/components/pages/ContactPage.vue')
+const NotFoundPage = () => import(/* webpackChunkName: "secondary-pages" */ '@/components/pages/NotFoundPage.vue')
 
 Vue.use(VueRouter)
 

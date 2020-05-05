@@ -37,5 +37,11 @@ export const actions: ActionTree<QueryState, RootState> = {
         commit('setDepFilter', value)
         break
     }
+  },
+  toggleIIIFViewerVisibility ({ commit }) : any {
+    commit('toggleIIIFViewer')
+  },
+  setIIIFViewerVisibility ({ commit, state }, t) : any {
+    commit('setIIIFViewer', t)
   }
 }

@@ -5,7 +5,7 @@
         <router-link to="/search">Retourner vers la recherche</router-link>
 
         <v-layout class="mt-4">
-          <v-flex pa-1>
+          <v-flex pa-1 xs6>
             <place-card
               v-show="placeItem"
               :place-id="placeId"
@@ -13,7 +13,7 @@
               :popup="false"
             >
             </place-card>
-             <v-card v-if="placeItem" class="mt-4">
+            <v-card v-if="placeItem" class="mt-4">
               <div
                 v-if="
                   placeItem.databnf_ark ||
@@ -173,19 +173,34 @@
             </v-card>
           </v-flex>
 
-          <v-flex v-if="coordinates.length > 0" grow xs7>
-            <v-card  class="mb-2 map-container">
-              <my-awesome-map
-                min-height="800px"
-                :use-heatmap="false"
-                :use-markers="true"
-                :initial-zoom="10"
-                :initial-center="{ lat: coordinates[0], lng: coordinates[1] }"
-                :save-position="false"
-                :mapmarker-items="mapItems"
+          <v-flex xs6 v-if="showIIIFViewer || coordinates.length > 0">
+            <transition name="scroll-x-transition">
+              <v-card class="mb-2 map-container" v-if="coordinates.length > 0" v-show="!showIIIFViewer">
+                <my-awesome-map
+                  min-height="800px"
+                  :use-heatmap="false"
+                  :use-markers="true"
+                  :initial-zoom="10"
+                  :initial-center="{ lat: coordinates[0], lng: coordinates[1] }"
+                  :save-position="false"
+                  :mapmarker-items="mapItems"
+                />
+              </v-card>
+            </transition>
+            <transition name="scroll-x-transition">
+              <mirador-viewer
+                v-if="
+                  (showIIIFViewer ) &&
+                    placeItem &&
+                    biblItem &&
+                    biblItem.gallica_IIIF_availability
+                "
+                :manifest-url="
+                  `https://gallica.bnf.fr/iiif/${biblItem.gallica_ark}/manifest.json`
+                "
+                :canvasIndex="canvasIndex"
               />
-            </v-card>
-
+            </transition>
           </v-flex>
         </v-layout>
       </v-container>
@@ -194,11 +209,13 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import MyAwesomeMap from '../MyAwesomeMap'
 import DefaultLayout from '../DefaultLayout'
 import { cleanStr } from '../../utils/helpers'
 import PlaceCard from '../PlaceCard'
+
+import MiradorViewer from '../MiradorViewer'
 
 export default {
   name: 'PlacePage',
@@ -206,15 +223,24 @@ export default {
   components: {
     MyAwesomeMap,
     PlaceCard,
-    DefaultLayout
+    DefaultLayout,
+    MiradorViewer
   },
   data: () => {
-    return {}
+    return {
+
+    }
   },
-  mounted () {},
-  watch: {},
+  created () {
+    this.setIIIFViewerVisibility(false)
+  },
+  mounted () {
+    this.setIIIFViewerVisibility(false)
+  },
   methods: {
     ...mapActions('places', ['selectPlace', 'unselectPlace']),
+    ...mapActions('searchParameters', ['toggleIIIFViewerVisibility', 'setIIIFViewerVisibility']),
+
     clean (str) {
       return cleanStr(str)
     },
@@ -230,13 +256,28 @@ export default {
       return coords.reverse()
     }
   },
+  watch: {
+    communeIsLoading () {
+      // console.log('watching commune', this.communeIsLoading, this.commune, this.coordinates.length)
+      if (!this.communeIsLoading && this.coordinates.length === 0) {
+        this.setIIIFViewerVisibility(true)
+      }
+    }
+  },
   computed: {
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),
-    ...mapState('commune', ['commune']),
+    ...mapState('commune', { 'commune': 'commune', 'communeIsLoading': 'isLoading' }),
+    ...mapState('bibls', { biblItem: 'bibl' }),
+    ...mapState('searchParameters', ['showIIIFViewer']),
+    ...mapGetters('bibls', ['getCanvasIndex']),
+
     coordinates () {
       return this.commune && this.commune.data
         ? this.buildCoords(this.commune.data)
         : []
+    },
+    canvasIndex () {
+      return this.getCanvasIndex(this.placeItem.num_start_page)
     },
     mapItems () {
       return this.placeItem

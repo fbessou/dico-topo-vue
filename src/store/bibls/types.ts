@@ -1,6 +1,6 @@
 // types.ts
 
 export interface BiblState {
-  bibl?:Object;
-  bibls:Object[];
+  bibl?:any;
+  bibls:any[];
 }

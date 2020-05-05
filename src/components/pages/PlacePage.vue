@@ -229,7 +229,9 @@ export default {
     this.setIIIFViewerVisibility(false)
   },
   mounted () {
-    this.setIIIFViewerVisibility(false)
+    if (this.IIIFViewerAvailability && this.coordinates.length === 0) {
+      this.setIIIFViewerVisibility(true)
+    }
   },
   methods: {
     ...mapActions('places', ['selectPlace', 'unselectPlace']),

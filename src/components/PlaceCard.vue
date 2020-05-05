@@ -150,8 +150,8 @@ export default {
       await this.fetchBibl(id)
       if (this.placeItem.insee_code) {
         await this.fetchCommune(this.placeItem.insee_code)
-        this.setIIIFViewerAvailability(this.biblItem.gallica_IIIF_availability)
       }
+      this.setIIIFViewerAvailability(this.biblItem.gallica_IIIF_availability)
     },
     prettifyOldLabel (o) {
       const date = o.date ? o.date : ''

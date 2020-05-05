@@ -11,8 +11,7 @@ export default {
   components: {},
   props: {
     manifestUrl: { type: String, required: true },
-    canvasIndex: { type: Number, default: 0 },
-    navPosition: { type: String, default: 'far-bottom' }
+    canvasIndex: { type: Number, default: 0 }
   },
   data () {
     return {

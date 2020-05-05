@@ -23,7 +23,7 @@
 
     <div class="d-flex flex-row"  v-if="biblItem">
       <v-card-subtitle
-        v-html="biblItem.bibl + ' p.' + placeItem.num_start_page"
+        v-html="biblItem.abbr + ', p. ' + placeItem.num_start_page"
       />
       <div class="iiif-buttons">
         <v-btn

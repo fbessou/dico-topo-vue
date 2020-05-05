@@ -31,7 +31,7 @@
           icon
           @click="toggleIIIFViewerVisibility"
           :class="showIIIFViewer ? 'blue--text' : ''"
-          :disabled="!biblItem.gallica_IIIF_availability"
+          :disabled="!IIIFViewerAvailability"
         >
           <v-icon>mdi-book-open-outline</v-icon>
         </v-btn>
@@ -145,10 +145,12 @@ export default {
       this.clearPlaceCard()
       this.clearCommune()
       this.clearBibl()
+      this.setIIIFViewerAvailability(false)
       await this.fetchPlaceCard(id)
       await this.fetchBibl(id)
       if (this.placeItem.insee_code) {
         await this.fetchCommune(this.placeItem.insee_code)
+        this.setIIIFViewerAvailability(this.biblItem.gallica_IIIF_availability)
       }
     },
     prettifyOldLabel (o) {
@@ -159,13 +161,14 @@ export default {
     ...mapActions('places', ['selectPlace', 'unselectPlace']),
     ...mapActions('PlaceCard', ['fetchPlaceCard', 'clearPlaceCard']),
     ...mapActions('commune', { fetchCommune: 'fetch', clearCommune: 'clear' }),
-    ...mapActions('bibls', { fetchBibl: 'fetch', clearBibl: 'clear' })
+    ...mapActions('bibls', { fetchBibl: 'fetch', clearBibl: 'clear' }),
+    ...mapActions('searchParameters', ['setIIIFViewerAvailability'])
   },
   computed: {
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),
     ...mapState('commune', ['commune']),
     ...mapState('bibls', { biblItem: 'bibl' }),
-    ...mapState('searchParameters', ['showIIIFViewer']),
+    ...mapState('searchParameters', ['showIIIFViewer', 'IIIFViewerAvailability']),
     linkedPlacesPanelLabel () {
       if (!this.commune || !this.commune.data) {
         return 'Autres lieux'

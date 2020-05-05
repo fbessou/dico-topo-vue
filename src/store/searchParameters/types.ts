@@ -22,5 +22,6 @@ export interface QueryState {
   zoom: Number;
   center?: Object;
   // iiif viewer attributes
-  showIIIFViewer: boolean
+  showIIIFViewer: boolean,
+  IIIFViewerAvailability: boolean
 }

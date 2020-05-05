@@ -43,5 +43,8 @@ export const actions: ActionTree<QueryState, RootState> = {
   },
   setIIIFViewerVisibility ({ commit, state }, t) : any {
     commit('setIIIFViewer', t)
+  },
+  setIIIFViewerAvailability ({ commit, state }, t) : any {
+    commit('setIIIFViewerAvailability', t)
   }
 }

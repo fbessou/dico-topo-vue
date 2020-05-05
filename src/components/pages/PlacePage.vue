@@ -4,8 +4,8 @@
       <v-container fluid grid-list-md mt-5>
         <router-link to="/search">Retourner vers la recherche</router-link>
 
-        <v-layout class="mt-4">
-          <v-flex pa-1 xs6>
+        <v-row class="mt-4 place-page-layout" dense>
+          <v-col pa-1 >
             <place-card
               v-show="placeItem"
               :place-id="placeId"
@@ -171,11 +171,11 @@
                 </li>
               </ul>
             </v-card>
-          </v-flex>
+          </v-col>
 
-          <v-flex xs6 v-if="showIIIFViewer || coordinates.length > 0">
+          <v-col   v-if="showIIIFViewer || coordinates.length > 0">
             <transition name="scroll-x-transition">
-              <v-card class="mb-2 map-container" v-if="coordinates.length > 0" v-show="!showIIIFViewer">
+              <v-card class="mb-2 map-container" v-if="coordinates.length > 0" v-show="!showIIIFViewer || !IIIFViewerAvailability">
                 <my-awesome-map
                   min-height="800px"
                   :use-heatmap="false"
@@ -189,20 +189,14 @@
             </transition>
             <transition name="scroll-x-transition">
               <mirador-viewer
-                v-if="
-                  (showIIIFViewer ) &&
-                    placeItem &&
-                    biblItem &&
-                    biblItem.gallica_IIIF_availability
-                "
-                :manifest-url="
-                  `https://gallica.bnf.fr/iiif/${biblItem.gallica_ark}/manifest.json`
-                "
+                class="mirador-container"
+                v-if="IIIFViewerAvailability && showIIIFViewer"
+                :manifest-url="`https://gallica.bnf.fr/iiif/${biblItem.gallica_ark}/manifest.json`"
                 :canvasIndex="canvasIndex"
               />
             </transition>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </v-container>
     </section>
   </default-layout>
@@ -239,7 +233,7 @@ export default {
   },
   methods: {
     ...mapActions('places', ['selectPlace', 'unselectPlace']),
-    ...mapActions('searchParameters', ['toggleIIIFViewerVisibility', 'setIIIFViewerVisibility']),
+    ...mapActions('searchParameters', ['setIIIFViewerVisibility']),
 
     clean (str) {
       return cleanStr(str)
@@ -257,18 +251,13 @@ export default {
     }
   },
   watch: {
-    communeIsLoading () {
-      // console.log('watching commune', this.communeIsLoading, this.commune, this.coordinates.length)
-      if (!this.communeIsLoading && this.coordinates.length === 0) {
-        this.setIIIFViewerVisibility(true)
-      }
-    }
+
   },
   computed: {
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),
-    ...mapState('commune', { 'commune': 'commune', 'communeIsLoading': 'isLoading' }),
+    ...mapState('commune', { 'commune': 'commune' }),
     ...mapState('bibls', { biblItem: 'bibl' }),
-    ...mapState('searchParameters', ['showIIIFViewer']),
+    ...mapState('searchParameters', ['showIIIFViewer', 'IIIFViewerAvailability']),
     ...mapGetters('bibls', ['getCanvasIndex']),
 
     coordinates () {
@@ -301,5 +290,13 @@ export default {
 .map-container {
   width: 100%;
   height: 100%;
+  max-height: 1200px;
+}
+.mirador-container {
+  min-height: 800px;
+  max-height: 1200px;
+}
+.place-page-layout {
+  min-height: 1000px;
 }
 </style>

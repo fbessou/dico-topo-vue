@@ -209,8 +209,8 @@
 </template>
 
 <script>
+
 import { mapState, mapActions, mapGetters } from 'vuex'
-import MyAwesomeMap from '../MyAwesomeMap'
 import DefaultLayout from '../DefaultLayout'
 import { cleanStr } from '../../utils/helpers'
 import PlaceCard from '../PlaceCard'
@@ -221,10 +221,10 @@ export default {
   name: 'PlacePage',
   props: ['placeId'],
   components: {
-    MyAwesomeMap,
-    PlaceCard,
     DefaultLayout,
-    MiradorViewer
+    MiradorViewer,
+    'MyAwesomeMap': () => import(/* webpackChunkName: "map-component" */ '../MyAwesomeMap'),
+    'PlaceCard': () => import(/* webpackChunkName: "card-component" */ '../PlaceCard')
   },
   data: () => {
     return {

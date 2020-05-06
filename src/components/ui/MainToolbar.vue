@@ -103,10 +103,10 @@ export default {
   },
   watch: {
     term () {
-      this.search()
+      this.searchCallback()
     },
     computedFilterParam () {
-      this.search()
+      this.searchCallback()
     },
     selectedTimeRange () {
       if (this.$props.showTimeRange && this.selectedTimeRange.length === 2) {
@@ -135,7 +135,7 @@ export default {
           !!this.inputTerm &&
           this.inputTerm.length > 2
         ) {
-          this.search()
+          this.searchCallback()
         }
       }
     }

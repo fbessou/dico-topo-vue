@@ -93,6 +93,7 @@ export default {
     ...mapActions('places', ['selectPlace', 'unselectPlace'])
   },
   computed: {
+    ...mapState('mapmarkers', { 'mapMarkerItems': 'items' }),
     ...mapState('places', { selectedPlace: 'selectedItem', meta: 'meta' }),
     ...mapState('searchParameters', ['term', 'range', 'includeOldLabels', 'groupbyPlace', 'minTermLength', 'zoom', 'center'])
   }

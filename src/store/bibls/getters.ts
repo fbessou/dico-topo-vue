@@ -9,6 +9,6 @@ export const getters: GetterTree<BiblState, RootState> = {
     return (parseInt(pageOne) - 1) + (numPage - 1)
   },
   getComputedBiblRef: (state) => (numPage: number) => {
-    return `${state.bibl.abbr}, p.${numPage}`
+    return `${state.bibl.abbr}, p. ${numPage}`
   }
 }

@@ -25,11 +25,10 @@
       <v-card-subtitle v-html="computedBiblRef"/>
       <div class="iiif-buttons">
         <v-btn
-          v-if="!popup"
+          v-if="!popup && IIIFViewerAvailability"
           icon
           @click="toggleIIIFViewerVisibility"
           :class="showIIIFViewer ? 'blue--text' : ''"
-          :disabled="!IIIFViewerAvailability"
         >
           <v-icon>mdi-book-open-outline</v-icon>
         </v-btn>

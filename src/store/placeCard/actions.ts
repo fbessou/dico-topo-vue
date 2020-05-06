@@ -14,6 +14,7 @@ function buildPlace (obj: any) {
     old_labels: [],
     description: obj.attributes['desc'],
     comment: obj.attributes['comment'],
+    num_start_page: obj.attributes['num-start-page'],
 
     insee_code: obj.attributes['localization-insee-code'],
     department: obj.attributes['dpt'],

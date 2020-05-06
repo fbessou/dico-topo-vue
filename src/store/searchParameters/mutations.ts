@@ -12,7 +12,9 @@ export function getDefaultState (): QueryState {
     minTermLength: 2,
     pagination: { rowsPerPage: 200, page: 1 },
     zoom: 6,
-    center: { lat: 46.453806, lng: 2.65392 }
+    center: { lat: 46.453806, lng: 2.65392 },
+    showIIIFViewer: false,
+    IIIFViewerAvailability: false
   }
 };
 
@@ -61,5 +63,14 @@ export const mutations: MutationTree<QueryState> = {
   saveZoom (state: QueryState, { zoom, center }) {
     state.zoom = zoom
     state.center = center
+  },
+  toggleIIIFViewer (state: QueryState) {
+    state.showIIIFViewer = !state.showIIIFViewer
+  },
+  setIIIFViewer (state: QueryState, t) {
+    state.showIIIFViewer = t
+  },
+  setIIIFViewerAvailability (state: QueryState, t) {
+    state.IIIFViewerAvailability = t
   }
 }

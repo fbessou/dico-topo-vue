@@ -8,7 +8,9 @@ export function getDefaultState (): CommuneState {
     region: undefined,
     canton: undefined,
     departement: undefined,
-    arrondissement: undefined
+    arrondissement: undefined,
+
+    isLoading: false
   }
 };
 
@@ -30,5 +32,8 @@ export const mutations: MutationTree<CommuneState> = {
   },
   setDepartement (state: CommuneState, t) {
     state.departement = Object.assign({}, state.departement, t)
+  },
+  setLoading (state: CommuneState, t) {
+    state.isLoading = t
   }
 }

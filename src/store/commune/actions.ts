@@ -7,8 +7,12 @@ export const actions: ActionTree<CommuneState, RootState> = {
   clear ({ commit }) {
     commit('clear')
   },
+  setLoading ({ commit }, t) {
+    commit('setLoading', t)
+  },
   async fetch ({ commit }, inseeCode) {
     if (inseeCode) {
+      commit('setLoading', true)
       const res = await api.get(`/communes/${inseeCode}?include=departement,arrondissement,canton&without-relationships`)
       commit('setCommune', res.data)
       res.data.included.forEach((element: any) => {
@@ -28,6 +32,7 @@ export const actions: ActionTree<CommuneState, RootState> = {
             break
         }
       })
+      commit('setLoading', false)
     }
   }
 }

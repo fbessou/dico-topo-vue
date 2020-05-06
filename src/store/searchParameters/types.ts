@@ -18,6 +18,10 @@ export interface QueryState {
   depFilter: String[];
   minTermLength: number;
   pagination: Object;
+  // map attributes
   zoom: Number;
   center?: Object;
+  // iiif viewer attributes
+  showIIIFViewer: boolean,
+  IIIFViewerAvailability: boolean
 }

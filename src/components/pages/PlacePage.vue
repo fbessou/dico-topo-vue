@@ -4,8 +4,8 @@
       <v-container fluid grid-list-md mt-5>
         <router-link to="/search">Retourner vers la recherche</router-link>
 
-        <v-layout class="mt-4">
-          <v-flex pa-1>
+        <v-row class="mt-4 place-page-layout" dense>
+          <v-col pa-1 >
             <place-card
               v-show="placeItem"
               :place-id="placeId"
@@ -13,7 +13,7 @@
               :popup="false"
             >
             </place-card>
-             <v-card v-if="placeItem" class="mt-4">
+            <v-card v-if="placeItem" class="mt-4">
               <div
                 v-if="
                   placeItem.databnf_ark ||
@@ -171,48 +171,72 @@
                 </li>
               </ul>
             </v-card>
-          </v-flex>
+          </v-col>
 
-          <v-flex v-if="coordinates.length > 0" grow xs7>
-            <v-card  class="mb-2 map-container">
-              <my-awesome-map
-                min-height="800px"
-                :use-heatmap="false"
-                :use-markers="true"
-                :initial-zoom="10"
-                :initial-center="{ lat: coordinates[0], lng: coordinates[1] }"
-                :save-position="false"
-                :mapmarker-items="mapItems"
+          <v-col  v-if="(IIIFViewerAvailability && showIIIFViewer) || coordinates.length > 0">
+            <transition name="scroll-x-transition">
+              <v-card class="mb-2 map-container" v-if="coordinates.length > 0" v-show="!showIIIFViewer || !IIIFViewerAvailability">
+                <my-awesome-map
+                  min-height="800px"
+                  :use-heatmap="false"
+                  :use-markers="true"
+                  :initial-zoom="10"
+                  :initial-center="{ lat: coordinates[0], lng: coordinates[1] }"
+                  :save-position="false"
+                  :mapmarker-items="mapItems"
+                />
+              </v-card>
+            </transition>
+            <transition name="scroll-x-transition">
+              <mirador-viewer
+                class="mirador-container"
+                v-if="IIIFViewerAvailability && showIIIFViewer"
+                :manifest-url="`https://gallica.bnf.fr/iiif/${biblItem.gallica_ark}/manifest.json`"
+                :canvasIndex="canvasIndex"
               />
-            </v-card>
-          </v-flex>
-        </v-layout>
+            </transition>
+          </v-col>
+        </v-row>
       </v-container>
     </section>
   </default-layout>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+
+import { mapState, mapActions, mapGetters } from 'vuex'
 import DefaultLayout from '../DefaultLayout'
 import { cleanStr } from '../../utils/helpers'
 import PlaceCard from '../PlaceCard'
+
+import MiradorViewer from '../MiradorViewer'
 
 export default {
   name: 'PlacePage',
   props: ['placeId'],
   components: {
+    DefaultLayout,
+    MiradorViewer,
     'MyAwesomeMap': () => import(/* webpackChunkName: "map-component" */ '../MyAwesomeMap'),
-    'PlaceCard': () => import(/* webpackChunkName: "card-component" */ '../PlaceCard'),
-    DefaultLayout
+    'PlaceCard': () => import(/* webpackChunkName: "card-component" */ '../PlaceCard')
   },
   data: () => {
-    return {}
+    return {
+
+    }
   },
-  mounted () {},
-  watch: {},
+  created () {
+    this.setIIIFViewerVisibility(false)
+  },
+  mounted () {
+    if (this.IIIFViewerAvailability && this.coordinates.length === 0) {
+      this.setIIIFViewerVisibility(true)
+    }
+  },
   methods: {
     ...mapActions('places', ['selectPlace', 'unselectPlace']),
+    ...mapActions('searchParameters', ['setIIIFViewerVisibility']),
+
     clean (str) {
       return cleanStr(str)
     },
@@ -228,13 +252,23 @@ export default {
       return coords.reverse()
     }
   },
+  watch: {
+
+  },
   computed: {
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),
-    ...mapState('commune', ['commune']),
+    ...mapState('commune', { 'commune': 'commune' }),
+    ...mapState('bibls', { biblItem: 'bibl' }),
+    ...mapState('searchParameters', ['showIIIFViewer', 'IIIFViewerAvailability']),
+    ...mapGetters('bibls', ['getCanvasIndex']),
+
     coordinates () {
       return this.commune && this.commune.data
         ? this.buildCoords(this.commune.data)
         : []
+    },
+    canvasIndex () {
+      return this.getCanvasIndex(this.placeItem.num_start_page)
     },
     mapItems () {
       return this.placeItem
@@ -258,5 +292,13 @@ export default {
 .map-container {
   width: 100%;
   height: 100%;
+  max-height: 1200px;
+}
+.mirador-container {
+  min-height: 800px;
+  max-height: 1200px;
+}
+.place-page-layout {
+  min-height: 1000px;
 }
 </style>

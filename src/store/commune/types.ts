@@ -12,4 +12,6 @@ export interface CommuneState {
   departement?: InseeRefObject;
   arrondissement?: InseeRefObject;
   canton?: InseeRefObject;
+
+  isLoading: boolean;
 };

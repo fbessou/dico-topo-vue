@@ -26,7 +26,9 @@
             <v-icon small v-if="h.prependIcon">{{ h.prependIcon }}</v-icon>
 
             <span class="mr-1">{{ h.text }}</span>
+            <!--
             <group-by-widget v-if="index === 1" />
+            -->
 
             <stateful-button
               v-if="!!h.sortable"
@@ -176,7 +178,7 @@
 import { mapActions, mapGetters, mapState } from 'vuex'
 import StatefulButton from './ui/StatefulButton'
 import FilterResult from './ui/FilterResult'
-import GroupByWidget from './ui/GroupByWidget'
+// import GroupByWidget from './ui/GroupByWidget'
 
 import { cleanStr } from '../utils/helpers'
 
@@ -185,7 +187,7 @@ import _ from 'lodash'
 
 export default {
   name: 'PlaceSearchTable',
-  components: { StatefulButton, FilterResult, GroupByWidget },
+  components: { StatefulButton, FilterResult },
   props: {
     selectItemCallback: { type: Function },
     search: { type: Function, default: () => {} }

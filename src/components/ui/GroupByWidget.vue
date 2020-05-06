@@ -1,16 +1,5 @@
 <template>
-  <!--
-    <v-flex>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <span v-on="on">Grouper par lieux</span>
-        </template>
-        <span
-          >Les résultats de la recherche sont groupés par lieu identifié</span
-        >
-      </v-tooltip>
-    </v-flex>
-    !-->
+  <!-- // version pour le tableau de resulta
   <v-tooltip top>
     <template v-slot:activator="{ on }">
       <v-switch class="mr-3" v-model="groupByOption" dense inset> </v-switch>
@@ -20,19 +9,41 @@
       par forme toponymique</span
     >
   </v-tooltip>
-  <!--
-    <v-flex>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <span v-on="on">Toponymes</span>
-        </template>
-        <span
-          >Les résultats de la recherche ne sont pas groupés par lieu identifié
-          mais par forme toponymique</span
+ !-->
+  <span>
+    <v-layout row>
+      <v-flex>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <span v-on="on">Lieux</span>
+          </template>
+          <span
+            >Les résultats de la recherche sont groupés par lieu identifié</span
+          >
+        </v-tooltip>
+      </v-flex>
+      <v-flex>
+        <v-switch
+          class="ml-2"
+          style="color: #d32f2f !important"
+          v-model="groupByOption"
+          color="lightgrey"
         >
-      </v-tooltip>
-    </v-flex>
-    -->
+        </v-switch>
+      </v-flex>
+      <v-flex>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <span v-on="on">Toponymes</span>
+          </template>
+          <span
+            >Les résultats de la recherche ne sont pas groupés par lieu
+            identifié mais par forme toponymique</span
+          >
+        </v-tooltip>
+      </v-flex>
+    </v-layout>
+  </span>
 </template>
 
 <script>

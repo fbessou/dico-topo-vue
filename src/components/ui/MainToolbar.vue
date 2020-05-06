@@ -39,6 +39,8 @@
     </v-chip>
 
     <span v-if="showFilters" class="toolbar-buttons">
+      <group-by-widget />
+
       <!--
       <department-filter-menu />
       -->
@@ -60,7 +62,9 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
-import DepartmentFilterMenu from '../DepartmentFilterMenu'
+// import DepartmentFilterMenu from '../DepartmentFilterMenu'
+import GroupByWidget from '../ui/GroupByWidget'
+
 export default {
   name: 'MainToolbar',
   props: {
@@ -68,7 +72,7 @@ export default {
     search: { type: Function, default: undefined },
     showFilters: { type: Boolean, default: false }
   },
-  components: { DepartmentFilterMenu },
+  components: { GroupByWidget },
   data () {
     return {
       inputTerm: undefined,

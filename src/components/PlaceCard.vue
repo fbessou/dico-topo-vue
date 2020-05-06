@@ -27,12 +27,12 @@
                   </v-card-text>
 
                   <v-expansion-panels accordion flat hover light v-model="panel" :multiple="!popup">
-                      <v-expansion-panel :disabled="placeOldLabels && placeOldLabels.length === 0">
+                      <v-expansion-panel :disabled="placeOldLabels.length === 0">
                         <v-expansion-panel-header class="grey lighten-4">
                           <div class="subtitle-1 font-weight-medium">Formes anciennes ({{placeOldLabels.length}})</div>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content class="body-2 pt-4" :class="`${popup ? 'scrollable' : ''}`"
-                          v-show="placeOldLabels && placeOldLabels.length > 0">
+                          v-show="placeOldLabels.length > 0">
                          <!-- <a class="caption">Table des abréviations</a> -->
                          <ul class="mt-2">
                            <li v-for="oldLabel in placeOldLabels" :key="oldLabel.id" >
@@ -52,12 +52,12 @@
                         </v-expansion-panel-content>
                     </v-expansion-panel>
 
-                    <v-expansion-panel :disabled="linkedPlaces && linkedPlaces.length === 0">
+                    <v-expansion-panel :disabled="linkedPlaces.length === 0">
                         <v-expansion-panel-header class="grey lighten-4">
-                          <div class="subtitle-1 font-weight-medium" :key="commune.id">{{linkedPlacesPanelLabel}} ({{linkedPlacesPanelLabel.length}})</div>
+                          <div class="subtitle-1 font-weight-medium" :key="commune.id">{{linkedPlacesPanelLabel}} ({{linkedPlaces.length}})</div>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content class="text-justify body-2 pt-4" :class="`${popup ? 'scrollable' : 'scrollable-tall'}`"
-                         v-show="linkedPlaces && linkedPlaces.length > 0">
+                         v-show="linkedPlaces.length > 0">
                           <ul class="mt-2">
                             <li v-for="lp in linkedPlaces" :key="lp.id">
                               <router-link class="font-weight-medium" :to="{name: 'place', params: {placeId: lp.id}}">{{lp.label}}</router-link>
@@ -117,7 +117,7 @@ export default {
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),
     ...mapState('commune', ['commune']),
     linkedPlacesPanelLabel () {
-      if (!this.commune || !this.commune.data || !this.linkedPlaces) {
+      if (!this.commune || !this.commune.data) {
         return 'Autres lieux'
       }
       return `${this.linkedPlaces.length === 1 ? 'Autre lieu à' : 'Autres lieux à'} ${this.commune.data.attributes['NCCENR']}`

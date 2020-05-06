@@ -267,7 +267,7 @@ export default {
       }
     },
     saveZoom () {
-      if (this.savePosition) {
+      if (this.map && this.savePosition) {
         this.$store.dispatch('searchParameters/saveZoom', {
           zoom: this.map.getZoom(),
           center: this.map.getCenter()

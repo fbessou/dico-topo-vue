@@ -7,8 +7,8 @@ import { MapMarkerState } from '@/store/mapmarkers/types'
 export function getDefaultState (): PlaceCardState {
   return {
     placeItem: undefined,
-    placeOldLabels: undefined,
-    linkedPlaces: undefined,
+    placeOldLabels: [],
+    linkedPlaces: [],
 
     error: undefined,
     isLoading: false
@@ -29,10 +29,12 @@ export const mutations: MutationTree<PlaceCardState> = {
     state.error = undefined
   },
   clearAll (state: PlaceCardState) {
+    // todo: should use the default state instead
     state.placeItem = undefined
-    state.placeOldLabels = undefined
-    state.linkedPlaces = undefined
+    state.placeOldLabels = []
+    state.linkedPlaces = []
     state.error = undefined
+    state.isLoading = false
   },
   setError (state, message: string) {
     state.error = message

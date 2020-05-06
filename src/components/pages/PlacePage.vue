@@ -185,7 +185,6 @@
                 :mapmarker-items="mapItems"
               />
             </v-card>
-
           </v-flex>
         </v-layout>
       </v-container>
@@ -195,7 +194,6 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import MyAwesomeMap from '../MyAwesomeMap'
 import DefaultLayout from '../DefaultLayout'
 import { cleanStr } from '../../utils/helpers'
 import PlaceCard from '../PlaceCard'
@@ -204,8 +202,8 @@ export default {
   name: 'PlacePage',
   props: ['placeId'],
   components: {
-    MyAwesomeMap,
-    PlaceCard,
+    'MyAwesomeMap': () => import(/* webpackChunkName: "map-component" */ '../MyAwesomeMap'),
+    'PlaceCard': () => import(/* webpackChunkName: "card-component" */ '../PlaceCard'),
     DefaultLayout
   },
   data: () => {

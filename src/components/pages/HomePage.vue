@@ -55,8 +55,6 @@ import { mapState, mapGetters, mapActions } from 'vuex'
 import Vue from 'vue'
 
 import PlaceSearchTable from '../PlaceSearchTable'
-import MyAwesomeMap from '../MyAwesomeMap'
-import PlaceCard from '../PlaceCard'
 import MainToolbar from '../ui/MainToolbar'
 import _ from 'lodash'
 
@@ -65,8 +63,8 @@ export default {
   components: {
     MainToolbar,
     PlaceSearchTable,
-    PlaceCard,
-    MyAwesomeMap
+    'MyAwesomeMap': () => import(/* webpackChunkName: "map-component" */ '../MyAwesomeMap'),
+    'PlaceCard': () => import(/* webpackChunkName: "card-component" */ '../PlaceCard')
   },
   data () {
     return {

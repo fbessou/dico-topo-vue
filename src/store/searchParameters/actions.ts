@@ -46,5 +46,53 @@ export const actions: ActionTree<QueryState, RootState> = {
   },
   setIIIFViewerAvailability ({ commit, state }, t) : any {
     commit('setIIIFViewerAvailability', t)
+  },
+  searchCallback: ({ commit, state, rootState, getters, dispatch }) => {
+    console.log('fullsearch')
+    // start the search from here
+    dispatch('fetchMapResults')
+    dispatch('fetchTableResults')
+  },
+  async fetchMapResults ({ commit, state, rootState, getters, dispatch }) {
+    // send a fake query just to get the total count
+    const meta = await dispatch('mapmarkers/searchMapMarker', {
+      query: getters.query,
+      filterParam: getters.computedFilterParam,
+      rangeParam: getters.computedRangeParam,
+      pageSize: 1
+    }, { root: true })
+    // currently does not handle larger result sets
+    const max = 10000
+    if (rootState.places.meta['total-count'] > max) {
+      console.error('result is too large: ', meta['total-count'])
+      return
+    }
+    dispatch('mapmarkers/clearMapMarkers', null, { root: true })
+    const nbPages = rootState.places.meta['total-count'] >= max / 2 ? 2 : 1
+    const pPromises = [...Array(nbPages).keys()].map(k => {
+      return dispatch('mapmarkers/searchMapMarker', {
+        query: getters.query,
+        filterParam: getters.computedFilterParam,
+        rangeParam: getters.computedRangeParam,
+        pageSize: Math.ceil(max / nbPages),
+        pageNumber: k + 1
+      }, { root: true })
+    })
+    await Promise.all(pPromises)
+  },
+  fetchTableResults: ({ commit, state, rootState, getters, dispatch }, after) => {
+    if (state.groupbyPlace) {
+      dispatch('places/recordCurrentAggPage', null, { root: true })
+    }
+    dispatch('places/searchPlace', {
+      query: getters.query,
+      rangeParam: getters.computedRangeParam,
+      filterParam: getters.computedFilterParam,
+      groupbyPlace: state.groupbyPlace,
+      sortParam: getters.computedSortParam,
+      pageNumber: state.pagination.page,
+      pageSize: state.pagination.rowsPerPage,
+      after: after
+    }, { root: true })
   }
 }

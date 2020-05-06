@@ -69,7 +69,6 @@ export default {
   name: 'MainToolbar',
   props: {
     showTimeRange: { type: Boolean, default: false },
-    search: { type: Function, default: undefined },
     showFilters: { type: Boolean, default: false }
   },
   components: { GroupByWidget },
@@ -84,6 +83,7 @@ export default {
     this.inputTerm = this.term
   },
   methods: {
+    ...mapActions('searchParameters', ['searchCallback']),
     onSearchEventPressEnter () {
       if (this.inputTerm) {
         if (!this.search) {
@@ -93,7 +93,7 @@ export default {
         }
       }
       this.setTerm(this.inputTerm)
-      this.search()
+      this.searchCallback()
     },
     ...mapActions('searchParameters', [
       'setTerm',

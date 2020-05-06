@@ -189,8 +189,7 @@ export default {
   name: 'PlaceSearchTable',
   components: { StatefulButton, FilterResult },
   props: {
-    selectItemCallback: { type: Function },
-    search: { type: Function, default: () => {} }
+    selectItemCallback: { type: Function }
   },
   data () {
     return {
@@ -220,30 +219,31 @@ export default {
 
       Vue.set(this.filterSelections, 'department', [])
       this.setFilter({ filter: 'department', value: [] })
-      this.search()
+      this.fetchTableResults()
     },
     computedSortParam () {
       this.pagination.page = 1
-      this.search()
+      this.fetchTableResults()
     },
     computedFilterParam () {
       this.pagination.page = 1
       console.log('computed filter param', this.computedFilterParam)
-      this.search()
+      this.fetchTableResults()
     },
     groupbyPlace () {
       this.numAggPage = 0
       this.pagination.page = 1
-      this.search()
+      this.fetchTableResults()
     },
     range () {
       if (!!this.query && this.query.length > 2) {
-        this.search()
+        this.fetchTableResults()
       }
     }
   },
 
   methods: {
+    ...mapActions('searchParameters', ['searchCallback', 'fetchTableResults']),
     clean (str) {
       return cleanStr(str)
     },
@@ -251,23 +251,23 @@ export default {
       if (this.groupbyPlace) {
         if (this.meta.after) {
           console.log('goto page after', this.afterKey)
-          this.search(this.afterKey)
+          this.fetchTableResults(this.afterKey)
           this.numAggPage += 1
         }
       } else {
         this.pagination.page += 1
-        this.search()
+        this.fetchTableResults()
       }
     },
     goToPageBefore () {
       if (this.groupbyPlace) {
         this.selectPreviousAggPage()
         console.log('goto page before', this.afterKey)
-        this.search(this.afterKey)
+        this.fetchTableResults(this.afterKey)
         this.numAggPage += -1
       } else {
         this.pagination.page += -1
-        this.search()
+        this.fetchTableResults()
       }
     },
     selectItemWrapper (obj) {

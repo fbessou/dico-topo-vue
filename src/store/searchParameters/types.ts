@@ -17,10 +17,10 @@ export interface QueryState {
   range: RangeParameter;
   depFilter: String[];
   minTermLength: number;
-  pagination: Object;
+  pagination: any;
   // map attributes
   zoom: Number;
-  center?: Object;
+  center?: any;
   // iiif viewer attributes
   showIIIFViewer: boolean,
   IIIFViewerAvailability: boolean

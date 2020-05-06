@@ -54,7 +54,7 @@ export default {
       if (this.commune.data) {
         let newItem = {
           text: this.commune.data.attributes['NCCENR'],
-          tooltip: 'Commune de rattachement'
+          tooltip: 'Commune'
         }
         if (this.commune.data.attributes['place-id']) {
           const route = this.$router.resolve({

@@ -22,9 +22,7 @@
     </div>
 
     <div class="d-flex flex-row"  v-if="biblItem">
-      <v-card-subtitle
-        v-html="biblItem.abbr + ', p. ' + placeItem.num_start_page"
-      />
+      <v-card-subtitle v-html="computedBiblRef"/>
       <div class="iiif-buttons">
         <v-btn
           v-if="!popup"
@@ -115,7 +113,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 import { cleanStr } from '../utils/helpers'
 import AdministrativeBreadcrumbs from './AdministrativeBreadcrumbs'
 
@@ -169,6 +167,10 @@ export default {
     ...mapState('commune', ['commune']),
     ...mapState('bibls', { biblItem: 'bibl' }),
     ...mapState('searchParameters', ['showIIIFViewer', 'IIIFViewerAvailability']),
+    ...mapGetters('bibls', ['getComputedBiblRef']),
+    computedBiblRef () {
+      return this.getComputedBiblRef(this.placeItem.num_start_page)
+    },
     linkedPlacesPanelLabel () {
       if (!this.commune || !this.commune.data) {
         return 'Autres lieux'

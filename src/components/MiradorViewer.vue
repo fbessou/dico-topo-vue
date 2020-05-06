@@ -3,7 +3,7 @@
 </template>
 
 <script>
-
+import { mapActions, mapState } from 'vuex'
 import Mirador from 'mirador'
 
 export default {
@@ -28,28 +28,35 @@ export default {
       // 'provider': ''
     }
     // instantiate the viewer with a single manifest & window for simplicity
-    this.viewer = Mirador.viewer({
-      'id': 'vue-mirador-container',
-      'manifests': manifests,
-      'windows': [
-        {
-          'loadedManifest': this.manifestUrl,
-          'canvasIndex': this.canvasIndex
+    try {
+      this.viewer = Mirador.viewer({
+        'id': 'vue-mirador-container',
+        'manifests': manifests,
+        'windows': [
+          {
+            'loadedManifest': this.manifestUrl,
+            'canvasIndex': this.canvasIndex
+          }
+        ],
+        'window': {
+          'allowClose': false,
+          'allowMaximize': false,
+          'defaultSideBarPanel': 'info',
+          'sideBarOpenByDefault': false,
+          'maximizedByDefault': true
+        },
+        'workspaceControlPanel': {
+          'enabled': false
         }
-      ],
-      'window': {
-        'allowClose': false,
-        'allowMaximize': false,
-        'defaultSideBarPanel': 'info',
-        'sideBarOpenByDefault': false,
-        'maximizedByDefault': true
-      },
-      'workspaceControlPanel': {
-        'enabled': false
-      }
-    })
+      })
+    } catch (e) {
+      console.warn('Mirrador viewer: ', e)
+      this.setIIIFViewerAvailability(false)
+    }
   },
-  methods: {},
+  methods: {
+    ...mapActions('searchParameters', ['setIIIFViewerAvailability'])
+  },
   computed: {},
   watch: {}
 }

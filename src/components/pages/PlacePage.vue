@@ -173,7 +173,7 @@
             </v-card>
           </v-col>
 
-          <v-col   v-if="showIIIFViewer || coordinates.length > 0">
+          <v-col  v-if="(IIIFViewerAvailability && showIIIFViewer) || coordinates.length > 0">
             <transition name="scroll-x-transition">
               <v-card class="mb-2 map-container" v-if="coordinates.length > 0" v-show="!showIIIFViewer || !IIIFViewerAvailability">
                 <my-awesome-map

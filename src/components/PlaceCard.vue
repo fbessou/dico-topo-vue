@@ -24,12 +24,10 @@
     <div class="d-flex flex-row"  v-if="biblItem">
       <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-breadcrumbs-item v-on="on">
-              <v-card-subtitle>
+              <v-card-subtitle v-on="on">
                 <a v-if="biblItem.gallica_ark" :href="gallicaLink" target="__blank" v-html="computedBiblRef"/>
                 <span v-else v-html="computedBiblRef"/>
               </v-card-subtitle>
-            </v-breadcrumbs-item>
           </template>
           <span v-html="biblItem.bibl"/>
         </v-tooltip>

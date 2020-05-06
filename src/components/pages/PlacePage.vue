@@ -1,11 +1,10 @@
 <template>
   <default-layout>
     <section class="mb-10">
-      <v-container fluid grid-list-md mt-5>
-        <router-link to="/search">Retourner vers la recherche</router-link>
+      <v-container fluid grid-list-md>
 
-        <v-row class="mt-4 place-page-layout" dense>
-          <v-col pa-1 >
+        <v-row class="place-page-layout" dense>
+          <v-col>
             <place-card
               v-show="placeItem"
               :place-id="placeId"
@@ -173,7 +172,7 @@
             </v-card>
           </v-col>
 
-          <v-col  v-if="(IIIFViewerAvailability && showIIIFViewer) || coordinates.length > 0">
+          <v-col v-if="(IIIFViewerAvailability && showIIIFViewer) || coordinates.length > 0">
             <transition name="scroll-x-transition">
               <v-card class="mb-2 map-container" v-if="coordinates.length > 0" v-show="!showIIIFViewer || !IIIFViewerAvailability">
                 <my-awesome-map

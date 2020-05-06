@@ -1,7 +1,7 @@
 <template>
   <v-app-bar app>
     <v-toolbar-title
-      class="headline text-uppercase"
+      class="headline text-uppercase mr-5"
       @click="$router.push({ name: 'landing' })"
       style="cursor: pointer; "
     >
@@ -12,19 +12,23 @@
       />
     </v-toolbar-title>
 
-    <v-spacer></v-spacer>
-
     <v-text-field
-      prepend-inner-icon="search"
       type="text"
-      placeholder="Ex. Laon"
+      placeholder="Ex. Saint Simon"
       v-model="inputTerm"
-      :autofocus="true"
-      clearable
-      style="width: 0; padding-top: 16px"
+      style="min-width: 80px; width: 360px; max-width: 360px; padding-top: 26px; margin-left: 10px "
       color="rgb(211, 47, 47)"
       @keyup.enter.native="onSearchEventPressEnter"
+      :disabled="tableResultIsLoading || mapIsLoading"
+      :loading="tableResultIsLoading || mapIsLoading"
+      autofocus
+      dense
+      filled
+      clearable
     >
+      <template v-slot:append>
+        <v-icon  @click="onSearchEventPressEnter" color="rgb(211, 47, 47)" class="search-icon">search</v-icon>
+      </template>
     </v-text-field>
 
     <v-chip
@@ -34,52 +38,22 @@
       {{ meta.totalCount }}
     </v-chip>
 
-    <span class="toolbar-buttons">
-      <span v-if="showGroupBy">
-        <v-layout row>
-          <v-flex>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <span v-on="on">Lieux</span>
-              </template>
-              <span
-                >Les résultats de la recherche sont groupés par lieu
-                identifié</span
-              >
-            </v-tooltip>
-          </v-flex>
-          <v-flex>
-            <v-switch
-              class="ml-2"
-              style="color: #d32f2f !important"
-              v-model="groupByOption"
-              color="lightgrey"
-            >
-            </v-switch>
-          </v-flex>
-          <v-flex>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <span v-on="on">Toponymes</span>
-              </template>
-              <span
-                >Les résultats de la recherche ne sont pas groupés par lieu
-                identifié mais par forme toponymique</span
-              >
-            </v-tooltip>
-          </v-flex>
-        </v-layout>
-      </span>
+    <span v-if="showFilters" class="toolbar-buttons">
+      <group-by-widget />
+
+      <!--
+      <department-filter-menu />
+      -->
     </span>
 
     <v-spacer></v-spacer>
 
-    <v-btn text to="/contact" class="mr-2">
+    <v-btn text to="/contact" class="mr-2"  color="grey darken-2">
       <span class="pr-2 pl-2">Contact</span>
     </v-btn>
 
-    <v-btn text to="/documentation">
-      <span class="pr-2 pl-2">API</span>
+    <v-btn text to="/documentation" color="grey darken-2">
+      <span class="pr-2 pl-2" >API</span>
       <v-icon>mdi-code-braces</v-icon>
     </v-btn>
 
@@ -88,55 +62,48 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
+// import DepartmentFilterMenu from '../DepartmentFilterMenu'
+import GroupByWidget from '../ui/GroupByWidget'
 
 export default {
   name: 'MainToolbar',
   props: {
-    showGroupBy: { type: Boolean, default: false },
     showTimeRange: { type: Boolean, default: false },
-    search: { type: Function, default: undefined }
+    search: { type: Function, default: undefined },
+    showFilters: { type: Boolean, default: false }
   },
-  components: {},
+  components: { GroupByWidget },
   data () {
     return {
       inputTerm: undefined,
-      groupByOption: undefined,
+      showDepartmentFilterMenu: false,
       selectedTimeRange: []
     }
   },
   mounted () {
-    this.groupByOption = !this.groupbyPlace
     this.inputTerm = this.term
   },
   methods: {
     onSearchEventPressEnter () {
-      this.search()
-    },
-    ...mapActions('searchParameters', [
-      'setTerm',
-      'setGroupbyPlace',
-      'setRange',
-      'removeRange'
-    ])
-  },
-  watch: {
-    inputTerm (oldVal, newVal) {
-      if (newVal) {
+      if (this.inputTerm) {
         if (!this.search) {
           if (this.$router.currentRoute.name !== 'home') {
             this.$router.push({ name: 'home' })
           }
         }
-        this.setTerm(this.inputTerm)
       }
-    },
-    term () {
+      this.setTerm(this.inputTerm)
       this.search()
     },
-    groupByOption () {
-      if (this.$props.showGroupBy) {
-        this.setGroupbyPlace(!this.groupByOption)
-      }
+    ...mapActions('searchParameters', [
+      'setTerm',
+      'setRange',
+      'removeRange'
+    ])
+  },
+  watch: {
+    term () {
+      this.search()
     },
     computedFilterParam () {
       this.search()
@@ -176,11 +143,14 @@ export default {
   computed: {
     ...mapState('places', {
       meta: 'meta',
-      knownYears: 'knownYears'
+      knownYears: 'knownYears',
+      tableResultIsLoading: 'isLoading'
+    }),
+    ...mapState('mapmarkers', {
+      mapIsLoading: 'isLoading'
     }),
     ...mapState('searchParameters', [
       'term',
-      'groupbyPlace',
       'minTermLength',
       'range'
     ]),
@@ -237,13 +207,11 @@ body:after {
   transform: rotate(-45deg);
 }
 
-.toolbar-buttons > span {
+.toolbar-buttons {
   display: flex;
   line-height: 32px;
-  margin-top: 20px;
-  margin-left: 32px;
-  color: grey;
-  font-family: Roboto, sans-serif;
+  position: relative;
+  left: 30px;
 }
 
 .toolbar-buttons span {
@@ -253,5 +221,9 @@ body:after {
 .toolbar-buttons .v-slider__thumb {
   height: 20px;
   width: 20px;
+}
+.search-bar {
+  cursor: pointer;
+  color:brown;
 }
 </style>

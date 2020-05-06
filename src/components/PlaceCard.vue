@@ -22,7 +22,17 @@
     </div>
 
     <div class="d-flex flex-row"  v-if="biblItem">
-      <v-card-subtitle v-html="computedBiblRef"/>
+      <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-breadcrumbs-item v-on="on">
+              <v-card-subtitle>
+                <a v-if="biblItem.gallica_ark" :href="gallicaLink" target="__blank" v-html="computedBiblRef"/>
+                <span v-else v-html="computedBiblRef"/>
+              </v-card-subtitle>
+            </v-breadcrumbs-item>
+          </template>
+          <span v-html="biblItem.bibl"/>
+        </v-tooltip>
       <div class="iiif-buttons">
         <v-btn
           v-if="!popup"
@@ -33,6 +43,7 @@
         >
           <v-icon>mdi-book-open-outline</v-icon>
         </v-btn>
+
       </div>
     </div>
 
@@ -167,9 +178,12 @@ export default {
     ...mapState('commune', ['commune']),
     ...mapState('bibls', { biblItem: 'bibl' }),
     ...mapState('searchParameters', ['showIIIFViewer', 'IIIFViewerAvailability']),
-    ...mapGetters('bibls', ['getComputedBiblRef']),
+    ...mapGetters('bibls', ['getComputedBiblRef', 'getGallicaLink']),
     computedBiblRef () {
       return this.getComputedBiblRef(this.placeItem.num_start_page)
+    },
+    gallicaLink () {
+      return this.getGallicaLink(this.placeItem.num_start_page)
     },
     linkedPlacesPanelLabel () {
       if (!this.commune || !this.commune.data) {

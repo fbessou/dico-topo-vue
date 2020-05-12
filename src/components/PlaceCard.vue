@@ -21,7 +21,7 @@
       </v-card-title>
     </div>
 
-    <div class="d-flex flex-row"  v-if="biblItem">
+    <div class="d-flex flex-row"  v-if="biblItem && biblItem.bibl">
       <v-tooltip bottom>
           <template v-slot:activator="{ on }">
               <v-card-subtitle v-on="on">

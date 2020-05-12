@@ -9,10 +9,10 @@ export const getters: GetterTree<BiblState, RootState> = {
     return (parseInt(pageOne) - 1) + (numPage - 1)
   },
   getComputedBiblRef: (state) => (numPage: number) => {
-    return `${state.bibl.abbr}, p. ${numPage}.`
+    return state.bibl ? `${state.bibl.abbr}, p. ${numPage}.` : null
   },
   getGallicaLink: (state, getters) => (numPage: number) => {
     const idx = getters.getCanvasIndex(numPage) + 1
-    return `https://gallica.bnf.fr/${state.bibl.gallica_ark}/f${idx}.image`
+    return state.bibl ? `https://gallica.bnf.fr/${state.bibl.gallica_ark}/f${idx}.image` : null
   }
 }

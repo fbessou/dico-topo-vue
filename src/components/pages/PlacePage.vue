@@ -174,7 +174,7 @@
 
           <v-col v-if="(IIIFViewerAvailability && showIIIFViewer) || coordinates.length > 0">
             <transition name="scroll-x-transition">
-              <v-card class="mb-2 map-container" v-if="coordinates.length > 0" v-show="!showIIIFViewer || !IIIFViewerAvailability">
+              <v-card class="mb-2 map-container" v-if="commune && coordinates.length > 0" v-show="!showIIIFViewer || !IIIFViewerAvailability">
                 <my-awesome-map
                   min-height="800px"
                   :use-heatmap="false"
@@ -207,7 +207,6 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 import DefaultLayout from '../DefaultLayout'
 import { cleanStr } from '../../utils/helpers'
 import PlaceCard from '../PlaceCard'
-
 import MiradorViewer from '../MiradorViewer'
 
 export default {

@@ -11,19 +11,18 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-
-import { LMap, LTileLayer, LMarker, LPopup, LGeoJson } from 'vue2-leaflet'
-
+import { LMap } from 'vue2-leaflet'
 import * as Gp from 'geoportal-extensions-leaflet'
-import styles from '../../node_modules/geoportal-extensions-leaflet/dist/GpPluginLeaflet.css'
 
-import iconIdle from '../../src/assets/marker-icon-2x-blue.png'
-import iconRed from '../../src/assets/marker-icon-2x-red.png'
-import iconShadow from '../../src/assets/marker-shadow.png'
+import styles from '../../node_modules/geoportal-extensions-leaflet/dist/GpPluginLeaflet.css'
 
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import 'leaflet.markercluster/dist/leaflet.markercluster.js'
+
+import iconIdle from '../../src/assets/marker-icon-2x-blue.png'
+import iconRed from '../../src/assets/marker-icon-2x-red.png'
+import iconShadow from '../../src/assets/marker-shadow.png'
 
 const idleIcon = new L.Icon({
   iconUrl: iconIdle,
@@ -67,6 +66,8 @@ export default {
   },
   data () {
     return {
+      switchableControl: null,
+      geoportalIsLoaded: false,
       markerLayer: null,
       heatLayer: null,
       options: {
@@ -75,33 +76,33 @@ export default {
       }
     }
   },
+  created () {
+    L.Marker.prototype.options.icon = idleIcon
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.init()
+    next()
+  },
+  mounted () {
+    // console.log(`autoconf: ${process.env.BASE_URL}autoconf-https.json`)
+    this.init()
+  },
   methods: {
     init () {
-      let switchableLayers = [
-        {
-          layer: L.tileLayer(
-            'https://{s}.tile.osm.org/{z}/{x}/{y}.png',
-            {}
-          ).addTo(this.map),
-          config: {
-            title: 'Open Street Map',
-            description: 'Couche Open Street Maps'
-          }
-        }
-      ]
-
-      Gp.Services.getConfig({
-        callbackSuffix: '',
-        serverUrl: `${process.env.BASE_URL}autoconf-https.json`,
-        onSuccess: () => this.addIGNServices(switchableLayers),
-        onFailure: function () {
-          console.error('GP failure')
-        }
+      this.map.eachLayer(function (layer) {
+        this.map.removeLayer(layer)
       })
+
+      this.map.createPane('IGN');
+      this.map.createPane('OSM');
+      this.map.getPane('OSM').style.zIndex = 100;
+      this.map.getPane('IGN').style.zIndex = 50;
 
       this.markerLayer = L.markerClusterGroup({
         showCoverageOnHover: false
       })
+
+      this.map.addLayer(this.OSMLayer)
       this.map.addLayer(this.markerLayer)
 
       if (this.useHeatmap) {
@@ -115,12 +116,38 @@ export default {
         this.map.on('zoomend', this.toggleMarkerLayer)
       }
 
+    
+      Gp.Services.getConfig({
+        callbackSuffix: '',
+        serverUrl: this.autoconfFile,
+        onSuccess: () => {
+          for (let identifier in this.IGNLayerConf) {
+            let newIGNLayer = L.geoportalLayer.WMTS(
+              {
+                layer: identifier
+              },
+              this.IGNLayerConf[identifier]
+            )
+            if (!this.map.hasLayer(newIGNLayer)) {
+              this.map.addLayer(newIGNLayer)
+            }
+          }
+          this.switchableControl = L.geoportalControl.LayerSwitcher({
+            layers: this.switchableLayers
+          })
+          //this.map.removeControl(this.switchableControl)
+          this.map.addControl(this.switchableControl)
+        },
+        onFailure: function () {
+          console.error('GP failure')
+        }
+      })
+
       if (this.onMapClick) {
         this.map.on('click', this.onMapClick)
       }
 
       this.setMarkers(this.mapmarkerItems)
-
       // this.map.setMaxBounds(this.map.getBounds())
 
       if (this.initialCenter) {
@@ -136,42 +163,6 @@ export default {
       this.map.on('dragend', this.saveZoom)
       this.saveZoom()
     },
-    addIGNServices: function (layers) {
-      const ignLayers = [
-        // 'GEOGRAPHICALGRIDSYSTEMS.CASSINI'
-        // 'ORTHOIMAGERY.ORTHOPHOTOS',
-        // 'GEOGRAPHICALGRIDSYSTEMS.CASSINI'
-        // "CADASTRALPARCELS.PARCELS",
-        // "GEOGRAPHICALGRIDSYSTEMS.MAPS",
-        // "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.STANDARD",
-        // "GEOGRAPHICALGRIDSYSTEMS.PLANIGN",
-      ]
-
-      for (let identifier of ignLayers) {
-        this.map.addLayer(
-          L.geoportalLayer.WMTS({
-            layer: identifier
-          })
-        )
-      }
-
-      if (this.useHeatmap) {
-        layers.push({
-          layer: this.heatLayer,
-          config: {
-            title: 'Densité toponymique',
-            description: 'Carte de densité des toponymes'
-          }
-        })
-      }
-
-      const layerSwitcher = L.geoportalControl.LayerSwitcher({
-        layers: layers
-      })
-
-      this.map.addControl(layerSwitcher)
-    },
-
     addMarkers (markers) {
       let newMarkers = []
       for (let m of markers) {
@@ -243,10 +234,14 @@ export default {
       if (this.map) {
         if (this.map.getZoom() < 10) {
           this.map.removeLayer(this.markerLayer)
-          this.map.addLayer(this.heatLayer)
+          if (!this.map.hasLayer(this.heatLayer)) {
+            this.map.addLayer(this.heatLayer)
+          }
         } else {
           this.map.removeLayer(this.heatLayer)
-          this.map.addLayer(this.markerLayer)
+          if (!this.map.hasLayer(this.markerLayer)) {
+            this.map.addLayer(this.markerLayer)
+          }
         }
         if (this.map.hasLayer(this.heatLayer)) {
           this.heatLayer.redraw()
@@ -275,17 +270,6 @@ export default {
       }
     }
   },
-  created () {
-    L.Marker.prototype.options.icon = idleIcon
-  },
-  beforeRouteUpdate (to, from, next) {
-    this.init()
-    next()
-  },
-  mounted () {
-    // console.log(`autoconf: ${process.env.BASE_URL}autoconf-https.json`)
-    this.init()
-  },
   computed: {
     ...mapState('mapmarkers', {
       mapmarkerLoading: 'isLoading',
@@ -293,7 +277,48 @@ export default {
     }),
     ...mapState('places', ['selectedItem']),
     ...mapState('searchParameters', ['zoom', 'center']),
-
+    OSMLayer () {
+      return L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {pane: 'OSM'})
+    },
+    IGNLayerConf () {
+      return {
+        'GEOGRAPHICALGRIDSYSTEMS.CASSINI':  {
+          opacity : 1,
+          transparent : true,
+          minZoom : 8,
+          maxZoom : 17
+        }
+              // 'ORTHOIMAGERY.ORTHOPHOTOS',
+        // 'CADASTRALPARCELS.PARCELS',
+        // 'GEOGRAPHICALGRIDSYSTEMS.MAPS'
+        // "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.STANDARD",
+        // "GEOGRAPHICALGRIDSYSTEMS.PLANIGN",
+      }
+    },
+    switchableLayers () {
+      let layers = [
+        {
+          layer: this.OSMLayer,
+          config: {
+            title: 'Open Street Map',
+            description: 'Couche Open Street Maps'
+          }
+        }
+      ]
+      if (this.useHeatmap && this.heatLayer) {
+        layers.push({
+          layer: this.heatLayer,
+          config: {
+            title: 'Densité toponymique',
+            description: 'Carte de densité des toponymes'
+          }
+        })
+      }
+      return layers
+    },
+    autoconfFile () {
+      return `${process.env.BASE_URL}autoconf${location.protocol === 'https:' ? '-https' : ''}.json`
+    },
     map () {
       return this.$refs.map.mapObject
     }

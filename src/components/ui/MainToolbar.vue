@@ -93,7 +93,7 @@ export default {
         }
       }
       this.setTerm(this.inputTerm)
-      this.searchCallback()
+      if (this.inputTerm && this.inputTerm.length > 2) { this.searchCallback() }
     },
     ...mapActions('searchParameters', [
       'setTerm',

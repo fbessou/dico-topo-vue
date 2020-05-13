@@ -37,6 +37,9 @@ export const actions: ActionTree<QueryState, RootState> = {
       case 'department':
         commit('setDepFilter', value)
         break
+      case 'canton':
+        commit('setCtnFilter', value)
+        break
     }
   },
   toggleIIIFViewerVisibility ({ commit }) : any {

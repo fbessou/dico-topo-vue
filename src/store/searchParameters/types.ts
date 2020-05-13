@@ -14,8 +14,10 @@ export interface QueryState {
   term: string;
   groupbyPlace: boolean;
   sortFields: Array<SortableField>;
-  range: RangeParameter;
   depFilter: String[];
+  ctnFilter: String[];
+  range: RangeParameter;
+
   minTermLength: number;
   pagination: any;
   // map attributes

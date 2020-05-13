@@ -104,6 +104,7 @@
             <span v-html="clean(item.oldLabels.join(' ; '))"></span>
           </td>
           <td class="text-center">{{ item.department }}</td>
+          <td class="text-xs-left">{{ item.canton }}</td>
           <td class="text-xs-left">
             <span v-html="clean(item.communeLabel)"></span>
           </td>
@@ -203,7 +204,8 @@ export default {
         department: false
       },
       filterSelections: {
-        department: []
+        department: [],
+        canton: []
       }
     }
   },
@@ -217,8 +219,11 @@ export default {
       this.numAggPage = 0
       this.pagination.page = 1
 
-      Vue.set(this.filterSelections, 'department', [])
-      this.setFilter({ filter: 'department', value: [] })
+      // Vue.set(this.filterSelections, 'department', [])
+      // this.setFilter({ filter: 'department', value: [] })
+      // Vue.set(this.filterSelections, 'canton', [])
+      // this.setFilter({ filter: 'canton', value: [] })
+
       this.fetchTableResults()
     },
     computedSortParam () {
@@ -313,6 +318,13 @@ export default {
         value: this.filterSelections.department
       })
     },
+    filterCtnChanged (selected) {
+      Vue.set(this.filterSelections, 'canton', selected || [])
+      this.setFilter({
+        filter: 'canton',
+        value: this.filterSelections.canton
+      })
+    },
     toggleFullscreen () {
       // this.unselectPlace()
       this.fullscreen = !this.fullscreen
@@ -385,6 +397,18 @@ export default {
         filterCallback: _.debounce(this.filterDepChanged, 200),
         class: 'departement-header'
       }
+      const canton = {
+        text: 'Canton',
+        value: 'canton',
+        align: 'left',
+        sortable: true,
+        sortKey: 'ctn-label.keyword',
+        sorted: undefined,
+        filter: this.uniqueCantons,
+        filtered: undefined,
+        filterCallback: _.debounce(this.filterCtnChanged, 200),
+        class: 'canton-header'
+      }
       const commune = {
         text: 'Commune',
         align: 'left',
@@ -402,9 +426,9 @@ export default {
         class: 'description-header'
       }
       if (this.groupbyPlace) {
-        return [localisation, article, oldLabels, dep, commune, desc]
+        return [localisation, article, oldLabels, dep, canton, commune, desc]
       } else {
-        return [localisation, toponym, article, dep, commune, desc]
+        return [localisation, toponym, article, dep, canton, commune, desc]
       }
     },
     items () {
@@ -428,6 +452,7 @@ export default {
       'sortFields',
       'groupbyPlace',
       'depFilter',
+      'ctnFilter',
       'range',
       'term'
     ]),
@@ -466,6 +491,9 @@ export default {
 }
 .departement-header {
   width: 120px;
+}
+.canton-header {
+  width: 200px;
 }
 .commune-header {
   width: 200px;

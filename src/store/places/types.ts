@@ -27,6 +27,7 @@ export interface PlaceState {
   knownYears: Object[];
 
   uniqueDepartments: string[];
+  uniqueCantons: string[];
 
   links: Links;
   meta : Meta;

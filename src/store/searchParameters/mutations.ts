@@ -9,6 +9,7 @@ export function getDefaultState (): QueryState {
     sortFields: [],
     range: { key: '', operators: [] },
     depFilter: [],
+    ctnFilter: [],
     minTermLength: 2,
     pagination: { rowsPerPage: 200, page: 1 },
     zoom: 6,
@@ -56,6 +57,9 @@ export const mutations: MutationTree<QueryState> = {
   },
   setDepFilter (state: QueryState, value) {
     Vue.set(state, 'depFilter', value)
+  },
+  setCtnFilter (state: QueryState, value) {
+    Vue.set(state, 'ctnFilter', value)
   },
   setPagination (state: QueryState, value) {
     state.pagination = Object.assign({}, state.pagination, value)

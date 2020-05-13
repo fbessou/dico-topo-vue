@@ -1,8 +1,5 @@
 import { MutationTree } from 'vuex'
 import { PlaceState, Place } from './types'
-import Vue from 'vue'
-import { Links } from '@/store/types'
-import { MapMarkerState } from '@/store/mapmarkers/types'
 
 export function getDefaultState (): PlaceState {
   return {
@@ -10,6 +7,7 @@ export function getDefaultState (): PlaceState {
     selectedItem: undefined,
 
     uniqueDepartments: [],
+    uniqueCantons: [],
 
     knownYears: [],
 
@@ -33,6 +31,7 @@ export const mutations: MutationTree<PlaceState> = {
     state.links = links
     state.meta = meta
     state.uniqueDepartments = Object.assign([])
+    state.uniqueCantons = Object.assign([])
     state.error = undefined
   },
   setKnownYears (state: PlaceState, years) {
@@ -62,15 +61,28 @@ export const mutations: MutationTree<PlaceState> = {
       state.uniqueDepartments.push(d)
     }
   },
+  /*
   clearDepartment (state: PlaceState) {
     state.uniqueDepartments = Object.assign([])
   },
+  */
+  addCanton (state: PlaceState, d) {
+    if (state.uniqueCantons.indexOf(d) === -1) {
+      state.uniqueCantons.push(d)
+    }
+  },
+  /*
+  clearCanton (state: PlaceState) {
+    state.uniqueCantons = Object.assign([])
+  },
+  */
   clearAll (state: PlaceState, { links, meta }) {
     state.items = new Map<string, Place>()
     state.links = links
     state.meta = meta
     state.afterHistory = []
     state.uniqueDepartments = Object.assign([])
+    state.uniqueCantons = Object.assign([])
     state.knownYears = []
     state.error = undefined
   },

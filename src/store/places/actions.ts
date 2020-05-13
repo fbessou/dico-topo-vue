@@ -20,7 +20,7 @@ function makeUniqueDptUrl (query: String) {
   return `/search?query=${query}${dptUrl}`
 }
 
-function makeUniqueCntUrl (query: String) {
+function makeUniqueCantonUrl (query: String) {
   const ctnUrl = `&groupby[doc-type]=insee-ref&groupby[field]=ctn-id.keyword&page[size]=1000&without-relationships`
 
   return `/search?query=${query}${ctnUrl}`
@@ -95,6 +95,7 @@ export const actions: ActionTree<PlaceState, RootState> = {
               insee_code: p.attributes['localization-insee-code'],
               communeLabel: p.attributes['commune-label'],
               department: p.attributes['dpt'],
+              canton: p.attributes['canton'],
               region: p.attributes['region'],
               coordinates: coords
             }
@@ -114,6 +115,7 @@ export const actions: ActionTree<PlaceState, RootState> = {
               insee_code: p.attributes['localization-insee-code'],
               communeLabel: p.attributes['commune-label'],
               department: p.attributes['dpt'],
+              canton: p.attributes['canton'],
               region: p.attributes['region'],
               coordinates: coords
             }
@@ -136,6 +138,13 @@ export const actions: ActionTree<PlaceState, RootState> = {
       data = res.data
       data.data.map((d: any) => {
         commit('addDepartment', `${d.attributes['insee-code']} - ${d.attributes['label']}`)
+      })
+
+      /* generate the departement list to use for filtering operations */
+      res = await api.get(makeUniqueCantonUrl(filteredQuery))
+      data = res.data
+      data.data.map((d: any) => {
+        commit('addCanton', `${d.attributes['insee-code']} - ${d.attributes['label']}`)
       })
     } catch (error) {
 

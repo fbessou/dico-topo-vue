@@ -20,6 +20,12 @@ function makeUniqueDptUrl (query: String) {
   return `/search?query=${query}${dptUrl}`
 }
 
+function makeUniqueCntUrl (query: String) {
+  const ctnUrl = `&groupby[doc-type]=insee-ref&groupby[field]=ctn-id.keyword&page[size]=1000&without-relationships`
+
+  return `/search?query=${query}${ctnUrl}`
+}
+
 function makeTimeFilterLowerBoundary (query: String) {
   return `/search?query=${query}&page[size]=1&sort=text-date&without-relationships`
 }

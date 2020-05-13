@@ -2,6 +2,7 @@ import { ActionTree } from 'vuex'
 import { QueryState, SortableField } from './types'
 import { RootState } from '../types'
 import { api } from '@/utils/http-common'
+import _ from 'lodash'
 
 export const actions: ActionTree<QueryState, RootState> = {
   setTerm ({ commit, state, rootState }, t): any {
@@ -53,7 +54,7 @@ export const actions: ActionTree<QueryState, RootState> = {
     dispatch('fetchMapResults')
     dispatch('fetchTableResults')
   },
-  async fetchMapResults ({ commit, state, rootState, getters, dispatch }) {
+  fetchMapResults: _.debounce(async ({ rootState, getters, dispatch }) => {
     // send a fake query just to get the total count
     const meta = await dispatch('mapmarkers/searchMapMarker', {
       query: getters.query,
@@ -79,8 +80,8 @@ export const actions: ActionTree<QueryState, RootState> = {
       }, { root: true })
     })
     await Promise.all(pPromises)
-  },
-  fetchTableResults: ({ commit, state, rootState, getters, dispatch }, after) => {
+  }, 25),
+  fetchTableResults: _.debounce(async ({ state, getters, dispatch }, after) => {
     if (state.groupbyPlace) {
       dispatch('places/recordCurrentAggPage', null, { root: true })
     }
@@ -94,5 +95,5 @@ export const actions: ActionTree<QueryState, RootState> = {
       pageSize: state.pagination.rowsPerPage,
       after: after
     }, { root: true })
-  }
+  }, 25)
 }

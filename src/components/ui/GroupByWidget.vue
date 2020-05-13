@@ -31,10 +31,10 @@
         >
         </v-switch>
       </v-flex>
-      <v-flex>
+      <v-flex >
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <span v-on="on">Toponymes</span>
+            <span style="margin-left: 12px" v-on="on">Toponymes</span>
           </template>
           <span
             >Les résultats de la recherche ne sont pas groupés par lieu

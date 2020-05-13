@@ -55,7 +55,6 @@ import Vue from 'vue'
 
 import PlaceSearchTable from '../PlaceSearchTable'
 import MainToolbar from '../ui/MainToolbar'
-import _ from 'lodash'
 
 export default {
   name: 'HomePage',

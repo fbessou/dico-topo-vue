@@ -9,6 +9,7 @@
     "lint-fix": "vue-cli-service lint --fix 'src/**/*.ts?(x)' -t verbose"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.150",
     "axios": "^0.19.2",
     "d3": "^5.14.2",
     "geoportal-extensions-leaflet": "^2.0.1",

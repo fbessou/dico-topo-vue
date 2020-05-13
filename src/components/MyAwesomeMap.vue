@@ -288,7 +288,7 @@ export default {
           minZoom : 8,
           maxZoom : 17
         }
-              // 'ORTHOIMAGERY.ORTHOPHOTOS',
+        // 'ORTHOIMAGERY.ORTHOPHOTOS',
         // 'CADASTRALPARCELS.PARCELS',
         // 'GEOGRAPHICALGRIDSYSTEMS.MAPS'
         // "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.STANDARD",

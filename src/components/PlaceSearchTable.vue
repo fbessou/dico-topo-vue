@@ -201,7 +201,8 @@ export default {
       numAggPage: 0,
 
       filterStates: {
-        department: false
+        department: false,
+        canton: false
       },
       filterSelections: {
         department: [],
@@ -315,14 +316,14 @@ export default {
       Vue.set(this.filterSelections, 'department', selected || [])
       this.setFilter({
         filter: 'department',
-        value: this.filterSelections.department
+        value: this.filterSelections.department.map(d => d.value)
       })
     },
     filterCtnChanged (selected) {
       Vue.set(this.filterSelections, 'canton', selected || [])
       this.setFilter({
         filter: 'canton',
-        value: this.filterSelections.canton
+        value: this.filterSelections.canton.map(d => d.value)
       })
     },
     toggleFullscreen () {
@@ -446,7 +447,8 @@ export default {
       meta: 'meta',
       selectedPlace: 'selectedItem',
       afterHistory: 'afterHistory',
-      uniqueDepartments: 'uniqueDepartments'
+      uniqueDepartments: 'uniqueDepartments',
+      uniqueCantons: 'uniqueCantons'
     }),
     ...mapState('searchParameters', [
       'sortFields',

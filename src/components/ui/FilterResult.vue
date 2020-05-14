@@ -7,7 +7,7 @@
           <v-flex xs12>
             <v-combobox
               v-model="selected"
-              :items="items"
+              :items="data"
               multiple
               chips
               clearable
@@ -53,7 +53,9 @@ export default {
     }
   },
   computed: {
-
+    data () {
+      return this.items.map(i => { return { text: i.label, value: i.id } })
+    }
   }
 }
 </script>

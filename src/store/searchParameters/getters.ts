@@ -27,15 +27,15 @@ export const getters: GetterTree<QueryState, RootState> = {
     if (!state.depFilter && !state.ctnFilter) {
       return ''
     }
-    const depFilter = state.depFilter.map((value: any) => `dep-id:${value.split(' ')[0]}`).join(' OR ')
-    const ctnFilter = state.ctnFilter.map((value: any) => `ctn-id:${value.split(' ')[0]}`).join(' OR ')
+    const depFilter = state.depFilter.map((value: any) => `dep-id:${value}`).join(' OR ')
+    const ctnFilter = state.ctnFilter.map((value: any) => `ctn-id:${value}`).join(' OR ')
 
     let filters = []
     if (depFilter) {
-      filters.push(depFilter)
+      filters.push(`(${depFilter})`)
     }
     if (ctnFilter) {
-      filters.push(ctnFilter)
+      filters.push(`(${ctnFilter})`)
     }
 
     const result = filters.join(' AND ')

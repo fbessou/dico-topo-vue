@@ -15,13 +15,13 @@ function makeAggUrl (query: String, rangeParam: String, groupby: String, sort: S
 }
 
 function makeUniqueDptUrl (query: String) {
-  const dptUrl = `&groupby[doc-type]=insee-ref&groupby[field]=dep-id.keyword&page[size]=1000&without-relationships`
+  const dptUrl = `&groupby[doc-type]=insee-ref&groupby[field]=dep-id.keyword&groupby[id-mapping]=department&page[size]=1000&without-relationships`
 
   return `/search?query=${query}${dptUrl}`
 }
 
 function makeUniqueCantonUrl (query: String) {
-  const ctnUrl = `&groupby[doc-type]=insee-ref&groupby[field]=ctn-id.keyword&page[size]=1000&without-relationships`
+  const ctnUrl = `&groupby[doc-type]=insee-ref&groupby[field]=ctn-id.keyword&page[size]=10000&without-relationships`
 
   return `/search?query=${query}${ctnUrl}`
 }
@@ -137,14 +137,20 @@ export const actions: ActionTree<PlaceState, RootState> = {
       res = await api.get(makeUniqueDptUrl(filteredQuery))
       data = res.data
       data.data.map((d: any) => {
-        commit('addDepartment', `${d.attributes['insee-code']} - ${d.attributes['label']}`)
+        commit('addDepartment', {
+          id: d.attributes['insee-code'],
+          label: `${d.attributes['insee-code']} - ${d.attributes['label']}`
+        })
       })
 
       /* generate the departement list to use for filtering operations */
       res = await api.get(makeUniqueCantonUrl(filteredQuery))
       data = res.data
       data.data.map((d: any) => {
-        commit('addCanton', `${d.attributes['insee-code']} - ${d.attributes['label']}`)
+        commit('addCanton', {
+          id: d.id,
+          label: d.attributes['label']
+        })
       })
     } catch (error) {
 

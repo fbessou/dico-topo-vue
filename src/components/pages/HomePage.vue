@@ -19,7 +19,7 @@
         </div>
 
         <place-search-table
-          v-show="!!showTabularResults "
+          v-show="!!showTabularResults && meta.totalCount && term.length > 0"
           :select-item-callback="selectPlaceOnMap"
         >
           <v-btn

@@ -30,14 +30,15 @@
             <group-by-widget v-if="index === 1" />
             -->
 
-            <stateful-button
+            <sort-button
               v-if="!!h.sortable"
-              inactive-icon="arrow_downward"
-              active-icon="arrow_upward"
-              :active="!!h.sorted"
+              desc-icon="arrow_downward"
+              asc-icon="arrow_upward"
+              :sort-state="h.sorted"
+              :disabled="tableResultIsLoading"
               :action="value => toggleSortField(index, value)"
             >
-            </stateful-button>
+            </sort-button>
 
             <span v-if="!!h.filter">
               <v-btn
@@ -47,11 +48,11 @@
               >
                 <v-icon
                   small
-                  color="primary"
+                  color="blue"
                   v-if="filterSelections[h.value].length > 0"
-                  >filter_list</v-icon
+                  >mdi-filter-menu</v-icon
                 >
-                <v-icon small v-else>filter_list</v-icon>
+                <v-icon small v-else>mdi-filter</v-icon>
               </v-btn>
               <filter-result
                 v-show="!!filterStates[h.value]"
@@ -177,7 +178,7 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
-import StatefulButton from './ui/StatefulButton'
+import SortButton from './ui/SortButton'
 import FilterResult from './ui/FilterResult'
 // import GroupByWidget from './ui/GroupByWidget'
 
@@ -188,7 +189,7 @@ import _ from 'lodash'
 
 export default {
   name: 'PlaceSearchTable',
-  components: { StatefulButton, FilterResult },
+  components: { SortButton, FilterResult },
   props: {
     selectItemCallback: { type: Function }
   },
@@ -294,20 +295,18 @@ export default {
       const header = this.headers[headerIndex]
       console.log(header, value)
       if (header.sortable) {
-        if (value === null) {
+        if (value !== 'ASC' && value !== 'DESC') {
           this.removeSortField(header.sortKey)
         } else {
           const p = this.getSortParam(header.sortKey)
+          const sortField = {
+            field: header.sortKey,
+            order: value === 'ASC' ? '-' : ''
+          }
           if (p !== undefined) {
-            this.updateSortField({
-              field: header.sortKey,
-              order: value ? '-' : ''
-            })
+            this.updateSortField(sortField)
           } else {
-            this.addSortField({
-              field: header.sortKey,
-              order: value ? '-' : ''
-            })
+            this.addSortField(sortField)
           }
         }
       }
@@ -356,7 +355,7 @@ export default {
         value: 'icon',
         sortable: false,
         sortKey: 'is-localized',
-        sorted: undefined,
+        sorted: 'NONE',
         class: 'localisation-header'
       }
       const toponym = {
@@ -365,7 +364,7 @@ export default {
         value: 'label',
         sortable: true,
         sortKey: 'label.keyword',
-        sorted: undefined,
+        sorted: 'NONE',
         class: 'place-header'
       }
       const article = {
@@ -374,7 +373,7 @@ export default {
         value: 'lieu',
         sortable: true,
         sortKey: 'place-label.keyword',
-        sorted: true,
+        sorted: 'NONE',
         class: 'place-header'
       }
       const oldLabels = {
@@ -382,8 +381,6 @@ export default {
         value: 'old-labels',
         align: 'left',
         sortable: false,
-        sortKey: 'place-label.keyword',
-        sorted: undefined,
         class: 'old-labels-header'
       }
       const dep = {
@@ -392,7 +389,7 @@ export default {
         align: 'left',
         sortable: true,
         sortKey: 'dep-id.keyword',
-        sorted: undefined,
+        sorted: 'NONE',
         filter: this.uniqueDepartments,
         filtered: undefined,
         filterCallback: _.debounce(this.filterDepChanged, 200),
@@ -404,7 +401,7 @@ export default {
         align: 'left',
         sortable: true,
         sortKey: 'ctn-label.keyword',
-        sorted: undefined,
+        sorted: 'NONE',
         filter: this.uniqueCantons,
         filtered: undefined,
         filterCallback: _.debounce(this.filterCtnChanged, 200),
@@ -416,7 +413,7 @@ export default {
         value: 'commune',
         sortable: true,
         sortKey: 'commune-label.keyword',
-        sorted: undefined,
+        sorted: 'NONE',
         class: 'commune-header'
       }
       const desc = {
@@ -448,7 +445,8 @@ export default {
       selectedPlace: 'selectedItem',
       afterHistory: 'afterHistory',
       uniqueDepartments: 'uniqueDepartments',
-      uniqueCantons: 'uniqueCantons'
+      uniqueCantons: 'uniqueCantons',
+      tableResultIsLoading: 'isLoading'
     }),
     ...mapState('searchParameters', [
       'sortFields',

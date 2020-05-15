@@ -91,7 +91,7 @@ export default {
   },
   methods: {
     onResize () {
-      this.map.mapObject._onResize()
+      this.map._onResize()
     },
     init () {
       this.map.eachLayer(function (layer) {

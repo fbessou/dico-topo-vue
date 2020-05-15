@@ -14,7 +14,7 @@
 
     <v-text-field
       type="text"
-      placeholder="Ex. Saint Simon"
+      placeholder="Ex. Saint-Simon"
       v-model="inputTerm"
       style="min-width: 80px; width: 360px; max-width: 360px; padding-top: 26px; margin-left: 10px "
       color="rgb(211, 47, 47)"

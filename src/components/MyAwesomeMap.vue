@@ -93,10 +93,10 @@ export default {
         this.map.removeLayer(layer)
       })
 
-      this.map.createPane('IGN');
-      this.map.createPane('OSM');
-      this.map.getPane('OSM').style.zIndex = 100;
-      this.map.getPane('IGN').style.zIndex = 50;
+      this.map.createPane('IGN')
+      this.map.createPane('OSM')
+      this.map.getPane('OSM').style.zIndex = 250
+      this.map.getPane('IGN').style.zIndex = 200
 
       this.markerLayer = L.markerClusterGroup({
         showCoverageOnHover: false
@@ -111,32 +111,25 @@ export default {
           blur: 12,
           minOpacity: 0.25
         })
-        this.map.addLayer(this.heatLayer)
+        // this.map.addLayer(this.heatLayer)
         this.toggleMarkerLayer()
         this.map.on('zoomend', this.toggleMarkerLayer)
       }
 
-    
       Gp.Services.getConfig({
         callbackSuffix: '',
         serverUrl: this.autoconfFile,
         onSuccess: () => {
           for (let identifier in this.IGNLayerConf) {
             let newIGNLayer = L.geoportalLayer.WMTS(
-              {
-                layer: identifier
-              },
+              { layer: identifier },
               this.IGNLayerConf[identifier]
             )
             if (!this.map.hasLayer(newIGNLayer)) {
               this.map.addLayer(newIGNLayer)
             }
           }
-          this.switchableControl = L.geoportalControl.LayerSwitcher({
-            layers: this.switchableLayers
-          })
-          //this.map.removeControl(this.switchableControl)
-          this.map.addControl(this.switchableControl)
+          this.resetLayerSwitcher()
         },
         onFailure: function () {
           console.error('GP failure')
@@ -162,6 +155,18 @@ export default {
       this.map.on('zoomend', this.saveZoom)
       this.map.on('dragend', this.saveZoom)
       this.saveZoom()
+
+      console.log(this.map.getPanes())
+    },
+    resetLayerSwitcher () {
+      if (this.switchableControl) {
+        this.map.removeControl(this.switchableControl)
+      }
+      this.switchableControl = L.geoportalControl.LayerSwitcher({
+        layers: this.switchableLayers
+      })
+      // this.map.removeControl(this.switchableControl)
+      this.map.addControl(this.switchableControl)
     },
     addMarkers (markers) {
       let newMarkers = []
@@ -278,15 +283,17 @@ export default {
     ...mapState('places', ['selectedItem']),
     ...mapState('searchParameters', ['zoom', 'center']),
     OSMLayer () {
-      return L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {pane: 'OSM'})
+      return L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        pane: 'OSM'
+      })
     },
     IGNLayerConf () {
       return {
-        'GEOGRAPHICALGRIDSYSTEMS.CASSINI':  {
-          opacity : 1,
-          transparent : true,
-          minZoom : 8,
-          maxZoom : 17
+        'GEOGRAPHICALGRIDSYSTEMS.CASSINI': {
+          opacity: 1,
+          minZoom: 8,
+          maxZoom: 17,
+          pane: 'IGN'
         }
         // 'ORTHOIMAGERY.ORTHOPHOTOS',
         // 'CADASTRALPARCELS.PARCELS',
@@ -317,7 +324,9 @@ export default {
       return layers
     },
     autoconfFile () {
-      return `${process.env.BASE_URL}autoconf${location.protocol === 'https:' ? '-https' : ''}.json`
+      return `${process.env.BASE_URL}autoconf${
+        location.protocol === 'https:' ? '-https' : ''
+      }.json`
     },
     map () {
       return this.$refs.map.mapObject

@@ -1,5 +1,6 @@
 <template>
   <l-map
+    v-resize="onResize"
     class="l-map"
     ref="map"
     :max-zoom="maxZoom"
@@ -89,6 +90,9 @@ export default {
     this.init()
   },
   methods: {
+    onResize () {
+      this.map.mapObject._onResize()
+    },
     init () {
       this.map.eachLayer(function (layer) {
         this.map.removeLayer(layer)
@@ -292,8 +296,8 @@ export default {
       return {
         'GEOGRAPHICALGRIDSYSTEMS.CASSINI': {
           opacity: 1,
-          minZoom: 8,
-          maxZoom: 17,
+          minZoom: 6,
+          maxZoom: 18,
           pane: 'IGN'
         }
         // 'ORTHOIMAGERY.ORTHOPHOTOS',
@@ -361,7 +365,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .l-map {
   z-index: 0;
   position: absolute;

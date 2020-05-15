@@ -4,7 +4,7 @@ import '@/plugins/highlight'
 
 import store from './store/index'
 
-import 'leaflet/dist/leaflet.css'
+// import 'leaflet/dist/leaflet.css'
 import { createRouter } from '@/router'
 
 import vuetify from './plugins/vuetify'

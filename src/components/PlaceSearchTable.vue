@@ -35,7 +35,6 @@
               desc-icon="arrow_downward"
               asc-icon="arrow_upward"
               :sort-state="h.sorted"
-              :disabled="tableResultIsLoading"
               :action="value => toggleSortField(index, value)"
             >
             </sort-button>

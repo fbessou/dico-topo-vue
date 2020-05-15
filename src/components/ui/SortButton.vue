@@ -1,5 +1,5 @@
 <template>
-  <v-btn icon small :ripple="false" @click="debouncedAction" :class="myClasses" :disabled="disabled">
+  <v-btn icon small :ripple="false" @click="callAction" :class="myClasses" :disabled="disabled">
     <v-icon small v-if="internalState === 'DESC'">{{descIcon}}</v-icon>
     <v-icon small v-else-if="internalState === 'ASC'">{{ascIcon}}</v-icon>
     <v-icon small v-else>{{descIcon}}</v-icon>
@@ -22,7 +22,7 @@ export default {
   data () {
     return {
       internalState: null,
-      debouncedAction: _.debounce(this.callAction, 100)
+      debouncedAction: _.debounce(this.$props.action, 250)
     }
   },
   created () {
@@ -41,7 +41,7 @@ export default {
           this.internalState = 'DESC'
           break
       }
-      this.$props.action(this.internalState)
+      this.debouncedAction(this.internalState)
     }
   },
   computed: {

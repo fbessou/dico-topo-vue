@@ -1,6 +1,6 @@
 // profile/getters.ts
 import { GetterTree } from 'vuex'
-import { QueryState, SortableField } from './types'
+import { QueryState } from './types'
 import { RootState } from '../types'
 
 const minTermLength = 2
@@ -16,12 +16,15 @@ export const getters: GetterTree<QueryState, RootState> = {
     // query = `label:${state.term} AND NOT (type:"place-old-label")` // do not include old labels means "filter out the place-old-label type"
     return query
   },
-  getSortParam: (state) => (key: any) => {
+  getSortOrder: (state) => (key: any) => {
     const idx = state.sortFields.findIndex((o) => o.key === key)
-    return idx > -1 ? state.sortFields[idx] : undefined
+    return idx > -1 ? state.sortFields[idx].order : null
+  },
+  getSortOrderOfSort: (state) => (key: any) => {
+    return state.sortFields.findIndex((o) => o.key === key) + 1
   },
   computedSortParam (state): any {
-    return state.sortFields.map((o) => `${o.order}${o.key}`).join(',')
+    return state.sortFields.map((o) => `${o.order === 'ASC' ? '-' : ''}${o.key}`).join(',')
   },
   computedFilterParam (state): any {
     if (!state.depFilter && !state.ctnFilter) {

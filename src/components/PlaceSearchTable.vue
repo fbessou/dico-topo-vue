@@ -38,6 +38,15 @@
               :action="value => toggleSortField(index, value)"
             >
             </sort-button>
+            <span
+              v-show="!!h.sortable && h.sorted !== 'NONE'"
+              small
+              :ripple="false"
+              text-color="primary"
+              class="sortOrderNum"
+            >
+              {{getSortOrderOfSort(h.sortKey)}}
+            </span>
 
             <span v-if="!!h.filter">
               <v-btn
@@ -297,12 +306,12 @@ export default {
         if (value !== 'ASC' && value !== 'DESC') {
           this.removeSortField(header.sortKey)
         } else {
-          const p = this.getSortParam(header.sortKey)
+          const p = this.getSortOrder(header.sortKey)
           const sortField = {
             field: header.sortKey,
-            order: value === 'ASC' ? '-' : ''
+            order: value
           }
-          if (p !== undefined) {
+          if (p !== null) {
             this.updateSortField(sortField)
           } else {
             this.addSortField(sortField)
@@ -353,17 +362,16 @@ export default {
         align: 'center',
         value: 'icon',
         sortable: false,
-        sortKey: 'is-localized',
-        sorted: 'NONE',
         class: 'localisation-header'
       }
+
       const toponym = {
         text: 'Toponyme',
         align: 'left',
         value: 'label',
         sortable: true,
         sortKey: 'label.keyword',
-        sorted: 'NONE',
+        sorted: this.getSortOrder('label.keyword') || 'NONE',
         class: 'place-header'
       }
       const article = {
@@ -372,7 +380,7 @@ export default {
         value: 'lieu',
         sortable: true,
         sortKey: 'place-label.keyword',
-        sorted: 'NONE',
+        sorted: this.getSortOrder('place-label.keyword') || 'NONE',
         class: 'place-header'
       }
       const oldLabels = {
@@ -388,7 +396,7 @@ export default {
         align: 'left',
         sortable: true,
         sortKey: 'dep-id.keyword',
-        sorted: 'NONE',
+        sorted: this.getSortOrder('dep-id.keyword') || 'NONE',
         filter: this.uniqueDepartments,
         filtered: undefined,
         filterCallback: _.debounce(this.filterDepChanged, 200),
@@ -400,7 +408,7 @@ export default {
         align: 'left',
         sortable: true,
         sortKey: 'ctn-label.keyword',
-        sorted: 'NONE',
+        sorted: this.getSortOrder('ctn-label.keyword') || 'NONE',
         filter: this.uniqueCantons,
         filtered: undefined,
         filterCallback: _.debounce(this.filterCtnChanged, 200),
@@ -412,7 +420,7 @@ export default {
         value: 'commune',
         sortable: true,
         sortKey: 'commune-label.keyword',
-        sorted: 'NONE',
+        sorted: this.getSortOrder('commune-label.keyword') || 'NONE',
         class: 'commune-header'
       }
       const desc = {
@@ -460,7 +468,8 @@ export default {
       'computedSortParam',
       'computedRangeParam',
       'computedFilterParam',
-      'getSortParam',
+      'getSortOrder',
+      'getSortOrderOfSort',
       'query'
     ]),
     pagination: {
@@ -476,6 +485,14 @@ export default {
 </script>
 
 <style>
+.sortOrderNum {
+  color: rgb(38, 123, 219);
+  font-weight: bold;
+  position: relative;
+  left: -10px;
+  top: 6px
+}
+
 .localisation-header {
   width: 60px;
   text-align: center !important;

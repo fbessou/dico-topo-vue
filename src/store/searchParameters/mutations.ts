@@ -35,7 +35,7 @@ export const mutations: MutationTree<QueryState> = {
     const idx = state.sortFields.findIndex((f) => f.key === field)
     console.log('update sort field ->', idx, state.sortFields)
     if (idx > -1) {
-      Vue.set(state.sortFields, idx, { key: field, order: order })// .splice(idx, 1);
+      Vue.set(state.sortFields, idx, { key: field, order: order })
       console.log('sort field updated ->', state.sortFields)
     }
   },
@@ -56,10 +56,10 @@ export const mutations: MutationTree<QueryState> = {
     state.range = Object.assign({}, state.range, { key: '', operators: [] })
   },
   setDepFilter (state: QueryState, value) {
-    Vue.set(state, 'depFilter', value)
+    state.depFilter = [...value]
   },
   setCtnFilter (state: QueryState, value) {
-    Vue.set(state, 'ctnFilter', value)
+    state.ctnFilter = [...value]
   },
   setPagination (state: QueryState, value) {
     state.pagination = Object.assign({}, state.pagination, value)

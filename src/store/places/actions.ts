@@ -57,6 +57,37 @@ export const actions: ActionTree<PlaceState, RootState> = {
   recordCurrentAggPage ({ commit, state, rootState }, after) {
     commit('pushAfterHistory')
   },
+  async fetchUniqueLists ({ commit, rootState }, { query }) {
+    commit('setLoading', true)
+    try {
+      /* generate the departement list to use for filtering operations */
+      let res = await api.get(makeUniqueDptUrl(query))
+      let data = res.data
+
+      commit('setDepartmentList', data.data.map((d: any) => {
+        return {
+          id: d.attributes['insee-code'],
+          label: `${d.attributes['insee-code']} - ${d.attributes['label']}`
+        }
+      }))
+
+      /* generate the departement list to use for filtering operations */
+      res = await api.get(makeUniqueCantonUrl(query))
+      data = res.data
+
+      commit('setCantonList', data.data.map((d: any) => {
+        return {
+          id: d.id,
+          label: d.attributes['label'],
+          depId: d.attributes['dep-insee-code']
+        }
+      }))
+    } catch (error) {
+
+    } finally {
+      commit('setLoading', false)
+    }
+  },
   async searchPlace ({ commit, rootState }, { query, filterParam, rangeParam, groupbyPlace, sortParam, pageSize, pageNumber, after }) {
     commit('setLoading', true)
     // const index = `${process.env.VUE_APP_PLACE_INDEX}`
@@ -132,26 +163,6 @@ export const actions: ActionTree<PlaceState, RootState> = {
       }
       // finally commit data to the store
       commit('setItems', { p: items, links: data.links, meta: meta })
-
-      /* generate the departement list to use for filtering operations */
-      res = await api.get(makeUniqueDptUrl(filteredQuery))
-      data = res.data
-      data.data.map((d: any) => {
-        commit('addDepartment', {
-          id: d.attributes['insee-code'],
-          label: `${d.attributes['insee-code']} - ${d.attributes['label']}`
-        })
-      })
-
-      /* generate the departement list to use for filtering operations */
-      res = await api.get(makeUniqueCantonUrl(filteredQuery))
-      data = res.data
-      data.data.map((d: any) => {
-        commit('addCanton', {
-          id: d.id,
-          label: d.attributes['label']
-        })
-      })
     } catch (error) {
 
     } finally {

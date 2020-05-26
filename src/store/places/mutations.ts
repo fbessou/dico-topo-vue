@@ -1,5 +1,6 @@
 import { MutationTree } from 'vuex'
 import { PlaceState, Place } from './types'
+import Vue from 'vue'
 
 export function getDefaultState (): PlaceState {
   return {
@@ -30,8 +31,8 @@ export const mutations: MutationTree<PlaceState> = {
     state.items = newItems
     state.links = links
     state.meta = meta
-    state.uniqueDepartments = Object.assign([])
-    state.uniqueCantons = Object.assign([])
+    // state.uniqueDepartments = Object.assign([])
+    // state.uniqueCantons = Object.assign([])
     state.error = undefined
   },
   setKnownYears (state: PlaceState, years) {
@@ -56,20 +57,16 @@ export const mutations: MutationTree<PlaceState> = {
       state.meta = Object.assign({}, state.meta, { after: undefined })
     }
   },
-  addDepartment (state: PlaceState, d) {
-    if (state.uniqueDepartments.indexOf(d) === -1) {
-      state.uniqueDepartments.push(d)
-    }
+  setDepartmentList (state: PlaceState, d) {
+    Vue.set(state, 'uniqueDepartments', [...d])
   },
   /*
   clearDepartment (state: PlaceState) {
     state.uniqueDepartments = Object.assign([])
   },
   */
-  addCanton (state: PlaceState, d) {
-    if (state.uniqueCantons.indexOf(d) === -1) {
-      state.uniqueCantons.push(d)
-    }
+  setCantonList (state: PlaceState, d) {
+    Vue.set(state, 'uniqueCantons', [...d])
   },
   /*
   clearCanton (state: PlaceState) {
@@ -81,8 +78,8 @@ export const mutations: MutationTree<PlaceState> = {
     state.links = links
     state.meta = meta
     state.afterHistory = []
-    state.uniqueDepartments = Object.assign([])
-    state.uniqueCantons = Object.assign([])
+    // state.uniqueDepartments = Object.assign([])
+    // state.uniqueCantons = Object.assign([])
     state.knownYears = []
     state.error = undefined
   },

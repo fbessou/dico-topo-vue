@@ -54,7 +54,7 @@ export default {
   },
   computed: {
     data () {
-      const d = this.items.map(i => { return { text: i.label, value: i.id } })
+      const d = this.items.map(i => { return { ...i, text: i.label, value: i.id } })
       d.sort((a, b) => (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0))
       return d
     }

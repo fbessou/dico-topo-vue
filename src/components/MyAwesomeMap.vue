@@ -201,7 +201,7 @@ export default {
 
       if (this.useMarkers) {
         this.markerLayer.addLayers(newMarkers)
-        console.log('add marker layer with markers', newMarkers)
+        // console.log('add marker layer with markers', newMarkers)
       }
       if (this.useHeatmap) {
         const ll = markers.map(m => m.coordinates)

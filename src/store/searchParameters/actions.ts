@@ -32,15 +32,11 @@ export const actions: ActionTree<QueryState, RootState> = {
   removeSortField ({ commit, state, rootState }, field): any {
     commit('removeSortField', field)
   },
-  setFilter ({ commit, state, rootState }, { filter, value }): any {
-    switch (filter) {
-      case 'department':
-        commit('setDepFilter', value)
-        break
-      case 'canton':
-        commit('setCtnFilter', value)
-        break
-    }
+  setCtnFilter ({ commit, state, rootState }, value): any {
+    commit('setCtnFilter', value)
+  },
+  setDepFilter ({ commit, state, rootState }, value): any {
+    commit('setDepFilter', value)
   },
   toggleIIIFViewerVisibility ({ commit }) : any {
     commit('toggleIIIFViewer')
@@ -55,8 +51,15 @@ export const actions: ActionTree<QueryState, RootState> = {
     console.log('fullsearch')
     // start the search from here
     dispatch('fetchMapResults')
+    dispatch('fetchUniqueLists')
     dispatch('fetchTableResults')
   },
+  fetchUniqueLists: _.debounce(async ({ state, getters, dispatch }) => {
+    dispatch('places/fetchUniqueLists', {
+      query: getters.query
+    },
+    { root: true })
+  }, 25),
   fetchMapResults: _.debounce(async ({ rootState, getters, dispatch }) => {
     // send a fake query just to get the total count
     const meta = await dispatch('mapmarkers/searchMapMarker', {
@@ -97,6 +100,7 @@ export const actions: ActionTree<QueryState, RootState> = {
       pageNumber: state.pagination.page,
       pageSize: state.pagination.rowsPerPage,
       after: after
-    }, { root: true })
+    },
+    { root: true })
   }, 25)
 }

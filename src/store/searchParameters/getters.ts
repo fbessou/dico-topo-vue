@@ -23,7 +23,7 @@ export const getters: GetterTree<QueryState, RootState> = {
   getSortOrderOfSort: (state) => (key: any) => {
     let num = state.sortFields.findIndex((o) => o.key === key) + 1
     // if in groupby mode then check if toponym column is currently sorted
-    // if it is, as the column is hidden, the sort order must be num -1
+    // if it is, as the column is hidden, the sort num must be num -1
     if (state.groupbyPlace && state.sortFields.findIndex((o) => o.key === 'label.keyword') !== -1 && key !== 'label.keyword') {
       num = num - 1
     }
@@ -36,8 +36,8 @@ export const getters: GetterTree<QueryState, RootState> = {
     if (!state.depFilter && !state.ctnFilter) {
       return ''
     }
-    const depFilter = state.depFilter.map((value: any) => `dep-id:${value}`).join(' OR ')
-    const ctnFilter = state.ctnFilter.map((value: any) => `ctn-id:${value}`).join(' OR ')
+    const depFilter = state.depFilter.map((item: any) => `dep-id:${item.value}`).join(' OR ')
+    const ctnFilter = state.ctnFilter.map((item: any) => `ctn-id:${item.value}`).join(' OR ')
 
     let filters = []
     if (depFilter) {

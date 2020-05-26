@@ -58,7 +58,7 @@
                 <v-icon
                   small
                   color="blue"
-                  v-if="filterSelections[h.value].length > 0"
+                  v-if="h.filtered"
                   >mdi-filter-menu</v-icon
                 >
                 <v-icon small v-else>mdi-filter</v-icon>
@@ -213,10 +213,6 @@ export default {
       filterStates: {
         department: false,
         canton: false
-      },
-      filterSelections: {
-        department: [],
-        canton: []
       }
     }
   },
@@ -229,11 +225,6 @@ export default {
       this.clearAll()
       this.numAggPage = 0
       this.pagination.page = 1
-
-      // Vue.set(this.filterSelections, 'department', [])
-      // this.setFilter({ filter: 'department', value: [] })
-      // Vue.set(this.filterSelections, 'canton', [])
-      // this.setFilter({ filter: 'canton', value: [] })
 
       this.fetchTableResults()
     },
@@ -321,18 +312,33 @@ export default {
       }
     },
     filterDepChanged (selected) {
-      Vue.set(this.filterSelections, 'department', selected || [])
-      this.setFilter({
-        filter: 'department',
-        value: this.filterSelections.department.map(d => d.value)
-      })
+      this.setDepFilter(selected || [])
     },
     filterCtnChanged (selected) {
-      Vue.set(this.filterSelections, 'canton', selected || [])
-      this.setFilter({
-        filter: 'canton',
-        value: this.filterSelections.canton.map(d => d.value)
-      })
+      this.setCtnFilter(selected || [])
+      // add the adequate department if not already present
+      let newDeps = [...this.depFilter]
+      let thereIsNewDep = false
+      for (let ctn of selected) {
+        const newDep = this.uniqueDepartments.find(d => d.id === ctn.depId)
+        console.log('must add new dep ?', this.uniqueDepartments)
+        // if already selected, continue
+        if (this.depFilter.find(d => d.id === newDep.id)) {
+          console.log('must add dep already present', this.depFilter, this.depFilter.find(d => d.id === newDep.id))
+        } else {
+          // else add it to the list
+          console.log('must add !', this.depFilter, newDep)
+          newDeps.push({
+            ...newDep, text: newDep.label, value: newDep.id
+          })
+          thereIsNewDep = true
+        }
+      }
+      if (thereIsNewDep) {
+        console.log('must add dep', newDeps)
+        this.filterStates.department = true
+        this.filterDepChanged(newDeps)
+      }
     },
     toggleFullscreen () {
       // this.unselectPlace()
@@ -351,7 +357,8 @@ export default {
       'addSortField',
       'updateSortField',
       'removeSortField',
-      'setFilter',
+      'setDepFilter',
+      'setCtnFilter',
       'setPagination'
     ])
   },
@@ -399,7 +406,7 @@ export default {
         sortKey: 'dep-id.keyword',
         sorted: this.getSortOrder('dep-id.keyword') || 'NONE',
         filter: this.uniqueDepartments,
-        filtered: undefined,
+        filtered: this.depFilter.length > 0,
         filterCallback: _.debounce(this.filterDepChanged, 200),
         class: 'departement-header'
       }
@@ -411,7 +418,7 @@ export default {
         sortKey: 'ctn-label.keyword',
         sorted: this.getSortOrder('ctn-label.keyword') || 'NONE',
         filter: this.uniqueCantons,
-        filtered: undefined,
+        filtered: this.ctnFilter.length > 0,
         filterCallback: _.debounce(this.filterCtnChanged, 200),
         class: 'canton-header'
       }

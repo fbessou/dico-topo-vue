@@ -14,8 +14,8 @@ export interface QueryState {
   term: string;
   groupbyPlace: boolean;
   sortFields: Array<SortableField>;
-  depFilter: String[];
-  ctnFilter: String[];
+  depFilter: Object[];
+  ctnFilter: Object[];
   range: RangeParameter;
 
   minTermLength: number;

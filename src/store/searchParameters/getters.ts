@@ -21,7 +21,13 @@ export const getters: GetterTree<QueryState, RootState> = {
     return idx > -1 ? state.sortFields[idx].order : null
   },
   getSortOrderOfSort: (state) => (key: any) => {
-    return state.sortFields.findIndex((o) => o.key === key) + 1
+    let num = state.sortFields.findIndex((o) => o.key === key) + 1
+    // if in groupby mode then check if toponym column is currently sorted
+    // if it is, as the column is hidden, the sort order must be num -1
+    if (state.groupbyPlace && state.sortFields.findIndex((o) => o.key === 'label.keyword') !== -1 && key !== 'label.keyword') {
+      num = num - 1
+    }
+    return num
   },
   computedSortParam (state): any {
     return state.sortFields.map((o) => `${o.order === 'ASC' ? '-' : ''}${o.key}`).join(',')

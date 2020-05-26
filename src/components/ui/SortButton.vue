@@ -25,7 +25,7 @@ export default {
       debouncedAction: _.debounce(this.$props.action, 250)
     }
   },
-  created () {
+  mounted () {
     this.internalState = this.$props.sortState
   },
   methods: {

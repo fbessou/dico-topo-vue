@@ -29,21 +29,22 @@
             <!--
             <group-by-widget v-if="index === 1" />
             -->
-
             <sort-button
               v-if="!!h.sortable"
               desc-icon="arrow_downward"
               asc-icon="arrow_upward"
               :sort-state="h.sorted"
               :action="value => toggleSortField(index, value)"
+              :key="h.sorted"
             >
             </sort-button>
             <span
-              v-show="!!h.sortable && h.sorted !== 'NONE'"
+              v-if="!!h.sortable && h.sorted !== 'NONE'"
               small
               :ripple="false"
               text-color="primary"
               class="sortOrderNum"
+              :key="h.sortKey"
             >
               {{getSortOrderOfSort(h.sortKey)}}
             </span>

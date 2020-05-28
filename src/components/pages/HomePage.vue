@@ -19,7 +19,7 @@
         </div>
 
         <place-search-table
-          v-show="!!showTabularResults && meta.totalCount && term.length > 0"
+          v-show="!!showTabularResults && term.length > 0 && (meta.totalCount || ctnFilter.length > 0 || depFilter.length > 0)"
           :select-item-callback="selectPlaceOnMap"
         >
           <v-btn
@@ -94,7 +94,7 @@ export default {
   computed: {
     ...mapState('mapmarkers', { 'mapMarkerItems': 'items' }),
     ...mapState('places', { selectedPlace: 'selectedItem', meta: 'meta' }),
-    ...mapState('searchParameters', ['term', 'range', 'includeOldLabels', 'groupbyPlace', 'minTermLength', 'zoom', 'center'])
+    ...mapState('searchParameters', ['term', 'range', 'includeOldLabels', 'groupbyPlace', 'minTermLength', 'zoom', 'center', 'ctnFilter', 'depFilter'])
   }
 }
 </script>

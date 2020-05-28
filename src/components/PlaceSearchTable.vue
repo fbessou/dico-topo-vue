@@ -10,6 +10,9 @@
     :server-items-length="totalItems"
     color="rgb(211, 47, 47)"
     dense
+    loading="tableResultIsLoading"
+    loading-text="Chargement en cours... Merci de patienter"
+    no-data-text="Aucun résultat ne correspond à votre recherche."
   >
     <template v-slot:header="{ props: { headers } }">
       <div class="toggle-table-down elevation-5 grey lighten-3 text-center">
@@ -67,7 +70,8 @@
                 v-show="!!filterStates[h.value]"
                 :items="h.filter"
                 :on-change="h.filterCallback"
-                :key="query"
+                :selection="h.filterSelection"
+                :key="query + h.filterSelection.join(',')"
               ></filter-result>
             </span>
 
@@ -211,8 +215,8 @@ export default {
       numAggPage: 0,
 
       filterStates: {
-        department: false,
-        canton: false
+        department: this.depFilter && this.depFilter.length > 0,
+        canton: this.ctnFilter && this.ctnFilter.length > 0
       }
     }
   },
@@ -406,7 +410,8 @@ export default {
         sortKey: 'dep-id.keyword',
         sorted: this.getSortOrder('dep-id.keyword') || 'NONE',
         filter: this.uniqueDepartments,
-        filtered: this.depFilter.length > 0,
+        filtered: this.depFilter && this.depFilter.length > 0,
+        filterSelection: this.depFilter,
         filterCallback: _.debounce(this.filterDepChanged, 200),
         class: 'departement-header'
       }
@@ -418,7 +423,8 @@ export default {
         sortKey: 'ctn-label.keyword',
         sorted: this.getSortOrder('ctn-label.keyword') || 'NONE',
         filter: this.uniqueCantons,
-        filtered: this.ctnFilter.length > 0,
+        filtered: this.ctnFilter && this.ctnFilter.length > 0,
+        filterSelection: this.ctnFilter,
         filterCallback: _.debounce(this.filterCtnChanged, 200),
         class: 'canton-header'
       }

@@ -1,9 +1,7 @@
 <template>
   <div class="text-xs-center">
-
-      <v-container >
+      <v-container>
         <v-layout wrap>
-
           <v-flex xs12>
             <v-combobox
               v-model="selected"
@@ -17,13 +15,11 @@
               deletable-chips
               small-chips
               hide-selected
-              :cache-items="cache"
+              :cache-items="true"
             ></v-combobox>
           </v-flex>
-
         </v-layout>
       </v-container>
-
   </div>
 </template>
 
@@ -32,15 +28,16 @@ export default {
   name: 'FilterResult',
   props: {
     items: { default: [], required: true },
-    onChange: { type: Function, required: true }
+    onChange: { type: Function, required: true },
+    selection: { default: [], required: true }
   },
-  data: () => ({
-    menu: false,
-    selected: [],
-    cache: true
-  }),
+  data () {
+    return {
+      selected: []
+    }
+  },
   created () {
-    this.selected = []
+    this.selected = this.$props.selection
   },
   watch: {
     selected () {

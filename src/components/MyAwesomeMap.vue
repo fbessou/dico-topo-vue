@@ -258,11 +258,11 @@ export default {
         }
       }
     },
-    flyToCoordinates (coords) {
+    flyToCoordinates (coords, animation = false) {
       if (coords) {
         const latlgns = L.latLng(coords)
-        if (this.useFlyAnimation) {
-          // this.map.flyTo(latlgns, 13, { easeLinearity: 0.8, duration: 1.6 })
+        if (this.useFlyAnimation || animation) {
+          this.map.flyTo(latlgns, this.map.getZoom(), { easeLinearity: 0.8, duration: 1.0 })
         } else {
           console.log('pan to', coords, latlgns)
           // this.map.panTo(latlgns)
@@ -348,7 +348,7 @@ export default {
     },
     flyToItem (val) {
       if (val) {
-        this.flyToCoordinates(this.flyToItem.coordinates)
+        this.flyToCoordinates(this.flyToItem.coordinates, true)
         const marker = this.markerLayer
           .getLayers()
           .find(l => l.placeId === this.flyToItem.id)

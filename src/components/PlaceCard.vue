@@ -9,6 +9,9 @@
         <div style="width: 100%">
           <span class="" v-html="placeItem.label" />
           <span v-if="popup" class="title-buttons">
+            <v-btn small icon @click="flyToSelectedItem" class="mr-3">
+              <v-icon>location_on</v-icon>
+            </v-btn>
             <v-btn small icon :to="`/places/${placeItem.id}`">
               <v-icon>mdi-open-in-new</v-icon>
             </v-btn>
@@ -142,7 +145,12 @@ export default {
   },
   methods: {
     ...mapActions('searchParameters', ['toggleIIIFViewerVisibility']),
-
+    ...mapActions('mapmarkers', ['setFlyToItem']),
+    ...mapActions('places', ['selectPlace', 'unselectPlace']),
+    ...mapActions('PlaceCard', ['fetchPlaceCard', 'clearPlaceCard']),
+    ...mapActions('commune', { fetchCommune: 'fetch', clearCommune: 'clear' }),
+    ...mapActions('bibls', { fetchBibl: 'fetch', clearBibl: 'clear' }),
+    ...mapActions('searchParameters', ['setIIIFViewerAvailability']),
     clean (str) {
       return cleanStr(str)
     },
@@ -164,17 +172,16 @@ export default {
       const ref = o.reference ? `(${o.reference})` : ''
       return `, ${date} ${ref}`
     },
-    ...mapActions('places', ['selectPlace', 'unselectPlace']),
-    ...mapActions('PlaceCard', ['fetchPlaceCard', 'clearPlaceCard']),
-    ...mapActions('commune', { fetchCommune: 'fetch', clearCommune: 'clear' }),
-    ...mapActions('bibls', { fetchBibl: 'fetch', clearBibl: 'clear' }),
-    ...mapActions('searchParameters', ['setIIIFViewerAvailability'])
+    flyToSelectedItem () {
+      this.setFlyToItem(this.flyToItem)
+    }
   },
   computed: {
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),
     ...mapState('commune', ['commune']),
     ...mapState('bibls', { biblItem: 'bibl' }),
     ...mapState('searchParameters', ['showIIIFViewer', 'IIIFViewerAvailability']),
+    ...mapState('mapmarkers', ['flyToItem']),
     ...mapGetters('bibls', ['getComputedBiblRef', 'getGallicaLink']),
     computedBiblRef () {
       return this.getComputedBiblRef(this.placeItem.num_start_page)

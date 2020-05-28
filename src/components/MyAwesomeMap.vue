@@ -261,8 +261,10 @@ export default {
     flyToCoordinates (coords, animation = false) {
       if (coords) {
         const latlgns = L.latLng(coords)
+        const currentZoom = this.map.getZoom()
+        const targetZoom = currentZoom > 13 ? currentZoom : 13
         if (this.useFlyAnimation || animation) {
-          this.map.flyTo(latlgns, this.map.getZoom(), { easeLinearity: 0.8, duration: 1.0 })
+          this.map.flyTo(latlgns, targetZoom, { easeLinearity: 0.8, duration: 1.0 })
         } else {
           console.log('pan to', coords, latlgns)
           // this.map.panTo(latlgns)

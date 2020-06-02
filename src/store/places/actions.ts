@@ -22,7 +22,6 @@ function makeUniqueDptUrl (query: String) {
 
 function makeUniqueCantonUrl (query: String) {
   const ctnUrl = `&groupby[doc-type]=insee-ref&groupby[field]=ctn-id.keyword&page[size]=10000&without-relationships`
-
   return `/search?query=${query}${ctnUrl}`
 }
 
@@ -71,7 +70,7 @@ export const actions: ActionTree<PlaceState, RootState> = {
         }
       }))
 
-      /* generate the departement list to use for filtering operations */
+      /* generate the canton list to use for filtering operations */
       res = await api.get(makeUniqueCantonUrl(query))
       data = res.data
 

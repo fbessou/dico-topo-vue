@@ -71,7 +71,7 @@
                 :items="h.filter"
                 :on-change="h.filterCallback"
                 :selection="h.filterSelection"
-                :key="query + h.filterSelection.join(',')"
+                :key="query + h.filter.map(f => f.value).join(',') + h.filterSelection.join(',')"
               ></filter-result>
             </span>
 
@@ -315,8 +315,9 @@ export default {
         }
       }
     },
-    filterDepChanged (selected) {
+    async filterDepChanged (selected) {
       this.setDepFilter(selected || [])
+      // await this.fetchUniqueLists()
     },
     filterCtnChanged (selected) {
       this.setCtnFilter(selected || [])
@@ -327,7 +328,7 @@ export default {
         const newDep = this.uniqueDepartments.find(d => d.id === ctn.depId)
         console.log('must add new dep ?', this.uniqueDepartments)
         // if already selected, continue
-        if (this.depFilter.find(d => d.id === newDep.id)) {
+        if (newDeps.find(d => d.id === newDep.id)) {
           console.log('must add dep already present', this.depFilter, this.depFilter.find(d => d.id === newDep.id))
         } else {
           // else add it to the list
@@ -363,7 +364,8 @@ export default {
       'removeSortField',
       'setDepFilter',
       'setCtnFilter',
-      'setPagination'
+      'setPagination',
+      'fetchUniqueLists'
     ])
   },
   computed: {
@@ -422,12 +424,14 @@ export default {
         sortable: true,
         sortKey: 'ctn-label.keyword',
         sorted: this.getSortOrder('ctn-label.keyword') || 'NONE',
-        filter: this.uniqueCantons,
+        // filter cantons if deps are selected else display the full list
+        filter: this.depFilter && this.depFilter.length > 0 ? this.uniqueCantons.filter(c => this.depFilter.filter(d => d.id === c.depId).length > 0) : this.uniqueCantons,
         filtered: this.ctnFilter && this.ctnFilter.length > 0,
         filterSelection: this.ctnFilter,
         filterCallback: _.debounce(this.filterCtnChanged, 200),
         class: 'canton-header'
       }
+      console.log('@@debug', this.depFilter.length > 0, this.depFilter.map(d => d.id), this.uniqueCantons.map(c => c.depId), canton.filter.map(f => f.depId))
       const commune = {
         text: 'Commune',
         align: 'left',

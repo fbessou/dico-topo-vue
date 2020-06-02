@@ -77,7 +77,7 @@ export const actions: ActionTree<PlaceState, RootState> = {
       commit('setCantonList', data.data.map((d: any) => {
         return {
           id: d.id,
-          label: d.attributes['label'],
+          label: `${d.attributes['dep-insee-code']} - ${d.attributes['label']}`,
           depId: d.attributes['dep-insee-code']
         }
       }))

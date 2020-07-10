@@ -114,7 +114,9 @@
                 :to="{ name: 'place', params: { placeId: lp.id } }"
                 >{{ lp.label }}</router-link
               >
-              <div class="capitalize-first-letter" v-html="lp.description" />
+              <div v-for="(description, idx) in lp.descriptions" :key="idx">
+                <div  class="capitalize-first-letter" v-html="description"/>
+              </div>
             </li>
           </ul>
         </v-expansion-panel-content>

@@ -12,9 +12,11 @@ function buildPlace (obj: any) {
     type: obj.type,
     label: obj.attributes['label'],
     old_labels: [],
-    description: obj.attributes['desc'],
-    comment: obj.attributes['comment'],
-    num_start_page: obj.attributes['num-start-page'],
+    // description: obj.attributes['desc'],
+    // comment: obj.attributes['comment'],
+    // num_start_page: obj.attributes['num-start-page'],
+    descriptions: [],
+    comments: [],
 
     insee_code: obj.attributes['localization-insee-code'],
     department: obj.attributes['dpt'],
@@ -37,42 +39,38 @@ export const actions: ActionTree<PlaceCardState, RootState> = {
   async fetchPlaceCard ({ commit, rootState }, id: any) {
     commit('setLoading', true)
 
-    const response = await api.get(`/places/${id}?without-relationships`)
+    const response = await api.get(`/places/${id}?without-relationships&include=responsibility@flat-resp,linked-places@lp,old-labels@flat-old-label,descriptions@flat-place-desc,comments@flat-place-comment`)
     const data = response.data
     const obj = data.data
-    console.log(obj)
+
     if (obj) {
       const p: Place = buildPlace(obj)
       commit('setItem', p)
 
-      // todo: utiliser le include de l'api pour faire une seule requête
-      const oldLabelResponse = await api.get(`/places/${id}/old-labels?without-relationships`)
-      const oldLabelData = oldLabelResponse.data
-      const oldLabelItems: Array<PlaceOldLabel> = oldLabelData.data.map((p: any) => {
+      const oldLabelData = data.included.filter((i: any) => i.type === 'place-old-label')
+      const oldLabelItems: Array<PlaceOldLabel> = oldLabelData.map((p: any) => {
         return {
           id: p.id,
           type: p.type,
           label: p.attributes['rich-label'],
-          // labelNode: p.attributes['text-label-node'],
           date: p.attributes['rich-date'],
           reference: p.attributes['rich-reference']
         }
       })
       commit('setOldLabels', oldLabelItems)
 
-      const lpResponse = await api.get(`/places/${id}/linked-places?without-relationships`)
-      const lpData = lpResponse.data
-      const lpItems: Array<Place> = lpData.data.map((obj: any) => {
+      const lpData = data.included.filter((i: any) => i.type === 'place')
+      const lpItems: Array<Place> = lpData.map((obj: any) => {
         // TODO: pas de coords car pas de champ longlat dans ces objets (pas retournés par l'api search)
         // const coords = buildCoords(obj)
         return {
           id: obj.id,
           type: obj.type,
-          label: obj.attributes['label'],
-          description: obj.attributes['desc'],
-          comment: obj.attributes['comment'],
+          label: obj.attributes['place-label'],
+          descriptions: obj.attributes['descriptions']
+          // comment: obj.attributes['comment'],
 
-          insee_code: obj.attributes['localization-insee-code']
+          // insee_code: obj.attributes['localization-insee-code']
           // coordinates: coords
         }
       })

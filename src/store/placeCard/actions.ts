@@ -11,9 +11,6 @@ function buildPlace (obj: any) {
     id: obj.id,
     type: obj.type,
     label: obj.attributes['label'],
-    old_labels: [],
-    // description: obj.attributes['desc'],
-    // comment: obj.attributes['comment'],
     // num_start_page: obj.attributes['num-start-page'],
     descriptions: [],
     comments: [],
@@ -44,7 +41,12 @@ export const actions: ActionTree<PlaceCardState, RootState> = {
     const obj = data.data
 
     if (obj) {
-      const p: Place = buildPlace(obj)
+      const p = buildPlace(obj)
+      // add descriptions and comments from included resources
+      p.descriptions = data.included.filter((i: any) => i.type === 'place-description') || []
+      p.comments = data.included.filter((i: any) => i.type === 'place-comment') || []
+
+      // commit the place item
       commit('setItem', p)
 
       const oldLabelData = data.included.filter((i: any) => i.type === 'place-old-label')

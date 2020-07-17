@@ -119,8 +119,8 @@ export const actions: ActionTree<PlaceState, RootState> = {
               label: p.attributes['place-label'],
               placeLabel: p.attributes['place-label'],
               oldLabels: oldLabels ? oldLabels.reverse() : [],
-              description: p.attributes['desc'],
-              comment: p.attributes['comment'],
+              descriptions: p.attributes['descriptions'],
+              // comment: p.attributes['comment'],
 
               insee_code: p.attributes['localization-insee-code'],
               communeLabel: p.attributes['commune-label'],
@@ -139,7 +139,7 @@ export const actions: ActionTree<PlaceState, RootState> = {
               placeId: p.attributes['place-id'],
               oldLabels: [],
               placeLabel: p.attributes['place-label'],
-              description: p.attributes['place-desc'],
+              description: p.attributes['place-descriptions'],
               date: p.attributes['text-date'],
 
               insee_code: p.attributes['localization-insee-code'],

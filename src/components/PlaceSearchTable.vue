@@ -123,7 +123,9 @@
             <span v-html="clean(item.communeLabel)"></span>
           </td>
           <td class="text-xs-left">
-            <span v-html="clean(item.description)"></span>
+            <div v-for="(description, idx) in item.descriptions" :key="idx">
+              <div v-html="description"></div>
+            </div>
           </td>
         </tr>
       </tbody>

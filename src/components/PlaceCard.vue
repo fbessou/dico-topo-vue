@@ -29,22 +29,30 @@
         <v-tooltip bottom>
             <template v-slot:activator="{ on }">
                 <v-card-subtitle v-on="on">
-                  <a v-if="placeItem.responsibility.attributes.gallica_ark" :href="gallicaLink" target="__blank" v-html="computedBiblRef"/>
+                  <a v-if="placeItem.responsibility.attributes.bibl.gallica_ark" :href="gallicaLink" target="__blank" v-html="computedBiblRef"/>
                   <span v-else v-html="computedBiblRef"/>
                 </v-card-subtitle>
             </template>
-            <span v-html="placeItem.responsibility.attributes.bibl"/>
+            <span v-html="placeItem.responsibility.attributes.bibl.bibl"/>
           </v-tooltip>
         <div class="iiif-buttons">
-          <v-btn
-            v-if="!popup && IIIFAvailability"
-            icon
-            @click="toggleIIIFViewerVisibility"
-            :class="showIIIFViewer ? 'blue--text' : ''"
-          >
-            <v-icon>mdi-book-open-outline</v-icon>
-          </v-btn>
-
+        <v-tooltip bottom  v-if="!popup && IIIFAvailability">
+          <template v-slot:activator="{ on }">
+            <v-btn  v-on="on"
+              icon
+              @click="toggleIIIFViewerVisibility"
+              :class="showIIIFViewer ? 'blue--text' : ''"
+            >
+              <v-icon>mdi-book-open-outline</v-icon>
+            </v-btn>
+          </template>
+             <span v-if="!showIIIFViewer">
+               Afficher la source secondaire
+             </span>
+                <span v-else>
+               Cacher la source secondaire
+             </span>
+          </v-tooltip>
         </div>
       </div>
 

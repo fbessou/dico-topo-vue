@@ -76,9 +76,4 @@ export const mutations: MutationTree<QueryState> = {
   setIIIFViewer (state: QueryState, t) {
     state.showIIIFViewer = t
   }
-  /*
-  setIIIFViewerAvailability (state: QueryState, t) {
-    state.IIIFViewerAvailability = t
-  }
-  */
 }

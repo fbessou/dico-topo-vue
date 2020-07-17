@@ -6,7 +6,10 @@ export function getDefaultState (): QueryState {
   return {
     term: '',
     groupbyPlace: true,
-    sortFields: [],
+    sortFields: [{
+      key: 'place-label.keyword',
+      order: 'DESC'
+    }],
     range: { key: '', operators: [] },
     depFilter: [],
     ctnFilter: [],

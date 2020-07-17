@@ -433,7 +433,7 @@ export default {
         filterCallback: _.debounce(this.filterCtnChanged, 200),
         class: 'canton-header'
       }
-      console.log('@@debug', this.depFilter.length > 0, this.depFilter.map(d => d.id), this.uniqueCantons.map(c => c.depId), canton.filter.map(f => f.depId))
+      // console.log('@@debug', this.depFilter.length > 0, this.depFilter.map(d => d.id), this.uniqueCantons.map(c => c.depId), canton.filter.map(f => f.depId))
       const commune = {
         text: 'Commune',
         align: 'left',

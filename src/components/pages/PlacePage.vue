@@ -172,9 +172,9 @@
             </v-card>
           </v-col>
 
-          <v-col v-if="(IIIFViewerAvailability && showIIIFViewer) || coordinates.length > 0">
+          <v-col v-if="(IIIFAvailability && showIIIFViewer) || coordinates.length > 0">
             <transition name="scroll-x-transition">
-              <v-card class="mb-2 map-container" v-if="commune && coordinates.length > 0" v-show="!showIIIFViewer || !IIIFViewerAvailability">
+              <v-card class="mb-2 map-container" v-if="commune && coordinates.length > 0" v-show="!showIIIFViewer || !IIIFAvailability">
                 <my-awesome-map
                   min-height="800px"
                   :use-heatmap="false"
@@ -189,8 +189,8 @@
             <transition name="scroll-x-transition">
               <mirador-viewer
                 class="mirador-container"
-                v-if="IIIFViewerAvailability && showIIIFViewer"
-                :manifest-url="`https://gallica.bnf.fr/iiif/${biblItem.gallica_ark}/manifest.json`"
+                v-if="IIIFAvailability && showIIIFViewer"
+                :manifest-url="manifestUrl"
                 :canvasIndex="canvasIndex"
               />
             </transition>
@@ -227,7 +227,7 @@ export default {
     this.setIIIFViewerVisibility(false)
   },
   mounted () {
-    if (this.IIIFViewerAvailability && this.coordinates.length === 0) {
+    if (this.IIIFAvailability && this.coordinates.length === 0) {
       this.setIIIFViewerVisibility(true)
     }
   },
@@ -257,16 +257,13 @@ export default {
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),
     ...mapState('commune', { 'commune': 'commune' }),
     ...mapState('bibls', { biblItem: 'bibl' }),
-    ...mapState('searchParameters', ['showIIIFViewer', 'IIIFViewerAvailability']),
-    ...mapGetters('bibls', ['getCanvasIndex']),
+    ...mapState('searchParameters', ['showIIIFViewer']),
+    ...mapGetters('PlaceCard', ['canvasIndex', 'IIIFAvailability', 'manifestUrl']),
 
     coordinates () {
       return this.commune && this.commune.data
         ? this.buildCoords(this.commune.data)
         : []
-    },
-    canvasIndex () {
-      return this.getCanvasIndex(this.placeItem.num_start_page)
     },
     mapItems () {
       return this.placeItem

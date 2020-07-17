@@ -25,5 +25,5 @@ export interface QueryState {
   center?: any;
   // iiif viewer attributes
   showIIIFViewer: boolean,
-  IIIFViewerAvailability: boolean
+  // IIIFViewerAvailability: boolean
 }

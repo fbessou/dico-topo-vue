@@ -25,19 +25,19 @@
         </v-card-title>
       </div>
 
-      <div class="d-flex flex-row"  v-if="biblItem && biblItem.bibl">
+      <div class="d-flex flex-row"  v-if="placeItem && placeItem.responsibility">
         <v-tooltip bottom>
             <template v-slot:activator="{ on }">
                 <v-card-subtitle v-on="on">
-                  <a v-if="biblItem.gallica_ark" :href="gallicaLink" target="__blank" v-html="computedBiblRef"/>
+                  <a v-if="placeItem.responsibility.attributes.gallica_ark" :href="gallicaLink" target="__blank" v-html="computedBiblRef"/>
                   <span v-else v-html="computedBiblRef"/>
                 </v-card-subtitle>
             </template>
-            <span v-html="biblItem.bibl"/>
+            <span v-html="placeItem.responsibility.attributes.bibl"/>
           </v-tooltip>
         <div class="iiif-buttons">
           <v-btn
-            v-if="!popup && IIIFViewerAvailability"
+            v-if="!popup && IIIFAvailability"
             icon
             @click="toggleIIIFViewerVisibility"
             :class="showIIIFViewer ? 'blue--text' : ''"
@@ -87,7 +87,7 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
 
-        <v-expansion-panel :disabled="placeItem && !placeItem.comments">
+        <v-expansion-panel :disabled="placeItem && placeItem.comments.length < 1">
           <v-expansion-panel-header class="grey lighten-4">
             <div class="subtitle-1 font-weight-medium">Commentaire</div>
           </v-expansion-panel-header>
@@ -157,8 +157,6 @@ export default {
     ...mapActions('places', ['selectPlace', 'unselectPlace']),
     ...mapActions('PlaceCard', ['fetchPlaceCard', 'clearPlaceCard']),
     ...mapActions('commune', { fetchCommune: 'fetch', clearCommune: 'clear' }),
-    ...mapActions('bibls', { fetchBibl: 'fetch', clearBibl: 'clear' }),
-    ...mapActions('searchParameters', ['setIIIFViewerAvailability']),
     clean (str) {
       return cleanStr(str)
     },
@@ -166,14 +164,10 @@ export default {
       console.log('fetch place page data', id)
       this.clearPlaceCard()
       this.clearCommune()
-      this.clearBibl()
-      this.setIIIFViewerAvailability(false)
       await this.fetchPlaceCard(id)
-      await this.fetchBibl(id)
       if (this.placeItem.insee_code) {
         await this.fetchCommune(this.placeItem.insee_code)
       }
-      this.setIIIFViewerAvailability(this.biblItem.gallica_IIIF_availability)
     },
     prettifyOldLabel (o) {
       const date = o.date ? o.date : ''
@@ -187,16 +181,9 @@ export default {
   computed: {
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),
     ...mapState('commune', ['commune']),
-    ...mapState('bibls', { biblItem: 'bibl' }),
-    ...mapState('searchParameters', ['showIIIFViewer', 'IIIFViewerAvailability']),
+    ...mapState('searchParameters', ['showIIIFViewer']),
     ...mapState('mapmarkers', ['flyToItem']),
-    ...mapGetters('bibls', ['getComputedBiblRef', 'getGallicaLink']),
-    computedBiblRef () {
-      return this.getComputedBiblRef(this.placeItem.num_start_page)
-    },
-    gallicaLink () {
-      return this.getGallicaLink(this.placeItem.num_start_page)
-    },
+    ...mapGetters('PlaceCard', ['computedBiblRef', 'gallicaLink', 'IIIFAvailability']),
     linkedPlacesPanelLabel () {
       if (!this.commune || !this.commune.data) {
         return 'Autres lieux'

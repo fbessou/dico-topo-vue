@@ -4,7 +4,7 @@ import { Place } from '@/store/places/types'
 import { RootState } from '../types'
 import { api } from '@/utils/http-common'
 
-const index = `${process.env.VUE_APP_PLACE_INDEX}`
+// const index = `${process.env.VUE_APP_PLACE_INDEX}`
 
 function buildPlace (obj: any) {
   return {
@@ -14,6 +14,7 @@ function buildPlace (obj: any) {
     // num_start_page: obj.attributes['num-start-page'],
     descriptions: [],
     comments: [],
+    responsibility: null,
 
     insee_code: obj.attributes['localization-insee-code'],
     department: obj.attributes['dpt'],
@@ -45,6 +46,8 @@ export const actions: ActionTree<PlaceCardState, RootState> = {
       // add descriptions and comments from included resources
       p.descriptions = data.included.filter((i: any) => i.type === 'place-description') || []
       p.comments = data.included.filter((i: any) => i.type === 'place-comment') || []
+      // add responsibility from included resources
+      p.responsibility = data.included.find((i: any) => i.type === 'responsibility') || null
 
       // commit the place item
       commit('setItem', p)

@@ -1,7 +1,6 @@
 import { ActionTree } from 'vuex'
 import { QueryState, SortableField } from './types'
 import { RootState } from '../types'
-import { api } from '@/utils/http-common'
 import _ from 'lodash'
 
 export const actions: ActionTree<QueryState, RootState> = {
@@ -43,9 +42,6 @@ export const actions: ActionTree<QueryState, RootState> = {
   },
   setIIIFViewerVisibility ({ commit, state }, t) : any {
     commit('setIIIFViewer', t)
-  },
-  setIIIFViewerAvailability ({ commit, state }, t) : any {
-    commit('setIIIFViewerAvailability', t)
   },
   searchCallback: ({ commit, state, rootState, getters, dispatch }) => {
     console.log('fullsearch')

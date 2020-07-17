@@ -4,11 +4,12 @@ import { Links, Meta } from '@/store/types'
 export interface Place {
   id: string;
   label: string;
-  description: string;
-  comment: string;
+  // description: string;
+  // comment: string;
+  responsibility?: Object;
   department: string;
   region: string;
-  old_labels: string[];
+  // old_labels: string[];
 
   insee_code: string;
 

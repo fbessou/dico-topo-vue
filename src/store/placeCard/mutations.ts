@@ -1,8 +1,5 @@
 import { MutationTree } from 'vuex'
 import { PlaceCardState } from './types'
-import Vue from 'vue'
-import { Links } from '@/store/types'
-import { MapMarkerState } from '@/store/mapmarkers/types'
 
 export function getDefaultState (): PlaceCardState {
   return {

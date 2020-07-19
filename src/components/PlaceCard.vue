@@ -231,7 +231,7 @@ p::first-letter,
   text-transform: uppercase;
 }
 ul {
-  list-style-type: dot !important;
+
 }
 .sc {
   font-variant: small-caps !important;

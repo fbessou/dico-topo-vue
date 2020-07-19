@@ -141,7 +141,6 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex'
-import { cleanStr } from '../utils/helpers'
 import AdministrativeBreadcrumbs from './AdministrativeBreadcrumbs'
 
 export default {
@@ -165,9 +164,7 @@ export default {
     ...mapActions('places', ['selectPlace', 'unselectPlace']),
     ...mapActions('PlaceCard', ['fetchPlaceCard', 'clearPlaceCard']),
     ...mapActions('commune', { fetchCommune: 'fetch', clearCommune: 'clear' }),
-    clean (str) {
-      return cleanStr(str)
-    },
+
     async fetchData (id) {
       console.log('fetch place page data', id)
       this.clearPlaceCard()
@@ -204,7 +201,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+
 .place-card-popup {
   position: absolute;
   top: 30px;
@@ -233,9 +231,12 @@ p::first-letter,
   text-transform: uppercase;
 }
 ul {
-  list-style-type: dot;
+  list-style-type: dot !important;
 }
 .sc {
-  font-variant: small-caps;
+  font-variant: small-caps !important;
+}
+dfn {
+    font-style: normal !important;
 }
 </style>

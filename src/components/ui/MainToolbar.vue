@@ -39,8 +39,9 @@
     </v-chip>
 
     <span v-if="showFilters" class="toolbar-buttons">
-      <group-by-widget />
 
+      <fuzziness-widget />
+      <group-by-widget />
       <!--
       <department-filter-menu />
       -->
@@ -64,6 +65,7 @@
 import { mapState, mapGetters, mapActions } from 'vuex'
 // import DepartmentFilterMenu from '../DepartmentFilterMenu'
 import GroupByWidget from '../ui/GroupByWidget'
+import FuzzinessWidget from '../ui/FuzzinessWidget'
 
 export default {
   name: 'MainToolbar',
@@ -71,7 +73,7 @@ export default {
     showTimeRange: { type: Boolean, default: false },
     showFilters: { type: Boolean, default: false }
   },
-  components: { GroupByWidget },
+  components: { GroupByWidget, FuzzinessWidget },
   data () {
     return {
       inputTerm: undefined,
@@ -106,6 +108,9 @@ export default {
       this.searchCallback()
     },
     computedFilterParam () {
+      this.searchCallback()
+    },
+    fuzziness () {
       this.searchCallback()
     },
     selectedTimeRange () {
@@ -152,7 +157,8 @@ export default {
     ...mapState('searchParameters', [
       'term',
       'minTermLength',
-      'range'
+      'range',
+      'fuzziness'
     ]),
     ...mapGetters('searchParameters', [
       'computedFilterParam',
@@ -217,10 +223,6 @@ body:after {
 .toolbar-buttons span {
   display: inline-block;
   vertical-align: middle;
-}
-.toolbar-buttons .v-slider__thumb {
-  height: 20px;
-  width: 20px;
 }
 .search-bar {
   cursor: pointer;

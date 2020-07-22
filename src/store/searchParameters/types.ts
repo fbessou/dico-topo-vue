@@ -17,6 +17,7 @@ export interface QueryState {
   depFilter: Object[];
   ctnFilter: Object[];
   range: RangeParameter;
+  fuzziness: number;
 
   minTermLength: number;
   pagination: any;

@@ -248,6 +248,11 @@ export default {
       this.pagination.page = 1
       this.fetchTableResults()
     },
+    fuzziness () {
+      this.numAggPage = 0
+      this.pagination.page = 1
+      this.fetchTableResults()
+    },
     range () {
       if (!!this.query && this.query.length > 2) {
         this.fetchTableResults()
@@ -477,6 +482,7 @@ export default {
     }),
     ...mapState('searchParameters', [
       'sortFields',
+      'fuzziness',
       'groupbyPlace',
       'depFilter',
       'ctnFilter',

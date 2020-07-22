@@ -66,6 +66,7 @@ export default {
         items.push(newItem)
       }
       // lieu
+      /*
       if (this.placeItem) {
         if (
           this.commune.data &&
@@ -84,8 +85,9 @@ export default {
 
           items.push(newItem)
         }
-      }
 
+      }
+      */
       return items
     }
   }

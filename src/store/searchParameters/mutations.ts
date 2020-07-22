@@ -11,6 +11,7 @@ export function getDefaultState (): QueryState {
       order: 'DESC'
     }],
     range: { key: '', operators: [] },
+    fuzziness: 0,
     depFilter: [],
     ctnFilter: [],
     minTermLength: 2,
@@ -52,6 +53,9 @@ export const mutations: MutationTree<QueryState> = {
   },
   setRange (state: QueryState, range: RangeParameter) {
     state.range = Object.assign({}, state.range, range)
+  },
+  setFuzziness (state: QueryState, value) {
+    state.fuzziness = value
   },
   removeRange (state: QueryState) {
     console.log('remove range')

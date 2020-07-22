@@ -13,6 +13,9 @@ export const actions: ActionTree<QueryState, RootState> = {
   setRange ({ commit, state }, { key, operators }): any {
     commit('setRange', { key, operators })
   },
+  setFuzziness ({ commit, state }, value): any {
+    commit('setFuzziness', value)
+  },
   removeRange ({ commit, state }): any {
     commit('removeRange')
   },

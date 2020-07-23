@@ -8,8 +8,11 @@ import store from './store/index'
 import { createRouter } from '@/router'
 
 import vuetify from './plugins/vuetify'
+import VueClipboard from 'vue-clipboard2'
 
 Vue.config.productionTip = true
+
+Vue.use(VueClipboard)
 
 new Vue({
   el: '#app',

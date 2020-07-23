@@ -115,60 +115,59 @@
                 </ul>
               </div>
 
-              <v-card-title class="headline grey lighten-4">
-                Utiliser cette donnée
+              <v-card-title class="headline grey lighten-4 mb-5">
+                Partager
               </v-card-title>
 
-              <div class="d-flex text-justify pa-8 mt-2" v-if="placeItem">
-                <span>
-                  Vous pouvez citer ce lieu dans vos travaux en utilisant
-                  <router-link
-                    class="font-weight-medium"
-                    :to="{ name: 'place', params: { placeId: placeItem.id } }"
-                    >ce permalien</router-link
-                  >
-                  ou utiliser les liens suivants pour exporter les données
-                </span>
-              </div>
+              <p class="pa-5 pb-0">
+                 Vous pouvez citer ce lieu dans vos travaux en copiant le permalien ci-dessous ou exporter les données en utilisant les boutons suivants :
+              </p>
 
-              <ul class="pa-8 pt-0" v-if="placeItem">
-                <li class="d-flex justify-space-between  mb-4">
-                  <span class="overline">Format</span>
-                  <span class="overline">Téléchargement</span>
-                </li>
-                <li class="d-flex justify-space-between mt-2 mb-4">
-                  <span
-                    ><a href="https://jsonapi.org/format/1.0/"
-                      >JSON API 1.0</a
-                    ></span
-                  >
-                  <v-btn
-                    icon
-                    small
-                    depressed
-                    :href="`${apiUrl}/places/${placeId}`"
-                  >
-                    <v-icon>get_app</v-icon>
-                  </v-btn>
-                </li>
-                <li class="d-flex justify-space-between mb-4">
-                  <span
-                    ><a href="https://github.com/LinkedPasts/linked-places"
-                      >LinkedPlaces</a
-                    ></span
-                  >
-                  <v-btn
-                    icon
-                    small
-                    depressed
-                    :href="
-                      `${apiUrl}/places/${placeItem.id}?export=linkedplaces`
-                    "
-                  >
-                    <v-icon>get_app</v-icon>
-                  </v-btn>
-                </li>
-              </ul>
+              <v-row class="share pa-8 pt-0">
+                <v-col class="mb-2" md="auto">Citer :
+                  <div>
+                     <v-tooltip top v-model="showCopyTooltip" :open-on-hover="false" :open-on-click="false" :close-delay="1500">
+                      <template v-slot:activator="{ on }">
+                        <v-btn flat depressed
+                          class="share-link ml-5 mt-3"
+
+                          v-clipboard:copy="`${shareLink}`"
+                          v-clipboard:success="copyLink"
+                        >
+                          {{shareLink}}
+                        </v-btn>
+                      </template>
+                      <span
+                        >Lien copié !</span
+                      >
+                    </v-tooltip>
+
+                  </div>
+                </v-col>
+                <v-col class="mb-2 ml-5">
+                  Télécharger :
+                    <div class="mb-2 ml-5 mt-3">
+                      <v-btn
+                        depressed
+                        :href="`${apiUrl}/places/${placeId}`"
+                      >
+                        Au format <a href="https://jsonapi.org/format/1.0/">JSON API 1.0</a>
+                        <v-icon class="ml-3">get_app</v-icon>
+                      </v-btn>
+                    </div>
+                    <div class="mb-2 ml-5">
+                      <v-btn
+                        depressed
+                        :href="
+                          `${apiUrl}/places/${placeItem.id}?export=linkedplaces`
+                        "
+                      >
+                        Au format  <a href="https://github.com/LinkedPasts/linked-places">LinkedPlaces</a>
+                         <v-icon class="ml-3">get_app</v-icon>
+                      </v-btn>
+                    </div>
+                 </v-col>
+              </v-row>
             </v-card>
           </v-col>
 
@@ -220,7 +219,7 @@ export default {
   },
   data: () => {
     return {
-
+      showCopyTooltip: false
     }
   },
   created () {
@@ -248,6 +247,9 @@ export default {
         coords[1] = parseFloat(coords[1].trim())
       }
       return coords.reverse()
+    },
+    copyLink () {
+      this.showCopyTooltip = !this.showCopyTooltip
     }
   },
   watch: {
@@ -259,7 +261,9 @@ export default {
     ...mapState('bibls', { biblItem: 'bibl' }),
     ...mapState('searchParameters', ['showIIIFViewer']),
     ...mapGetters('PlaceCard', ['canvasIndex', 'IIIFAvailability', 'manifestUrl']),
-
+    shareLink () {
+      return window.location.href
+    },
     coordinates () {
       return this.commune && this.commune.data
         ? this.buildCoords(this.commune.data)
@@ -283,7 +287,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .map-container {
   width: 100%;
   height: 100%;
@@ -295,5 +299,25 @@ export default {
 }
 .place-page-layout {
   min-height: 1000px;
+}
+
+.share {
+  .v-btn {
+    font-weight: normal;
+    text-transform: initial;
+    width: 250px;
+  }
+  .share-link {
+    color: black;
+    padding: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+    font-family: monospace, monospace;
+    font-weight: normal !important;
+    display: inline-block;
+    border-radius: 3px;
+    background-color: #f5f5f5;
+  }
 }
 </style>

@@ -11,7 +11,8 @@ export const getters: GetterTree<QueryState, RootState> = {
     if (!state.term || state.term.length < minTermLength) {
       return undefined
     }
-    query = `label.folded:${state.term}~${Math.max(state.fuzziness, 0)}`
+    const fuzz = Math.max(state.fuzziness, 0)
+    query = `label.folded:${state.term}${fuzz > 0 ? `~${fuzz}` : ''}`
     // query = `(place-label.folded:${state.term} AND NOT (type:"place-old-label")) OR (label.folded:${state.term} AND type:"place-old-label")` // include old labels means "do not filter on the type field"
     // query = `label:${state.term} AND NOT (type:"place-old-label")` // do not include old labels means "filter out the place-old-label type"
     return query

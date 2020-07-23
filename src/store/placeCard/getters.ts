@@ -22,7 +22,11 @@ export const getters: GetterTree<PlaceCardState, RootState> = {
     }
     try {
       const resp: any = state.placeItem.responsibility
-      return `${resp.attributes.bibl.abbr}, p. ${resp.attributes['num-start-page']}.`
+      if (resp.attributes['num-start-page'] === null) {
+        return resp.attributes.bibl.abbr
+      } else {
+        return `${resp.attributes.bibl.abbr}, p. ${resp.attributes['num-start-page']}.`
+      }
     } catch (e) {
       return null
     }

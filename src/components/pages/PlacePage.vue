@@ -79,7 +79,7 @@
                       >Wikipédia</a
                     >
                     <v-chip small label class="ml-4">{{
-                      placeItem.wikipedia_url
+                      decodeURI(placeItem.wikipedia_url)
                     }}</v-chip>
                   </li>
                   <li
@@ -124,12 +124,13 @@
               </p>
 
               <v-row class="share pa-8 pt-0">
-                <v-col class="mb-2" md="auto">Citer :
+                <v-col class="mb-2" md="auto">
+                  <span class="overline">Citer</span>
                   <div>
                      <v-tooltip top v-model="showCopyTooltip" :open-on-hover="false" :open-on-click="false" :close-delay="1500">
                       <template v-slot:activator="{ on }">
                         <v-btn flat depressed
-                          class="share-link ml-5 mt-3"
+                          class="share-link mt-3"
 
                           v-clipboard:copy="`${shareLink}`"
                           v-clipboard:success="copyLink"
@@ -144,9 +145,9 @@
 
                   </div>
                 </v-col>
-                <v-col class="mb-2 ml-5">
-                  Télécharger :
-                    <div class="mb-2 ml-5 mt-3">
+                <v-col class="mb-2 download">
+                    <span class="overline">Télécharger</span>
+                    <div class="mb-2  mt-3">
                       <v-btn
                         depressed
                         :href="`${apiUrl}/places/${placeId}`"
@@ -318,6 +319,9 @@ export default {
     display: inline-block;
     border-radius: 3px;
     background-color: #f5f5f5;
+  }
+  .download {
+    text-align: right;
   }
 }
 </style>

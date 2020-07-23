@@ -129,7 +129,7 @@
                   <div>
                      <v-tooltip top v-model="showCopyTooltip" :open-on-hover="false" :open-on-click="false" :close-delay="1500">
                       <template v-slot:activator="{ on }">
-                        <v-btn flat depressed
+                        <v-btn text depressed
                           class="share-link mt-3"
 
                           v-clipboard:copy="`${shareLink}`"

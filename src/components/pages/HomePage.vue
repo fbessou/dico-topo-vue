@@ -67,17 +67,18 @@ export default {
   beforeRouteEnter: (to, from, next) => {
     next(vm => {
       // access to component instance via `vm`
-      console.log('BEFORE@', to, from, next)
-      if (from.name === 'place') {
-        this.selectPlace(this.selectedItem)
+      console.log('BEFORE@', from, vm.selectedItem)
+      if (vm.selectedItem && from.name === 'place') {
+        vm.selectPlace(vm.selectedItem)
       } else {
-        this.unselectPlace()
+        vm.unselectPlace()
       }
       next()
     })
   },
   data () {
     return {
+
     }
   },
   mounted () {

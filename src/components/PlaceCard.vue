@@ -214,11 +214,11 @@ export default {
 <style>
 
 .place-card-popup {
-  position: absolute;
-  top: 30px;
-  left: 50px;
-  width: 650px;
-  z-index: 10000;
+  position: absolute !important;
+  top: 30px  !important;
+  left: 60px  !important;
+  width: 650px  !important;
+  z-index: 10000  !important;
 }
 .title-buttons {
   float: right;

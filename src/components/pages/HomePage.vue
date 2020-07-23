@@ -99,7 +99,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .map-container {
     width: 100%;
     height: 100%;
@@ -116,5 +116,10 @@ export default {
   .toggle-table {
     width: 70px;
     height: 36px;
+  }
+
+  html, body {
+    overflow-y: hidden;
+    height: 100%;
   }
 </style>

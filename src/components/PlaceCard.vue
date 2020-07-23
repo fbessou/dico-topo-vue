@@ -180,7 +180,17 @@ export default {
       return `, ${date} ${ref}`
     },
     flyToSelectedItem () {
-      this.setFlyToItem(this.flyToItem)
+      const longlat = this.commune.data.attributes.longlat
+      const coords = longlat.substr(1, longlat.length - 2).split(',')
+
+      const item = {
+        id: this.placeItem.id,
+        coordinates: [
+          parseFloat(coords[1]),
+          parseFloat(coords[0])
+        ]
+      }
+      this.setFlyToItem(item)
     }
   },
   computed: {

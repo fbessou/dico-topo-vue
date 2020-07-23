@@ -17,6 +17,8 @@ export interface QueryState {
   depFilter: Object[];
   ctnFilter: Object[];
   range: RangeParameter;
+  tableFullscreen: boolean;
+  tableMinimized: boolean;
   fuzziness: number;
 
   minTermLength: number;

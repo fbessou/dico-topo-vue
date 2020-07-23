@@ -22,6 +22,12 @@ export const actions: ActionTree<QueryState, RootState> = {
   setPagination ({ commit, state, rootState }, t): any {
     commit('setPagination', t)
   },
+  setTableFullscreen ({ commit, state, rootState }, t): any {
+    commit('setTableFullscreen', t)
+  },
+  setTableMinimized ({ commit, state, rootState }, t): any {
+    commit('setTableMinimized', t)
+  },
   saveZoom ({ commit, state, rootState }, { zoom, center }): any {
     commit('saveZoom', { zoom, center })
   },

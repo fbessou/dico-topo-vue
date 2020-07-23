@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     class="fixed-header v-table__overflow elevation-2"
-    :class="fullscreen ? 'fullscreen-table' : 'normal-table'"
+    :class="tableFullscreen ? 'fullscreen-table' : 'normal-table'"
     hide-default-header
     hide-default-footer
     fixed-header
@@ -24,7 +24,7 @@
             v-for="(h, index) in headers"
             :key="index"
             class="overline font-weight-regular grey lighten-3"
-            :class="fullscreen ? `fullscreen-table-th ${h.class}` : h.class"
+            :class="tableFullscreen ? `fullscreen-table-th ${h.class}` : h.class"
           >
             <v-icon small v-if="h.prependIcon">{{ h.prependIcon }}</v-icon>
 
@@ -212,7 +212,6 @@ export default {
     return {
       loading: true,
       showTable: true,
-      fullscreen: false,
 
       numAggPage: 0,
 
@@ -354,7 +353,7 @@ export default {
     },
     toggleFullscreen () {
       // this.unselectPlace()
-      this.fullscreen = !this.fullscreen
+      this.setTableFullscreen(!this.tableFullscreen)
     },
     ...mapActions('mapmarkers', ['setFlyToItem']),
     ...mapActions('places', [
@@ -372,7 +371,8 @@ export default {
       'setDepFilter',
       'setCtnFilter',
       'setPagination',
-      'fetchUniqueLists'
+      'fetchUniqueLists',
+      'setTableFullscreen'
     ])
   },
   computed: {
@@ -487,7 +487,8 @@ export default {
       'depFilter',
       'ctnFilter',
       'range',
-      'term'
+      'term',
+      'tableFullscreen'
     ]),
     ...mapState('searchParameters', { storedPagination: 'pagination' }),
     ...mapGetters('searchParameters', [

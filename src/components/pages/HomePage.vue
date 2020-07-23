@@ -19,12 +19,12 @@
         </div>
 
         <place-search-table
-          v-show="!!showTabularResults && term.length > 0 && (meta.totalCount || ctnFilter || depFilter)"
+          v-show="!tableMinimized && term.length > 0 && (meta.totalCount || ctnFilter || depFilter)"
           :select-item-callback="selectPlaceOnMap"
         >
           <v-btn
             depressed small
-            @click="showTabularResults = false"
+            @click="hideTable"
             class="toggle-table grey lighten-3 text-center"
           >
             <v-icon>keyboard_arrow_down</v-icon>
@@ -32,9 +32,9 @@
         </place-search-table>
 
           <v-btn
-            v-if="!showTabularResults"
+            v-if="tableMinimized"
             depressed small
-            @click="showTabularResults = true"
+            @click="showTable"
             class="toggle-table toggle-table-up elevation-5 grey lighten-3 text-center"
           >
             <v-icon>keyboard_arrow_up</v-icon>
@@ -64,37 +64,50 @@ export default {
     'MyAwesomeMap': () => import(/* webpackChunkName: "map-component" */ '../MyAwesomeMap'),
     'PlaceCard': () => import(/* webpackChunkName: "card-component" */ '../PlaceCard')
   },
+  beforeRouteEnter: (to, from, next) => {
+    next(vm => {
+      // access to component instance via `vm`
+      console.log('BEFORE@', to, from, next)
+      if (from.name === 'place') {
+        this.selectPlace(this.selectedItem)
+      } else {
+        this.unselectPlace()
+      }
+      next()
+    })
+  },
   data () {
     return {
-      showTabularResults: true
     }
   },
   mounted () {
-    this.unselectPlace()
+    // this.unselectPlace()
     this.inputTerm = this.term
   },
   methods: {
     ...mapActions('places', ['fetchPlace', 'searchPlace', 'clearAll', 'selectPreviousAggPage', 'recordCurrentAggPage']),
+    ...mapActions('places', ['selectPlace', 'unselectPlace']),
+    ...mapActions('searchParameters', ['setTableMinimized']),
     selectPlaceOnMap (obj) {
       if (obj) {
         this.selectPlace(obj)
-        // Vue.set(this, 'showTabularResults', false)
-        // this.showTabularResults = false
       } else {
         this.unselectPlace()
       }
     },
     onMapClickCallback () {
-      // this.unselectPlace()
-      // Vue.set(this, 'showTabularResults', false)
-      // this.showTabularResults = false
     },
-    ...mapActions('places', ['selectPlace', 'unselectPlace'])
+    showTable () {
+      this.setTableMinimized(false)
+    },
+    hideTable () {
+      this.setTableMinimized(true)
+    }
   },
   computed: {
     ...mapState('mapmarkers', { 'mapMarkerItems': 'items' }),
     ...mapState('places', { selectedPlace: 'selectedItem', meta: 'meta' }),
-    ...mapState('searchParameters', ['term', 'range', 'includeOldLabels', 'groupbyPlace', 'minTermLength', 'zoom', 'center', 'ctnFilter', 'depFilter'])
+    ...mapState('searchParameters', ['tableMinimized', 'term', 'range', 'includeOldLabels', 'groupbyPlace', 'minTermLength', 'zoom', 'center', 'ctnFilter', 'depFilter'])
   }
 }
 </script>

@@ -12,6 +12,8 @@ export function getDefaultState (): QueryState {
     }],
     range: { key: '', operators: [] },
     fuzziness: 0,
+    tableFullscreen: false,
+    tableMinimized: false,
     depFilter: [],
     ctnFilter: [],
     minTermLength: 2,
@@ -69,6 +71,12 @@ export const mutations: MutationTree<QueryState> = {
   },
   setPagination (state: QueryState, value) {
     state.pagination = Object.assign({}, state.pagination, value)
+  },
+  setTableFullscreen (state: QueryState, value) {
+    state.tableFullscreen = value
+  },
+  setTableMinimized (state: QueryState, value) {
+    state.tableMinimized = value
   },
   saveZoom (state: QueryState, { zoom, center }) {
     state.zoom = zoom

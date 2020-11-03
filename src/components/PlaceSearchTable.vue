@@ -521,7 +521,7 @@ export default {
 }
 
 .localisation-header {
-  width: 60px;
+   min-width: 60px;
   text-align: center !important;
 }
 .place-header {
@@ -529,22 +529,21 @@ export default {
   min-width: 170px;
 }
 .old-labels-header {
-  min-width: 190px;
+  min-width: 200px;
   width: 550px;
 }
 .departement-header {
-  width: 125px !important;
+  min-width: 125px !important;
 }
 .canton-header {
-  width: 200px;
+  min-width: 170px;
 }
 .commune-header {
-  width: 200px;
-  min-width: 100px;
+  min-width: 150px;
 }
 .description-header {
-  width: 500px;
-  min-width: 320px;
+  width: 480px;
+  min-width: 240px;
 }
 .very-small {
   height: 26px !important;
@@ -578,6 +577,10 @@ dfn {
 
 .search-table tr:nth-of-type(odd) {
    background-color: rgba(0, 0, 0, .02);
+ }
+
+.search-table tr td{
+  padding: 3px O !important;
  }
 
 .fixed-agg-footer {

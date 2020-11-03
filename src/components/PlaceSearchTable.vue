@@ -533,7 +533,7 @@ export default {
   width: 550px;
 }
 .departement-header {
-  min-width: 125px !important;
+  min-width: 145px !important;
 }
 .canton-header {
   min-width: 170px;

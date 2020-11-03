@@ -61,9 +61,24 @@ export default {
 .fuzziness {
     min-width: 160px;
     margin-top: 2px;
-    margin-right: 42px;
+    margin-right: 50px;
     .v-messages {
-    display: none !important;
-}
+      display: none !important;
+    }
+
+  .v-label {
+    margin-left: 8px !important;
+  }
+
+  .v-input__slot {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    .v-application--is-ltr & {
+      .v-input--selection-controls__input {
+        margin-right: 0;
+        margin-left: 16px;
+      }
+    }
+  }
 }
 </style>

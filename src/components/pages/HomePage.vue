@@ -67,7 +67,7 @@ export default {
   beforeRouteEnter: (to, from, next) => {
     next(vm => {
       // access to component instance via `vm`
-      console.log('BEFORE@', from, vm.selectedItem)
+      // console.log('BEFORE@', from, vm.selectedItem)
       if (vm.selectedItem && from.name === 'place') {
         vm.selectPlace(vm.selectedItem)
       } else {
@@ -116,7 +116,6 @@ export default {
 <style scoped>
   .map-container {
     width: 100%;
-    height: 100%;
   }
   .toggle-table-up {
     position: fixed;

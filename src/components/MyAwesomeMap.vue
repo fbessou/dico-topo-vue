@@ -373,8 +373,9 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
+  top: 64px;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 64px) !important;
   background-color: lightgrey;
 }
 </style>

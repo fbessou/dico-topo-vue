@@ -40,8 +40,8 @@
 
     <span v-if="showFilters" class="toolbar-buttons">
 
-      <fuzziness-widget />
       <group-by-widget />
+      <fuzziness-widget />
       <!--
       <department-filter-menu />
       -->

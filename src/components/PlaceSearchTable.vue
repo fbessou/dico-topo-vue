@@ -1,6 +1,6 @@
 <template>
   <v-data-table
-    class="fixed-header v-table__overflow elevation-2"
+    class="search-table fixed-header v-table__overflow elevation-2"
     :class="tableFullscreen ? 'fullscreen-table' : 'normal-table'"
     hide-default-header
     hide-default-footer
@@ -387,7 +387,7 @@ export default {
       }
 
       const toponym = {
-        text: 'Toponyme',
+        text: 'Forme ancienne',
         align: 'left',
         value: 'label',
         sortable: true,
@@ -511,7 +511,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .sortOrderNum {
   color: rgb(38, 123, 219);
   font-weight: bold;
@@ -533,7 +533,7 @@ export default {
   width: 550px;
 }
 .departement-header {
-  width: 120px;
+  width: 125px !important;
 }
 .canton-header {
   width: 200px;
@@ -562,20 +562,23 @@ dfn {
 
 .fullscreen-table {
   position: absolute;
-  bottom: 0;
-  height: 100%;
+  height: calc(100% - 64px) !important;
   width: 100%;
 }
 
 .fullscreen-table-th {
-  height: 60px !important;
+  height: 64px !important;
 }
 .normal-table {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   height: 40%;
   width: 100%;
 }
+
+.search-table tr:nth-of-type(odd) {
+   background-color: rgba(0, 0, 0, .02);
+ }
 
 .fixed-agg-footer {
   position: absolute;

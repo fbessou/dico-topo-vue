@@ -580,7 +580,8 @@ dfn {
  }
 
 .search-table tr td{
-  padding: 3px O !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
  }
 
 .fixed-agg-footer {

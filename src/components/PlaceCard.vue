@@ -240,9 +240,6 @@ p::first-letter,
 .capitalize-first-letter::first-letter {
   text-transform: uppercase;
 }
-ul {
-
-}
 .sc {
   font-variant: small-caps !important;
 }

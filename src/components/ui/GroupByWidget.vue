@@ -31,7 +31,7 @@
         >
         </v-switch>
       </v-flex>
-      <v-flex >
+      <v-flex>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <span style="margin-left: 12px" v-on="on">Toponymes</span>

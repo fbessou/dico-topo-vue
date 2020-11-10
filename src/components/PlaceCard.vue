@@ -215,7 +215,7 @@ export default {
 
 .place-card-popup {
   position: absolute !important;
-  top: 30px  !important;
+  top: 90px  !important;
   left: 60px  !important;
   width: 650px  !important;
   z-index: 10000  !important;

@@ -81,6 +81,17 @@
           </v-list-tile>
         </v-list>
 
+          <v-list-tile v-if="osmId">
+            <v-list-tile-content>
+              <v-list-tile-title>
+                <a :href="`https://viaf.org/viaf/${osmId}`" target="_blank">OpenStreetMap</a>
+                <v-chip small label class="ref-chip">{{osmId}}</v-chip>
+              </v-list-tile-title>
+              <v-list-tile-sub-title>Lien vers l'objet concernant le lieu identifié sur OpenStreetMap</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+
       </v-card>
     </v-menu>
   </div>
@@ -94,7 +105,8 @@ export default {
     wikipediaUrl: { type: String },
     wikidataItemId: { type: String },
     databnfArk: { type: String },
-    viafId: { type: String }
+    viafId: { type: String },
+    osmId: { type: String }
   },
   data: () => ({
     menu: false

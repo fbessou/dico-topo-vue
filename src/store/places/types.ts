@@ -19,6 +19,7 @@ export interface Place {
   wikipedia_url?: string;
   databnf_ark?: string;
   viaf_id?: string;
+  osm_id?: string;
 }
 
 export interface PlaceState {

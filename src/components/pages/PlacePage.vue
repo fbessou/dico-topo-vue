@@ -19,7 +19,8 @@
                     placeItem.geoname_id ||
                     placeItem.viaf_id ||
                     placeItem.wikidata_item_id ||
-                    placeItem.wikipedia_url
+                    placeItem.wikipedia_url ||
+                    placeItem.osm_id
                 "
                 class="mb-2"
               >
@@ -110,6 +111,21 @@
                     >
                     <v-chip small label class="ml-4">{{
                       placeItem.siaf_id
+                    }}</v-chip>
+                  </li>
+                                    <li
+                    class="d-flex justify-space-between  mb-4"
+                    v-if="placeItem.osm_id"
+                  >
+                    <a
+                      :href="
+                        `https://www.openstreetmap.org/relation/${placeItem.osm_id}`
+                      "
+                      target="_blank"
+                      >OpenStreetMap</a
+                    >
+                    <v-chip small label class="ml-4">{{
+                      placeItem.osm_id
                     }}</v-chip>
                   </li>
                 </ul>

@@ -47,6 +47,19 @@
                     }}</v-chip>
                   </li>
                   <li
+                    class="d-flex justify-space-between  mb-4"
+                    v-if="placeItem.insee_code"
+                  >
+                    <a
+                      :href="`https://www.insee.fr/fr/recherche/recherche-geographique?geo=COM-${placeItem.insee_code}`"
+                      target="_blank"
+                      >Insee</a
+                    >
+                    <v-chip small label class="ml-4">{{
+                      placeItem.insee_code
+                    }}</v-chip>
+                  </li>
+                  <li
                     class="d-flex justify-space-between mt-2 mb-4"
                     v-if="placeItem.geoname_id"
                   >
@@ -256,14 +269,14 @@ export default {
     },
     buildCoords (obj) {
       const longlat = obj.attributes['longlat']
-      const coords = longlat
+      const srcCoords = longlat
         ? longlat.substr(1, longlat.length - 2).split(',')
         : []
-      if (coords) {
-        coords[0] = parseFloat(coords[0].trim())
-        coords[1] = parseFloat(coords[1].trim())
+
+      if (srcCoords.length > 0) {
+        return [parseFloat(srcCoords[1].trim()), parseFloat(srcCoords[0].trim())]
       }
-      return coords.reverse()
+      return []
     },
     copyLink () {
       this.showCopyTooltip = !this.showCopyTooltip

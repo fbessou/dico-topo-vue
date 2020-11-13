@@ -15,13 +15,15 @@ export const getters: GetterTree<QueryState, RootState> = {
     }
     const fuzz = Math.max(state.fuzziness, 0)
 
-    let termParts = term.split(' ')
-    term = termParts.map(t => `label.folded:${t}`).join(' ')
+    if ((term.startsWith('"') && term.endsWith('"')) ||
+        (term.startsWith('\'') && term.endsWith('\''))) {
 
-    console.log('@@TERM', state.term, term)
+    } else {
+      let termParts = term.split(' ')
+      term = termParts.map(t => `label.folded:${t}`).join(' ')
+    }
+
     query = `${term}${fuzz > 0 ? `~${fuzz}` : ''}`
-    // query = `(place-label.folded:${state.term} AND NOT (type:"place-old-label")) OR (label.folded:${state.term} AND type:"place-old-label")` // include old labels means "do not filter on the type field"
-    // query = `label:${state.term} AND NOT (type:"place-old-label")` // do not include old labels means "filter out the place-old-label type"
     return query
   },
   getSortOrder: (state) => (key: any) => {

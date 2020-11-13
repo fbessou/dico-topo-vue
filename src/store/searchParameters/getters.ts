@@ -8,11 +8,18 @@ const minTermLength = 2
 export const getters: GetterTree<QueryState, RootState> = {
   query (state): any {
     let query
-    if (!state.term || state.term.length < minTermLength) {
+    let term = state.term
+    term = term.replace('  ', ' ')
+    if (!term || term.length < minTermLength) {
       return undefined
     }
     const fuzz = Math.max(state.fuzziness, 0)
-    query = `label.folded:${state.term}${fuzz > 0 ? `~${fuzz}` : ''}`
+
+    let termParts = term.split(' ')
+    term = termParts.map(t => `label.folded:${t}`).join(' ')
+
+    console.log('@@TERM', state.term, term)
+    query = `${term}${fuzz > 0 ? `~${fuzz}` : ''}`
     // query = `(place-label.folded:${state.term} AND NOT (type:"place-old-label")) OR (label.folded:${state.term} AND type:"place-old-label")` // include old labels means "do not filter on the type field"
     // query = `label:${state.term} AND NOT (type:"place-old-label")` // do not include old labels means "filter out the place-old-label type"
     return query

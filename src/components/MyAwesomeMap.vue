@@ -2,6 +2,7 @@
   <l-map
     v-resize="onResize"
     class="l-map"
+    :class="fullMap ? 'full-map' : ''"
     ref="map"
     :max-zoom="maxZoom"
     :min-zoom="minZoom"
@@ -64,7 +65,8 @@ export default {
     minZoom: { type: Number, default: 6 },
     initialZoom: { type: Number, default: 6 },
     initialCenter: { type: Object, default: undefined },
-    savePosition: { type: Boolean, default: false }
+    savePosition: { type: Boolean, default: false },
+    fullMap: { type: Boolean, default: true }
   },
   data () {
     return {
@@ -373,9 +375,12 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  top: 64px;
   width: 100%;
-  height: calc(100% - 64px) !important;
+
   background-color: lightgrey;
+}
+.full-map {
+  top: 64px;
+  height: calc(100% - 64px) !important;
 }
 </style>

@@ -212,6 +212,7 @@
                   :initial-center="{ lat: coordinates[0], lng: coordinates[1] }"
                   :save-position="false"
                   :mapmarker-items="mapItems"
+                  :full-map="false"
                 />
               </v-card>
             </transition>

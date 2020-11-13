@@ -1,7 +1,7 @@
 <template>
   <default-layout>
     <v-container fluid>
-      <span class="title text-xs-center orange--text">Page non trouvée</span>
+      <span class="title text-xs-center red--text darken-2">Page non trouvée</span>
     </v-container>
   </default-layout>
 </template>
@@ -17,5 +17,7 @@ export default {
 </script>
 
 <style scoped>
-
+  span {
+    margin: 20px;
+  }
 </style>

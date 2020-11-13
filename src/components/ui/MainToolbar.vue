@@ -8,7 +8,7 @@
       <img
         src="@/assets/logo-dicotopo-cut.png"
         height="55px"
-        style="padding-top: 8px; padding-left: 40px"
+        style="padding-top: 8px; padding-left: 18px"
       />
     </v-toolbar-title>
 
@@ -192,6 +192,8 @@ export default {
 html {
   background: lightgrey;
 }
+
+/*
 body:after {
   z-index: 100000;
   content: "beta";
@@ -219,6 +221,7 @@ body:after {
   position: relative;
   left: 30px;
 }
+*/
 
 .toolbar-buttons span {
   display: inline-block;

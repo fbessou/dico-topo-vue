@@ -2,7 +2,6 @@
   <l-map
     v-resize="onResize"
     class="l-map"
-    :class="fullMap ? 'full-map' : ''"
     ref="map"
     :max-zoom="maxZoom"
     :min-zoom="minZoom"
@@ -379,8 +378,5 @@ export default {
 
   background-color: lightgrey;
 }
-.full-map {
-  top: 64px;
-  height: calc(100% - 64px) !important;
-}
+
 </style>

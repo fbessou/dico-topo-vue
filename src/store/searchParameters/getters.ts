@@ -15,13 +15,8 @@ export const getters: GetterTree<QueryState, RootState> = {
     }
     const fuzz = Math.max(state.fuzziness, 0)
 
-    if ((term.startsWith('"') && term.endsWith('"')) ||
-        (term.startsWith('\'') && term.endsWith('\''))) {
-
-    } else {
-      let termParts = term.split(' ')
-      term = termParts.map(t => `label.folded:${t}`).join(' ')
-    }
+    let termParts = term.split(' ')
+    term = termParts.map(t => `label.folded:${t}`).join(' ')
 
     query = `${term}${fuzz > 0 ? `~${fuzz}` : ''}`
     return query

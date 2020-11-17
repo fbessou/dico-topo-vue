@@ -51,12 +51,11 @@
       </section>
 
       <section class="landing-content">
-        <v-layout column wrap class="my-5" align-center>
-          <v-flex xs12>
-            <v-container grid-list-xl>
               <v-layout row wrap align-center>
-                <v-flex xs3>
-                  <v-card class="elevation-0 transparent">
+                <v-container fluid style="max-width: 87% !important; margin-top: 40px;">
+                <v-row mt-5 mb-5 justify="center">
+                  <v-col>
+                  <v-card class="elevation-0 transparent presentation-left">
                     <v-card-title primary-title class="layout">
                       <v-icon x-large class="red--text text--darken-2 landing-icon">
                         search
@@ -70,14 +69,14 @@
  Le Dictionnaire topographique de la France recense les noms de lieux attestés sur le territoire français ainsi que les formes anciennes (latines et autres) qu’ils ont revêtues au cours des siècles. Il réunit en une base de données unique l’ensemble des dictionnaires départementaux publiés depuis le XIXe siècle ou demeurés inédits.
                     </v-card-text>
                   </v-card>
-                </v-flex>
-                <v-flex mt4>
+                </v-col>
+                <v-col :cols="7">
                   <div class="landing-map-content">
                     <landing-map> </landing-map>
                   </div>
-                </v-flex>
-                <v-flex xs3>
-                  <v-card class="elevation-0 transparent">
+                </v-col>
+                <v-col >
+                  <v-card class="elevation-0 transparent  presentation-right">
                     <v-card-title primary-title class="layout">
                       <v-icon x-large class="red--text text--darken-2 landing-icon"
                         >place</v-icon
@@ -89,11 +88,10 @@
 Les données relatives à chaque lieu sont accessibles aux formats GeoJSON et LinkedPlaces, grâce à une API. Elles sont librement réexploitables dans le cadre d'applications web à caractère historique, géographique ou patrimonial.
                     </v-card-text>
                   </v-card>
-                </v-flex>
+                </v-col>
+                </v-row>
+                </v-container>
               </v-layout>
-            </v-container>
-          </v-flex>
-        </v-layout>
       </section>
 
     </section>
@@ -144,8 +142,10 @@ export default {
   min-height: 800px;
 }
 .landing-map-content {
-  padding-top: 40px;
+  padding-top: 15px;
+  height: 420px;
 }
+
 .headline {
   word-break: break-word;
 }

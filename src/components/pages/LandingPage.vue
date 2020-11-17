@@ -50,69 +50,43 @@
         </v-parallax>
       </section>
 
-      <section>
+      <section class="landing-content">
         <v-layout column wrap class="my-5" align-center>
           <v-flex xs12>
             <v-container grid-list-xl>
               <v-layout row wrap align-center>
-                <v-flex xs12 md4>
+                <v-flex xs3>
                   <v-card class="elevation-0 transparent">
-                    <v-card-text class="text-xs-center">
-                      <v-icon x-large class="red--text text--darken-2"
-                        >place</v-icon
-                      >
-                    </v-card-text>
-                    <v-card-title primary-title class="layout justify-center">
-                      <div class="headline text-xs-center">
+                    <v-card-title primary-title class="layout">
+                      <v-icon x-large class="red--text text--darken-2 landing-icon">
+                        search
+                      </v-icon>
+                      <div class="headline  text-xs-center">
+
                         Un outil pour la toponymie et l’histoire
                       </div>
                     </v-card-title>
                     <v-card-text>
-                      Le <i>Dictionnaire topographique de la France</i>, publié
-                      depuis le XIX<sup>e</sup> siècle sous forme de volumes
-                      départementaux, constitue un instrument indispensable à la
-                      connaissance des noms de lieux et des territoires anciens
-                      et modernes.
+ Le Dictionnaire topographique de la France recense les noms de lieux attestés sur le territoire français ainsi que les formes anciennes (latines et autres) qu’ils ont revêtues au cours des siècles. Il réunit en une base de données unique l’ensemble des dictionnaires départementaux publiés depuis le XIXe siècle ou demeurés inédits.
                     </v-card-text>
                   </v-card>
                 </v-flex>
-                <v-flex xs12 md4>
+                <v-flex mt4>
+                  <div class="landing-map-content">
+                    <landing-map> </landing-map>
+                  </div>
+                </v-flex>
+                <v-flex xs3>
                   <v-card class="elevation-0 transparent">
-                    <v-card-text class="text-xs-center">
-                      <v-icon x-large class="red--text text--darken-2"
-                        >map</v-icon
+                    <v-card-title primary-title class="layout">
+                      <v-icon x-large class="red--text text--darken-2 landing-icon"
+                        >place</v-icon
                       >
-                    </v-card-text>
-                    <v-card-title primary-title class="layout justify-center">
                       <div class="headline text-xs-center">
-                        Des données numériques enrichies
-                      </div>
+                         Un référentiel géohistorique</div>
                     </v-card-title>
                     <v-card-text>
-                      La publication électronique du Dictionnaire permet d’en
-                      enrichir les données, d’en faciliter la consultation et
-                      d’offrir des possibilités d’interrogation et
-                      d’exploitation démultipliées : visualisation
-                      cartographique, repérage d’un type d’objet topographique,
-                      liage vers des bases de connaissances, etc.
-                    </v-card-text>
-                  </v-card>
-                </v-flex>
-                <v-flex xs12 md4>
-                  <v-card class="elevation-0 transparent">
-                    <v-card-text class="text-xs-center">
-                      <v-icon x-large class="red--text text--darken-2"
-                        >search</v-icon
-                      >
-                    </v-card-text>
-                    <v-card-title primary-title class="layout justify-center">
-                      <div class="headline text-xs-center">Perspectives</div>
-                    </v-card-title>
-                    <v-card-text>
-                      Couvrant actuellement 29 départements, cet outil a
-                      vocation à étendre son périmètre géographique comme à
-                      développer encore ses possibilités d’exploitation des
-                      données, en partenariat avec d’autres projets.
+Les données relatives à chaque lieu sont accessibles aux formats GeoJSON et LinkedPlaces, grâce à une API. Elles sont librement réexploitables dans le cadre d'applications web à caractère historique, géographique ou patrimonial.
                     </v-card-text>
                   </v-card>
                 </v-flex>
@@ -122,11 +96,6 @@
         </v-layout>
       </section>
 
-      <section style="height: 800px; padding-top: 80px">
-        <v-layout column align-center justify-center>
-          <landing-map> </landing-map>
-        </v-layout>
-      </section>
     </section>
   </default-layout>
 </template>
@@ -169,5 +138,18 @@ export default {
 }
 .head--section {
   background: lightgrey;
+}
+.landing-content {
+  padding-top: 15px;
+  min-height: 800px;
+}
+.landing-map-content {
+  padding-top: 40px;
+}
+.headline {
+  word-break: break-word;
+}
+.landing-icon {
+  margin-right: 14px;
 }
 </style>

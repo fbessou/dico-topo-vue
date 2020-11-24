@@ -2,7 +2,7 @@
 {
 "CODE_REG": 82,
     "NOM_REGION": "Rhône-Alpes",
-    "CODE_DEPT": 01,
+    "CODE_DEPT": "01",
     "NOM_DEPT": "Ain",
     "NB_PLACES": 11281,
     "NB_PLACENAMES": 26464
@@ -10,7 +10,7 @@
   {
     "CODE_REG": 22,
     "NOM_REGION": "Picardie",
-    "CODE_DEPT": 02,
+    "CODE_DEPT": "02",
     "NOM_DEPT": "Aisne",
     "NB_PLACES": 6435,
     "NB_PLACENAMES": 19167
@@ -18,7 +18,7 @@
   {
     "CODE_REG": 93,
     "NOM_REGION": "Provence-Alpes-Côte d'Azur",
-    "CODE_DEPT": 05,
+    "CODE_DEPT": "05",
     "NOM_DEPT": "Hautes-Alpes",
     "NB_PLACES": 9661,
     "NB_PLACENAMES": 15782
@@ -26,7 +26,7 @@
   {
     "CODE_REG": 82,
     "NOM_REGION": "Rhône-Alpes",
-    "CODE_DEPT": 07,
+    "CODE_DEPT": "07",
     "NOM_DEPT": "Ardèche",
     "NB_PLACES": 16127,
     "NB_PLACENAMES": 23451

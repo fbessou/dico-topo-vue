@@ -2,51 +2,8 @@
   <v-app>
     <main-toolbar></main-toolbar>
 
-    <v-navigation-drawer permanent app  fixed style="border-top: 1px solid darkgrey">
-      <v-toolbar flat>
-        <v-list>
-          <v-list-tile>
-            <v-list-tile-title class="title">
-              Documentation
-            </v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-      </v-toolbar>
-
-      <v-list two-line subheader>
-        <v-subheader>Services</v-subheader>
-
-        <v-list dense>
-          <v-list-tile
-            v-for="feat in features"
-            :key="feat.anchor"
-          >
-            <v-list-tile-content >
-              <v-list-tile-title><a :href="'#' + feat.anchor">{{ feat.attributes.title }}</a></v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list>
-      </v-list>
-
-      <v-list subheader two-line >
-        <v-subheader>Ressources</v-subheader>
-        <v-list dense>
-        <v-list-tile
-          v-for="res in resources"
-          :key="res.anchor"
-        >
-          <v-list-tile-content >
-            <v-list-tile-title><a :href="'#' + res.anchor">{{ res.title }}</a></v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        </v-list>
-      </v-list>
-
-    </v-navigation-drawer>
-
     <v-content>
       <v-container grid-list-md>
-        <v-layout row wrap>
           <v-flex  xs12>
               <h1>Documentation de l'API Dicotopo</h1>
               <img src="@/assets/json-api-logo-300x113.png" height="100px" style="padding: 8px;"/>
@@ -166,7 +123,6 @@
             </v-card>
 
           </v-flex>
-        </v-layout>
       </v-container>
     </v-content>
   </v-app>

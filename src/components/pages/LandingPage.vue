@@ -51,9 +51,8 @@
       </section>
 
       <section class="landing-content">
-              <v-layout row wrap align-center>
-                <v-container fluid style="max-width: 87% !important; margin-top: 40px;">
-                <v-row mt-5 mb-5 justify="center">
+                <v-container >
+                <v-row mt-5 mb-5 >
                   <v-col>
                   <v-card class="elevation-0 transparent presentation-left">
                     <v-card-title primary-title class="layout">
@@ -69,13 +68,6 @@
  Le Dictionnaire topographique de la France recense les noms de lieux attestés sur le territoire français ainsi que les formes anciennes (latines et autres) qu’ils ont revêtues au cours des siècles. Il réunit en une base de données unique l’ensemble des dictionnaires départementaux publiés depuis le XIXe siècle ou demeurés inédits.
                     </v-card-text>
                   </v-card>
-                </v-col>
-                <v-col :cols="7">
-                  <div class="landing-map-content">
-                    <landing-map> </landing-map>
-                  </div>
-                </v-col>
-                <v-col >
                   <v-card class="elevation-0 transparent  presentation-right">
                     <v-card-title primary-title class="layout">
                       <v-icon x-large class="red--text text--darken-2 landing-icon"
@@ -89,9 +81,13 @@ Les données relatives à chaque lieu sont accessibles aux formats GeoJSON et Li
                     </v-card-text>
                   </v-card>
                 </v-col>
+                <v-col :md="7" :sm="12">
+                  <div class="landing-map-content">
+                    <landing-map> </landing-map>
+                  </div>
+                </v-col >
                 </v-row>
                 </v-container>
-              </v-layout>
       </section>
 
     </section>
@@ -107,18 +103,7 @@ export default {
   name: 'LandingPage',
   components: { DefaultLayout, LandingMap },
   watch: {
-    /*
-      query() {
-        if (!!this.query) {
-          this.goToMainPage();
-        }
-      },
-      groupbyPlace(){
-        if (!!this.query) {
-          this.goToMainPage();
-        }
-      }
-      */
+
   },
   methods: {
     ...mapActions('searchParameters', ['setTerm', 'setGroupbyPlace'])
@@ -138,12 +123,15 @@ export default {
   background: lightgrey;
 }
 .landing-content {
-  padding-top: 15px;
+  padding-top: 60px;
   min-height: 800px;
+  max-width: 80%;
+  margin: 0 auto;
+  text-align: justify;
 }
 .landing-map-content {
   padding-top: 15px;
-  height: 420px;
+  min-width: 700px;
 }
 
 .headline {

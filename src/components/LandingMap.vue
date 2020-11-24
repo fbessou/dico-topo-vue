@@ -181,6 +181,7 @@ export default {
   #svg {
     display: block;
     margin: auto;
+    max-width: 100% !important;
   }
 
   /* THEME */

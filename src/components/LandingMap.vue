@@ -106,7 +106,6 @@ export default {
               .duration(200)
               .style('opacity', 0.9)
             div.html('<b>Department : </b>' + e.NOM_DEPT + '<br>' +
-                '<b>Places : </b>' + e.NB_PLACES + '<br>' +
                 '<b>Places : </b>' + e.NB_PLACES)
               .style('left', (d3.event.pageX + 30) + 'px')
               .style('top', (d3.event.pageY - 30) + 'px')

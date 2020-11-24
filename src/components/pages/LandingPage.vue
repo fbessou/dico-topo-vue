@@ -38,13 +38,13 @@
             justify-center
           >
             <v-flex xs2 class="text-xs-center">
-              <span class=" font-weight-bold">29</span> départements
+              <span class=" font-weight-bold">40</span> départements
             </v-flex>
             <v-flex xs2 class="text-xs-center">
-              <span class=" font-weight-bold">370.774 </span> lieux
+              <span class=" font-weight-bold">492.603 </span> lieux
             </v-flex>
             <v-flex xs2 class="text-xs-center">
-              <span class=" font-weight-bold">908.347 </span> toponymes
+              <span class=" font-weight-bold">1.179.107 </span> formes anciennes
             </v-flex>
           </v-layout>
         </v-parallax>
@@ -77,7 +77,7 @@
                          Un référentiel géohistorique</div>
                     </v-card-title>
                     <v-card-text>
-Les données relatives à chaque lieu sont accessibles aux formats GeoJSON et LinkedPlaces, grâce à une API. Elles sont librement réexploitables dans le cadre d'applications web à caractère historique, géographique ou patrimonial.
+Les données relatives à chaque lieu sont accessibles aux formats JSON API 1.0 et LinkedPlaces, grâce à une API. Elles sont librement réexploitables dans le cadre d'applications web à caractère historique, géographique ou patrimonial.
                     </v-card-text>
                   </v-card>
                 </v-col>

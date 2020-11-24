@@ -4,16 +4,16 @@
     "NOM_REGION": "Rhône-Alpes",
     "CODE_DEPT": 1,
     "NOM_DEPT": "Ain",
-    "NB_PLACES": 11268,
-    "NB_PLACES": 26476
+    "NB_PLACES": 11281,
+    "NB_PLACES": 26464
   },
   {
     "CODE_REG": 22,
     "NOM_REGION": "Picardie",
     "CODE_DEPT": 2,
     "NOM_DEPT": "Aisne",
-    "NB_PLACES": 6301,
-    "NB_PLACES": 19054
+    "NB_PLACES": 6435,
+    "NB_PLACES": 19167
   },
   {
     "CODE_REG": 93,
@@ -24,28 +24,36 @@
     "NB_PLACES": 15782
   },
   {
+    "CODE_REG": 82,
+    "NOM_REGION": "Rhône-Alpes",
+    "CODE_DEPT": 7,
+    "NOM_DEPT": "Ardèche",
+    "NB_PLACES": 16127,
+    "NB_PLACES": 23451
+  },
+  {
     "CODE_REG": 21,
     "NOM_REGION": "Champagne-Ardenne",
     "CODE_DEPT": 10,
     "NOM_DEPT": "Aube",
     "NB_PLACES": 3710,
-    "NB_PLACES": 12465
+    "NB_PLACES": 12445
   },
   {
     "CODE_REG": 91,
     "NOM_REGION": "Languedoc-Roussillon",
     "CODE_DEPT": 11,
     "NOM_DEPT": "Aude",
-    "NB_PLACES": 14816,
-    "NB_PLACES": 35745
+    "NB_PLACES": 14815,
+    "NB_PLACES": 35405
   },
   {
     "CODE_REG": 25,
     "NOM_REGION": "Basse-Normandie",
     "CODE_DEPT": 14,
     "NOM_DEPT": "Calvados",
-    "NB_PLACES": 15318,
-    "NB_PLACES": 20755
+    "NB_PLACES": 15320,
+    "NB_PLACES": 20728
   },
   {
     "CODE_REG": 83,
@@ -53,7 +61,7 @@
     "CODE_DEPT": 15,
     "NOM_DEPT": "Cantal",
     "NB_PLACES": 16596,
-    "NB_PLACES": 43714
+    "NB_PLACES": 51599
   },
   {
     "CODE_REG": 24,
@@ -61,7 +69,7 @@
     "CODE_DEPT": 18,
     "NOM_DEPT": "Cher",
     "NB_PLACES": 15716,
-    "NB_PLACES": 34284
+    "NB_PLACES": 34282
   },
   {
     "CODE_REG": 26,
@@ -72,11 +80,19 @@
     "NB_PLACES": 30117
   },
   {
+    "CODE_REG": 74,
+    "NOM_REGION": "Limousin",
+    "CODE_DEPT": 23,
+    "NOM_DEPT": "Creuse",
+    "NB_PLACES": 23704,
+    "NB_PLACES": 65977
+  },
+  {
     "CODE_REG": 72,
     "NOM_REGION": "Aquitaine",
     "CODE_DEPT": 24,
     "NOM_DEPT": "Dordogne",
-    "NB_PLACES": 18550,
+    "NB_PLACES": 18551,
     "NB_PLACES": 28137
   },
   {
@@ -85,7 +101,7 @@
     "CODE_DEPT": 26,
     "NOM_DEPT": "Drôme",
     "NB_PLACES": 12385,
-    "NB_PLACES": 26084
+    "NB_PLACES": 24003
   },
   {
     "CODE_REG": 23,
@@ -93,15 +109,15 @@
     "CODE_DEPT": 27,
     "NOM_DEPT": "Eure",
     "NB_PLACES": 11628,
-    "NB_PLACES": 19538
+    "NB_PLACES": 19536
   },
   {
     "CODE_REG": 24,
     "NOM_REGION": "Centre",
     "CODE_DEPT": 28,
     "NOM_DEPT": "Eure-et-Loir",
-    "NB_PLACES": 7263,
-    "NB_PLACES": 15372
+    "NB_PLACES": 7270,
+    "NB_PLACES": 15377
   },
   {
     "CODE_REG": 91,
@@ -109,7 +125,7 @@
     "CODE_DEPT": 30,
     "NOM_DEPT": "Gard",
     "NB_PLACES": 7412,
-    "NB_PLACES": 17191
+    "NB_PLACES": 16574
   },
   {
     "CODE_REG": 91,
@@ -117,7 +133,15 @@
     "CODE_DEPT": 34,
     "NOM_DEPT": "Hérault",
     "NB_PLACES": 6482,
-    "NB_PLACES": 15041
+    "NB_PLACES": 11358
+  },
+  {
+    "CODE_REG": 24,
+    "NOM_REGION": "Centre",
+    "CODE_DEPT": 41,
+    "NOM_DEPT": "Loir-et-Cher",
+    "NB_PLACES": 324,
+    "NB_PLACES": 1675
   },
   {
     "CODE_REG": 82,
@@ -133,7 +157,15 @@
     "CODE_DEPT": 43,
     "NOM_DEPT": "Haute-Loire",
     "NB_PLACES": 9269,
-    "NB_PLACES": 26678
+    "NB_PLACES": 26639
+  },
+  {
+    "CODE_REG": 52,
+    "NOM_REGION": "Pays de la Loire",
+    "CODE_DEPT": 44,
+    "NOM_DEPT": "Loire-Atlantique",
+    "NB_PLACES": 20577,
+    "NB_PLACES": 22367
   },
   {
     "CODE_REG": 21,
@@ -141,7 +173,7 @@
     "CODE_DEPT": 51,
     "NOM_DEPT": "Marne",
     "NB_PLACES": 6626,
-    "NB_PLACES": 22395
+    "NB_PLACES": 22394
   },
   {
     "CODE_REG": 21,
@@ -156,8 +188,8 @@
     "NOM_REGION": "Lorraine",
     "CODE_DEPT": 54,
     "NOM_DEPT": "Meurthe-et-Moselle",
-    "NB_PLACES": 3926,
-    "NB_PLACES": 10077
+    "NB_PLACES": 3933,
+    "NB_PLACES": 10083
   },
   {
     "CODE_REG": 41,
@@ -173,7 +205,7 @@
     "CODE_DEPT": 56,
     "NOM_DEPT": "Morbihan",
     "NB_PLACES": 20742,
-    "NB_PLACES": 22448
+    "NB_PLACES": 22447
   },
   {
     "CODE_REG": 41,
@@ -189,7 +221,15 @@
     "CODE_DEPT": 58,
     "NOM_DEPT": "Nièvre",
     "NB_PLACES": 9276,
-    "NB_PLACES": 16438
+    "NB_PLACES": 16437
+  },
+  {
+    "CODE_REG": 22,
+    "NOM_REGION": "Picardie",
+    "CODE_DEPT": 60,
+    "NOM_DEPT": "Oise",
+    "NB_PLACES": 3863,
+    "NB_PLACES": 34307
   },
   {
     "CODE_REG": 31,
@@ -197,7 +237,7 @@
     "CODE_DEPT": 62,
     "NOM_DEPT": "Pas-de-Calais",
     "NB_PLACES": 10667,
-    "NB_PLACES": 30132
+    "NB_PLACES": 30024
   },
   {
     "CODE_REG": 72,
@@ -205,23 +245,7 @@
     "CODE_DEPT": 64,
     "NOM_DEPT": "Pyrénées-Atlantiques",
     "NB_PLACES": 5799,
-    "NB_PLACES": 11213
-  },
-  {
-    "CODE_REG": 73,
-    "NOM_REGION": "Midi-Pyrénées",
-    "CODE_DEPT": 65,
-    "NOM_DEPT": "Hautes-Pyrénées",
-    "NB_PLACES": 6277,
-    "NB_PLACES": 12631
-  },
-  {
-    "CODE_REG": 42,
-    "NOM_REGION": "Alsace",
-    "CODE_DEPT": 68,
-    "NOM_DEPT": "Haut-Rhin",
-    "NB_PLACES": 9247,
-    "NB_PLACES": 16588
+    "NB_PLACES": 11211
   },
   {
     "CODE_REG": 26,
@@ -229,23 +253,23 @@
     "CODE_DEPT": 71,
     "NOM_DEPT": "Saône-et-Loire",
     "NB_PLACES": 20208,
-    "NB_PLACES": 89377
+    "NB_PLACES": 89311
   },
   {
     "CODE_REG": 52,
     "NOM_REGION": "Pays de la Loire",
     "CODE_DEPT": 72,
     "NOM_DEPT": "Sarthe",
-    "NB_PLACES": 49114,
-    "NB_PLACES": 79945
+    "NB_PLACES": 49115,
+    "NB_PLACES": 79946
   },
   {
     "CODE_REG": 23,
     "NOM_REGION": "Haute-Normandie",
     "CODE_DEPT": 76,
     "NOM_DEPT": "Seine-Maritime",
-    "NB_PLACES": 31048,
-    "NB_PLACES": 113790
+    "NB_PLACES": 31052,
+    "NB_PLACES": 107345
   },
   {
     "CODE_REG": 11,
@@ -253,7 +277,7 @@
     "CODE_DEPT": 77,
     "NOM_DEPT": "Seine-et-Marne",
     "NB_PLACES": 17402,
-    "NB_PLACES": 46620
+    "NB_PLACES": 46027
   },
   {
     "CODE_REG": 54,
@@ -261,23 +285,23 @@
     "CODE_DEPT": 79,
     "NOM_DEPT": "Deux-Sèvres",
     "NB_PLACES": 11651,
-    "NB_PLACES": 24068
+    "NB_PLACES": 23841
   },
   {
     "CODE_REG": 22,
     "NOM_REGION": "Picardie",
     "CODE_DEPT": 80,
     "NOM_DEPT": "Somme",
-    "NB_PLACES": 5379,
-    "NB_PLACES": 38111
+    "NB_PLACES": 5802,
+    "NB_PLACES": 25536
   },
   {
     "CODE_REG": 54,
     "NOM_REGION": "Poitou-Charentes",
     "CODE_DEPT": 86,
     "NOM_DEPT": "Vienne",
-    "NB_PLACES": 11934,
-    "NB_PLACES": 34869
+    "NB_PLACES": 11968,
+    "NB_PLACES": 34331
   },
   {
     "CODE_REG": 41,
@@ -292,7 +316,7 @@
     "NOM_REGION": "Bourgogne",
     "CODE_DEPT": 89,
     "NOM_DEPT": "Yonne",
-    "NB_PLACES": 5550,
-    "NB_PLACES": 10133
+    "NB_PLACES": 5925,
+    "NB_PLACES": 10507
   }
 ]

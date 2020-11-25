@@ -239,25 +239,25 @@ export default {
       },
       examples: {
         search: [
-          { description: 'Recherche du lieu \'Poizatière\'', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` },
-          { description: 'Recherche de la forme ancienne \'Poizatière\'', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` },
-          { description: 'Tri sur le nom du lieu (croissant)', url: `${urlPrefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` },
-          { description: 'Tri sur le nom du lieu (croissant)', url: `${urlPrefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` },
-          { description: 'Tri sur le département puis sur le nom du lieu', url: `${urlPrefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` },
-          { description: 'Filtre sur le canton et le département', url: `${urlPrefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` },
-          { description: 'Recherche floue du lieu \'Poizatière\'', url: `${urlPrefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` }
+          { description: 'Recherche du lieu \'Ailles\'', url: `${urlPrefix}/search?query=label.folded:Ailles&page[size]=50` },
+          { description: 'Recherche de la forme ancienne \'Ailles\'', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=place-label.keyword&page[size]=05&page[number]=1` },
+          { description: 'Tri sur le nom du lieu (croissant)', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=place-label.keyword&page[size]=50` },
+          { description: 'Tri sur le nom du lieu (décroissant)', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=-place-label.keyword&page[size]=50` },
+          { description: 'Tri sur le département puis sur le nom du lieu', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=dep-id.keyword,place-label.keyword&page[size]=50` },
+          { description: 'Filtre sur le canton et le département', url: `${urlPrefix}/search?query=label.folded:Ailles AND ((dep-id:02) AND (ctn-id:CT_02-12))` },
+          { description: 'Recherche floue du lieu \'Ailles\'', url: `${urlPrefix}/search?query=label.folded:Ailles~2&page[size]=50` }
         ],
         places: [
-          { description: 'Accès à la ressource du lieu \'Poizatière\'', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` },
-          { description: 'Le lieux identifiés autour de \'Poizatière\'', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` },
-          { description: 'Commune d\'appartenance', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` }
+          { description: 'Accès à la ressource du lieu \'Ailles\'', url: `${urlPrefix}/places/P82909066` },
+          { description: 'Le lieux identifiés autour de \'Ailles\'', url: `${urlPrefix}/places/P82909066/linked-places` },
+          { description: 'Commune d\'appartenance', url: `${urlPrefix}/places/P82909066/commune` }
         ],
         placeOldLabels: [
-          { description: 'Accès à la forme ancienne \'Poizatière\'', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` }
+          { description: 'Accès à la forme ancienne \'Les Ailles\'', url: `${urlPrefix}/place-old-labels/506089` }
         ],
         communes: [
-          { description: 'Accès à la commune de \'Poizatière\'', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` },
-          { description: 'Récupération des lieux localisés dans la commune', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` }
+          { description: 'Accès à la commune de \'Manneville-ès-Plains\'', url: `${urlPrefix}/communes/76407` },
+          { description: 'Récupération des lieux localisés dans la commune', url: `${urlPrefix}/communes/76407/localized-places` }
         ],
         linkedPlaces: [
           { description: 'Export du lieu \'Poizatière\'', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` },

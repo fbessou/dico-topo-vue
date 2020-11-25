@@ -1,6 +1,6 @@
 <template>
   <default-layout>
-    <section>
+    <section class="main-section">
         <section class="head--section" >
           <v-parallax :src="require('@/assets/hero.jpeg')" height="250">
             <v-layout
@@ -138,7 +138,7 @@
                         <h3>Lieux</h3>
                       </header>
                       <section class="introduction">
-                        lorem ipsum
+                        <i>Documentation en cours de rédaction</i>
                       </section>
                   <section class="example">
                     <h3 class="example-title">Exemples</h3>
@@ -210,7 +210,7 @@
                         <h3>Formes anciennes</h3>
                       </header>
                       <section class="introduction">
-                        lorem ipsum
+                        <i>Documentation en cours de rédaction</i>
                       </section>
                   <section class="example">
                     <h3 class="example-title">Exemples</h3>
@@ -282,7 +282,7 @@
                         <h3>Communes</h3>
                       </header>
                       <section class="introduction">
-                        lorem ipsum
+                        <i>Documentation en cours de rédaction</i>
                       </section>
                   <section class="example">
                     <h3 class="example-title">Exemples</h3>
@@ -357,7 +357,7 @@
                     <h2>Export des données</h2>
                   </header>
                   <section class="introduction">
-                    lorem ipsum
+                    <i>Documentation en cours de rédaction</i>
                   </section>
 
                   <section class="Linked Place">
@@ -366,7 +366,7 @@
                         <h3>Linked Place</h3>
                       </header>
                       <section class="introduction">
-                        lorem ipsum
+                        <i>Documentation en cours de rédaction</i>
                       </section>
                   <section class="example">
                     <h3 class="example-title">Exemples</h3>
@@ -457,28 +457,28 @@ export default {
       return {
         search: [
           { description: 'Recherche du lieu \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
-          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique croissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` },
-          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique décroissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` }
+          { description: 'Recherche de la forme ancienne \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
+          { description: 'Tri sur le nom du lieu (croissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` },
+          { description: 'Tri sur le nom du lieu (croissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` },
+          { description: 'Tri sur le département puis sur le nom du lieu', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` },
+          { description: 'Filtre sur le canton et le département', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` },
+          { description: 'Recherche floue du lieu \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` }
         ],
         places: [
-          { description: 'Recherche du lieu \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
-          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique croissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` },
-          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique décroissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` }
+          { description: 'Accès à la ressource du lieu \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
+          { description: 'Le lieux identifiés autour de \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
+          { description: 'Commune d\'appartenance', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` }
         ],
         placeOldLabels: [
-          { description: 'Recherche du lieu \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
-          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique croissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` },
-          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique décroissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` }
+          { description: 'Accès à la forme ancienne \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` }
         ],
         communes: [
-          { description: 'Recherche du lieu \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
-          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique croissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` },
-          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique décroissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` }
+          { description: 'Accès à la commune de \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
+          { description: 'Récupération des lieux localisés dans la commune', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` }
         ],
         linkedPlaces: [
-          { description: 'Recherche du lieu \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
-          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique croissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` },
-          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique décroissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` }
+          { description: 'Export du lieu \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
+          { description: 'Export d\'une collection', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` }
         ]
       }
     },
@@ -490,6 +490,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .main-section {
+    margin-bottom: 120px;
+  }
   .container {
     text-align: justify;
     width: 66%;

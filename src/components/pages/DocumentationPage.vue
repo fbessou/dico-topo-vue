@@ -46,50 +46,7 @@
                           </span>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content class="result">
-                          <pre v-highlightjs>
-                            <code class="json">
-   {
-     "data": [
-       {
-         "type": "place",
-         "id": "P61132243",
-         "attributes": {
-           "place-id": "P61132243",
-           "place-label": "Poizatière (La)",
-           "old-labels": [
-              "<dfn>Poesatiere</dfn> (<span class="sc">xviii</span><sup>e</sup> siècle)"
-           ],
-           "localization-insee-code": "01089",
-           "commune-label": "Château-Gaillard",
-           "dpt": "01",
-           "canton": "Ambérieu-en-Bugey",
-           "region": "Rhône-Alpes",
-           "longlat": "(5.302841415929205, 45.96491654867258)",
-           "descriptions": [
-             "Maison isolée, commune de <a href="/places/P51612218">Château-Gaillard</a>."
-           ]
-         },
-         "links": {
-           "self": "https://dicotopo.cths.fr/api/1.0/places/P61132243"
-         }
-       }
-     ],
-     "jsonapi": {
-       "version": "1.0"
-     },
-     "meta": {
-       "total-count": 1,
-       "duration": 0.0289,
-       "after": null
-     },
-     "links": {
-       "self": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200",
-       "first": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1",
-       "last": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1"
-     }
-   }
-                            </code>
-                          </pre>
+                          <pre v-highlightjs v-if="results.search"><code class="json">{{results.search[i]}}</code></pre>
                         </v-expansion-panel-content>
                       </v-expansion-panel>
                     </v-expansion-panels>
@@ -152,50 +109,7 @@
                           </span>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content class="result">
-                          <pre v-highlightjs>
-                            <code class="json">
-                              {
-                                "data": [
-                                  {
-                                    "type": "place",
-                                    "id": "P61132243",
-                                    "attributes": {
-                                      "place-id": "P61132243",
-                                      "place-label": "Poizatière (La)",
-                                      "old-labels": [
-                                        "<dfn>Poesatiere</dfn> (<span class="sc">xviii</span><sup>e</sup> siècle)"
-                                      ],
-                                      "localization-insee-code": "01089",
-                                      "commune-label": "Château-Gaillard",
-                                      "dpt": "01",
-                                      "canton": "Ambérieu-en-Bugey",
-                                      "region": "Rhône-Alpes",
-                                      "longlat": "(5.302841415929205, 45.96491654867258)",
-                                      "descriptions": [
-                                        "Maison isolée, commune de <a href="/places/P51612218">Château-Gaillard</a>."
-                                      ]
-                                    },
-                                    "links": {
-                                      "self": "https://dicotopo.cths.fr/api/1.0/places/P61132243"
-                                    }
-                                  }
-                                ],
-                                "jsonapi": {
-                                  "version": "1.0"
-                                },
-                                "meta": {
-                                  "total-count": 1,
-                                  "duration": 0.0289,
-                                  "after": null
-                                },
-                                "links": {
-                                  "self": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200",
-                                  "first": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1",
-                                  "last": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1"
-                                }
-                              }
-                            </code>
-                          </pre>
+                          <pre v-highlightjs v-if="results.places"><code class="json">{{results.places[i]}}</code></pre>
                         </v-expansion-panel-content>
                       </v-expansion-panel>
                     </v-expansion-panels>
@@ -224,50 +138,7 @@
                           </span>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content class="result">
-                          <pre v-highlightjs>
-                            <code class="json">
-                              {
-                                "data": [
-                                  {
-                                    "type": "place",
-                                    "id": "P61132243",
-                                    "attributes": {
-                                      "place-id": "P61132243",
-                                      "place-label": "Poizatière (La)",
-                                      "old-labels": [
-                                        "<dfn>Poesatiere</dfn> (<span class="sc">xviii</span><sup>e</sup> siècle)"
-                                      ],
-                                      "localization-insee-code": "01089",
-                                      "commune-label": "Château-Gaillard",
-                                      "dpt": "01",
-                                      "canton": "Ambérieu-en-Bugey",
-                                      "region": "Rhône-Alpes",
-                                      "longlat": "(5.302841415929205, 45.96491654867258)",
-                                      "descriptions": [
-                                        "Maison isolée, commune de <a href="/places/P51612218">Château-Gaillard</a>."
-                                      ]
-                                    },
-                                    "links": {
-                                      "self": "https://dicotopo.cths.fr/api/1.0/places/P61132243"
-                                    }
-                                  }
-                                ],
-                                "jsonapi": {
-                                  "version": "1.0"
-                                },
-                                "meta": {
-                                  "total-count": 1,
-                                  "duration": 0.0289,
-                                  "after": null
-                                },
-                                "links": {
-                                  "self": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200",
-                                  "first": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1",
-                                  "last": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1"
-                                }
-                              }
-                            </code>
-                          </pre>
+                          <pre v-highlightjs v-if="results.placeOldLabels"><code class="json">{{results.placeOldLabels[i]}}</code></pre>
                         </v-expansion-panel-content>
                       </v-expansion-panel>
                     </v-expansion-panels>
@@ -296,50 +167,7 @@
                           </span>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content class="result">
-                          <pre v-highlightjs>
-                            <code class="json">
-                              {
-                                "data": [
-                                  {
-                                    "type": "place",
-                                    "id": "P61132243",
-                                    "attributes": {
-                                      "place-id": "P61132243",
-                                      "place-label": "Poizatière (La)",
-                                      "old-labels": [
-                                        "<dfn>Poesatiere</dfn> (<span class="sc">xviii</span><sup>e</sup> siècle)"
-                                      ],
-                                      "localization-insee-code": "01089",
-                                      "commune-label": "Château-Gaillard",
-                                      "dpt": "01",
-                                      "canton": "Ambérieu-en-Bugey",
-                                      "region": "Rhône-Alpes",
-                                      "longlat": "(5.302841415929205, 45.96491654867258)",
-                                      "descriptions": [
-                                        "Maison isolée, commune de <a href="/places/P51612218">Château-Gaillard</a>."
-                                      ]
-                                    },
-                                    "links": {
-                                      "self": "https://dicotopo.cths.fr/api/1.0/places/P61132243"
-                                    }
-                                  }
-                                ],
-                                "jsonapi": {
-                                  "version": "1.0"
-                                },
-                                "meta": {
-                                  "total-count": 1,
-                                  "duration": 0.0289,
-                                  "after": null
-                                },
-                                "links": {
-                                  "self": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200",
-                                  "first": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1",
-                                  "last": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1"
-                                }
-                              }
-                            </code>
-                          </pre>
+                          <pre v-highlightjs v-if="results.communes"><code class="json">{{results.communes[i]}}</code></pre>
                         </v-expansion-panel-content>
                       </v-expansion-panel>
                     </v-expansion-panels>
@@ -380,50 +208,7 @@
                           </span>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content class="result">
-                          <pre v-highlightjs>
-                            <code class="json">
-                              {
-                                "data": [
-                                  {
-                                    "type": "place",
-                                    "id": "P61132243",
-                                    "attributes": {
-                                      "place-id": "P61132243",
-                                      "place-label": "Poizatière (La)",
-                                      "old-labels": [
-                                        "<dfn>Poesatiere</dfn> (<span class="sc">xviii</span><sup>e</sup> siècle)"
-                                      ],
-                                      "localization-insee-code": "01089",
-                                      "commune-label": "Château-Gaillard",
-                                      "dpt": "01",
-                                      "canton": "Ambérieu-en-Bugey",
-                                      "region": "Rhône-Alpes",
-                                      "longlat": "(5.302841415929205, 45.96491654867258)",
-                                      "descriptions": [
-                                        "Maison isolée, commune de <a href="/places/P51612218">Château-Gaillard</a>."
-                                      ]
-                                    },
-                                    "links": {
-                                      "self": "https://dicotopo.cths.fr/api/1.0/places/P61132243"
-                                    }
-                                  }
-                                ],
-                                "jsonapi": {
-                                  "version": "1.0"
-                                },
-                                "meta": {
-                                  "total-count": 1,
-                                  "duration": 0.0289,
-                                  "after": null
-                                },
-                                "links": {
-                                  "self": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200",
-                                  "first": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1",
-                                  "last": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1"
-                                }
-                              }
-                            </code>
-                          </pre>
+                           <pre v-highlightjs v-if="results.linkedPlaces"><code class="json">{{results.linkedPlaces[i]}}</code></pre>
                         </v-expansion-panel-content>
                       </v-expansion-panel>
                     </v-expansion-panels>
@@ -446,44 +231,57 @@ import '@/css/tomorrow.css'
 export default {
   name: 'DocumentationPage',
   components: { DefaultLayout },
-  data () {
+  data: () => {
+    const urlPrefix = 'http://localhost:5003/api/1.0'
     return {
-
-    }
-  },
-
-  computed: {
-    examples () {
-      return {
+      results: {
+        search: [], places: [], placeOldLabels: [], linkedPlaces: [], communes: []
+      },
+      examples: {
         search: [
-          { description: 'Recherche du lieu \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
-          { description: 'Recherche de la forme ancienne \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
-          { description: 'Tri sur le nom du lieu (croissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` },
-          { description: 'Tri sur le nom du lieu (croissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` },
-          { description: 'Tri sur le département puis sur le nom du lieu', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` },
-          { description: 'Filtre sur le canton et le département', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` },
-          { description: 'Recherche floue du lieu \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` }
+          { description: 'Recherche du lieu \'Poizatière\'', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` },
+          { description: 'Recherche de la forme ancienne \'Poizatière\'', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` },
+          { description: 'Tri sur le nom du lieu (croissant)', url: `${urlPrefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` },
+          { description: 'Tri sur le nom du lieu (croissant)', url: `${urlPrefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` },
+          { description: 'Tri sur le département puis sur le nom du lieu', url: `${urlPrefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` },
+          { description: 'Filtre sur le canton et le département', url: `${urlPrefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` },
+          { description: 'Recherche floue du lieu \'Poizatière\'', url: `${urlPrefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` }
         ],
         places: [
-          { description: 'Accès à la ressource du lieu \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
-          { description: 'Le lieux identifiés autour de \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
-          { description: 'Commune d\'appartenance', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` }
+          { description: 'Accès à la ressource du lieu \'Poizatière\'', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` },
+          { description: 'Le lieux identifiés autour de \'Poizatière\'', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` },
+          { description: 'Commune d\'appartenance', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` }
         ],
         placeOldLabels: [
-          { description: 'Accès à la forme ancienne \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` }
+          { description: 'Accès à la forme ancienne \'Poizatière\'', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` }
         ],
         communes: [
-          { description: 'Accès à la commune de \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
-          { description: 'Récupération des lieux localisés dans la commune', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` }
+          { description: 'Accès à la commune de \'Poizatière\'', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` },
+          { description: 'Récupération des lieux localisés dans la commune', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` }
         ],
         linkedPlaces: [
-          { description: 'Export du lieu \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
-          { description: 'Export d\'une collection', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` }
+          { description: 'Export du lieu \'Poizatière\'', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` },
+          { description: 'Export d\'une collection', url: `${urlPrefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` }
         ]
       }
-    },
-    url_prefix () {
-      return 'http://localhost:5003/api/1.0'
+    }
+  },
+  computed: {
+
+  },
+  created () {
+    for (const key in this.examples) {
+      this.examples[key].forEach(async example => {
+        let d = JSON.stringify(await this.fetchAPI(example.url), null, 2)
+        this.results[key].push(d)
+      })
+    }
+  },
+  methods: {
+    async fetchAPI (url) {
+      const response = await fetch(url)
+      const data = await response.json()
+      return data
     }
   }
 }

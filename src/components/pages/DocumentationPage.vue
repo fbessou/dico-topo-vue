@@ -1,184 +1,544 @@
 <template>
-  <v-app>
-    <main-toolbar></main-toolbar>
+  <default-layout>
+    <section>
+        <section class="head--section" >
+          <v-parallax :src="require('@/assets/hero.jpeg')" height="250">
+            <v-layout
+              column
+              align-center
+              justify-center
+              class="black--text"
+            >
 
-    <v-content>
-      <v-container grid-list-md>
-          <v-flex  xs12>
-              <h1>Documentation de l'API Dicotopo</h1>
-              <img src="@/assets/json-api-logo-300x113.png" height="100px" style="padding: 8px;"/>
-              <p>
-                La présente API a été conçue conformément à la spécification
-                <a href='https://jsonapi.org/format/1.0/'>JSON API 1.0</a>.
-                <br/>
-                Les resources sont disponibles en HTTPS via la méthode GET
-              </p>
-          </v-flex>
+              <h1 class=" text-uppercase mt-5 mb-2 display-1 text-xs-center">Dictionnaire
+                topographique<span> de la France</span></h1>
+              <div class="headline  mb-3 font-weight-light">Documentation de l'API</div>
+            </v-layout>
+          </v-parallax>
+        </section>
+          <v-container fluid class="container mb-10">
+              <section >
+                <header class="mb-5">
+                  <h1>Documentation</h1>
+                    <p class="introduction">
+                      Ceci est la documentation de référence de l’API 1.0 de dicotopo.cths.fr.
+                      Les exemples suivants décrivent les différents points d'accès et les principales ressources disponibles.
+                    </p>
+                </header>
+                <article>
+                  <header>
+                    <h2 >Moteur de recherche</h2>
+                  </header>
+                  <section class="introduction">
+                    <p>
+                      Le moteur de recherche de Dicotopo est basé sur Elasticsearch.
+                    </p>
+                  </section>
+                  <section class="example">
+                    <h3 class="example-title">Exemples</h3>
+                    <v-expansion-panels focusable>
+                      <v-expansion-panel v-for="e,i in examples.search" :key="i">
+                        <v-expansion-panel-header>
+                          <div class="method"><v-chip color="secondary" label>GET</v-chip></div>
+                          <span class="url" >
+                            <div class="description">{{e.description}}</div>
+                            <div><a :href="e.url" target="_blank">{{e.url}}</a></div>
+                          </span>
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content class="result">
+                          <pre v-highlightjs>
+                            <code class="json">
+   {
+     "data": [
+       {
+         "type": "place",
+         "id": "P61132243",
+         "attributes": {
+           "place-id": "P61132243",
+           "place-label": "Poizatière (La)",
+           "old-labels": [
+              "<dfn>Poesatiere</dfn> (<span class="sc">xviii</span><sup>e</sup> siècle)"
+           ],
+           "localization-insee-code": "01089",
+           "commune-label": "Château-Gaillard",
+           "dpt": "01",
+           "canton": "Ambérieu-en-Bugey",
+           "region": "Rhône-Alpes",
+           "longlat": "(5.302841415929205, 45.96491654867258)",
+           "descriptions": [
+             "Maison isolée, commune de <a href="/places/P51612218">Château-Gaillard</a>."
+           ]
+         },
+         "links": {
+           "self": "https://dicotopo.cths.fr/api/1.0/places/P61132243"
+         }
+       }
+     ],
+     "jsonapi": {
+       "version": "1.0"
+     },
+     "meta": {
+       "total-count": 1,
+       "duration": 0.0289,
+       "after": null
+     },
+     "links": {
+       "self": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200",
+       "first": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1",
+       "last": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1"
+     }
+   }
+                            </code>
+                          </pre>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                    </v-expansion-panels>
+                  </section>
+                  <section class="parameters">
+                  </section>
+                </article>
 
-          <h2>Services</h2>
-          <v-flex xs12  v-for="feat in features" :key="feat.anchor">
-            <v-card class="vcard">
-              <v-toolbar flat>
-                <v-card-title><h3 :id="feat.anchor">{{feat.attributes.title}}</h3></v-card-title>
-              </v-toolbar>
-              <v-card-text>
-                <p>{{feat.attributes.content}}</p>
-                <v-data-table
-                  :headers="[{ text: 'description', value: 'desc', sortable:false },
-                              { text: 'url', value: 'url', sortable:false }]"
-                  :items="feat.attributes.examples"
-                  class="elevation-0"
-                  :hide-actions="true"
-                >
-                  <template v-slot:items="props">
-                    <td>{{ props.item.description }}</td>
-                    <td><a :ref="props.item.content" target="_blank">{{ props.item.content}}</a></td>
-                  </template>
-                </v-data-table>
-              </v-card-text>
-            </v-card>
-          </v-flex>
+                <v-divider></v-divider>
 
-          <h2>Ressources</h2>
+                <article>
+                  <header>
+                    <h2>Ressources</h2>
+                  </header>
+                  <section class="introduction">
+                    <p>
+                      L'API fournit d'accéder à des ressources individuelles comme à des collections de ressources.
+                      Chaque ressource est identifiée par son identifiant unique au format PXXXXXXX.
+                      Les ressources exposées sont du type suivant : <b>place</b> (lieu), <b>place-old-label</b> (forme ancienne), <b>commune</b>.
+                    </p>
+                  </section>
+                  <section class="introduction">
+                    <article>
+                    <header>
+                      <h3>Pagination des ressources</h3>
+                    </header>
+                    <p>
+                      La recherche ainsi que l'accès aux collections de ressource renvoient des résultats paginés.
+                      L'objet "links" du résultat contient les liens de navigation permettant de se rendre sur les différentes pages du résultat.
+                    </p>
+                    </article>
+                  </section>
+                  <section class="introduction">
+                    <article>
+                    <header>
+                      <h3>Relations entre ressources</h3>
+                    </header>
+                    <p>
+                        Les ressources peuvent comporter des liens vers d'autres entités (ex: un <b>lieu</b> peut être <i>localisé</i> dans une <b>commune</b>)
+                    </p>
+                    </article>
+                  </section>
+                  <section class="Lieux">
+                     <article>
+                      <header>
+                        <h3>Lieux</h3>
+                      </header>
+                      <section class="introduction">
+                        lorem ipsum
+                      </section>
+                  <section class="example">
+                    <h3 class="example-title">Exemples</h3>
+                    <v-expansion-panels focusable>
+                      <v-expansion-panel v-for="e,i in examples.places" :key="i">
+                        <v-expansion-panel-header>
+                          <div class="method"><v-chip color="secondary" label>GET</v-chip></div>
+                          <span class="url" >
+                            <div class="description">{{e.description}}</div>
+                            <div><a :href="e.url" target="_blank">{{e.url}}</a></div>
+                          </span>
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content class="result">
+                          <pre v-highlightjs>
+                            <code class="json">
+                              {
+                                "data": [
+                                  {
+                                    "type": "place",
+                                    "id": "P61132243",
+                                    "attributes": {
+                                      "place-id": "P61132243",
+                                      "place-label": "Poizatière (La)",
+                                      "old-labels": [
+                                        "<dfn>Poesatiere</dfn> (<span class="sc">xviii</span><sup>e</sup> siècle)"
+                                      ],
+                                      "localization-insee-code": "01089",
+                                      "commune-label": "Château-Gaillard",
+                                      "dpt": "01",
+                                      "canton": "Ambérieu-en-Bugey",
+                                      "region": "Rhône-Alpes",
+                                      "longlat": "(5.302841415929205, 45.96491654867258)",
+                                      "descriptions": [
+                                        "Maison isolée, commune de <a href="/places/P51612218">Château-Gaillard</a>."
+                                      ]
+                                    },
+                                    "links": {
+                                      "self": "https://dicotopo.cths.fr/api/1.0/places/P61132243"
+                                    }
+                                  }
+                                ],
+                                "jsonapi": {
+                                  "version": "1.0"
+                                },
+                                "meta": {
+                                  "total-count": 1,
+                                  "duration": 0.0289,
+                                  "after": null
+                                },
+                                "links": {
+                                  "self": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200",
+                                  "first": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1",
+                                  "last": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1"
+                                }
+                              }
+                            </code>
+                          </pre>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                    </v-expansion-panels>
+                  </section>
+                      <section class="parameters">
+                      </section>
+                    </article>
+                  </section>
+                  <section class="Formes anciennes">
+                    <article>
+                      <header>
+                        <h3>Formes anciennes</h3>
+                      </header>
+                      <section class="introduction">
+                        lorem ipsum
+                      </section>
+                  <section class="example">
+                    <h3 class="example-title">Exemples</h3>
+                    <v-expansion-panels focusable>
+                      <v-expansion-panel v-for="e,i in examples.placeOldLabels" :key="i">
+                        <v-expansion-panel-header>
+                          <div class="method"><v-chip color="secondary" label>GET</v-chip></div>
+                          <span class="url" >
+                            <div class="description">{{e.description}}</div>
+                            <div><a :href="e.url" target="_blank">{{e.url}}</a></div>
+                          </span>
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content class="result">
+                          <pre v-highlightjs>
+                            <code class="json">
+                              {
+                                "data": [
+                                  {
+                                    "type": "place",
+                                    "id": "P61132243",
+                                    "attributes": {
+                                      "place-id": "P61132243",
+                                      "place-label": "Poizatière (La)",
+                                      "old-labels": [
+                                        "<dfn>Poesatiere</dfn> (<span class="sc">xviii</span><sup>e</sup> siècle)"
+                                      ],
+                                      "localization-insee-code": "01089",
+                                      "commune-label": "Château-Gaillard",
+                                      "dpt": "01",
+                                      "canton": "Ambérieu-en-Bugey",
+                                      "region": "Rhône-Alpes",
+                                      "longlat": "(5.302841415929205, 45.96491654867258)",
+                                      "descriptions": [
+                                        "Maison isolée, commune de <a href="/places/P51612218">Château-Gaillard</a>."
+                                      ]
+                                    },
+                                    "links": {
+                                      "self": "https://dicotopo.cths.fr/api/1.0/places/P61132243"
+                                    }
+                                  }
+                                ],
+                                "jsonapi": {
+                                  "version": "1.0"
+                                },
+                                "meta": {
+                                  "total-count": 1,
+                                  "duration": 0.0289,
+                                  "after": null
+                                },
+                                "links": {
+                                  "self": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200",
+                                  "first": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1",
+                                  "last": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1"
+                                }
+                              }
+                            </code>
+                          </pre>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                    </v-expansion-panels>
+                  </section>
+                      <section class="parameters">
+                      </section>
+                    </article>
+                  </section>
+                  <section class="Communes">
+                    <article>
+                      <header>
+                        <h3>Communes</h3>
+                      </header>
+                      <section class="introduction">
+                        lorem ipsum
+                      </section>
+                  <section class="example">
+                    <h3 class="example-title">Exemples</h3>
+                    <v-expansion-panels focusable>
+                      <v-expansion-panel v-for="e,i in examples.communes" :key="i">
+                        <v-expansion-panel-header>
+                          <div class="method"><v-chip color="secondary" label>GET</v-chip></div>
+                          <span class="url" >
+                            <div class="description">{{e.description}}</div>
+                            <div><a :href="e.url" target="_blank">{{e.url}}</a></div>
+                          </span>
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content class="result">
+                          <pre v-highlightjs>
+                            <code class="json">
+                              {
+                                "data": [
+                                  {
+                                    "type": "place",
+                                    "id": "P61132243",
+                                    "attributes": {
+                                      "place-id": "P61132243",
+                                      "place-label": "Poizatière (La)",
+                                      "old-labels": [
+                                        "<dfn>Poesatiere</dfn> (<span class="sc">xviii</span><sup>e</sup> siècle)"
+                                      ],
+                                      "localization-insee-code": "01089",
+                                      "commune-label": "Château-Gaillard",
+                                      "dpt": "01",
+                                      "canton": "Ambérieu-en-Bugey",
+                                      "region": "Rhône-Alpes",
+                                      "longlat": "(5.302841415929205, 45.96491654867258)",
+                                      "descriptions": [
+                                        "Maison isolée, commune de <a href="/places/P51612218">Château-Gaillard</a>."
+                                      ]
+                                    },
+                                    "links": {
+                                      "self": "https://dicotopo.cths.fr/api/1.0/places/P61132243"
+                                    }
+                                  }
+                                ],
+                                "jsonapi": {
+                                  "version": "1.0"
+                                },
+                                "meta": {
+                                  "total-count": 1,
+                                  "duration": 0.0289,
+                                  "after": null
+                                },
+                                "links": {
+                                  "self": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200",
+                                  "first": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1",
+                                  "last": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1"
+                                }
+                              }
+                            </code>
+                          </pre>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                    </v-expansion-panels>
+                  </section>
+                      <section class="parameters">
+                      </section>
+                    </article>
+                  </section>
+                </article>
 
-          <v-flex xs12>
-            <v-card class="vcard">
-              <v-toolbar flat>
-                <v-card-title><h3 :id="parameters">Paramètres HTTP GET disponibles</h3></v-card-title>
-              </v-toolbar>
-              <v-card-text>
-                <v-data-table
-                  :headers="[{ text: 'nom', value: 'nom', sortable:false },
-                              { text: 'description', value: 'desc', sortable:false },
-                              { text: 'type', value: 'type', sortable:true }]"
-                  :items="parameters"
-                  class="elevation-0"
-                  :hide-actions="true"
-                >
-                  <template v-slot:items="props">
-                    <td>{{ props.item.attributes.name }}</td>
-                    <td>{{ props.item.attributes.description}}</td>
-                    <td>{{ props.item.attributes['item-kind'] }}</td>
-                  </template>
-                </v-data-table>
-              </v-card-text>
-            </v-card>
-          </v-flex>
+                <v-divider></v-divider>
 
-          <v-flex xs12 v-for="res in resources" :key="res.anchor">
-            <v-card class="vcard">
-              <v-toolbar flat class="blue-grey lighten-1" dark>
-                <v-card-title><h3 :id="res.anchor">{{res.title}}</h3></v-card-title>
-              </v-toolbar>
-              <v-card-text>
-                <p>{{res.attributes.description}}</p>
-                <h4>Collection</h4>
-                <v-chip label small>Url</v-chip><a :href="res.attributes.endpoints.collection.url" target="_blank">{{res.attributes.endpoints.collection.url}}</a>
+                 <article>
+                  <header>
+                    <h2>Export des données</h2>
+                  </header>
+                  <section class="introduction">
+                    lorem ipsum
+                  </section>
 
-                <v-layout row wrap>
-                  <v-flex xs6>
-                    <h4>Ressource</h4>
-                    <v-chip label small>Url</v-chip>
-                    {{res.attributes.endpoints.resource.url}}
-                    <h5>Attributs</h5>
-                    <v-data-table
-                      :headers="[{ text: 'nom', value: 'name', sortable:false },
-                              { text: 'description', value: 'desc', sortable:false }]"
-                      :items="res.attributes.endpoints.resource.attributes"
-                      class="elevation-0"
-                      :hide-actions="true"
-                    >
-                      <template v-slot:items="props">
-                        <td>{{ props.item.name }}</td>
-                        <td>{{ props.item.description}}</td>
-                      </template>
-                    </v-data-table>
-                    <h5>Relations</h5>
-                    <v-data-table
-                      :headers="[{ text: 'nom', value: 'name', sortable:false },
-                              { text: 'description', value: 'desc', sortable:false },
-                              { text: 'type', value: 'type', sortable:true }]"
-                      :items="res.attributes.endpoints.resource.relationships"
-                      class="elevation-0"
-                      :hide-actions="true"
-                    >
-                      <template v-slot:items="props">
-                        <td>{{ props.item.name }}</td>
-                        <td>{{ props.item.description}}</td>
-                        <td><a :href="'#' + props.item.ref">{{ props.item.type}} de type {{ props.item.ref}}</a></td>
-                      </template>
-                    </v-data-table>
-                  </v-flex>
-
-                  <v-flex xs6>
-                      <pre v-show="!!curlOutputs[res.attributes.examples.url]"
-                           style="background-color: #f5f5f5;"
-                           > CURL -X GET {{res.attributes.examples.url}}
-  <code style="background-color: white;  max-height: 540px; overflow-y: scroll; margin: 14px"
-        class="javascript">{{curlOutputs[res.attributes.examples.url]}}</code></pre>
-                  </v-flex>
-                </v-layout>
-
-              </v-card-text>
-            </v-card>
-
-          </v-flex>
-      </v-container>
-    </v-content>
-  </v-app>
+                  <section class="Linked Place">
+                    <article>
+                      <header>
+                        <h3>Linked Place</h3>
+                      </header>
+                      <section class="introduction">
+                        lorem ipsum
+                      </section>
+                  <section class="example">
+                    <h3 class="example-title">Exemples</h3>
+                    <v-expansion-panels focusable>
+                      <v-expansion-panel v-for="e,i in examples.linkedPlaces" :key="i">
+                        <v-expansion-panel-header>
+                          <div class="method"><v-chip color="secondary" label>GET</v-chip></div>
+                          <span class="url" >
+                            <div class="description">{{e.description}}</div>
+                            <div><a :href="e.url" target="_blank">{{e.url}}</a></div>
+                          </span>
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content class="result">
+                          <pre v-highlightjs>
+                            <code class="json">
+                              {
+                                "data": [
+                                  {
+                                    "type": "place",
+                                    "id": "P61132243",
+                                    "attributes": {
+                                      "place-id": "P61132243",
+                                      "place-label": "Poizatière (La)",
+                                      "old-labels": [
+                                        "<dfn>Poesatiere</dfn> (<span class="sc">xviii</span><sup>e</sup> siècle)"
+                                      ],
+                                      "localization-insee-code": "01089",
+                                      "commune-label": "Château-Gaillard",
+                                      "dpt": "01",
+                                      "canton": "Ambérieu-en-Bugey",
+                                      "region": "Rhône-Alpes",
+                                      "longlat": "(5.302841415929205, 45.96491654867258)",
+                                      "descriptions": [
+                                        "Maison isolée, commune de <a href="/places/P51612218">Château-Gaillard</a>."
+                                      ]
+                                    },
+                                    "links": {
+                                      "self": "https://dicotopo.cths.fr/api/1.0/places/P61132243"
+                                    }
+                                  }
+                                ],
+                                "jsonapi": {
+                                  "version": "1.0"
+                                },
+                                "meta": {
+                                  "total-count": 1,
+                                  "duration": 0.0289,
+                                  "after": null
+                                },
+                                "links": {
+                                  "self": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200",
+                                  "first": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1",
+                                  "last": "https://dicotopo.cths.fr/api/1.0/search?query=label.folded%3APoizati%C3%A8re&page%5Bsize%5D=200&page%5Bnumber%5D=1"
+                                }
+                              }
+                            </code>
+                          </pre>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                    </v-expansion-panels>
+                  </section>
+                      <section class="parameters">
+                      </section>
+                    </article>
+                  </section>
+                </article>
+              </section>
+          </v-container>
+    </section>
+  </default-layout>
 </template>
 
 <script>
-import MainToolbar from '../ui/MainToolbar'
-import { api } from '@/utils/http-common'
-import Vue from 'vue'
+import DefaultLayout from '../DefaultLayout'
+import '@/css/tomorrow.css'
 
 export default {
   name: 'DocumentationPage',
-  components: { MainToolbar },
+  components: { DefaultLayout },
   data () {
     return {
-      capabilities: [],
-      features: [],
-      resources: [],
-      parameters: [],
-      curlOutputs: {}
-    }
-  },
-  created () {
-    api.get(`../1.0?capabilities`).then(r => {
-      this.capabilities = r.data
-      this.features = this.capabilities.data.filter(c => c.type === 'feature').map(c => {
-        return { title: c.id, anchor: `${c.id}`, ...c }
-      })
-      this.parameters = this.capabilities.data.filter(c => c.type === 'parameter').map(c => {
-        return { anchor: `${c.id}`, ...c }
-      })
-      this.resources = this.capabilities.data.filter(c => c.type === 'resource').map(c => {
-        this.runCURL(c.attributes.examples.url)
-        return {
-          title: c.id,
-          anchor: `${c.id}`,
-          ...c
-        }
-      })
-    })
-  },
-  methods: {
-    runCURL (url) {
-      return api.get(url).then(r => {
-        Vue.set(this.curlOutputs, url, r.data)
-      })
-    }
-  },
-  computed: {
 
+    }
+  },
+
+  computed: {
+    examples () {
+      return {
+        search: [
+          { description: 'Recherche du lieu \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
+          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique croissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` },
+          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique décroissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` }
+        ],
+        places: [
+          { description: 'Recherche du lieu \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
+          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique croissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` },
+          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique décroissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` }
+        ],
+        placeOldLabels: [
+          { description: 'Recherche du lieu \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
+          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique croissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` },
+          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique décroissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` }
+        ],
+        communes: [
+          { description: 'Recherche du lieu \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
+          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique croissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` },
+          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique décroissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` }
+        ],
+        linkedPlaces: [
+          { description: 'Recherche du lieu \'Poizatière\'', url: `${this.url_prefix}/search?query=label.folded:Poizatière&page[size]=200` },
+          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique croissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` },
+          { description: 'Recherche triée sur le nom du lieu (ordre alphabétique décroissant)', url: `${this.url_prefix}/search?query=label.folded:Poizatière&sort=-place-label.keyword` }
+        ]
+      }
+    },
+    url_prefix () {
+      return 'http://localhost:5003/api/1.0'
+    }
   }
 }
 </script>
 
-<style scoped>
-  .vcard {
-    margin-top: 18px;
+<style scoped lang="scss">
+  .container {
+    text-align: justify;
+    width: 66%;
+    margin: 0 auto;
+    padding-top: 60px;
+  }
+  .head--section {
+    background: lightgrey;
+  }
+  article {
+    margin: 12px 0;
+  }
+  .example-title {
+    text-decoration: underline;
+    font-weight: normal;
+    font-size: 1.1em;
+  }
+  h1 {
+    font-size: 2em;
+    margin: 14px 0 20px;
+  }
+  h2 {
+    margin: 12px 0;
+  }
+  h3 {
+    margin: 10px 0;
+  }
+  .example {
+    margin-bottom: 30px;
+  }
+  .v-application code {
+    all: unset;
+  }
+  .method {
+    padding: 0;
+  }
+  .url {
+    padding: 0 16px;
+  }
+  .description {
+    margin-bottom: 6px;
+  }
+  .v-expansion-panel-header > *:not(.v-expansion-panel-header__icon) {
+    flex: none;
+  }
+  .v-expansion-panel-content {
+    overflow: scroll !important;
+  }
+  .v-divider {
+    margin: 10px 0;
   }
 </style>

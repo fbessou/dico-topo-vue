@@ -25,7 +25,7 @@
           </v-layout>
 
           <v-layout class="subheading mb-1 font-weight-light black--text" row wrap align-center justify-center>
-           <v-flex xs2 class="text-xs-center">
+            <v-flex xs2 class="text-xs-center">
               <span class=" font-weight-bold">40</span> départements
             </v-flex>
             <v-flex xs2 class="text-xs-center">

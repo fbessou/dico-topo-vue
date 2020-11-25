@@ -329,6 +329,7 @@ export default {
   }
   .url {
     padding: 0 16px;
+    width: 82%;
   }
   .description {
     margin-bottom: 6px;

@@ -23,6 +23,7 @@
                     <p class="introduction">
                       Ceci est la documentation de référence de l’API 1.0 de dicotopo.cths.fr.
                       Les exemples suivants décrivent les différents points d'accès et les principales ressources disponibles.
+                      Les ressources de l'API sont renvoyées suivant le standard <a href="https://jsonapi.org/format/1.0/">JSONAPI 1.0</a>.
                     </p>
                 </header>
                 <article>

@@ -232,7 +232,7 @@ export default {
   name: 'DocumentationPage',
   components: { DefaultLayout },
   data: () => {
-    const urlPrefix = 'http://localhost:5003/api/1.0'
+    const urlPrefix = 'https://dicotopo.cths.fr/api/1.0'
     return {
       results: {
         search: [], places: [], placeOldLabels: [], linkedPlaces: [], communes: []

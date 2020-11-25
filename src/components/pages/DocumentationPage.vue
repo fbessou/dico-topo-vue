@@ -197,7 +197,7 @@
                       <section class="introduction">
                         <i>Documentation en cours de rédaction</i>
                       </section>
-                  <section class="example">
+                  <section class="example" v-show="false">
                     <h3 class="example-title">Exemples</h3>
                     <v-expansion-panels focusable>
                       <v-expansion-panel v-for="e,i in examples.linkedPlaces" :key="i">
@@ -241,7 +241,7 @@ export default {
       examples: {
         search: [
           { description: 'Recherche du lieu \'Ailles\'', url: `${urlPrefix}/search?query=label.folded:Ailles&page[size]=50` },
-          { description: 'Recherche de la forme ancienne \'Ailles\'', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=place-label.keyword&page[size]=05&page[number]=1` },
+          { description: 'Recherche de la forme ancienne \'Ailles\'', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=place-label.keyword&page[size]=50` },
           { description: 'Tri sur le nom du lieu (croissant)', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=place-label.keyword&page[size]=50` },
           { description: 'Tri sur le nom du lieu (décroissant)', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=-place-label.keyword&page[size]=50` },
           { description: 'Tri sur le département puis sur le nom du lieu', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=dep-id.keyword,place-label.keyword&page[size]=50` },
@@ -250,7 +250,7 @@ export default {
         ],
         places: [
           { description: 'Accès à la ressource du lieu \'Ailles\'', url: `${urlPrefix}/places/P82909066` },
-          { description: 'Le lieux identifiés autour de \'Ailles\'', url: `${urlPrefix}/places/P82909066/linked-places` },
+          { description: 'Le lieux identifiés autour de \'Ailles\'', url: `${urlPrefix}/places/P82909066/linked-places?without-relationships` },
           { description: 'Commune d\'appartenance', url: `${urlPrefix}/places/P82909066/commune` }
         ],
         placeOldLabels: [
@@ -258,7 +258,7 @@ export default {
         ],
         communes: [
           { description: 'Accès à la commune de \'Manneville-ès-Plains\'', url: `${urlPrefix}/communes/76407` },
-          { description: 'Récupération des lieux localisés dans la commune', url: `${urlPrefix}/communes/76407/localized-places` }
+          { description: 'Récupération des lieux localisés dans la commune', url: `${urlPrefix}/communes/76407/localized-places?without-relationships` }
         ],
         linkedPlaces: [
           { description: 'Export du lieu \'Poizatière\'', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` },

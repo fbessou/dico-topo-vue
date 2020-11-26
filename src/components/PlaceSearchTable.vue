@@ -561,7 +561,7 @@ dfn {
 
 .fullscreen-table {
   position: absolute;
-  height: calc(100% - 64px) !important;
+  height: 100% !important;
   width: 100%;
 }
 

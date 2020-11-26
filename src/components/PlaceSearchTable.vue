@@ -585,7 +585,7 @@ dfn {
  }
 
 .fixed-agg-footer {
-  position: absolute;
+  position: initial;
   bottom: 0;
   width: 100%;
   border: 1px solid grey;

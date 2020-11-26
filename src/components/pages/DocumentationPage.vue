@@ -47,7 +47,7 @@
                           </span>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content class="result">
-                          <pre v-highlightjs v-if="results.search"><code class="json">{{results.search[i]}}</code></pre>
+                          <pre v-highlightjs v-if="results.search"><code class="json">{{results.search[e.url]}}</code></pre>
                         </v-expansion-panel-content>
                       </v-expansion-panel>
                     </v-expansion-panels>
@@ -110,7 +110,7 @@
                           </span>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content class="result">
-                          <pre v-highlightjs v-if="results.places"><code class="json">{{results.places[i]}}</code></pre>
+                          <pre v-highlightjs v-if="results.places"><code class="json">{{results.places[e.url]}}</code></pre>
                         </v-expansion-panel-content>
                       </v-expansion-panel>
                     </v-expansion-panels>
@@ -139,7 +139,7 @@
                           </span>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content class="result">
-                          <pre v-highlightjs v-if="results.placeOldLabels"><code class="json">{{results.placeOldLabels[i]}}</code></pre>
+                          <pre v-highlightjs v-if="results.placeOldLabels"><code class="json">{{results.placeOldLabels[e.url]}}</code></pre>
                         </v-expansion-panel-content>
                       </v-expansion-panel>
                     </v-expansion-panels>
@@ -168,7 +168,7 @@
                           </span>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content class="result">
-                          <pre v-highlightjs v-if="results.communes"><code class="json">{{results.communes[i]}}</code></pre>
+                          <pre v-highlightjs v-if="results.communes"><code class="json">{{results.communes[e.url]}}</code></pre>
                         </v-expansion-panel-content>
                       </v-expansion-panel>
                     </v-expansion-panels>
@@ -209,7 +209,7 @@
                           </span>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content class="result">
-                           <pre v-highlightjs v-if="results.linkedPlaces"><code class="json">{{results.linkedPlaces[i]}}</code></pre>
+                           <pre v-highlightjs v-if="results.linkedPlaces"><code class="json">{{results.linkedPlaces[e.url]}}</code></pre>
                         </v-expansion-panel-content>
                       </v-expansion-panel>
                     </v-expansion-panels>
@@ -234,51 +234,71 @@ export default {
   components: { DefaultLayout },
   data: () => {
     const urlPrefix = 'https://dicotopo.cths.fr/api/1.0'
+    const examples = {
+      search: [
+        { description: 'Recherche du lieu \'Ailles\'', url: `${urlPrefix}/search?query=label.folded:Ailles&page[size]=50` },
+        { description: 'Recherche de la forme ancienne \'Ailles\'', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=place-label.keyword&page[size]=50` },
+        { description: 'Tri sur le nom du lieu (croissant)', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=place-label.keyword&page[size]=50` },
+        { description: 'Tri sur le nom du lieu (décroissant)', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=-place-label.keyword&page[size]=50` },
+        { description: 'Tri sur le département puis sur le nom du lieu', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=dep-id.keyword,place-label.keyword&page[size]=50` },
+        { description: 'Filtre sur le canton et le département', url: `${urlPrefix}/search?query=label.folded:Ailles AND ((dep-id:02) AND (ctn-id:CT_02-12))` },
+        { description: 'Recherche floue du lieu \'Ailles\'', url: `${urlPrefix}/search?query=label.folded:Ailles~2&page[size]=50` }
+      ],
+      places: [
+        { description: 'Accès à la ressource du lieu \'Ailles\'', url: `${urlPrefix}/places/P82909066` },
+        { description: 'Le lieux identifiés autour de \'Ailles\'', url: `${urlPrefix}/places/P82909066/linked-places?without-relationships` },
+        { description: 'Commune d\'appartenance', url: `${urlPrefix}/places/P82909066/commune` }
+      ],
+      placeOldLabels: [
+        { description: 'Accès à la forme ancienne \'Les Ailles\'', url: `${urlPrefix}/place-old-labels/506089` }
+      ],
+      communes: [
+        { description: 'Accès à la commune de \'Manneville-ès-Plains\'', url: `${urlPrefix}/communes/76407` },
+        { description: 'Récupération des lieux localisés dans la commune', url: `${urlPrefix}/communes/76407/localized-places?without-relationships` }
+      ],
+      linkedPlaces: [
+        { description: 'Export du lieu \'Coste-Rousse\' au format LinkedPlaces', url: `${urlPrefix}/places/P24576921?export=linkedplaces` },
+        { description: 'La même ressource au format inline (plus compact)', url: `${urlPrefix}/places/P24576921?export=inline-linkedplaces` },
+        { description: 'Export d\'une collection', url: `${urlPrefix}/places?page[size]=5&page[number]=1` },
+        { description: 'Export de la commune \'Cluse (La)\' (incluant les liens vers d\'autres référentiels)', url: `${urlPrefix}/places/P87923773?export=linkedplaces` }
+      ]
+    }
+
+    let results = {
+      search: {},
+      places: {},
+      placeOldLabels: {},
+      linkedPlaces: {},
+      communes: {}
+    }
+    // add empty results
+    Object.keys(examples).forEach(key => {
+      examples[key].forEach(e => {
+        results[key][e.url] = null
+      })
+    })
+
     return {
-      results: {
-        search: [], places: [], placeOldLabels: [], linkedPlaces: [], communes: []
-      },
-      examples: {
-        search: [
-          { description: 'Recherche du lieu \'Ailles\'', url: `${urlPrefix}/search?query=label.folded:Ailles&page[size]=50` },
-          { description: 'Recherche de la forme ancienne \'Ailles\'', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=place-label.keyword&page[size]=50` },
-          { description: 'Tri sur le nom du lieu (croissant)', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=place-label.keyword&page[size]=50` },
-          { description: 'Tri sur le nom du lieu (décroissant)', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=-place-label.keyword&page[size]=50` },
-          { description: 'Tri sur le département puis sur le nom du lieu', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=dep-id.keyword,place-label.keyword&page[size]=50` },
-          { description: 'Filtre sur le canton et le département', url: `${urlPrefix}/search?query=label.folded:Ailles AND ((dep-id:02) AND (ctn-id:CT_02-12))` },
-          { description: 'Recherche floue du lieu \'Ailles\'', url: `${urlPrefix}/search?query=label.folded:Ailles~2&page[size]=50` }
-        ],
-        places: [
-          { description: 'Accès à la ressource du lieu \'Ailles\'', url: `${urlPrefix}/places/P82909066` },
-          { description: 'Le lieux identifiés autour de \'Ailles\'', url: `${urlPrefix}/places/P82909066/linked-places?without-relationships` },
-          { description: 'Commune d\'appartenance', url: `${urlPrefix}/places/P82909066/commune` }
-        ],
-        placeOldLabels: [
-          { description: 'Accès à la forme ancienne \'Les Ailles\'', url: `${urlPrefix}/place-old-labels/506089` }
-        ],
-        communes: [
-          { description: 'Accès à la commune de \'Manneville-ès-Plains\'', url: `${urlPrefix}/communes/76407` },
-          { description: 'Récupération des lieux localisés dans la commune', url: `${urlPrefix}/communes/76407/localized-places?without-relationships` }
-        ],
-        linkedPlaces: [
-          { description: 'Export du lieu \'Coste-Rousse\' au format LinkedPlaces', url: `${urlPrefix}/places/P24576921?export=linkedplaces` },
-          { description: 'La même ressource au format inline (plus compact)', url: `${urlPrefix}/places/P24576921?export=inline-linkedplaces` },
-          { description: 'Export d\'une collection', url: `${urlPrefix}/places?page[size]=5&page[number]=1&export=inline-linkedplaces` },
-          { description: 'Export de la commune \'Cluse (La)\'', url: `${urlPrefix}/places/P87923773?export=linkedplaces` }
-        ]
-      }
+      examples: examples,
+      results: results
     }
   },
   computed: {
 
   },
-  created () {
+  async created () {
+    let resultPromises = []
     for (const key in this.examples) {
-      this.examples[key].forEach(async example => {
-        let d = JSON.stringify(await this.fetchAPI(example.url), null, 2)
-        this.results[key].push(d)
+      this.examples[key].forEach(example => {
+        resultPromises.push(
+          this.fetchAPI(example.url).then(data => {
+            const code = JSON.stringify(data, null, 2)
+            this.results[key][example.url] = code
+          })
+        )
       })
     }
+    await Promise.all(resultPromises)
   },
   methods: {
     async fetchAPI (url) {

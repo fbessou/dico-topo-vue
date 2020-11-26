@@ -197,7 +197,7 @@
                       <section class="introduction">
                         <i>Documentation en cours de rédaction</i>
                       </section>
-                  <section class="example" v-show="false">
+                  <section class="example">
                     <h3 class="example-title">Exemples</h3>
                     <v-expansion-panels focusable>
                       <v-expansion-panel v-for="e,i in examples.linkedPlaces" :key="i">
@@ -261,8 +261,10 @@ export default {
           { description: 'Récupération des lieux localisés dans la commune', url: `${urlPrefix}/communes/76407/localized-places?without-relationships` }
         ],
         linkedPlaces: [
-          { description: 'Export du lieu \'Poizatière\'', url: `${urlPrefix}/search?query=label.folded:Poizatière&page[size]=200` },
-          { description: 'Export d\'une collection', url: `${urlPrefix}/search?query=label.folded:Poizatière&sort=place-label.keyword` }
+          { description: 'Export du lieu \'Coste-Rousse\' au format LinkedPlaces', url: `${urlPrefix}/places/P24576921?export=linkedplaces` },
+          { description: 'La même ressource au format inline (plus compact)', url: `${urlPrefix}/places/P24576921?export=inline-linkedplaces` },
+          { description: 'Export d\'une collection', url: `${urlPrefix}/places?page[size]=5&page[number]=1&export=inline-linkedplaces` },
+          { description: 'Export de la commune \'Cluse (La)\'', url: `${urlPrefix}/places/P87923773?export=linkedplaces` }
         ]
       }
     }

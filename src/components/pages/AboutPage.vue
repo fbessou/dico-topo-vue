@@ -48,7 +48,7 @@
               <contents-section />
             </v-tab-item>
             <v-tab-item key="user-guide" :transition="null" :reverse-transition="null">
-              <contents-section />
+              <user-guide-section />
             </v-tab-item>
           </v-tabs>
         </v-container>

@@ -13,9 +13,10 @@
         <v-container fluid>
 
           <v-tabs color="red darken-2" vertical class="tab-tabs">
+            <v-tab key="aboutRoot"><a href="#top">Présentation</a></v-tab>
             <v-tab key="history"><a href="#top">Historique</a></v-tab>
-            <v-tab key="content"><a href="#top">Contenus</a></v-tab>
-            <v-tab key="user-guide"><a href="#top">Mode d'emploi</a></v-tab>
+            <v-tab key="contents"><a href="#top">Contenus</a></v-tab>
+            <!--<v-tab key="user-guide"><a href="#top">Mode d'emploi</a></v-tab>-->
 
             <v-tab-item key="history" :transition="null" :reverse-transition="null">
               <history-section />

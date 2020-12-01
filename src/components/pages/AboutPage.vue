@@ -2,10 +2,30 @@
   <default-layout>
     <section id="top" >
       <section class="head--section">
-        <v-parallax :src="require('@/assets/hero.jpeg')" height="250">
+        <v-parallax :src="require('@/assets/hero.jpeg')" height="300">
           <v-layout column align-center justify-center class="black--text">
             <h1 class="text-uppercase mt-5 mb-2 display-1 text-xs-center">Dictionnaire topographique<span> de la France</span></h1>
-            <div class="headline mb-3 font-weight-light">Présentation</div>
+            <div class="headline  mb-3 font-weight-light">
+              Comprenant les noms de lieux anciens et modernes
+            </div>
+            <div>
+              <v-btn
+                class="red darken-2 mt-5"
+                dark
+                large
+                @click="$router.push({ name: 'about' })"
+              >
+                En savoir plus
+              </v-btn>
+              <v-btn
+                class="red darken-2 mt-5 ml-5"
+                dark
+                large
+                @click="$router.push({ name: 'home' })"
+              >
+                Commencer
+              </v-btn>
+            </div>
           </v-layout>
         </v-parallax>
       </section>
@@ -13,7 +33,7 @@
         <v-container fluid>
 
           <v-tabs color="red darken-2" vertical class="tab-tabs">
-            <v-tab key="aboutRoot"><a href="#top">Présentation</a></v-tab>
+            <v-tab key="aboutRoot"><a href="#top">Introduction</a></v-tab>
             <v-tab key="history"><a href="#top">Historique</a></v-tab>
             <v-tab key="contents"><a href="#top">Contenus</a></v-tab>
             <!--<v-tab key="user-guide"><a href="#top">Mode d'emploi</a></v-tab>-->
@@ -56,23 +76,32 @@ export default {
   background: lightgrey;
 }
 
+section {
+  margin-bottom: 20px;
+}
+
 .tab-tabs {
   .v-window {
-  max-width: 72%;
-  min-width: 50%;
-  margin-left: 320px;
-  text-align: justify;
-}
+    max-width: 66%;
+    min-width: 50%;
+    margin-left: 320px;
+    text-align: justify;
+  }
 
   .v-tabs-bar{
     position: fixed !important;
-    width: 280px !important;
+    width: 260px !important;
     z-index: 99 !important;
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    .v-tab {
+      justify-content: flex-end;
+    }
   }
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
+
 }
 
 </style>

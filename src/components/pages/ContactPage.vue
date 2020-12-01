@@ -2,7 +2,7 @@
   <default-layout>
     <section>
       <section class="head--section" >
-        <v-parallax :src="require('@/assets/hero.jpeg')" height="450">
+        <v-parallax :src="require('@/assets/hero.jpeg')" height="400">
           <v-layout
             column
             align-center
@@ -13,15 +13,24 @@
             <h1 class=" text-uppercase mt-5 mb-2 display-1 text-xs-center">Dictionnaire
                                                                            topographique<span> de la France</span></h1>
             <div class="headline  mb-3 font-weight-light">Comprenant les noms de lieux anciens et modernes</div>
-            <v-btn
-              class="red darken-2 mt-5"
-              dark
-              large
-              @click="$router.push({name: 'about'})"
-
-            >
-              En savoir plus
-            </v-btn>
+            <div>
+              <v-btn
+                class="red darken-2 mt-5"
+                dark
+                large
+                @click="$router.push({ name: 'about' })"
+              >
+                En savoir plus
+              </v-btn>
+              <v-btn
+                class="red darken-2 mt-5 ml-5"
+                dark
+                large
+                @click="$router.push({ name: 'home' })"
+              >
+                Commencer
+              </v-btn>
+            </div>
           </v-layout>
 
           <v-layout class="subheading mb-1 font-weight-light black--text" row wrap align-center justify-center>

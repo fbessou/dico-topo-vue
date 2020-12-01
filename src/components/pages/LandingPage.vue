@@ -2,7 +2,7 @@
   <default-layout>
     <section>
       <section class="head--section">
-        <v-parallax :src="require('@/assets/hero.jpeg')" height="450">
+        <v-parallax :src="require('@/assets/hero.jpeg')" height="400">
           <v-layout column align-center justify-center class="black--text">
             <h1 class=" text-uppercase mt-5 mb-2 display-1 text-xs-center">
               Dictionnaire topographique<span> de la France</span>

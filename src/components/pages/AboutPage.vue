@@ -18,14 +18,14 @@
             <v-tab key="contents"><a href="#top">Contenus</a></v-tab>
             <!--<v-tab key="user-guide"><a href="#top">Mode d'emploi</a></v-tab>-->
 
+            <v-tab-item key="aboutRoot" :transition="null" :reverse-transition="null">
+              <about-root-section />
+            </v-tab-item>
             <v-tab-item key="history" :transition="null" :reverse-transition="null">
               <history-section />
             </v-tab-item>
-            <v-tab-item key="content" :transition="null" :reverse-transition="null">
-              <content-section />
-            </v-tab-item>
-            <v-tab-item key="user-guide" :transition="null" :reverse-transition="null">
-              <user-guide-section />
+            <v-tab-item key="contents" :transition="null" :reverse-transition="null">
+              <contents-section />
             </v-tab-item>
           </v-tabs>
         </v-container>
@@ -38,12 +38,12 @@
 import DefaultLayout from '../DefaultLayout'
 
 import HistorySection from '@/components/pages/about/HistorySection'
-import ContentSection from '@/components/pages/about/ContentSection'
-import UserGuideSection from '@/components/pages/about/UserGuideSection'
+import ContentsSection from '@/components/pages/about/ContentsSection'
+import AboutRootSection from '@/components/pages/about/AboutRootSection'
 
 export default {
   name: 'LandingPage',
-  components: { DefaultLayout, HistorySection, ContentSection, UserGuideSection }
+  components: { DefaultLayout, HistorySection, ContentsSection, AboutRootSection }
 }
 </script>
 

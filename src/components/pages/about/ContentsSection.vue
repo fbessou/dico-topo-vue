@@ -29,7 +29,7 @@
         volume entre la nomenclature du dictionnaire topographique de la Seine-Maritime, paru dans les années 1980 au
         terme de très longs travaux, et celle du dictionnaire de l’Eure-et-Loir, publié hâtivement dès 1861.</p>
       <figure>
-        <img src="../../assets/about_places_map.png" alt="Carte de densité des lieux">
+        <img :src="require('@/assets/about_places_map.png')" alt="Carte de densité des lieux">
         <figcaption>Densité des lieux recensés dans les dictionnaires topographiques</figcaption>
       </figure>
       <p>Ces remarques doivent inciter à ne pas prendre pour argent comptant le résultat d’une recherche dans
@@ -61,7 +61,7 @@
         en moyenne six à huit formes anciennes pour chaque lieu ; à l’inverse, ceux de la Loire-Atlantique et du
         Morbihan n’en contiennent même pas une pour dix lieux.</p>
       <figure>
-        <img src="../../assets/about_placenames_map.png" alt="Carte de densité des formes anciennes">
+        <img :src="require('@/assets/about_placenames_map.png')" alt="Carte de densité des formes anciennes">
         <figcaption>Nombre moyen de formes anciennes par lieu dans les dictionnaires topographiques</figcaption>
       </figure>
       <p>Comme pour la nomenclature, il convient donc de garder en tête que les dictionnaires topographiques livrent au
@@ -124,9 +124,9 @@
 </template>
 
 <script>
-  export default {
-    name: 'contents'
-  }
+export default {
+  name: 'contents'
+}
 </script>
 
 <style scoped>

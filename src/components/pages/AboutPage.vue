@@ -33,21 +33,21 @@
         <v-container fluid>
 
           <v-tabs color="red darken-2" vertical class="tab-tabs">
-            <v-tab key="aboutRoot"><a href="#top">Introduction</a></v-tab>
-            <v-tab key="history"><a href="#top">Historique</a></v-tab>
-            <v-tab key="contents"><a href="#top">Contenus</a></v-tab>
-            <v-tab key="user-guide"><a href="#top">Mode d'emploi</a></v-tab>
+            <v-tab  @click.native="scrollToTop" key="aboutRoot"><a href="#">Introduction</a></v-tab>
+            <v-tab  @click.native="scrollToTop" key="history"><a href="#">Historique</a></v-tab>
+            <v-tab  @click.native="scrollToTop" key="contents"><a href="#">Contenus</a></v-tab>
+            <v-tab  @click.native="scrollToTop" key="user-guide"><a href="#">Mode d'emploi</a></v-tab>
 
-            <v-tab-item key="aboutRoot" :transition="null" :reverse-transition="null">
+            <v-tab-item key="aboutRoot" eager :transition="null" :reverse-transition="null">
               <about-root-section />
             </v-tab-item>
-            <v-tab-item key="history" :transition="null" :reverse-transition="null">
+            <v-tab-item key="history" eager :transition="null" :reverse-transition="null">
               <history-section />
             </v-tab-item>
-            <v-tab-item key="contents" :transition="null" :reverse-transition="null">
+            <v-tab-item key="contents" eager :transition="null" :reverse-transition="null">
               <contents-section />
             </v-tab-item>
-            <v-tab-item key="user-guide" :transition="null" :reverse-transition="null">
+            <v-tab-item key="user-guide" eager :transition="null" :reverse-transition="null">
               <user-guide-section />
             </v-tab-item>
           </v-tabs>
@@ -67,7 +67,12 @@ import UserGuideSection from '@/components/pages/about/UserGuideSection'
 
 export default {
   name: 'LandingPage',
-  components: { DefaultLayout, AboutRootSection, HistorySection, ContentsSection, UserGuideSection }
+  components: { DefaultLayout, AboutRootSection, HistorySection, ContentsSection, UserGuideSection },
+  methods: {
+    scrollToTop () {
+      window.scrollTo(0, 0)
+    }
+  }
 }
 </script>
 

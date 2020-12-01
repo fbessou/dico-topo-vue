@@ -101,4 +101,17 @@ export default {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+figure {
+  width: 500px;
+  margin: 20px auto;
+  img {
+      width: 500px;
+  }
+}
+figcaption {
+  font-style: italic;
+  color: darkgrey;
+  text-align: center;
+}
+</style>

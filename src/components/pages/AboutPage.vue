@@ -88,6 +88,12 @@ section {
     text-align: justify;
   }
 
+  ul{
+    padding-top: 0px
+    padding-left 30px;
+    padding-bottom: 12px;
+  }
+
   .v-tabs-bar{
     position: fixed !important;
     width: 260px !important;

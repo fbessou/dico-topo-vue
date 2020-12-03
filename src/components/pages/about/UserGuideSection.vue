@@ -5,30 +5,30 @@
     </h1>
     <section>
       <h2 class="mb-5">
-        <span class="display-1 headline">Recherche</span>
+        <span class="display-1 headline">Faire une recherche</span>
       </h2>
       <p>La recherche dans la base de données porte sur des noms de lieux (toponymes), interrogeables sous leur forme
         moderne, c’est-à-dire en usage à la date de rédaction du dictionnaire (XIX<sup>e</sup>-XX<sup>e</sup> siècles),
-        ou sous leurs formes anciennes. Ainsi, une requête sur le terme <code>hameau</code> donnera comme résultats les
+        ou sous leurs formes anciennes. Ainsi, une requête sur le terme <i>hameau</i> donnera comme résultats les
         seuls lieux dont les noms actuels ou anciens incluent précisément ce terme, indépendamment de la nature dudit
         lieu à l’époque de la rédaction du dictionnaire (hameau ou non, lieu déserté etc.). Une requête portant sur
         plusieurs termes aura pour réponses les lieux dont les noms actuels ou anciens contiennent l’ensemble des termes
-        recherchés : la requête <code>château neuf</code> aura donc pour résultats tant <code>Château Neuf</code> que
-        <code>Neuf Château</code>, mais exclura les lieux dont la dénomination contient uniquement <code>château</code>
-        ou <code>neuf</code>.</p>
-      <p><b>Chaînes de caractères</b>. Il est à noter que les variations entre majuscule et minuscule, les traits
+        recherchés : la requête <i>château neuf</i> aura donc pour résultats tant <i>Château Neuf</i> que
+        <i>Neuf Château</i>, mais exclura les lieux dont la dénomination contient uniquement <i>château</i>
+        ou <i>neuf</i>.</p>
+      <p><b>Traitement des chaînes de caractères</b>. Il est à noter que les variations entre majuscule et minuscule, les traits
         d’union et l’ensemble des accents et des signes diacritiques ont été neutralisés : une recherche donnera les mêmes
-        résultats qu’elle porte sur <code>chatillon</code> ou sur <code>Châtillon</code>, sur <code>saint etienne</code>
-        ou sur <code>Saint-Étienne</code>. Enfin, il est possible d’utiliser les signes <code>?</code> et <code>*</code>
+        résultats qu’elle porte sur <i>chatillon</i> ou sur <i>Châtillon</i>, sur <i>saint etienne</i>
+        ou sur <i>Saint-Étienne</i>. Enfin, il est possible d’utiliser les signes <code>?</code> et <code>*</code>
         pour remplacer un ou plusieurs caractères, ce qui permet notamment de rechercher l’ensemble des noms comportant
         le même suffixe ou le même préfixe.</p>
       <p><b>Recherche floue</b>. La réglette <code>Exact | Flou | Très flou</code> permet de faire varier la sensibilité
-        du moteur de recherche : ainsi, une recherche exacte portant sur le terme <code>condamine</code> se limitera
+        du moteur de recherche : ainsi, une recherche exacte portant sur le terme <i>condamine</i> se limitera
         strictement aux toponymes, anciens ou modernes, incluant cette chaîne de caractères ; une recherche floue
-        offrira, en plus, diverses variantes graphiques telles que <code>Condamina</code>, <code>Contamine</code>,
-        <code>Coundamine</code>… ; une recherche très floue, des formes encore plus éloignées telles que
-        <code>Condominoe</code>, <code>Condemène</code>…, et même des formes sans aucune parenté avec la séquence
-        recherchée (<code>condamné</code>, <code>Codaine</code>…).</p>
+        offrira, en plus, diverses variantes graphiques telles que <i>Condamina</i>, <i>Contamine</i>,
+        <i>Coundamine</i>… ; une recherche très floue, des formes encore plus éloignées telles que
+        <i>Condominoe</i>, <i>Condemène</i>…, et même des formes sans aucune parenté avec la séquence
+        recherchée (<i>condamné</i>, <i>Codaine</i>…).</p>
       <p><b>Agrégation des résultats</b>. La case <code>Regrouper par lieu</code> permet de choisir entre deux options
         de mise en forme du tableau des résultats de la recherche :</p>
       <ul>
@@ -46,13 +46,12 @@
         <span class="display-1 headline">Le tableau des résultats</span>
       </h2>
       <p>Le tableau des résultats fournit un aperçu synthétique des réponses à la requête posée. Il peut être replié
-        (flèche centrale) ou à l’inverse déplié en plein écran (double flèche à droite), selon que l’on souhaite ou non
+        <v-icon style="background-color:#F1F1F1">keyboard_arrow_down</v-icon> ou à l’inverse déplié en plein écran <v-icon style="background-color:#F1F1F1">mdi-arrow-expand</v-icon>, selon que l’on souhaite ou non
         conserver la carte visible à l’écran.</p>
       <p>Pour chaque lieu répondant à la requête, y figurent :</p>
       <ul>
-        <li>un renvoi vers la carte, symbolisé par <v-icon>location_on</v-icon> ;</li>
-        <li>dans la colonne <code>Lieu</code>, le label du lieu (la vedette de l’article que lui consacre le
-          dictionnaire) ;</li>
+        <li>un renvoi vers la carte, symbolisé par <v-icon color="primary">location_on</v-icon> ;</li>
+        <li>dans la colonne <code>Lieu</code>, le nom du lieu sous la forme retenue par le dictionnaire ;</li>
         <li>dans la colonne <code>Formes anciennes</code>, la ou les formes anciennes qu’a revêtues ce nom ; il est à
           noter que, lorsque l’option <code>Regrouper par lieu</code> est décochée, toute occurrence du terme recherché
           qui correspond au nom actuel du lieu se trouve également reproduite à l’identique dans cette colonne.</li>
@@ -89,7 +88,7 @@
         d’une carte de chaleur ; un zoom avant permet de les visualiser sous la forme de points : chaque point bleu
         correspond à une ligne du tableau des résultats de recherche. Lorsqu’un lieu figurant dans les résultats est
         situé conjointement dans plusieurs communes, seule la première d’entre elles est signalée par un point.</p>
-      <p><b>Zoom</b>. Il est possible de zoomer sur un lieu précis sélectionné dans le tableau de résultats en cliquant
+      <p>Il est possible de zoomer sur un lieu précis sélectionné dans le tableau de résultats en cliquant
         sur le symbole <v-icon color="primary">location_on</v-icon>.
       </p>
       <p>La très grande majorité des lieux faisant l’objet d’un article dans les dictionnaires a pu être géolocalisée.
@@ -99,10 +98,10 @@
         communal, de voir ces différents lieux localisés strictement au même point, qui plus est différent de ceux
         qu’indiquent d’autres bases de données cartographiques. Seul le recours à celles-ci ou aux fonds de carte
         proposés par l’application permettra éventuellement de préciser la localisation de chacun.</p>
-      <p><b>Fond</b>. Par défaut, les résultats sont affichés sur un fond de carte fourni par <a
+      <p>Par défaut, les résultats sont affichés sur un fond de carte fourni par <a
         href="https://www.openstreetmap.fr/" target="_blank">Open Street Map</a>. L’icône <span
         class="img-layers"></span> en haut à droite permet de modifier la transparence de ce fond pour laisser
-        apparaître la carte de Cassini ou supprimer tout fond de carte.</p>
+        apparaître la carte de Cassini fournie par le <a href="https://www.geoportail.gouv.fr/" target="_blank">Geoportail</a>, ou supprimer tout fond de carte.</p>
     </section>
     <section>
       <h2 class="mb-5">
@@ -126,7 +125,7 @@
           anciennes du nom de ce lieu, chaque forme étant datée et munie d’une référence documentaire ; un commentaire
           historique plus ou moins développé. Il est à noter que les références documentaires accompagnant les formes
           anciennes sont abrégées ; la plupart d’entre elles sont explicitées dans l’introduction de chaque
-          dictionnaire, introductions qu’il est possible de consulter en version océrisée sur Gallica ou sur <a
+          dictionnaire, introductions qu’il est possible de consulter en version océrisée sur <a href="https://catalogue.bnf.fr/rechercher.do?index=TOUS3&numNotice=37326793&typeNotice=E" target="_blank">Gallica</a> ou sur <a
             href="https://pandor.u-bourgogne.fr/pages/toponymie-fr.html" target="_blank">PANDOR</a>.
         </li>
         <li>la liste des lieux situés dans la même commune (dans son périmètre de 2011) ;</li>

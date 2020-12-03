@@ -39,7 +39,7 @@
         respectées.
       </p>
       <p>
-        Ces fichiers XML, librement disponibles sur l’entrepôt <a href="https://github.com/chartes/dico-topo">Github de l’École des chartes</a>, constituent le socle documentaire du projet. Ils ont fait l’objet de plusieurs campagnes de corrections, notamment pour éliminer les coquilles et incohérences qui avaient pu
+        Ces fichiers XML, librement disponibles sur l’entrepôt <a href="https://github.com/chartes/dico-topo" target="_blank">Github de l’École des chartes</a>, constituent le socle documentaire du projet. Ils ont fait l’objet de plusieurs campagnes de corrections, notamment pour éliminer les coquilles et incohérences qui avaient pu
         échapper aux auteurs et pour restructurer certains articles. À compter de 2017, ils ont été enrichis afin de permettre le développement de l’application cartographique.
       </p>
       <p>
@@ -47,6 +47,51 @@
         nouvelle application de consultation et une API permettant la réexploitation des données ont fait l’objet d’une publication en version de test au printemps 2019.
       </p>
       <p>La présente version, corrigée, munie de nouveaux identifiants pérennes et donnant accès à quarante dictionnaires, est disponible depuis novembre 2020.</p>
+      <ul>
+        <li>Philipon (Édouard), <i>Dictionnaire topographique du département de l’Ain</i>, Paris, 1911.</li>
+        <li>Matton (Auguste), <i>Dictionnaire topographique du département de l’Aisne</i>, Paris, 1871.</li>
+        <li>Roman (Joseph), <i>Dictionnaire topographique du département des Hautes-Alpes</i>, Paris, 1884.</li>
+        <li>Charrié (Pierre), <i>Dictionnaire topographique du département de l’Ardèche</i>, Paris, 1979.</li>
+        <li>Boutiot (Théophile) et Socard (Émile), <i>Dictionnaire topographique du département de l’Aube</i>, Paris, 1874.</li>
+        <li>Sabarthès (Antoine), <i>Dictionnaire topographique du département de l’Aude</i>, Paris, 1912.</li>
+        <li>Hippeau (Célestin), <i>Dictionnaire topographique du département du Calvados</i>, Paris, 1883.</li>
+        <li>Amé (Émile), <i>Dictionnaire topographique du département du Cantal</i>, Paris, 1897.</li>
+        <li>Boyer (Hippolyte) et Latouche (Robert), <i>Dictionnaire topographique du département du Cher</i>, Paris, 1926.</li>
+        <li>Roserot (Alphonse), <i>Dictionnaire topographique du département de la Côte-d’Or</i>, Paris, 1924.</li>
+        <li>Hemmer (Henri), <i>Dictionnaire topographique du département de la Creuse</i>, dactyl., archives départementales de la Creuse.</li>
+        <li>Gourgues (Alexis de), <i>Dictionnaire topographique du département de la Dordogne</i>, Paris, 1873.</li>
+        <li>Brun-Durand (Justin), <i>Dictionnaire topographique du département de la Drôme</i>, Paris, 1891.</li>
+        <li>Poret de Blosseville (Ernest), <i>Dictionnaire topographique du département de l’Eure</i>, Paris, 1877.</li>
+        <li>Merlet (Lucien), <i>Dictionnaire topographique du département d’Eure-et-Loir</i>, Paris, 1861.</li>
+        <li>Germer-Durand (Eugène), <i>Dictionnaire topographique du département du Gard</i>, Paris, 1868.</li>
+        <li>Thomas (Eugène), <i>Dictionnaire topographique du département de l’Hérault</i>, Paris, 1865.</li>
+        <li>Villette (Guy), « L’origine des noms des communes de Loir-et-Cher », dans <i>Hommage à Guy Villette. Quelques études toponymiques et historiques</i>, éd. Marianne Mulon et Gérard Taverdet, s.l., 1992, p. 135-196.</li>
+        <li>Dufour (Jean-Édouard), <i>Dictionnaire topographique du Forez et des paroisses du Lyonnais et du Beaujolais formant le département de la Loire</i>, Mâcon, 1946.</li>
+        <li>Chassaing (Augustin) et Jacotin (Antoine), <i>Dictionnaire topographique du département de la Haute-Loire</i>, Paris, 1907.</li>
+        <li>Quilgars (Henri), <i>Dictionnaire topographique du département de la Loire-Inférieure</i>, Nantes, 1906.</li>
+        <li>Longnon (Auguste), <i>Dictionnaire topographique du département de la Marne</i>, Paris, 1891.</li>
+        <li>Roserot (Alphonse), <i>Dictionnaire topographique du département de la Haute-Marne</i>, Paris, 1903.</li>
+        <li>Lepage (Henri), <i>Dictionnaire topographique du département de la Meurthe</i>, Paris, 1862.</li>
+        <li>Liénard (Félix), <i>Dictionnaire topographique du département de la Meuse</i>, Paris, 1872.</li>
+        <li>Rosenzweig (Louis), <i>Dictionnaire topographique du département du Morbihan</i>, Paris, 1870.</li>
+        <li>Bouteiller (Ernest de), <i>Dictionnaire topographique du département de la Moselle</i>, Paris, 1874.</li>
+        <li>Soultrait (Georges de), <i>Dictionnaire topographique du département de la Nièvre</i>, Paris, 1865.</li>
+        <li>Lambert (Émile), <i>Dictionnaire topographique du département de l’Oise</i>, Amiens, 1982.</li>
+        <li>Loisne (Auguste de), <i>Dictionnaire topographique du département du Pas-de-Calais</i>, Paris, 1907.</li>
+        <li>Raymond (Paul), <i>Dictionnaire topographique du département des Basses-Pyrénées</i>, Paris, 1863.</li>
+        <li>Lejosne (Louis-Antoine) et Aymard (Robert), <i>Dictionnaire topographique du département des Hautes-Pyrénées</i>, Pau, 1992.</li>
+        <li>Stoffel (Georges), <i>Dictionnaire topographique du département du Haut-Rhin</i>, Paris, 1868.</li>
+        <li>Rigault (Jean), <i>Dictionnaire topographique du département de Saône-et-Loire</i>, Paris, 2008.</li>
+        <li>Vallée (Eugène) et Latouche (Robert), <i>Dictionnaire topographique du département de la Sarthe</i>, 2 tomes, Paris, 1950-1952.</li>
+        <li>Vernier (Jules-Joseph), <i>Dictionnaire topographique du département de la Savoie</i>, Chambéry, 1896.</li>
+        <li>Robillard de Beaurepaire (Charles de) et Laporte (dom Jean), <i>Dictionnaire topographique du département de la Seine-Maritime</i>, 2 t., Paris, 1982-1984.</li>
+        <li>Stein (Henri) et Hubert (Jean), <i>Dictionnaire topographique du département de Seine-et-Marne</i>, Paris, 1954.</li>
+        <li>Ledain (Bélisaire), <i>Dictionnaire topographique du département des Deux-Sèvres</i>, Poitiers, 1902.</li>
+        <li>Garnier (Jacques), <i>Dictionnaire topographique du département de la Somme</i>, 2 tomes, Paris/Amiens, 1867-1878.</li>
+        <li>Redet (Louis-François-Xavier), <i>Dictionnaire topographique du département de la Vienne</i>, Paris, 1881.</li>
+        <li>Marichal (Paul), <i>Dictionnaire topographique du département des Vosges</i>, Paris, 1941.</li>
+        <li>Quantin (Maximilien), <i>Dictionnaire topographique du département de l’Yonne</i>, Paris, 1862.</li>
+      </ul>
     </section>
   </article>
 </template>

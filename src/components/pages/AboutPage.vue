@@ -33,13 +33,14 @@
         <v-container fluid>
 
           <v-tabs color="red darken-2" vertical class="tab-tabs">
-            <v-tab  @click.native="scrollToTop" key="aboutRoot"><a href="#">Introduction</a></v-tab>
+            <v-tab  @click.native="scrollToTop" key="presentation"><a href="#">Présentation</a></v-tab>
             <v-tab  @click.native="scrollToTop" key="history"><a href="#">Historique</a></v-tab>
             <v-tab  @click.native="scrollToTop" key="contents"><a href="#">Contenus</a></v-tab>
             <v-tab  @click.native="scrollToTop" key="user-guide"><a href="#">Mode d'emploi</a></v-tab>
+            <v-tab  @click.native="scrollToTop" key="credits"><a href="#">Crédits</a></v-tab>
 
-            <v-tab-item key="aboutRoot" eager :transition="null" :reverse-transition="null">
-              <about-root-section />
+            <v-tab-item key="presentation" eager :transition="null" :reverse-transition="null">
+              <presentation-section />
             </v-tab-item>
             <v-tab-item key="history" eager :transition="null" :reverse-transition="null">
               <history-section />
@@ -49,6 +50,9 @@
             </v-tab-item>
             <v-tab-item key="user-guide" eager :transition="null" :reverse-transition="null">
               <user-guide-section />
+            </v-tab-item>
+            <v-tab-item key="credits" eager :transition="null" :reverse-transition="null">
+              <credits-section />
             </v-tab-item>
           </v-tabs>
         </v-container>
@@ -60,14 +64,15 @@
 <script>
 import DefaultLayout from '../DefaultLayout'
 
-import AboutRootSection from '@/components/pages/about/AboutRootSection'
+import PresentationSection from '@/components/pages/about/PresentationSection'
 import HistorySection from '@/components/pages/about/HistorySection'
 import ContentsSection from '@/components/pages/about/ContentsSection'
 import UserGuideSection from '@/components/pages/about/UserGuideSection'
+import CreditsSection from '@/components/pages/about/CreditsSection'
 
 export default {
   name: 'LandingPage',
-  components: { DefaultLayout, AboutRootSection, HistorySection, ContentsSection, UserGuideSection },
+  components: { DefaultLayout, PresentationSection, HistorySection, ContentsSection, UserGuideSection, CreditsSection },
   methods: {
     scrollToTop () {
       window.scrollTo(0, 0)
@@ -98,9 +103,14 @@ section {
   }
 
   ul{
-    padding-top: 0px
-    padding-left 30px;
+    padding-top: 0px;
+    padding-left: 30px;
     padding-bottom: 12px;
+  }
+
+  code{
+    background-color: #F1F1F1;
+    color: inherit;
   }
 
   .v-tabs-bar{

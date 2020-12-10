@@ -16,7 +16,7 @@
     <p>Camille Burette, Olivier Canteaut, Corentin Faye, Marie-José Gasse-Grandjean, Jean-Damien Género, Vincent Jolivet, Sébastien Nadiras et Julien Pilla ont contribué à l’effort de correction et d’enrichissement de ces données numérisées. Toutes les sources sont consultables sur l’entrepôt <a href="https://github.com/chartes/dico-topo" target="_blank">Github de l’École des chartes</a>.</p>
     <p>Nous remercions les héritiers d’Émile Lambert et la Société de linguistique picarde de nous avoir permis de dématérialiser le dictionnaire topographique de l’Oise, Robert Aymard d’avoir fait de même pour son dictionnaire des Hautes-Pyrénées, et Pierre Charrié pour son dictionnaire de l’Ardèche.</p>
     <p>Nous remercions également les directeurs scientifiques du premier projet éditorial Marie-José Gasse-Grandjean (CNRS/ARTeHIS, 2010-2018) et Alain Guerreau (CNRS/CRH, 2010-2014).</p>
-    <p>L'utilisation, le partage et l’adaptation du contenu sont autorisés selon les termes de la licence <a href="https://creativecommons.org/licenses/by/3.0/fr/legalcode" target="_blank">Creative Commons Attribution 3.0 (cc-by)</a>.</p>
+    <p>L'utilisation, le partage et l’adaptation du contenu sont autorisés selon les termes de la licence <a href="https://creativecommons.org/licenses/by/4.0/fr/legalcode" target="_blank">Creative Commons Attribution 4.0 (cc-by)</a>.</p>
   </article>
 </template>
 

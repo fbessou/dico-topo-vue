@@ -34,7 +34,7 @@
 
           <v-tabs color="red darken-2" vertical class="tab-tabs">
             <v-tab  @click.native="scrollToTop" key="presentation"><a href="#">Présentation</a></v-tab>
-            <v-tab  @click.native="scrollToTop" key="history"><a href="#">Historique</a></v-tab>
+            <v-tab  @click.native="scrollToTop" key="history"><a href="#">L’entreprise éditoriale <br>(1859-2008)</a></v-tab>
             <v-tab  @click.native="scrollToTop" key="contents"><a href="#">Contenus</a></v-tab>
             <v-tab  @click.native="scrollToTop" key="user-guide"><a href="#">Mode d'emploi</a></v-tab>
             <v-tab  @click.native="scrollToTop" key="credits"><a href="#">Crédits</a></v-tab>

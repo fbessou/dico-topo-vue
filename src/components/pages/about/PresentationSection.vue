@@ -21,7 +21,7 @@
       </p>
       <p>
         Enfin, les données sont accessibles aux formats JSON API 1.0 et Linked Places grâce à une <a href="https://dicotopo.cths.fr/documentation">API</a> et librement réexploitables dans le cadre d’applications web. L’attribution à chaque lieu d’un identifiant pérenne garantit les conditions de cette réexploitation et
-        permet d’ériger le <i>Dictionnaire topographique de la France</i> en référentiel géohistorique.
+        permet de constituer le <i>Dictionnaire topographique de la France</i> en référentiel géohistorique.
       </p>
       <p>
         Cette application est toujours en cours de développement. Sa couverture territoriale sera encore étendue par l’intégration de nouveaux dictionnaires ou d’autres types de sources, tels que les pouillés ecclésiastiques, pour les départements ne faisant pas l’objet d’un dictionnaire. De nouvelles fonctionnalités

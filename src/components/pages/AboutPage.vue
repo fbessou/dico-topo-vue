@@ -33,8 +33,9 @@
         <v-container fluid>
 
           <v-tabs color="red darken-2" vertical class="tab-tabs">
-            <v-tab  @click.native="scrollToTop" key="presentation"><a href="#">Présentation</a></v-tab>
-            <v-tab  @click.native="scrollToTop" key="history"><a href="#">L’entreprise éditoriale <br>(1859-2008)</a></v-tab>
+            <v-tab  @click.native="scrollToTop" key="presentation"><a href="#">Présentation</a></v-tab><!-- OK -->
+            <v-tab  @click.native="scrollToTop" key="history"><a href="#">L’entreprise éditoriale</a></v-tab><!-- OK -->
+            <v-tab  @click.native="scrollToTop" key="project"><a href="#">Le projet numérique</a></v-tab>
             <v-tab  @click.native="scrollToTop" key="contents"><a href="#">Contenus</a></v-tab>
             <v-tab  @click.native="scrollToTop" key="user-guide"><a href="#">Mode d'emploi</a></v-tab>
             <v-tab  @click.native="scrollToTop" key="credits"><a href="#">Crédits</a></v-tab>
@@ -44,6 +45,9 @@
             </v-tab-item>
             <v-tab-item key="history" eager :transition="null" :reverse-transition="null">
               <history-section />
+            </v-tab-item>
+            <v-tab-item key="project" eager :transition="null" :reverse-transition="null">
+              <project-section />
             </v-tab-item>
             <v-tab-item key="contents" eager :transition="null" :reverse-transition="null">
               <contents-section />
@@ -66,13 +70,14 @@ import DefaultLayout from '../DefaultLayout'
 
 import PresentationSection from '@/components/pages/about/PresentationSection'
 import HistorySection from '@/components/pages/about/HistorySection'
+import ProjectSection from '@/components/pages/about/ProjectSection'
 import ContentsSection from '@/components/pages/about/ContentsSection'
 import UserGuideSection from '@/components/pages/about/UserGuideSection'
 import CreditsSection from '@/components/pages/about/CreditsSection'
 
 export default {
   name: 'LandingPage',
-  components: { DefaultLayout, PresentationSection, HistorySection, ContentsSection, UserGuideSection, CreditsSection },
+  components: { DefaultLayout, PresentationSection, HistorySection, ProjectSection, ContentsSection, UserGuideSection, CreditsSection },
   methods: {
     scrollToTop () {
       window.scrollTo(0, 0)
@@ -88,6 +93,9 @@ export default {
 }
 .head--section {
   background: lightgrey;
+}
+.sc {
+  font-variant: small-caps;
 }
 
 section {

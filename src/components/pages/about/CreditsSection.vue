@@ -6,8 +6,8 @@
     <p>Direction du projet : <a href="https://cths.fr/" target="_blank">Comité des travaux historiques et scientifiques</a> ; <a href="https://www.archives-nationales.culture.gouv.fr/fr_FR/web/guest/centre-d-onomastique" target="_blank">Archives nationales, Centre d'onomastique</a> ; <a href="http://www.chartes.psl.eu/fr/rubrique-centre-jean-mabillon/centre-jean-mabillon">École nationale des chartes, Centre Jean-Mabillon</a>.</p>
     <p>Conception, développement et maintenance de l’application : <a href="https://dh.chartes.psl.eu/" target="_blank">École nationale des chartes, mission Projets numériques</a>.</p>
     <p>Hébergement : <a href="https://www.huma-num.fr/" target="_blank">TGIR Huma-Num</a></p>
-    <p>L'utilisation, le partage et l’adaptation du contenu sont autorisés selon les termes de la licence <a href="https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf" target="_blank">Licence Ouverte V 2.0</a>.</p>
-    <!--
+    <p>L'utilisation, le partage et l’adaptation du contenu sont autorisés selon les termes de la <a href="https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf" target="_blank">Licence Ouverte V 2.0</a> (équivalente à une licence <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC-BY 4.0</a>).</p>
+    <!--""""
     -->
     <!--
     <p>Direction scientifique du projet Dictionnaire topographique : Olivier Canteaut (École nationale des chartes, Centre Jean-Mabillon), Sébastien Nadiras (Archives nationales, Centre d’onomastique)</p>

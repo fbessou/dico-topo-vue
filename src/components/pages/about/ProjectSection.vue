@@ -1,40 +1,40 @@
 <template>
   <article>
     <h1 class="mt-5 mb-5">
-      <span class="display-1">Le projet numérique (2010-…)</span>
+      <span class="display-1">Le projet numérique depuis 2010</span>
     </h1>
     <section>
       <p>
-        Le projet d’édition électronique de l’ensemble des dictionnaires topographiques a été engagé en 2010 par le <a href="http://cths.fr/" target="_blank"> CTHS</a>. Y ont pris part les <a href="https://www.archives-nationales.culture.gouv.fr/" target="_blank">Archives nationales</a>, l’<a href="http://www.chartes.psl.eu/" target="_blank">École nationale des chartes</a> et, jusqu’en 2018, l’<a href="https://www.u-bourgogne.fr/">université de Bourgogne</a>. L’acquisition des données du projet a bénéficié du soutien financier du <a href="https://francearchives.fr/" target="_blank">Service interministériel des Archives de France</a> et du réseau des <a href="https://francearchives.fr/fr/annuaire/departements" target="_blank">archives départementales</a>, ainsi que du consortium <a href="https://cosme.hypotheses.org/" target="_blank">COSME²</a>.
+        Le projet d’édition électronique de l’ensemble des dictionnaires topographiques a été engagé en 2010 par le <a href="http://cths.fr/" target="_blank"> CTHS</a>. Y ont pris part les <a href="https://www.archives-nationales.culture.gouv.fr/" target="_blank">Archives nationales</a>, l’<a href="http://www.chartes.psl.eu/" target="_blank">École nationale des chartes</a> et, jusqu’en 2018, l’<a href="https://www.u-bourgogne.fr/">université de Bourgogne</a>. L’acquisition des données du projet a bénéficié du soutien financier du <a href="https://francearchives.fr/" target="_blank">Service interministériel des Archives de France</a> et du réseau des <a href="https://francearchives.fr/fr/annuaire/departements" target="_blank">archives départementales</a> : archives de l'Aisne, des Hautes-Alpes, du Calvados, du Cher, de la Dordogne, de la Drôme, de l'Eure, de la Loire, de la Haute-Loire, du Morbihan, des Pyrénées-Atlantiques, de la Sarthe, de la Seine-Maritime, de la Seine-et-Marne et des Deux-Sèvres. Le consortium <a href="https://cosme.hypotheses.org/" target="_blank">COSME²</a> a également contribué financièrement à l'acquisition de données supplémentaires, en cours d'intégration.
       </p>
       <h2 class="mb-5">
         <span class="display-1 headline">Membres</span>
       </h2>
       <p>
-        <b>Direction scientifique</b>. Olivier Canteaut, (2010-…), Sébastien Nadiras (2010-…), Marie-José Gasse-Grandjean (2010-2018), Alain Guerreau (2010-2014)
+        Direction scientifique : Olivier Canteaut (2010-), Sébastien Nadiras (2010-), Marie-José Gasse-Grandjean (2010-2018), Alain Guerreau (2010-2014)
       </p>
       <p>
-        <b>Direction administrative</b>. Claude Mordant (2010-2018), Catherine Gros (2010-2013), Christophe Marion (2017-…)
+        Direction administrative : Claude Mordant (2010-2018), Catherine Gros (2010-2013), Christophe Marion (2017-)
       </p>
       <p>
-        <b>Conception, développement et maintenance de l’application (2018-…)</b>. Vincent Jolivet (2018-…), Julien Pilla (2018-…), Corentin Faye (2020-…)
+        Conception, développement et maintenance de l’application : Vincent Jolivet (2018-), Julien Pilla (2018-), Corentin Faye (2020-)
       </p>
       <p>
          Maintenance et hébergement d’un premier site de consultation (2015-2018). Arnaud Millereux
       </p>
       <p>
-        <b>Acquisition et traitement des données</b>. Marie-José Gasse-Grandjean (2010-2018), Camille Burette (2017-2018), Olivier Canteaut (2018-…), Vincent Jolivet (2018-…), Sébastien Nadiras (2018-…), Corentin Faye (2019-…), Jean-Damien Généro (2019-2020)
+        Acquisition et traitement des données : Marie-José Gasse-Grandjean (2010-2018), Camille Burette (2017-2018), Olivier Canteaut (2018-), Vincent Jolivet (2018-), Sébastien Nadiras (2018-), Corentin Faye (2019-), Jean-Damien Généro (2019-2020)
       </p>
       <p>
-        <b>Suivi des numérisations hébergées sur PANDOR</b>. Marie-José Gasse-Grandjean (2010-2018), Hédi Maazaoui (2011-2018), Agnès Viola (2017-…)
+        Suivi des numérisations hébergées sur PANDOR : Marie-José Gasse-Grandjean (2010-2018), Hédi Maazaoui (2011-2018), Agnès Viola (2017-)
       </p>
       <p>
-        Remerciements : Jean-François Moufflet (<a href="https://www.archives-nationales.culture.gouv.fr/" target="_blank">Archives nationales</a>, département du Moyen Âge et de l’Ancien Régime), Nicolas Perreaux (université Panthéon-Sorbonne, <a href="https://lamop.pantheonsorbonne.fr/" target="_blank">LAMOP</a>) et Patrick Gorria (université de Bourgogne, institut universitaire de technologie du Creusot, <a href="https://imvia.u-bourgogne.fr/" target="_blank">ImVIa</a>).
+        Le projet a bénéficié de l'aide et des conseils de Jean-François Moufflet (<a href="https://www.archives-nationales.culture.gouv.fr/" target="_blank">Archives nationales</a>, département du Moyen Âge et de l’Ancien Régime), Nicolas Perreaux (université Panthéon-Sorbonne, <a href="https://lamop.pantheonsorbonne.fr/" target="_blank">LAMOP</a>) et Patrick Gorria (université de Bourgogne, institut universitaire de technologie du Creusot, <a href="https://imvia.u-bourgogne.fr/" target="_blank">ImVIa</a>).
       </p>
     </section>
     <section>
       <h2 class="mb-5">
-        <span class="display-1 headline">Historique</span>
+        <span class="display-1 headline">Méthodologie</span>
       </h2>
       <p>
         La chaîne de traitement définie en 2010 a été employée pour toute la durée du projet. Chaque volume départemental a tout d’abord été numérisé en mode image. Ces numérisations sont consultables depuis 2016 sur le Portail des Archives numériques et données de la recherche (<a href="https://pandor.u-bourgogne.fr/pages/toponymie-fr.html" target="_blank">PANDOR</a>) de la Maison des sciences de l’homme de Dijon – sous réserve que les ouvrages concernés soient libres de droits.

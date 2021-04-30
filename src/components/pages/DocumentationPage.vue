@@ -112,8 +112,8 @@
                   </section>
                   <section>
                     <p>
-                      Ces inclusions ne sont implémentées que sur un unique niveau : il est possible d’inclure des ressources reliées, mais pas les ressources reliées à ces dernières.
-                      Par exemple, pour un <code>lieu</code>, il est possible d’inclure sa commune de localisation, mais pas d’inclure également – dans le même document composite – le canton reliée à cette commune de localisation :
+                      Ces inclusions ne sont implémentées que sur un niveau : il est possible d’inclure des ressources reliées, mais pas les ressources reliées à ces dernières.
+                      Par exemple, pour un <code>lieu</code>, il est possible d’inclure sa commune de localisation, mais pas d’inclure dans le même document composite le canton reliée à cette commune de localisation :
                     </p>
                   </section>
                   <section class="example">
@@ -168,7 +168,7 @@
                   <section id="facades">
                     <h4>Façades</h4>
                     <p>
-                      Pour simplifier l’utilisation de l’API, réduire notamment le nombre des requêtes utiles à certaines fonctionnalités de l’application DicoTopo, des façades ont été définies. Elles peuvent compenser dans dans certains cas l’absence des <em>Sparse Fieldsets</em>.
+                      Pour simplifier l’utilisation de l’API, notamment pour réduire le nombre des requêtes utiles à certaines fonctionnalités de l’application DicoTopo, des façades ont été définies. Elles peuvent compenser dans dans certains cas l’absence des <em>Sparse Fieldsets</em>.
                     </p>
                     <p>
                       Les façades ne sont pas toutes documentées ici. Nous listons celles qui peuvent simplifier le recours à l’API pour des requêtes définies.
@@ -205,7 +205,7 @@
                       <ul>
                         <li><code>place</code> : un <code>lieu</code></li>
                         <li><code>place-old-label</code> : une <code>forme ancienne</code> (un nom ancien attesté du <code>lieu</code>)</li>
-                        <li><code>commune</code> : une <code>commune</code> du Code officiel géographique 2011 de l’INSEE</li>
+                        <li><code>commune</code> : une <code>commune</code> du Code officiel géographique 2011 de l’INSEE (<a href="https://www.insee.fr/fr/information/2560625" target="_blank">COG 2011</a>)</li>
                       </ul>
                   </section>
                   <section id="place">
@@ -226,8 +226,8 @@
                     <ul>
                       <li><code>label</code> : label principal (vedette de l’article du <i>Dictionnaire</i> imprimé, "nom préféré" – <a href="https://www.w3.org/TR/skos-reference/#labels" target="_blank"><code>skos:prefLabel</code></a>)</li>
                       <li><code>country</code> : code à deux lettres (<a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2" target="_blank">ISO 3166-1 alpha-2</a>) du pays d’appartenance (toujours <code>FR</code> pour le DT)</li>
-                      <li><code>dpt</code> : code du département d’appartenance (<a href="https://www.insee.fr/fr/information/2560625#titre-bloc-26" target="_blank">COG 2011</a>)</li>
-                      <li><code>localization-insee-code</code> : code de la <code>commune</code> de localisation (<a href="https://www.insee.fr/fr/information/2560625#titre-bloc-26" target="_blank">COG 2011</a>)</li>
+                      <li><code>dpt</code> : code département du <a href="https://www.insee.fr/fr/information/2560625#titre-bloc-26" target="_blank">COG 2011</a></li>
+                      <li><code>localization-insee-code</code> : code commune du <a href="https://www.insee.fr/fr/information/2560625#titre-bloc-26" target="_blank">COG 2011</a> de la <code>commune</code> de localisation</li>
                       <li><code>localization-commune-relation-type</code> : type de la relation entre le <code>lieu</code> et sa <code>commune</code> de localisation, caractérisé grâce à un vocabulaire existant (v. <a href="#place-localization">localisation</a>).</li>
                       <li><code>geoname-id</code>, <code>wikidata-item-id</code>, <code>wikipedia-url</code>, <code>databnf-ark</code>, <code>viaf-id</code>, <code>siaf-id</code>, <code>osm-id</code> : liages (v. <a href="#commune"><code>commune</code></a>). Seuls les lieux correspondants à une commune (v. <a href="#place-localization">localisation</a>) sont liés.</li>
                     </ul>
@@ -260,10 +260,10 @@
                       Un <code>lieu</code> peut être d’un ou plusieurs types (<em>feature type</em>) : chef-lieu, mairie, moulin, etc.<br>La relation <code>place-feature-types</code> permet d’accéder à la collection des ressources de type <code>place-feature-type</code> associées au <code>lieu</code>.
                     </p>
                     <p>
-                      Les termes sont ceux imprimés dans le <em>Dictionnaire topographique</em>, ils ne sont pas normalisés : il n’existe pas un thésaurus des termes. En l’état de la donnée, un type de lieu n’est donc pas une clé de regroupement pertinente.
+                      Les termes sont ceux imprimés dans le <em>Dictionnaire topographique</em>, ils ne sont pas normalisés : il n’existe pas de thesaurus des termes employés. En l’état de la donnée, un type de lieu n’est donc pas une clé de regroupement pertinente.
                     </p>
                     <p>
-                      NB. La définition d’un thésaurus des types de lieu et leur standardisation sont à entreprendre.
+                      NB. La standardisation des types de lieu et la définition d’un thésaurus sont à entreprendre.
                     </p>
                   </section>
                   <section class="example">
@@ -307,14 +307,11 @@
                   <section id="place-localization">
                     <h4>Localisation</h4>
                     <p>
-                      L’initiative éditoriale du  <cite>Dictionnaire topographique</cite> repose sur le principe initial d’une publication par livraison : un dictionnaire par département.
+                      Les attributs <code>country</code> (<code>FR</code>) et <code>dpt</code> (code département du COG 2011) permettent d’identifier facilement le pays et le département du <code>lieu</code>.<br>
+                      Pour affiner cette localisation par défaut, chaque <code>lieu</code> a été lié à sa <code>commune</code> grâce à l’attribut <code>localization-insee-code</code> (code commune du COG 2011).
                     </p>
                     <p>
-                      Les attributs <code>country</code> (<code>FR</code>) et <code>dpt</code> (COG 2011 du département) permettent d’identifier facilement le pays et le département du <code>lieu</code>.<br>
-                      Pour affiner cette localisation par défaut, chaque <code>lieu</code> a été lié à sa <code>commune</code> grâce à l’attribut <code>localization-insee-code</code> (COG 2011 de la commune).
-                    </p>
-                    <p>
-                      Par ex., pour le <code>lieu</code> <a href="https://dicotopo.cths.fr/api/1.0/places/P09135983"><code>PP09135983</code></a> (Aulnois), la commune de  localisation est identifiée par le COG <code>02196</code>. La ressource de type <a href="#commune"><code>commune</code></a> correspondante permet d’accéder aux données de localisation complémentaires telle que la hiérarchie administrative : région &gt; département &gt; arrondissement &gt; canton.
+                      Par ex., pour le <code>lieu</code> <a href="https://dicotopo.cths.fr/api/1.0/places/P09135983"><code>PP09135983</code></a> (Aulnois), la commune de  localisation est identifiée par le code commune <code>02196</code>. La ressource de type <a href="#commune"><code>commune</code></a> correspondante permet d’accéder aux données de localisation complémentaires telle que la hiérarchie administrative : région &gt; département &gt; arrondissement &gt; canton.
                     </p>
                     <p>
                       Pour inclure cette <code>commune</code> de localisation au <code>lieu</code>, la logique diffère selon que le <code>lieu</code> (1) <strong>correspond</strong> à la <code>commune</code> OU (2) <strong>dépend</strong> de cette <code>commune</code> :
@@ -366,7 +363,7 @@
                       L’attribut <code>localization-commune-relation-type</code> précise le type de la relation entre le <code>lieu</code> et sa <code>commune</code> de localisation. Ses valeurs autorisées sont :
                     </p>
                     <ul>
-                      <li><a href="http://vocab.getty.edu/ontology#anchor-28390563" target="_blank"><code>broaderPartitive</code></a> : hiérarchie administrative. Le <code>lieu</code> dépend administrativement de la <code>commune</code>.</li>
+                      <li><a href="http://vocab.getty.edu/ontology#anchor-28390563" target="_blank"><code>broaderPartitive</code></a> : relation de dépendance administrative. Le <code>lieu</code> dépend administrativement de la <code>commune</code>.</li>
                       <li><a href="http://vocab.getty.edu/ontology#anchor1075244680" target="_blank"><code>tgn3000_related_to</code></a> : relation indéfinie. Le <code>lieu</code> est lié à la <code>commune</code> sans qu’on puisse préciser la relation (inclusion, proximité, etc.).</li>
                       <li><code>null</code> : le <code>lieu</code> correspond à la <code>commune</code> de localisation.</li>
                     </ul>
@@ -377,16 +374,16 @@
                       Un <code>lieu</code> est géolocalisé à l’échelle de sa <a href="#commune"><code>commune</code></a>. Autrement dit, les coordonnées accessibles ne sont pas celles du <code>lieu</code> à proprement parler, mais celles de sa commune de localisation. Cette géolocalisation, certes imprécise, permet notamment de résoudre les homonymies très nombreuses de noms de lieu.
                     </p>
                     <p>
-                      Pour chaque <code>lieu</code>, le COG de la commune de localisation est inscrit en valeur de l’attribut <code>localization-insee-code</code>. Cet attribut a pu être renseigné pour plus de 97% des lieux. Les coordonnées sont inscrites en attribut (<code>longlat</code>) de la <code>commune</code> correspondante.
+                      Pour chaque <code>lieu</code>, le code commune du COG 2011 de la commune de localisation est inscrit en valeur de l’attribut <code>localization-insee-code</code>. Cet attribut a pu être renseigné pour plus de 97% des lieux. Les coordonnées sont inscrites en attribut (<code>longlat</code>) de la <code>commune</code> correspondante.
                     </p>
                     <p>
-                      NB. Une campagne de géolocalisation des lieux est à entreprendre.
+                      NB. La géolocalisation reste à affiner au niveau infra-communal.
                     </p>
                   </section>
                   <section id="place-linked-places">
                     <h4>Lieux liés</h4>
                     <p>
-                      Ce lien commun des <code>lieux</code> à une <code>commune</code> de localisation (attribut <code>localization-commune</code>) permet de regrouper les lieux par commune.
+                      Le lien entre un <code>lieu</code> et sa <code>commune</code> de localisation (attribut <code>localization-commune</code>) permet de regrouper les lieux par commune.
                     </p>
                     <p>
                       Pour un <code>lieu</code>, la relation <code>linked-places</code> donne accès aux autres <code>lieux</code> rattachés à cette même <code>commune</code>.
@@ -453,9 +450,9 @@
                       Une <code>forme ancienne</code> a les attributs suivants :
                     </p>
                     <ul>
-                      <li><code>rich-label</code> : le nom ancien du lieu, formaté en HTML5, dans sa langue qui n’est pas décrite.</li>
+                      <li><code>rich-label</code> : le nom ancien du lieu, formaté en HTML5, dans la langue – non décrite – de l'attestation.</li>
                       <li><code>rich-date</code> : la date du nom ancien, pour la lecture, en toutes lettres, non standardisée et formatée en HTML5. Par ex. : <code>853 environ</code></li>
-                      <li><code>text-date</code> : la date du nom ancien, pour les traitements (tris et filtres), standardisée selon la <a href="https://www.loc.gov/standards/datetime/">spécification EDTF (Extended Date/Time Format)</a>, une proposition d’extension du standard <a href="https://fr.wikipedia.org/wiki/ISO_8601">ISO 8601</a>. Par ex. : <code>0853~</code></li>
+                      <li><code>text-date</code> : la date du nom ancien standardisée pour les traitements (tris et filtres) selon la <a href="https://www.loc.gov/standards/datetime/">spécification EDTF (Extended Date/Time Format)</a>, une proposition d’extension du standard <a href="https://fr.wikipedia.org/wiki/ISO_8601">ISO 8601</a>. Par ex. : <code>0853~</code></li>
                       <li><code>rich-reference</code> : la référence bibliographique de l’attestation formatée en HTML5, par ex. : &quot;cart. de l’abb. de Saint-Martin de Laon, f° 172, bibl. de Laon&quot;. La référence est souvent abrégée ; pour la résoudre, on peut se référer à la liste des sources du volume correspondant du <em>Dictionnaire topographique</em> (par ex. sur <a href="https://gallica.bnf.fr/ark:/12148/bpt6k39289w/f36.item">Gallica</a>).</li>
                     </ul>
                     <p>La relation <code>place</code> permet d’accéder au <code>lieu</code> désigné par la <code>forme ancienne</code>.</p>
@@ -482,7 +479,7 @@
 
                 <article>
                   <header>
-                    <h2>Cadre de référence (COG 2011)</h2>
+                    <h2>Cadre de référence</h2>
                   </header>
                   <section class="introduction">
                     <p>
@@ -550,7 +547,7 @@
                     </header>
                     <p>Pour reconstruire la hiérarchie administrative d’une <code>commune</code>, ses relations <code>region</code>, <code>departement</code>, <code>arrondissement</code> et <code>canton</code> permettent d’accéder aux ressources de type <code>insee-ref</code> correspondantes.</p>
                     <p><strong>Ressource de type <code>insee-ref</code></strong></p>
-                    <p>Leur identifiant est construit en référence au COG 2011 :</p>
+                    <p>Leur identifiant est construit en référence au code correspondant du COG 2011 :</p>
                     <ul>
                       <li>pour une région : <code>REG_{Code région}</code></li>
                       <li>pour un département : <code>DEP_{Code département}</code></li>
@@ -564,7 +561,7 @@
                       <li><code>DEP</code> : département</li>
                       <li><code>AR</code> : arrondissement</li>
                       <li><code>CT</code> : canton</li>
-                      <li><code>CTNP</code> : <a href="https://www.insee.fr/fr/information/2560628#ct" target="_blank">canton non précisé</a>. Utilisé lorsque l&#39;on ne peut pas caractériser une fraction cantonale pour la commune (cas des communes découpées en cantons).</li>
+                      <li><code>CTNP</code> : <a href="https://www.insee.fr/fr/information/2560628#ct" target="_blank">canton non précisé</a>. Utilisé lorsque l&#39;on ne peut pas caractériser une fraction cantonale pour la commune (cas des communes divisées en plusieurs cantons).</li>
                     </ul>
                     <p><code>level</code> : le niveau dans la hiérarchie administrative. Les valeurs sont :</p>
                     <ul>
@@ -598,8 +595,8 @@
                     </header>
                     <p>On distingue (1) un <code>lieu</code> correspondant à une <code>commune</code> et (2) un <code>lieu</code> dépendant d’une <code>commune</code> (v. <a href="#place-localization">localisation</a>), par ex. :</p>
                     <ol>
-                      <li>&quot;Clacy&quot; (<code>P66064026</code>) correspond à la commune &quot;Clacy-et-Thierret&quot; (COG <code>02196</code>).</li>
-                      <li>&quot;Aulnois&quot; (<code>P09135983</code>) dépend de la commune &quot;Clacy-et-Thierret&quot; (COG <code>02196</code>).</li>
+                      <li>&quot;Clacy&quot; (<code>P66064026</code>) correspond à la commune &quot;Clacy-et-Thierret&quot; (code commune du COG 2011 <code>02196</code>).</li>
+                      <li>&quot;Aulnois&quot; (<code>P09135983</code>) dépend de la commune &quot;Clacy-et-Thierret&quot; (code commune du COG 2011 <code>02196</code>).</li>
                     </ol>
                     <p>Pour une <code>commune</code>, il est possible de lister les <code>lieux</code> liés : le <code>lieu</code> correspondant à cette <code>commune</code> ET/OU les <code>lieux</code> dépendants de cette <code>commune</code>.</p>
                   </section>

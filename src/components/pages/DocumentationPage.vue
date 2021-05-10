@@ -1,6 +1,6 @@
 <template>
   <default-layout>
-    <section class="main-section">
+    <section class="main-section" id="top">
         <section class="head--section" >
           <v-parallax :src="require('@/assets/hero.jpeg')" height="250">
             <v-layout
@@ -16,8 +16,52 @@
             </v-layout>
           </v-parallax>
         </section>
-          <v-container fluid class="container mb-10">
-              <section >
+        <div class="doc-container">
+          <section class="toc">
+            <ol class="v-tabs theme--light">
+                <li class="v-tab level1" role="tab" aria-selected="false" @click="goTo($event, '#json-api')">API JSON</li>
+                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#pagination')">Pagination</li>
+                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#compound-documents')">Compound Documents</li>
+                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#sparse-fieldsets')">Sparse Fieldsets</li>
+                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#specific-implementations')">Implémentations spécifiques</li>
+                <v-divider></v-divider>
+                <li class="v-tab level2" role="tab" aria-selected="false" @click="goTo($event, '#ressources')">Ressources exposées</li>
+                <li class="v-tab level2" role="tab" aria-selected="false" @click="goTo($event, '#place')">Lieu</li>
+                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#place-description')">Description et commentaire</li>
+                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#place-feature-type')">Types du lieu</li>
+                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#place-old-labels')">Formes anciennes</li>
+                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#place-localization')">Localisation</li>
+                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#place-geolocation')">Géolocalisation</li>
+                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#place-linked-places')">Lieux liés</li>
+                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#place-linking')">Autres référentiels</li>
+                <li class="v-tab level2" role="tab" aria-selected="false" @click="goTo($event, '#old-label')">Forme ancienne </li>
+                <v-divider></v-divider>
+                <li class="v-tab level1" role="tab" aria-selected="false" @click="goTo($event, '#reference')">Cadre de référence</li>
+                <li class="v-tab level2" role="tab" aria-selected="false" @click="goTo($event, '#commune')">Commune</li>
+                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#commune-linking')">Liage des communes</li>
+                <li class="v-tab level2" role="tab" aria-selected="false" @click="goTo($event, '#administrative-hierarchy')">Hiérarchie administrative</li>
+                <li class="v-tab level2" role="tab" aria-selected="false" @click="goTo($event, '#groupings')">Regroupement des lieux</li>
+                <v-divider></v-divider>
+                <li class="v-tab level1" role="tab" aria-selected="false" @click="goTo($event, '#search')">Moteur de recherche</li>
+                <li class="v-tab level1" role="tab" aria-selected="false" @click="goTo($event, '#exports')">Export des données</li>
+                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#linked-places')">Linked Place</li>
+            </ol>
+
+            <v-btn
+                  class="mx-2"
+                  fab
+                  color="red--text"
+                  @click="goTo(null, '#top')"
+                  id="jump"
+                  v-show="showJump"
+                >
+                  <v-icon large>
+                    mdi-arrow-up-bold
+                  </v-icon>
+            </v-btn>
+
+          </section>
+          <section class="doc mb-10">
                 <header class="mb-5">
                   <h1>Documentation</h1>
                   <p class="introduction">
@@ -25,7 +69,7 @@
                     Cette documentation est conçue comme une aide pour la récupération des données (ressources et relations) et met l’accent sur les requêtes <code>GET</code>.<br>
                   </p>
                 </header>
-                <article>
+                <article id="json-api">
                   <header>
                     <h2>JSON:API 1.0</h2>
                   </header>
@@ -194,7 +238,7 @@
 
                 <v-divider></v-divider>
 
-                <article>
+                <article id="ressources">
                   <header>
                     <h2>Principales ressources exposées</h2>
                   </header>
@@ -228,8 +272,8 @@
                       <li><code>country</code> : code à deux lettres (<a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2" target="_blank">ISO 3166-1 alpha-2</a>) du pays d’appartenance (toujours <code>FR</code> pour le DT)</li>
                       <li><code>dpt</code> : code département du <a href="https://www.insee.fr/fr/information/2560625#titre-bloc-26" target="_blank">COG 2011</a></li>
                       <li><code>localization-insee-code</code> : code commune du <a href="https://www.insee.fr/fr/information/2560625#titre-bloc-26" target="_blank">COG 2011</a> de la <code>commune</code> de localisation</li>
-                      <li><code>localization-commune-relation-type</code> : type de la relation entre le <code>lieu</code> et sa <code>commune</code> de localisation, caractérisé grâce à un vocabulaire existant (v. <a href="#place-localization">localisation</a>).</li>
-                      <li><code>geoname-id</code>, <code>wikidata-item-id</code>, <code>wikipedia-url</code>, <code>databnf-ark</code>, <code>viaf-id</code>, <code>siaf-id</code>, <code>osm-id</code> : liages (v. <a href="#commune"><code>commune</code></a>). Seuls les lieux correspondants à une commune (v. <a href="#place-localization">localisation</a>) sont liés.</li>
+                      <li><code>localization-commune-relation-type</code> : type de la relation entre le <code>lieu</code> et sa <code>commune</code> de localisation, caractérisé grâce à un vocabulaire existant (v. <span class="span-a" @click="goTo($event, '#place-localization')">localisation</span>).</li>
+                      <li><code>geoname-id</code>, <code>wikidata-item-id</code>, <code>wikipedia-url</code>, <code>databnf-ark</code>, <code>viaf-id</code>, <code>siaf-id</code>, <code>osm-id</code> : liages (v. <span class="span-a" @click="goTo($event, '#commune')"><code>commune</code></span>). Seuls les lieux correspondants à une commune (v. <span class="span-a" @click="goTo($event, '#place-localization')">localisation</span>) sont liés.</li>
                     </ul>
                   </section>
                   <section id="place-description">
@@ -285,7 +329,7 @@
                   <section id="place-old-labels">
                     <h4>Formes anciennes</h4>
                     <p>
-                      Un <code>lieu</code> peut avoir une ou plusieurs formes anciennes documentées.<br>La relation <code>old-labels</code> permet d’accéder à la collection des ressources de type <a href="#old-label"><code>place-old-label</code></a> associées au <code>lieu</code>.
+                      Un <code>lieu</code> peut avoir une ou plusieurs formes anciennes documentées.<br>La relation <code>old-labels</code> permet d’accéder à la collection des ressources de type <span class="span-a" @click="goTo($event, '#old-label')"><code>place-old-label</code></span> associées au <code>lieu</code>.
                     </p>
                   </section>
                   <section class="example">
@@ -311,7 +355,7 @@
                       Pour affiner cette localisation par défaut, chaque <code>lieu</code> a été lié à sa <code>commune</code> grâce à l’attribut <code>localization-insee-code</code> (code commune du COG 2011).
                     </p>
                     <p>
-                      Par ex., pour le <code>lieu</code> <a href="https://dicotopo.cths.fr/api/1.0/places/P09135983"><code>PP09135983</code></a> (Aulnois), la commune de  localisation est identifiée par le code commune <code>02196</code>. La ressource de type <a href="#commune"><code>commune</code></a> correspondante permet d’accéder aux données de localisation complémentaires telle que la hiérarchie administrative : région &gt; département &gt; arrondissement &gt; canton.
+                      Par ex., pour le <code>lieu</code> <a href="https://dicotopo.cths.fr/api/1.0/places/P09135983"><code>PP09135983</code></a> (Aulnois), la commune de  localisation est identifiée par le code commune <code>02196</code>. La ressource de type <span class="span-a" @click="goTo($event, '#commune')"><code>commune</code></span> correspondante permet d’accéder aux données de localisation complémentaires telle que la hiérarchie administrative : région &gt; département &gt; arrondissement &gt; canton.
                     </p>
                     <p>
                       Pour inclure cette <code>commune</code> de localisation au <code>lieu</code>, la logique diffère selon que le <code>lieu</code> (1) <strong>correspond</strong> à la <code>commune</code> OU (2) <strong>dépend</strong> de cette <code>commune</code> :
@@ -371,7 +415,7 @@
                   <section id="place-geolocation">
                     <h4>Géolocalisation</h4>
                     <p>
-                      Un <code>lieu</code> est géolocalisé à l’échelle de sa <a href="#commune"><code>commune</code></a>. Autrement dit, les coordonnées accessibles ne sont pas celles du <code>lieu</code> à proprement parler, mais celles de sa commune de localisation. Cette géolocalisation, certes imprécise, permet notamment de résoudre les homonymies très nombreuses de noms de lieu.
+                      Un <code>lieu</code> est géolocalisé à l’échelle de sa <span class="span-a" @click="goTo($event, '#commune')"><code>commune</code></span>. Autrement dit, les coordonnées accessibles ne sont pas celles du <code>lieu</code> à proprement parler, mais celles de sa commune de localisation. Cette géolocalisation, certes imprécise, permet notamment de résoudre les homonymies très nombreuses de noms de lieu.
                     </p>
                     <p>
                       Pour chaque <code>lieu</code>, le code commune du COG 2011 de la commune de localisation est inscrit en valeur de l’attribut <code>localization-insee-code</code>. Cet attribut a pu être renseigné pour plus de 97% des lieux. Les coordonnées sont inscrites en attribut (<code>longlat</code>) de la <code>commune</code> correspondante.
@@ -407,7 +451,7 @@
                   </section>
                   <section>
                     <p>
-                      NB. Il est également possible de lister les <code>lieux</code> localisés dans une <code>commune</code> (v. <a href="#groupings">regroupement des lieux : commune et lieux liés</a>).
+                      NB. Il est également possible de lister les <code>lieux</code> localisés dans une <code>commune</code> (v. <span class="span-a" @click="goTo($event, '#groupings')">regroupement des lieux : commune et lieux liés</span>).
                     </p>
                   </section>
                   <section class="example">
@@ -429,7 +473,7 @@
                   <section id="place-linking">
                     <h4>Liages à d’autres référentiels</h4>
                     <p>
-                      Les attributs <code>geoname-id</code>, <code>wikidata-item-id</code>, <code>wikipedia-url</code>, <code>databnf-ark</code>, <code>viaf-id</code>, <code>siaf-id</code> et <code>osm-id</code> sont utiles au liage du <code>lieu</code> – pour les valeurs autorisées, v. <a href="#commune-linking">liage des communes</a>.
+                      Les attributs <code>geoname-id</code>, <code>wikidata-item-id</code>, <code>wikipedia-url</code>, <code>databnf-ark</code>, <code>viaf-id</code>, <code>siaf-id</code> et <code>osm-id</code> sont utiles au liage du <code>lieu</code> – pour les valeurs autorisées, v. <span class="span-a" @click="goTo($event, '#groupings')">liage des communes</span>.
                     </p>
                     <p>
                       À ce jour, ces attributs ne sont renseignés que pour les seuls <code>lieux</code> correspondant à une <code>commune</code> (par ex. <a href="https://dicotopo.cths.fr/places/P66064026">Clacy</a>). Les <code>lieux</code> de la commune ne sont pas encore liés (par ex. <a href="https://dicotopo.cths.fr/places/P09135983">Aulnois</a>, moulin et ferme de la commune). De tels liages sont difficiles : ces lieux sont rarement décrits dans d’autres gazetiers et l’absence d’un identifiant de référence (tel qu’un code INSEE) complique la réconciliation.
@@ -477,7 +521,7 @@
 
                 <v-divider></v-divider>
 
-                <article>
+                <article id="reference">
                   <header>
                     <h2>Cadre de référence</h2>
                   </header>
@@ -593,7 +637,7 @@
                     <header>
                       <h3>Regroupement des lieux : commune et lieux liés</h3>
                     </header>
-                    <p>On distingue (1) un <code>lieu</code> correspondant à une <code>commune</code> et (2) un <code>lieu</code> dépendant d’une <code>commune</code> (v. <a href="#place-localization">localisation</a>), par ex. :</p>
+                    <p>On distingue (1) un <code>lieu</code> correspondant à une <code>commune</code> et (2) un <code>lieu</code> dépendant d’une <code>commune</code> (v. <span class="span-a" @click="goTo($event, '#place-localization')">localisation</span>), par ex. :</p>
                     <ol>
                       <li>&quot;Clacy&quot; (<code>P66064026</code>) correspond à la commune &quot;Clacy-et-Thierret&quot; (code commune du COG 2011 <code>02196</code>).</li>
                       <li>&quot;Aulnois&quot; (<code>P09135983</code>) dépend de la commune &quot;Clacy-et-Thierret&quot; (code commune du COG 2011 <code>02196</code>).</li>
@@ -620,7 +664,7 @@
 
                 <v-divider></v-divider>
 
-                <article>
+                <article id="search">
                   <header>
                     <h2 >Moteur de recherche</h2>
                   </header>
@@ -652,7 +696,7 @@
 
                 <v-divider></v-divider>
 
-                 <article>
+                 <article id="exports">
                   <header>
                     <h2>Export des données</h2>
                   </header>
@@ -661,7 +705,7 @@
                   </section>
 
                   <section class="Linked Place">
-                    <article>
+                    <article id="linked-places">
                       <header>
                         <h3>Linked Place</h3>
                       </header>
@@ -690,8 +734,8 @@
                     </article>
                   </section>
                 </article>
-              </section>
-          </v-container>
+          </section>
+        </div>
     </section>
   </default-layout>
 </template>
@@ -819,11 +863,28 @@ export default {
 
     return {
       examples: examples,
-      results: results
+      results: results,
+
+      showJump: false
     }
   },
-  computed: {
+  watch: {
+    $route () {
 
+    }
+  },
+  mounted () {
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function () { scrollFunction() }
+
+    const _this = this
+    function scrollFunction () {
+      if (document.body.scrollTop > 860 || document.documentElement.scrollTop > 860) {
+        _this.showJump = true
+      } else {
+        _this.showJump = false
+      }
+    }
   },
   async created () {
     let resultPromises = []
@@ -837,9 +898,22 @@ export default {
         )
       })
     }
-    await Promise.all(resultPromises)
+    Promise.all(resultPromises)
   },
   methods: {
+    goTo (event, id) {
+      const el = document.querySelector(id)
+      if (el) {
+        document.querySelectorAll('.toc li.is-active').forEach(e => {
+          e.classList.remove('is-active')
+        })
+        if (event) {
+          event.target.classList.add('is-active')
+        }
+        el.scrollIntoView(true, { behavior: 'smooth' })
+        window.scrollBy(0, -90)
+      }
+    },
     async fetchAPI (url) {
       const response = await fetch(url)
       const data = await response.json()
@@ -850,14 +924,76 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  html {
+    scroll-behavior: smooth;
+  }
   .main-section {
     margin-bottom: 120px;
   }
-  .container {
+  .span-a {
+    text-decoration: underline;
+    color: rgb(25, 118, 210);
+    &:hover {
+      cursor: pointer
+    }
+  }
+  .toc .is-active {
+    color: #D32F2F !important;
+    caret-color: #D32F2F !important;
+    border-left: 2px solid #D32F2F;
+  }
+  .doc {
     text-align: justify;
-    width: 66%;
-    margin: 0 auto;
+    margin-right: 12%;
+    padding-right: 20px;
+    padding-left: 80px;
     padding-top: 60px;
+  }
+  .doc-container {
+    display: flex;
+  }
+
+  #jump {
+    color: #D32F2F !important;
+
+    position: fixed; /* Fixed/sticky position */
+    bottom: 200px; /* Place the button at the bottom of the page */
+    left: 160px; /* Place the button 30px from the right */
+    z-index: 99; /* Make sure it does not overlap */
+  }
+
+  .toc {
+    min-width: 330px;
+    margin-top: 80px;
+    margin-left: 6px;
+    a {
+      text-decoration: none;
+      color: inherit;
+      font-weight: inherit;
+    }
+    ol {
+    width: 330px;
+    flex-direction: column;
+    }
+    ol li {
+      list-style-type: none;
+      justify-content: flex-start;
+      height: 48px;
+      color: rgba(0, 0, 0, 0.54);
+      &.level1 {
+        text-decoration: none;
+      }
+      &.level2 {
+        text-decoration: none;
+      }
+      &.level3 {
+        text-decoration: none;
+        font-weight: 300;
+        padding-left: 26px;
+
+      }
+    }
+
   }
   .head--section {
     background: lightgrey;

@@ -19,32 +19,32 @@
         <div class="doc-container">
           <section class="toc">
             <ol class="v-tabs theme--light">
-                <li class="v-tab level1" role="tab" aria-selected="false" @click="goTo($event, '#json-api')">API JSON</li>
-                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#pagination')">Pagination</li>
-                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#compound-documents')">Compound Documents</li>
-                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#sparse-fieldsets')">Sparse Fieldsets</li>
-                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#specific-implementations')">Implémentations spécifiques</li>
+                <li class="v-tab level1"  @click="goTo($event, '#json-api')">API JSON</li>
+                <li class="v-tab level3"  @click="goTo($event, '#pagination')">Pagination</li>
+                <li class="v-tab level3"  @click="goTo($event, '#compound-documents')">Compound Documents</li>
+                <li class="v-tab level3"  @click="goTo($event, '#sparse-fieldsets')">Sparse Fieldsets</li>
+                <li class="v-tab level3"  @click="goTo($event, '#specific-implementations')">Implémentations spécifiques</li>
                 <v-divider></v-divider>
-                <li class="v-tab level2" role="tab" aria-selected="false" @click="goTo($event, '#ressources')">Ressources exposées</li>
-                <li class="v-tab level2" role="tab" aria-selected="false" @click="goTo($event, '#place')">Lieu</li>
-                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#place-description')">Description et commentaire</li>
-                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#place-feature-type')">Types du lieu</li>
-                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#place-old-labels')">Formes anciennes</li>
-                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#place-localization')">Localisation</li>
-                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#place-geolocation')">Géolocalisation</li>
-                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#place-linked-places')">Lieux liés</li>
-                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#place-linking')">Autres référentiels</li>
-                <li class="v-tab level2" role="tab" aria-selected="false" @click="goTo($event, '#old-label')">Forme ancienne </li>
+                <li class="v-tab level2"  @click="goTo($event, '#ressources')">Ressources exposées</li>
+                <li class="v-tab level2"  @click="goTo($event, '#place')">Lieu</li>
+                <li class="v-tab level3"  @click="goTo($event, '#place-description')">Description et commentaire</li>
+                <li class="v-tab level3"  @click="goTo($event, '#place-feature-type')">Types du lieu</li>
+                <li class="v-tab level3"  @click="goTo($event, '#place-old-labels')">Formes anciennes</li>
+                <li class="v-tab level3"  @click="goTo($event, '#place-localization')">Localisation</li>
+                <li class="v-tab level3"  @click="goTo($event, '#place-geolocation')">Géolocalisation</li>
+                <li class="v-tab level3"  @click="goTo($event, '#place-linked-places')">Lieux liés</li>
+                <li class="v-tab level3"  @click="goTo($event, '#place-linking')">Autres référentiels</li>
+                <li class="v-tab level2"  @click="goTo($event, '#old-label')">Forme ancienne </li>
                 <v-divider></v-divider>
-                <li class="v-tab level1" role="tab" aria-selected="false" @click="goTo($event, '#reference')">Cadre de référence</li>
-                <li class="v-tab level2" role="tab" aria-selected="false" @click="goTo($event, '#commune')">Commune</li>
-                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#commune-linking')">Liage des communes</li>
-                <li class="v-tab level2" role="tab" aria-selected="false" @click="goTo($event, '#administrative-hierarchy')">Hiérarchie administrative</li>
-                <li class="v-tab level2" role="tab" aria-selected="false" @click="goTo($event, '#groupings')">Regroupement des lieux</li>
+                <li class="v-tab level1"  @click="goTo($event, '#reference')">Cadre de référence</li>
+                <li class="v-tab level2"  @click="goTo($event, '#commune')">Commune</li>
+                <li class="v-tab level3"  @click="goTo($event, '#commune-linking')">Liage des communes</li>
+                <li class="v-tab level2"  @click="goTo($event, '#administrative-hierarchy')">Hiérarchie administrative</li>
+                <li class="v-tab level2"  @click="goTo($event, '#groupings')">Regroupement des lieux</li>
                 <v-divider></v-divider>
-                <li class="v-tab level1" role="tab" aria-selected="false" @click="goTo($event, '#search')">Moteur de recherche</li>
-                <li class="v-tab level1" role="tab" aria-selected="false" @click="goTo($event, '#exports')">Export des données</li>
-                <li class="v-tab level3" role="tab" aria-selected="false" @click="goTo($event, '#linked-places')">Linked Place</li>
+                <li class="v-tab level1"  @click="goTo($event, '#search')">Moteur de recherche</li>
+                <li class="v-tab level1"  @click="goTo($event, '#exports')">Export des données</li>
+                <li class="v-tab level3"  @click="goTo($event, '#linked-places')">Linked Place</li>
             </ol>
 
             <v-btn

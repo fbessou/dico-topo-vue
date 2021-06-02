@@ -20,12 +20,12 @@
           <section class="toc">
             <ol class="v-tabs theme--light">
                 <li class="v-tab level1"  @click="goTo($event, '#json-api')">API JSON</li>
-                <li class="v-tab level3"  @click="goTo($event, '#pagination')">Pagination</li>
-                <li class="v-tab level3"  @click="goTo($event, '#compound-documents')">Compound Documents</li>
-                <li class="v-tab level3"  @click="goTo($event, '#sparse-fieldsets')">Sparse Fieldsets</li>
-                <li class="v-tab level3"  @click="goTo($event, '#specific-implementations')">Implémentations spécifiques</li>
+                <li class="v-tab level2"  @click="goTo($event, '#pagination')">Pagination</li>
+                <li class="v-tab level2"  @click="goTo($event, '#compound-documents')">Compound Documents</li>
+                <li class="v-tab level2"  @click="goTo($event, '#sparse-fieldsets')">Sparse Fieldsets</li>
+                <li class="v-tab level2"  @click="goTo($event, '#specific-implementations')">Implémentations spécifiques</li>
                 <v-divider></v-divider>
-                <li class="v-tab level2"  @click="goTo($event, '#ressources')">Ressources exposées</li>
+                <li class="v-tab level1"  @click="goTo($event, '#ressources')">Ressources exposées</li>
                 <li class="v-tab level2"  @click="goTo($event, '#place')">Lieu</li>
                 <li class="v-tab level3"  @click="goTo($event, '#place-description')">Description et commentaire</li>
                 <li class="v-tab level3"  @click="goTo($event, '#place-feature-type')">Types du lieu</li>
@@ -42,7 +42,16 @@
                 <li class="v-tab level2"  @click="goTo($event, '#administrative-hierarchy')">Hiérarchie administrative</li>
                 <li class="v-tab level2"  @click="goTo($event, '#groupings')">Regroupement des lieux</li>
                 <v-divider></v-divider>
-                <li class="v-tab level1"  @click="goTo($event, '#search')">Moteur de recherche</li>
+                <li class="v-tab level1"  @click="goTo($event, '#search')">API de recherche</li>
+                <li class="v-tab level2"  @click="goTo($event, '#placenames-search')">Rechercher des noms de lieu</li>
+                <li class="v-tab level2"  @click="goTo($event, '#search-response-format')">Format de réponse et façades</li>
+                <li class="v-tab level2"  @click="goTo($event, '#search-syntax')">Syntaxe des requêtes</li>
+                <li class="v-tab level3"  @click="goTo($event, '#search-pagination')">Pagination</li>
+                <li class="v-tab level3"  @click="goTo($event, '#search-char-processing')">Chaînes de caractères</li>
+                <li class="v-tab level3"  @click="goTo($event, '#search-wildcard-query')">Wildcard query</li>
+                <li class="v-tab level3"  @click="goTo($event, '#search-fuzzy')">Recherche floue</li>
+                <li class="v-tab level3"  @click="goTo($event, '#search-filters')">Filtres et tris</li>
+                <v-divider></v-divider>
                 <li class="v-tab level1"  @click="goTo($event, '#exports')">Export des données</li>
                 <li class="v-tab level3"  @click="goTo($event, '#linked-places')">Linked Place</li>
             </ol>
@@ -664,19 +673,35 @@
 
                 <v-divider></v-divider>
 
-                <article id="search">
-                  <header>
-                    <h2 >Moteur de recherche</h2>
-                  </header>
-                  <section class="introduction">
-                    <p>
-                      Le moteur de recherche de Dicotopo est basé sur Elasticsearch.
-                    </p>
-                  </section>
-                  <section class="example">
-                    <h3 class="example-title">Exemples</h3>
+            <article id="search">
+              <header>
+                <h2>API de recherche</h2>
+              </header>
+              <section class="introduction">
+                <p>
+                  L’API de recherche est construite avec <a
+                  href="https://www.elastic.co/guide/en/elasticsearch/reference/6.8/index.html" target="_blank">Elasticsearch
+                  6.8</a>.
+                </p>
+              </section>
+
+              <section id="placenames-search">
+                <header>
+                  <h3>Rechercher des noms de lieu</h3>
+                </header>
+                <p>La recherche est configurée pour retrouver les noms de lieu et le lieu associé : pour un lieu, elle
+                  porte sur l’attribut (<code>label</code>), pour une forme ancienne sur l’attribut
+                  (<code>rich-label</code>).</p>
+                <p>Par défaut, la réponse est un tableau des ressources de type <code>place</code> et/ou de type <code>place-old-label</code>
+                  dont le contenu des attributs <code>place-label</code> (pour un lieu) et <code>rich-label</code> (pour
+                  une forme ancienne) correspond au motif recherché.</p>
+                <p>Le champ <code>type:place-old-label</code> de la requête permet de ne lister que les formes anciennes
+                  (voir Filtres et tris).</p>
+                <p>Le paramètre de requête <code>groupby</code> permet d’aggréger les résultats par lieu.</p>
+              </section>
+              <section class="example">
                     <v-expansion-panels focusable>
-                      <v-expansion-panel v-for="e,i in examples.search" :key="i">
+                      <v-expansion-panel v-for="e,i in examples.searchPlacenames" :key="i">
                         <v-expansion-panel-header>
                           <div class="method"><v-chip color="secondary" label>GET</v-chip></div>
                           <span class="url" >
@@ -685,14 +710,243 @@
                           </span>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content class="result">
-                          <pre v-highlightjs v-if="results.search"><code class="json">{{results.search[e.url]}}</code></pre>
+                          <pre v-highlightjs v-if="results.searchPlacenames"><code class="json">{{results.searchPlacenames[e.url]}}</code></pre>
                         </v-expansion-panel-content>
                       </v-expansion-panel>
                     </v-expansion-panels>
                   </section>
-                  <section class="parameters">
-                  </section>
-                </article>
+
+              <section id="search-response-format">
+                <header>
+                  <h3>Format de réponse et façades</h3>
+                </header>
+                <p>Les réponses de l’API de recherche sont formatées pour répondre aux besoins spécifiques de
+                  l’application et ne contiennent que les attributs utiles à l’affichage des résultats ainsi qu’à la
+                  cartographie.</p>
+                <p>Deux façades complémentaires sont cependant disponibles :</p>
+                <ul>
+                  <li>La façade <code>default</code> retourne le tableau des ressources au format JSON:API DicoTopo
+                    spécifié plus haut.
+                  </li>
+                  <li>La façade <code>map</code> retourne les seules données utiles à la cartographie (coordonnées et
+                    label du lieu).
+                  </li>
+                </ul>
+              </section>
+              <section class="example">
+                <v-expansion-panels focusable>
+                  <v-expansion-panel v-for="e,i in examples.searchFormat" :key="i">
+                    <v-expansion-panel-header>
+                      <div class="method">
+                        <v-chip color="secondary" label>GET</v-chip>
+                      </div>
+                      <span class="url">
+                            <div class="description">{{e.description}}</div>
+                            <div><a :href="e.url" target="_blank">{{e.url}}</a></div>
+                          </span>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content class="result">
+                      <pre v-highlightjs v-if="results.searchFormat"><code class="json">{{results.searchFormat[e.url]}}</code></pre>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </section>
+
+              <section id="search-syntax">
+                <header>
+                  <h3>Syntaxe des requêtes</h3>
+                </header>
+                <p>L’API de recherche utilise les requêtes de type <a
+                  href="https://www.elastic.co/guide/en/elasticsearch/reference/6.8/query-dsl-query-string-query.html"
+                  target="_blank"><code>query_string</code></a> d’Elasticsearch 6.8.</p>
+              </section>
+
+              <section id="search-pagination">
+                <h4>Pagination et nombre de résultats</h4>
+                <p>Les résultats de la recherche sont paginés. Le paramètre <code>page[size]</code> permet de définir le nombre de résultats par page. Le paramètre <code>page[number]</code> permet d’accéder à une page du résultat. Le champ <code>['meta']['total']</code> de la réponse indique le nombre de résultats.</p>
+              </section>
+              <section class="example">
+              <v-expansion-panels focusable>
+                  <v-expansion-panel v-for="e,i in examples.searchPagination" :key="i">
+                    <v-expansion-panel-header>
+                      <div class="method">
+                        <v-chip color="secondary" label>GET</v-chip>
+                      </div>
+                      <span class="url">
+                            <div class="description">{{e.description}}</div>
+                            <div><a :href="e.url" target="_blank">{{e.url}}</a></div>
+                          </span>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content class="result">
+                      <pre v-highlightjs v-if="results.searchPagination"><code class="json">{{results.searchPagination[e.url]}}</code></pre>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </section>
+
+              <section id="search-char-processing">
+                <h4>Traitement des chaînes de caractères</h4>
+                <ul>
+                  <li>Casse, diacritiques. La recherche est insensible à la casse et aux accents (diacritiques).</li>
+                  <li>Articles. Les articles sont déjoués : la requête <code>le crotoy</code> retourne la forme ancienne
+                    <code>Le Crotoy</code> ainsi que le lieu <code>Crotoy (le)</code></li>
+                </ul>
+              </section>
+              <section class="example">
+              <v-expansion-panels focusable>
+                  <v-expansion-panel v-for="e,i in examples.searchCharProcessing" :key="i">
+                    <v-expansion-panel-header>
+                      <div class="method">
+                        <v-chip color="secondary" label>GET</v-chip>
+                      </div>
+                      <span class="url">
+                            <div class="description">{{e.description}}</div>
+                            <div><a :href="e.url" target="_blank">{{e.url}}</a></div>
+                          </span>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content class="result">
+                      <pre v-highlightjs v-if="results.searchCharProcessing"><code class="json">{{results.searchCharProcessing[e.url]}}</code></pre>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </section>
+
+              <section id="search-wildcard-query">
+                <h4>Jokers (<em>Wildcard query</em>)</h4>
+                <p>Dans une requête, les caractères joker (<em>wildcard operators</em>) représentent un ou plusieurs caractères :</p>
+                <ul>
+                  <li><code>?</code> : un caractère indéfini</li>
+                  <li><code>*</code> : représente zéro à plusieurs caractères indéfinis</li>
+                </ul>
+                <p>La recherche <code>cl?cia*</code> retourne les noms de lieu Cliciacum, Clociachum, Clociacum et Claciacum</p>
+              </section>
+              <section class="example">
+              <v-expansion-panels focusable>
+                  <v-expansion-panel v-for="e,i in examples.searchWildcardOperators" :key="i">
+                    <v-expansion-panel-header>
+                      <div class="method">
+                        <v-chip color="secondary" label>GET</v-chip>
+                      </div>
+                      <span class="url">
+                            <div class="description">{{e.description}}</div>
+                            <div><a :href="e.url" target="_blank">{{e.url}}</a></div>
+                          </span>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content class="result">
+                      <pre v-highlightjs v-if="results.searchWildcardOperators"><code class="json">{{results.searchWildcardOperators[e.url]}}</code></pre>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </section>
+
+              <section id="search-fuzzy">
+                <h4>Recherche floue</h4>
+                <p>Pour la <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.8/common-options.html#fuzziness" target="_blank">recherche floue</a>, il est possile de passer en suffixe de la chaîne de caractère recherchée un paramètre (<em>fuzziness parameter</em>) définissant la <a href="https://fr.wikipedia.org/wiki/Distance_de_Levenshtein" target="_blank">distance d’édition Levenshtein</a> maximale autorisée : <code>~0</code> (recherche exacte), <code>~1</code> (recherche floue), <code>~2</code> (recherche très floue).</p>
+
+              </section>
+              <section class="example">
+              <v-expansion-panels focusable>
+                  <v-expansion-panel v-for="e,i in examples.searchFuzzy" :key="i">
+                    <v-expansion-panel-header>
+                      <div class="method">
+                        <v-chip color="secondary" label>GET</v-chip>
+                      </div>
+                      <span class="url">
+                            <div class="description">{{e.description}}</div>
+                            <div><a :href="e.url" target="_blank">{{e.url}}</a></div>
+                          </span>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content class="result">
+                      <pre v-highlightjs v-if="results.searchFuzzy"><code class="json">{{results.searchFuzzy[e.url]}}</code></pre>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </section>
+
+              <section id="search-filters">
+                <h4>Filtres et tris</h4>
+                <p>Différents champs sont indexés et disponibles pour la définition de tris et de filtres.</p>
+                <p>Pour un lieu (ressource de type <code>place</code>) et une forme ancienne (ressource de type <code>place-old-label</code>) :</p>
+                <ul>
+                  <li><code>place-id</code> : identifiant de la ressource de type <code>place</code></li>
+                  <li><code>place-label</code> : label de la ressource de type <code>place</code> (attention aux homonymes…)</li>
+                  <li><code>localization-insee-code</code> : code commune du COG 2011</li>
+                  <li><code>commune-label</code> : nom de la commune de localisation (variable <a href="https://www.insee.fr/fr/information/2560625#titre-bloc-7" target="_blank">NCCENR</a> de la liste du COG 2011) ; casse non sensible</li>
+                  <li><code>reg-id</code> : code région du COG 2011</li>
+                  <li><code>dep-id</code> : code département du COG 2011</li>
+                  <li><code>ctn-id</code> : identifiant DicoTopo du canton</li>
+                  <li><code>ctn-label</code> : nom du canton (variable <a href="https://www.insee.fr/fr/information/2560625#titre-bloc-19" target="_blank">NCCENR</a> de la liste du COG 2011) ; casse non sensible</li>
+                </ul>
+                <p>Le paramètre de requête <code>sort</code> permet de trier les résultats selon un ou plusieurs champs. Le préfixe optionnel <code>-</code> du nom du champ spécifie l’odre décroissant : par ex. <code>&sort=-dep-id.keyword</code> pour un tri décroissant par numéro de département.</p>
+              </section>
+              <section class="example">
+              <v-expansion-panels focusable>
+                  <v-expansion-panel v-for="e,i in examples.searchFilters" :key="i">
+                    <v-expansion-panel-header>
+                      <div class="method">
+                        <v-chip color="secondary" label>GET</v-chip>
+                      </div>
+                      <span class="url">
+                            <div class="description">{{e.description}}</div>
+                            <div><a :href="e.url" target="_blank">{{e.url}}</a></div>
+                          </span>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content class="result">
+                      <pre v-highlightjs v-if="results.searchFilters"><code class="json">{{results.searchFilters[e.url]}}</code></pre>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </section>
+
+              <section id="search-filters2">
+                <p>On peut ainsi s’affranchir du découpage administratif. On peut par ex. faire une recherche sur le <a href="https://fr.wikipedia.org/wiki/Morvan#D%C3%A9limitation_administrative" target="_blank">Morvan</a>, à cheval sur les cantons de Liernais (<code>CT_21-19</code>), Précy-sous-Thil (<code>CT_21-27</code>), Saulieu (<code>CT_21-31</code>), Château-Chinon (Ville) (<code>CT_58-03</code>), Châtillon-en-Bazois (<code>CT_58-04</code>), Corbigny (<code>CT_58-06</code>), Fours (<code>CT_58-11</code>), Lormes (<code>CT_58-12</code>), Luzy (<code>CT_58-13</code>), Montsauche-les-Settons (<code>CT_58-14</code>), Moulins-Engilbert (<code>CT_58-15</code>), Bourbon-Lancy (<code>CT_71-03</code>), Issy-l&#39;Évêque (<code>CT_71-22</code>), Lucenay-l&#39;Évêque (<code>CT_71-24</code>), Mesvres (<code>CT_71-30</code>), Saint-Léger-sous-Beuvray (<code>CT_71-44</code>), Quarré-les-Tombes (<code>CT_89-23</code>) :</p>
+              </section>
+              <section class="example">
+              <v-expansion-panels focusable>
+                  <v-expansion-panel v-for="e,i in examples.searchFilters2" :key="i">
+                    <v-expansion-panel-header>
+                      <div class="method">
+                        <v-chip color="secondary" label>GET</v-chip>
+                      </div>
+                      <span class="url">
+                            <div class="description">{{e.description}}</div>
+                            <div><a :href="e.url" target="_blank">{{e.url}}</a></div>
+                          </span>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content class="result">
+                      <pre v-highlightjs v-if="results.searchFilters2"><code class="json">{{results.searchFilters2[e.url]}}</code></pre>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </section>
+
+              <section id="search-filters3">
+                <p>Pour une forme ancienne (ressource de type <code>place-old-label</code>) on dispose également de l’attribut <code>text-date</code> : la date d’attestation de la forme ancienne (voir Forme ancienne pour la documentation du format). Attention : 15% des formes anciennes n’ont pas de date <renseignée></renseignée>.</p>
+              </section>
+              <section class="example">
+              <v-expansion-panels focusable>
+                  <v-expansion-panel v-for="e,i in examples.searchFilters3" :key="i">
+                    <v-expansion-panel-header>
+                      <div class="method">
+                        <v-chip color="secondary" label>GET</v-chip>
+                      </div>
+                      <span class="url">
+                            <div class="description">{{e.description}}</div>
+                            <div><a :href="e.url" target="_blank">{{e.url}}</a></div>
+                          </span>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content class="result">
+                      <pre v-highlightjs v-if="results.searchFilters3"><code class="json">{{results.searchFilters3[e.url]}}</code></pre>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </section>
+
+
+
+
+
+            </article>
 
                 <v-divider></v-divider>
 
@@ -816,14 +1070,45 @@ export default {
         { description: 'Pour la commune  02196 (Clacy-et-Thierret), la collection des lieux dépendants', url: `${urlPrefix}/communes/02196/localized-places?without-relationships` },
         { description: 'La commune 02196 (Clacy-et-Thierret), avec ses lieux liés (lieu correspondant ET lieux dépendants)', url: `${urlPrefix}/communes/02196?without-relationships&include=place,localized-places` }
       ],
-      search: [
-        { description: 'Recherche du lieu \'Ailles\'', url: `${urlPrefix}/search?query=label.folded:Ailles&page[size]=50` },
-        { description: 'Recherche de la forme ancienne \'Ailles\'', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=place-label.keyword&page[size]=50` },
-        { description: 'Tri sur le nom du lieu (croissant)', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=place-label.keyword&page[size]=50` },
-        { description: 'Tri sur le nom du lieu (décroissant)', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=-place-label.keyword&page[size]=50` },
-        { description: 'Tri sur le département puis sur le nom du lieu', url: `${urlPrefix}/search?query=label.folded:Ailles&sort=dep-id.keyword,place-label.keyword&page[size]=50` },
-        { description: 'Filtre sur le canton et le département', url: `${urlPrefix}/search?query=label.folded:Ailles AND ((dep-id:02) AND (ctn-id:CT_02-12))` },
-        { description: 'Recherche floue du lieu \'Ailles\'', url: `${urlPrefix}/search?query=label.folded:Ailles~2&page[size]=50` }
+      searchPlacenames: [
+        { description: 'La liste des lieux et des formes anciennes dont le label contient \'Clacy\'', url: `${urlPrefix}/search?query=label.folded:Clacy` },
+        { description: 'La liste des seules formes anciennes dont le label contient \'Clacy\'', url: `${urlPrefix}/search?query=label.folded:clacy AND type:place-old-label` },
+        { description: 'La liste des lieux dont le label ou une forme ancienne contient \'Clacy\'', url: `${urlPrefix}/search?query=label.folded:clacy&groupby[doc-type]=place&groupby[field]=place-id.keyword` }
+      ],
+      searchFormat: [
+        { description: 'Recherche \'Clacy\', façade default', url: `${urlPrefix}/search?query=label.folded:clacy&facade=default` },
+        { description: 'Recherche \'Clacy\', façade map', url: `${urlPrefix}/search?query=label.folded:clacy&facade=map` }
+      ],
+      searchPagination: [
+        { description: 'Recherche \'moulin\', première page de 2 résultats', url: `${urlPrefix}/search?query=label.folded:moulin&page[size]=2` },
+        { description: 'Recherche \'moulin\', 250e page de 2 résultats', url: `${urlPrefix}/search?query=label.folded:moulin&page[size]=2&page[number]=250` }
+      ],
+      searchCharProcessing: [
+        { description: 'Casse non sensible, recherche \'gUeMÉne\'', url: `${urlPrefix}/search?query=label.folded:gUeMÉne` },
+        { description: 'Élision des articles, recherche \'le crotoy\'', url: `${urlPrefix}/search?query=label.folded:le crotoy&page[size]=2` }
+      ],
+      searchWildcardOperators: [
+        { description: 'Wildcard operators, recherche \'cl?cia*\'', url: `${urlPrefix}/search?query=label.folded:cl?cia*` }
+      ],
+      searchFuzzy: [
+        { description: 'La recherche floue sur la forme \'Clacy\' retourne par ex. les noms de lieu \'Clary\' et \'Blacy\'', url: `${urlPrefix}/search?query=label.folded:clacy~1&page[size]=2&page[number]=3` }
+      ],
+      searchFilters: [
+        { description: 'Recherche \'Clacy\', tri décroissant par département puis tri croissant par nom de lieu', url: `${urlPrefix}/search?query=label.folded:clacy&sort=-dep-id.keyword,place-label` },
+        { description: 'La liste des formes anciennes du lieu P66064026 (Clacy) commençant par \'Claci\'', url: `${urlPrefix}/search?query=label.folded:Claci* AND place-id:P66064026` },
+        { description: 'La liste des lieux et des formes anciennes contenant \'molendinum\' pour les lieux dont le nom contient \'Vieux\'', url: `${urlPrefix}/search?query=label.folded:molendinum AND place-label:Vieux*` },
+        { description: 'Les 3 premiers items de la liste des formes anciennes dont le label contient \'saint\' à Laon (localization-insee-code = 02408)', url: `${urlPrefix}/search?query=label.folded:saint AND type:place-old-label AND localization-insee-code:02408&page[size]=3` },
+        { description: 'La liste des lieux et des formes anciennes dont le label contient \'Clacy\' pour les communes nommées Clessy (commune-label = \'clessy\')', url: `${urlPrefix}/search?query=label.folded:clacy AND commune-label:clessy` },
+        { description: 'La liste des lieux et des formes anciennes dont le label contient \'Clacy\' en Picardie (reg-id = 22)', url: `${urlPrefix}/search?query=label.folded:clacy AND reg-id:22` },
+        { description: 'La liste des lieux et des formes anciennes dont le label contient \'Clacy\' en Saône-et-Loire (dep-id = 71)', url: `${urlPrefix}/search?query=label.folded:clacy AND dep-id:71` },
+        { description: 'La liste des lieux et des formes anciennes dont le label contient \'Clacy\' dans le canton de Laon-Sud (ctn-id = CT_02-38)', url: `${urlPrefix}/search?query=label.folded:clacy AND ctn-id:CT_02-38` },
+        { description: 'La liste des lieux et des formes anciennes dont le label contient \'Clacy\' dans le canton de Laon-Sud (ctn-label = laon-SUD)', url: `${urlPrefix}/search?query=label.folded:clacy AND ctn-label:laon-SUD` }
+      ],
+      searchFilters2: [
+        { description: 'Liste des lieux et des formes anciennes du Morvan dont le label commence par \'Huis-Boul…\'', url: `${urlPrefix}/search?query=label.folded:Huis- Boul* AND (ctn-id:CT_21-19 OR ctn-id:CT_21-27 OR ctn-id:CT_21-31 OR ctn-id:CT_58-03 OR ctn-id:CT_58-04 OR ctn-id:CT_58-06 OR ctn-id:CT_58-11 OR ctn-id:CT_58-12 OR ctn-id:CT_58-13 OR ctn-id:CT_58-14 OR ctn-id:CT_58-15 OR ctn-id:CT_71-03 OR ctn-id:CT_71-22 OR ctn-id:CT_71-24 OR ctn-id:CT_71-30 OR ctn-id:CT_71-44 OR ctn-id:CT_89-23)` }
+      ],
+      searchFilters3: [
+        { description: 'Liste des formes anciennes contenant \'Clacy\' attestées depuis 1327', url: `${urlPrefix}/search?query=label.folded:clacy AND text-date:>=1327` }
       ],
       linkedPlaces: [
         { description: 'Export du lieu \'Coste-Rousse\' au format LinkedPlaces', url: `${urlPrefix}/places/P24576921?export=linkedplaces` },
@@ -851,7 +1136,15 @@ export default {
       commune: {},
       districts: {},
       groupings: {},
-      search: {},
+      searchPlacenames: {},
+      searchFormat: {},
+      searchPagination: {},
+      searchCharProcessing: {},
+      searchWildcardOperators: {},
+      searchFuzzy: {},
+      searchFilters: {},
+      searchFilters2: {},
+      searchFilters3: {},
       linkedPlaces: {}
     }
     // add empty results
@@ -985,11 +1278,12 @@ export default {
       }
       &.level2 {
         text-decoration: none;
+        padding-left: 26px;
       }
       &.level3 {
         text-decoration: none;
         font-weight: 300;
-        padding-left: 26px;
+        padding-left: 40px;
 
       }
     }

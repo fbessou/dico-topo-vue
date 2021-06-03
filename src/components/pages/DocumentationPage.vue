@@ -43,7 +43,7 @@
                 <li class="v-tab level2"  @click="goTo($event, '#groupings')">Regroupement des lieux</li>
                 <v-divider></v-divider>
                 <li class="v-tab level1"  @click="goTo($event, '#search')">API de recherche</li>
-                <li class="v-tab level2"  @click="goTo($event, '#placenames-search')">Rechercher des noms de lieu</li>
+                <li class="v-tab level2"  @click="goTo($event, '#placenames-search')">Rechercher des noms de lieux</li>
                 <li class="v-tab level2"  @click="goTo($event, '#search-response-format')">Format de réponse et façades</li>
                 <li class="v-tab level2"  @click="goTo($event, '#search-syntax')">Syntaxe des requêtes</li>
                 <li class="v-tab level3"  @click="goTo($event, '#search-pagination')">Pagination</li>
@@ -269,7 +269,7 @@
                       La ressource de type <code>place</code> (un <code>lieu</code>) a été définie en référence à la classe
                       <a href="https://pleiades.stoa.org/help/conceptual-overview" target="_blank"><code>places</code></a> de
                       <a href="https://pleiades.stoa.org/" target="_blank">Pleiades</a> : &quot;le terme <em>lieu</em> s&#39;applique à tout
-                      lieu d&#39;attention humaine, matériel ou intellectuel, dans un contexte géographique réel.&quot;
+                      lieu d’attention humaine, matériel ou intellectuel, dans un contexte géographique réel.&quot;
                     </p>
                     <p>
                       Un <code>lieu</code> se caractérise par la mise en relation entre des noms de ce <code>lieu</code> et une localisation.<br>
@@ -687,17 +687,17 @@
 
               <section id="placenames-search">
                 <header>
-                  <h3>Rechercher des noms de lieu</h3>
+                  <h3>Rechercher des noms de lieux</h3>
                 </header>
-                <p>La recherche est configurée pour retrouver les noms de lieu et le lieu associé : pour un lieu, elle
+                <p>La recherche est configurée pour retrouver les noms de lieux et le lieu associé : pour un lieu, elle
                   porte sur l’attribut (<code>label</code>), pour une forme ancienne sur l’attribut
                   (<code>rich-label</code>).</p>
                 <p>Par défaut, la réponse est un tableau des ressources de type <code>place</code> et/ou de type <code>place-old-label</code>
                   dont le contenu des attributs <code>place-label</code> (pour un lieu) et <code>rich-label</code> (pour
                   une forme ancienne) correspond au motif recherché.</p>
                 <p>Le champ <code>type:place-old-label</code> de la requête permet de ne lister que les formes anciennes
-                  (voir Filtres et tris).</p>
-                <p>Le paramètre de requête <code>groupby</code> permet d’aggréger les résultats par lieu.</p>
+                  (v. <span class="span-a" @click="goTo($event, '#search-filters')">Filtres et tris</span>).</p>
+                <p>Le paramètre de requête <code>groupby</code> permet d’agréger les résultats par lieu.</p>
               </section>
               <section class="example">
                     <v-expansion-panels focusable>
@@ -726,7 +726,7 @@
                 <p>Deux façades complémentaires sont cependant disponibles :</p>
                 <ul>
                   <li>La façade <code>default</code> retourne le tableau des ressources au format JSON:API DicoTopo
-                    spécifié plus haut.
+                    spécifié plus haut (v. <span class="span-a" @click="goTo($event, '#ressources')">Ressources exposées</span>).
                   </li>
                   <li>La façade <code>map</code> retourne les seules données utiles à la cartographie (coordonnées et
                     label du lieu).
@@ -787,7 +787,7 @@
               <section id="search-char-processing">
                 <h4>Traitement des chaînes de caractères</h4>
                 <ul>
-                  <li>Casse, diacritiques. La recherche est insensible à la casse et aux accents (diacritiques).</li>
+                  <li>Casse, diacritiques. La recherche est insensible à la casse, aux accents ainsi qu’à la cédille.</li>
                   <li>Articles. Les articles sont déjoués : la requête <code>le crotoy</code> retourne la forme ancienne
                     <code>Le Crotoy</code> ainsi que le lieu <code>Crotoy (le)</code></li>
                 </ul>
@@ -816,9 +816,9 @@
                 <p>Dans une requête, les caractères joker (<em>wildcard operators</em>) représentent un ou plusieurs caractères :</p>
                 <ul>
                   <li><code>?</code> : un caractère indéfini</li>
-                  <li><code>*</code> : représente zéro à plusieurs caractères indéfinis</li>
+                  <li><code>*</code> : zéro à plusieurs caractères indéfinis</li>
                 </ul>
-                <p>La recherche <code>cl?cia*</code> retourne les noms de lieu Cliciacum, Clociachum, Clociacum et Claciacum</p>
+                <p>La recherche <code>cl?cia*</code> retourne les noms de lieux Cliciacum, Clociachum, Clociacum et Claciacum</p>
               </section>
               <section class="example">
               <v-expansion-panels focusable>
@@ -841,7 +841,7 @@
 
               <section id="search-fuzzy">
                 <h4>Recherche floue</h4>
-                <p>Pour la <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.8/common-options.html#fuzziness" target="_blank">recherche floue</a>, il est possile de passer en suffixe de la chaîne de caractère recherchée un paramètre (<em>fuzziness parameter</em>) définissant la <a href="https://fr.wikipedia.org/wiki/Distance_de_Levenshtein" target="_blank">distance d’édition Levenshtein</a> maximale autorisée : <code>~0</code> (recherche exacte), <code>~1</code> (recherche floue), <code>~2</code> (recherche très floue).</p>
+                <p>Pour la <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.8/common-options.html#fuzziness" target="_blank">recherche floue</a>, il est possible de passer en suffixe de la chaîne de caractère recherchée un paramètre (<em>fuzziness parameter</em>) définissant la <a href="https://fr.wikipedia.org/wiki/Distance_de_Levenshtein" target="_blank">distance d’édition Levenshtein</a> maximale autorisée : <code>~0</code> (recherche exacte), <code>~1</code> (recherche floue), <code>~2</code> (recherche très floue).</p>
 
               </section>
               <section class="example">
@@ -899,7 +899,7 @@
               </section>
 
               <section id="search-filters2">
-                <p>On peut ainsi s’affranchir du découpage administratif. On peut par ex. faire une recherche sur le <a href="https://fr.wikipedia.org/wiki/Morvan#D%C3%A9limitation_administrative" target="_blank">Morvan</a>, à cheval sur les cantons de Liernais (<code>CT_21-19</code>), Précy-sous-Thil (<code>CT_21-27</code>), Saulieu (<code>CT_21-31</code>), Château-Chinon (Ville) (<code>CT_58-03</code>), Châtillon-en-Bazois (<code>CT_58-04</code>), Corbigny (<code>CT_58-06</code>), Fours (<code>CT_58-11</code>), Lormes (<code>CT_58-12</code>), Luzy (<code>CT_58-13</code>), Montsauche-les-Settons (<code>CT_58-14</code>), Moulins-Engilbert (<code>CT_58-15</code>), Bourbon-Lancy (<code>CT_71-03</code>), Issy-l&#39;Évêque (<code>CT_71-22</code>), Lucenay-l&#39;Évêque (<code>CT_71-24</code>), Mesvres (<code>CT_71-30</code>), Saint-Léger-sous-Beuvray (<code>CT_71-44</code>), Quarré-les-Tombes (<code>CT_89-23</code>) :</p>
+                <p>On peut ainsi s’affranchir du découpage administratif. On peut par ex. faire porter la recherche sur l’ensemble de la région naturelle du <a href="https://fr.wikipedia.org/wiki/Morvan#D%C3%A9limitation_administrative" target="_blank">Morvan</a>, qui recouvre les cantons de Liernais (<code>CT_21-19</code>), Précy-sous-Thil (<code>CT_21-27</code>), Saulieu (<code>CT_21-31</code>), Château-Chinon (Ville) (<code>CT_58-03</code>), Châtillon-en-Bazois (<code>CT_58-04</code>), Corbigny (<code>CT_58-06</code>), Fours (<code>CT_58-11</code>), Lormes (<code>CT_58-12</code>), Luzy (<code>CT_58-13</code>), Montsauche-les-Settons (<code>CT_58-14</code>), Moulins-Engilbert (<code>CT_58-15</code>), Bourbon-Lancy (<code>CT_71-03</code>), Issy-l&#39;Évêque (<code>CT_71-22</code>), Lucenay-l&#39;Évêque (<code>CT_71-24</code>), Mesvres (<code>CT_71-30</code>), Saint-Léger-sous-Beuvray (<code>CT_71-44</code>) et de Quarré-les-Tombes (<code>CT_89-23</code>) :</p>
               </section>
               <section class="example">
               <v-expansion-panels focusable>
@@ -921,7 +921,7 @@
               </section>
 
               <section id="search-filters3">
-                <p>Pour une forme ancienne (ressource de type <code>place-old-label</code>) on dispose également de l’attribut <code>text-date</code> : la date d’attestation de la forme ancienne (voir Forme ancienne pour la documentation du format). Attention : 15% des formes anciennes n’ont pas de date <renseignée></renseignée>.</p>
+                <p>Pour une forme ancienne donnée (ressource de type <code>place-old-label</code>), on dispose également de l’attribut <code>text-date</code> : la date d’attestation de la forme ancienne (v. <span class="span-a" @click="goTo($event, '#old-label')">Forme ancienne</span> pour la documentation du format). Attention : 15% des formes anciennes n’ont pas de date.</p>
               </section>
               <section class="example">
               <v-expansion-panels focusable>
@@ -1091,7 +1091,7 @@ export default {
         { description: 'Wildcard operators, recherche \'cl?cia*\'', url: `${urlPrefix}/search?query=label.folded:cl?cia*` }
       ],
       searchFuzzy: [
-        { description: 'La recherche floue sur la forme \'Clacy\' retourne par ex. les noms de lieu \'Clary\' et \'Blacy\'', url: `${urlPrefix}/search?query=label.folded:clacy~1&page[size]=2&page[number]=3` }
+        { description: 'La recherche floue sur la forme \'Clacy\' retourne par ex. les noms de lieux \'Clary\' et \'Blacy\'', url: `${urlPrefix}/search?query=label.folded:clacy~1&page[size]=2&page[number]=3` }
       ],
       searchFilters: [
         { description: 'Recherche \'Clacy\', tri décroissant par département puis tri croissant par nom de lieu', url: `${urlPrefix}/search?query=label.folded:clacy&sort=-dep-id.keyword,place-label` },

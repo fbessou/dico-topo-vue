@@ -941,13 +941,7 @@
                   </v-expansion-panel>
                 </v-expansion-panels>
               </section>
-
-
-
-
-
             </article>
-
                 <v-divider></v-divider>
 
                  <article id="exports">
@@ -1273,6 +1267,9 @@ export default {
       justify-content: flex-start;
       height: 48px;
       color: rgba(0, 0, 0, 0.54);
+      &:hover {
+        cursor: pointer;
+      }
       &.level1 {
         text-decoration: none;
       }

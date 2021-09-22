@@ -30,7 +30,7 @@
         </v-parallax>
       </section>
       <section class="mb-10 container">
-        <v-container fluid>
+        <v-container fluid  class="tab-tabs-parent">
 
           <v-tabs color="red darken-2" vertical class="tab-tabs">
             <v-tab  @click.native="scrollToTop" key="presentation"><a href="#">Présentation</a></v-tab><!-- OK -->
@@ -135,6 +135,23 @@ section {
     }
   }
 
+}
+
+@media screen and (max-width: 760px) {
+  .tab-tabs-parent {
+    margin-top: 0;
+    .tab-tabs {
+      flex-direction: column;
+      .v-tabs-bar {
+        position: relative !important;
+        z-index: 1 !important;
+      }
+      .v-window {
+        margin-left: 0;
+        max-width: 100%;
+      }
+    }
+  }
 }
 
 </style>

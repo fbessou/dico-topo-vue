@@ -36,4 +36,13 @@ export default {
 
 <style scoped>
 
+  @media screen and (max-width: 760px) {
+    .v-main.v-content {
+      max-width: 100vw !important;
+      overflow-x: hidden;
+      padding-top: 120px !important;
+      padding-bottom: 260px !important;
+    }
+  }
+
 </style>

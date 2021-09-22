@@ -354,4 +354,14 @@ export default {
     text-align: right;
   }
 }
+
+@media screen and (max-width: 760px) {
+  .row.place-page-layout {
+    flex-direction: column-reverse !important;
+  }
+  .row.place-page-layout .map-container {
+    height: 40vh !important;
+  }
+}
+
 </style>

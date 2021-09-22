@@ -38,13 +38,13 @@
             justify-center
           >
             <v-flex xs2 class="text-xs-center">
-              <span class=" font-weight-bold">40</span> départements
+              <span class=" font-weight-bold">40</span><span> départements</span>
             </v-flex>
             <v-flex xs2 class="text-xs-center">
-              <span class=" font-weight-bold">492.603 </span> lieux
+              <span class=" font-weight-bold">492.603 </span><span> lieux</span>
             </v-flex>
             <v-flex xs2 class="text-xs-center">
-              <span class=" font-weight-bold">1.179.107 </span> formes anciennes
+              <span class=" font-weight-bold">1.179.107 </span><span> formes anciennes</span>
             </v-flex>
           </v-layout>
         </v-parallax>
@@ -140,4 +140,57 @@ export default {
 .landing-icon {
   margin-right: 14px;
 }
+
+@media screen and (max-width: 760px) {
+  .v-application .display-1 {
+    font-size: 1.725rem !important;
+  }
+  .v-application .headline {
+    font-size: 1.275rem !important;
+    line-height: 1.2;
+  }
+
+  .landing-content {
+    padding-top: 10px !important;
+    max-width: 100% !important;
+  }
+  .landing-content > .container {
+    padding: 0 6px;
+  }
+  .landing-content > .container > .row {
+    flex-direction: column !important;
+  }
+  .landing-map-content {
+    min-width: unset;
+    transform: scale(0.85) translateX(-30px);
+    transform-origin: 0;
+  }
+  .landing-map-content #svg {
+    max-width: unset !important;
+  }
+  .subheading.row {
+    flex-direction: column;
+    padding: 20px 0;
+  }
+  .subheading.row > .flex {
+    width: 100%;
+    max-width: unset;
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+  }
+  .subheading.row > .flex > * {
+    flex: 50% 0 0;
+  }
+  .subheading.row > .flex > *:first-child {
+    text-align: right;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .landing-map-content {
+    transform: scale(0.60) translateX(-30px);
+  }
+}
+
 </style>

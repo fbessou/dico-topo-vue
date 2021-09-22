@@ -138,4 +138,16 @@ export default {
     overflow-y: hidden;
     height: 100%;
   }
+
+  @media screen and (max-width: 760px) {
+
+    .v-data-table.normal-table {
+      height: 50% !important;
+    }
+
+    .map-container  {
+      height: calc(100vh - 175px) !important;
+      top: 100px;
+    }
+  }
 </style>

@@ -246,4 +246,11 @@ p::first-letter,
 dfn {
     font-style: normal !important;
 }
+
+@media screen and (max-width: 760px) {
+  .place-card-popup {
+    display:none;
+  }
+}
+
 </style>

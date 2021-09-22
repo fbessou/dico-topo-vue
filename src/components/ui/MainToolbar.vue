@@ -17,11 +17,12 @@
       placeholder="Ex. Saint-Simon"
       v-model="inputTerm"
       style="min-width: 80px; width: 360px; max-width: 360px; padding-top: 26px; margin-left: 10px "
+      class="search-input"
       color="rgb(211, 47, 47)"
       @keyup.enter.native="onSearchEventPressEnter"
       :disabled="tableResultIsLoading || mapIsLoading"
       :loading="tableResultIsLoading || mapIsLoading"
-      autofocus
+      :autofocus="autofocusOnCurrentRoute"
       dense
       filled
       clearable
@@ -33,7 +34,7 @@
 
     <v-chip
       v-show="!!meta && $router.currentRoute.name === 'home'"
-      class="subheading grey--text text--darken-2 ml-3 mr-2"
+      class="total-count subheading grey--text text--darken-2 ml-3 mr-2"
     >
       {{ meta.totalCount }}
     </v-chip>
@@ -183,6 +184,9 @@ export default {
           }
         ]
       }
+    },
+    autofocusOnCurrentRoute () {
+      return this.$route.name === 'home'
     }
   }
 }
@@ -227,8 +231,50 @@ body:after {
   display: inline-block;
   vertical-align: middle;
 }
+
+.toolbar-buttons span.fuzziness {
+  margin-right: 0;
+}
+
 .search-bar {
   cursor: pointer;
   color:brown;
 }
+
+@media screen and (max-width: 760px) {
+  .v-app-bar {
+    height: auto !important;
+    max-width: 100vw !important;
+  }
+  .v-app-bar > div {
+    z-index: 100;
+    flex-wrap: wrap;
+    height: auto !important;
+    padding: 4px 0 !important;
+  }
+  .v-app-bar > div > *:last-child {
+    margin-right: 20px;
+  }
+  .search-input {
+    order:4;
+    max-width: 100% !important;
+    margin: 5px 18px 0 !important;
+    padding-top: 0 !important;
+    width: 100% !important;
+  }
+  .toolbar-buttons {
+    order: 5;
+  }
+  .total-count {
+    order: 6;
+  }
+  .v-text-field.v-text-field--enclosed .v-text-field__details {
+    display: none;
+    margin-bottom: 0 !important;
+  }
+  .v-label {
+    font-size: 13px;
+  }
+}
+
 </style>

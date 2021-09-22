@@ -92,7 +92,7 @@
 
     <template v-slot:body="{ items }">
       <tbody>
-        <tr v-for="item in items" :key="item.id">
+        <tr v-for="item in items" :key="item.id" class="place-row">
           <td class="text-center">
             <v-btn
               icon
@@ -666,4 +666,166 @@ dfn {
   -webkit-columns: 3;
   -moz-columns: 3;
 }
+
+@media screen and (max-width: 760px) {
+
+  /* Header */
+
+  .v-data-table thead {
+    position: fixed;
+    z-index: 2;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+  .v-data-table thead:first-of-type tr {
+    width: 100vw;
+    background-color: #fafafa !important;
+
+    th {
+      position: relative !important;
+      display: inline-block;
+      box-shadow: none !important;
+      min-width: unset !important;
+    }
+
+    th:nth-child(1) {
+      width: 40px;
+      min-width:unset !important;
+      padding: 0 !important;
+      position: unset !important;
+    }
+
+    th:nth-child(2) {
+      width: calc( 100vw - 40px );
+      padding: 0 !important;
+    }
+
+    th:nth-child(3) {
+      display: none !important;
+    }
+
+    th:nth-child(4).grey.lighten-3,
+    th:nth-child(5).grey.lighten-3,
+    th:nth-child(6).grey.lighten-3 {
+      background-color: #fafafa !important;
+      width: 30% !important;
+      padding-right: 0;
+      padding-left: 10px !important;
+    }
+
+    th:nth-child(4) {
+      padding-left: 13px !important;
+    }
+
+    th:nth-child(5) {
+      width: 30% !important;
+    }
+
+    th:nth-child(4) > span,
+    th:nth-child(5) > span,
+    th:nth-child(6) > span {
+      font-size: 10px;
+    }
+
+    th:nth-child(3) {
+      padding-left: 0;
+    }
+
+    th:nth-child(5),
+    th:nth-child(6) {
+      padding-left: 0;
+    }
+
+    th > span > div.text-xs-center {
+      background-color: #fafafa;
+      box-shadow: 0 2px 2px #ccc;
+    }
+
+    th:nth-child(7) {
+      display: none !important;
+    }
+
+  }
+
+  /* Rows */
+
+  .v-data-table tbody {
+    position: relative;
+    top: 64px;
+  }
+
+  .v-data-table tr.place-row {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100vw;
+    border-bottom: solid 1px #AAA;
+
+    td {
+      height: auto !important;
+      background-color: #FFF;
+      border: none !important;
+      padding: 0 20px 5px 40px !important;
+      width: 100vw;
+    }
+
+    td:empty {
+      display: none;
+    }
+
+    td.text-center {
+      text-align: left !important;
+    }
+
+    td:nth-child(1) {
+      width: 40px;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      padding-top: 16px !important;
+      text-align: center !important;
+    }
+
+    td:nth-child(2) {
+      width: calc( 100vw - 40px );
+      padding-top: 20px !important;
+      padding-left: 0 !important;
+    }
+
+    td:nth-child(3) {
+    }
+
+    td::before {
+      font-weight: bold;
+      color:#666 !important;
+    }
+
+    td:nth-child(3):not(:empty)::before {
+      content: "FORMES ANCIENNES : ";
+    }
+
+    td:nth-child(4):not(:empty)::before {
+      content: "DEPT : ";
+    }
+
+    td:nth-child(5):not(:empty)::before {
+      content: "CANTON : ";
+    }
+
+    td:nth-child(6):not(:empty)::before {
+      content: "COMMUNE : ";
+    }
+
+    td:nth-child(7) div {
+      display: inline;
+    }
+
+    td:nth-child(7):not(:empty)::before {
+      content: "DESCRIPTION : ";
+    }
+
+    td:nth-child(7) {
+      padding-bottom: 20px !important;
+    }
+  }
+}
+
 </style>

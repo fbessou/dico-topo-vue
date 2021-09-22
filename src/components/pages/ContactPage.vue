@@ -35,19 +35,19 @@
 
           <v-layout class="subheading mb-1 font-weight-light black--text" row wrap align-center justify-center>
             <v-flex xs2 class="text-xs-center">
-              <span class=" font-weight-bold">40</span> départements
+              <span class=" font-weight-bold">40</span><span> départements</span>
             </v-flex>
             <v-flex xs2 class="text-xs-center">
-              <span class=" font-weight-bold">492.603 </span> lieux
+              <span class=" font-weight-bold">492.603 </span><span> lieux</span>
             </v-flex>
             <v-flex xs2 class="text-xs-center">
-              <span class=" font-weight-bold">1.179.107 </span> formes anciennes
+              <span class=" font-weight-bold">1.179.107 </span><span> formes anciennes</span>
             </v-flex>
           </v-layout>
         </v-parallax>
       </section>
 
-      <section>
+      <section class="contact-section">
         <v-container fluid>
           <v-layout justify-center>
             <v-flex xs4>
@@ -80,8 +80,22 @@ export default {
 </script>
 
 <style scoped>
+
   .contact {
     min-height: 100vh;
     margin-top: 20% !important;
   }
+
+  @media screen and (max-width: 760px) {
+    .contact {
+      min-height: unset;
+      margin-top: 0% !important;
+      padding: 50px 30px 100px 6px;
+    }
+    .contact-section .flex.xs4 {
+      flex-basis: 100%;
+      max-width: 100%;
+    }
+  }
+
 </style>

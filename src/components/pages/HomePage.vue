@@ -146,7 +146,7 @@ export default {
     }
 
     .map-container  {
-      height: calc(100vh - 175px) !important;
+      height: calc(100vh - 157px) !important;
       top: 100px;
     }
   }

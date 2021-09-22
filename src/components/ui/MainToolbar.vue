@@ -265,8 +265,14 @@ body:after {
   .toolbar-buttons {
     order: 5;
   }
+  .toolbar-buttons span.groupBy {
+    margin-right: 30px;
+  }
   .total-count {
     order: 6;
+  }
+  .v-chip.v-size--default {
+    font-size: 10px;
   }
   .v-text-field.v-text-field--enclosed .v-text-field__details {
     display: none;

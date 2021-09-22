@@ -717,8 +717,8 @@ dfn {
       padding-left: 13px !important;
     }
 
-    th:nth-child(5) {
-      width: 30% !important;
+    th:nth-child(5).grey.lighten-3 {
+      width: 36% !important;
     }
 
     th:nth-child(4) > span,
@@ -727,10 +727,7 @@ dfn {
       font-size: 10px;
     }
 
-    th:nth-child(3) {
-      padding-left: 0;
-    }
-
+    th:nth-child(3),
     th:nth-child(5),
     th:nth-child(6) {
       padding-left: 0;
@@ -739,6 +736,7 @@ dfn {
     th > span > div.text-xs-center {
       background-color: #fafafa;
       box-shadow: 0 2px 2px #ccc;
+      height: 40px !important;
     }
 
     th:nth-child(7) {

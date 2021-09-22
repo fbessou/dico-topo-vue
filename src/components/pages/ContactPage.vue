@@ -96,6 +96,9 @@ export default {
       flex-basis: 100%;
       max-width: 100%;
     }
+    .contact-section .container {
+      min-height: unset;
+    }
   }
 
 </style>

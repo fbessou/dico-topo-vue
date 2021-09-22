@@ -29,10 +29,11 @@
           </v-layout>
         </v-parallax>
       </section>
+      <a href="#" @click="toggleMenu($event)" class="toggle-menu-btn">Menu</a>
       <section class="mb-10 container">
         <v-container fluid  class="tab-tabs-parent">
 
-          <v-tabs color="red darken-2" vertical class="tab-tabs">
+          <v-tabs color="red darken-2" vertical class="tab-tabs" :class="menuCsscClass">
             <v-tab  @click.native="scrollToTop" key="presentation"><a href="#">Présentation</a></v-tab><!-- OK -->
             <v-tab  @click.native="scrollToTop" key="history"><a href="#">L’entreprise éditoriale</a></v-tab><!-- OK -->
             <v-tab  @click.native="scrollToTop" key="project"><a href="#">Le projet numérique</a></v-tab>
@@ -78,10 +79,34 @@ import CreditsSection from '@/components/pages/about/CreditsSection'
 export default {
   name: 'LandingPage',
   components: { DefaultLayout, PresentationSection, HistorySection, ProjectSection, ContentsSection, UserGuideSection, CreditsSection },
+  data () {
+    return {
+      isMenuOpened: false
+    }
+  },
   methods: {
     scrollToTop () {
       window.scrollTo(0, 0)
+    },
+    toggleMenu ($event) {
+      $event.preventDefault()
+      $event.stopImmediatePropagation()
+      this.isMenuOpened = !this.isMenuOpened
+    },
+    closeMenu () {
+      this.isMenuOpened = false
     }
+  },
+  computed: {
+    menuCsscClass () {
+      return this.isMenuOpened ? 'opened' : ''
+    }
+  },
+  mounted () {
+    document.body.addEventListener('click', this.closeMenu)
+  },
+  beforeDestroy () {
+    document.body.removeEventListener('click', this.closeMenu)
   }
 }
 </script>
@@ -134,22 +159,51 @@ section {
       justify-content: flex-end;
     }
   }
+}
 
+.toggle-menu-btn {
+  display: none;
 }
 
 @media screen and (max-width: 760px) {
+  .head--section {
+    padding-bottom: 25px;
+  }
+  section.mb-10.container {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .toggle-menu-btn {
+    display: inline-block;
+    padding-left:26px;
+    text-decoration: none;
+    text-transform: uppercase;
+    color:#D32F2F !important;
+  }
   .tab-tabs-parent {
     margin-top: 0;
     .tab-tabs {
       flex-direction: column;
       .v-tabs-bar {
-        position: relative !important;
+        position: absolute !important;
+        transform: translateX(-110%);
         z-index: 1 !important;
+        height: 100%;
+        background-color: rgba(255,255,255,0.95);
       }
       .v-window {
         margin-left: 0;
         max-width: 100%;
+
+        h1 {
+          text-align: left;
+        }
       }
+    }
+    .tab-tabs.opened .v-tabs-bar {
+      transform: translateX(0%);
+      border-right: 1px solid #ccc;
     }
   }
 }

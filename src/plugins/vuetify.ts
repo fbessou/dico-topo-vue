@@ -6,5 +6,8 @@ Vue.use(Vuetify)
 export default new Vuetify({
   icons: {
     iconfont: 'md'
+  },
+  breakpoint: {
+    mobileBreakpoint: 760
   }
 })

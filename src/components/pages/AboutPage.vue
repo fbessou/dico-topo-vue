@@ -196,7 +196,7 @@ section {
         margin-left: 0;
         max-width: 100%;
 
-        h1 {
+        h1, h2 {
           text-align: left;
         }
       }

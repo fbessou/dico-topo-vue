@@ -50,14 +50,45 @@
 
     <v-spacer></v-spacer>
 
-    <v-btn text to="/contact" class="mr-2"  color="grey darken-2">
+    <v-btn text to="/contact" class="mr-2 menu-btn"  color="grey darken-2">
       <span class="pr-2 pl-2">Contact</span>
     </v-btn>
 
-    <v-btn text to="/documentation" color="grey darken-2">
+    <v-btn text to="/documentation" class="menu-btn" color="grey darken-2">
       <span class="pr-2 pl-2" >API</span>
       <v-icon>mdi-code-braces</v-icon>
     </v-btn>
+
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      right
+      temporary
+    >
+      <v-list
+        nav
+        dense
+        class="fill-height"
+      >
+        <v-list-item>
+          <v-list-item-title>
+            <v-btn text to="/contact" class="mr-2"  color="grey darken-2">
+              <span class="pr-2 pl-2">Contact</span>
+            </v-btn>
+          </v-list-item-title>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-title>
+            <v-btn text to="/documentation" color="grey darken-2">
+              <span class="pr-2 pl-2" >API</span>
+              <v-icon>mdi-code-braces</v-icon>
+            </v-btn>
+          </v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
   </v-app-bar>
 </template>text
@@ -79,7 +110,8 @@ export default {
     return {
       inputTerm: undefined,
       showDepartmentFilterMenu: false,
-      selectedTimeRange: []
+      selectedTimeRange: [],
+      drawer: false
     }
   },
   mounted () {
@@ -144,6 +176,9 @@ export default {
           this.searchCallback()
         }
       }
+    },
+    group () {
+      this.drawer = false
     }
   },
   computed: {
@@ -241,6 +276,10 @@ body:after {
   color:brown;
 }
 
+.v-app-bar__nav-icon {
+  display: none;
+}
+
 @media screen and (max-width: 760px) {
   .v-app-bar {
     height: auto !important;
@@ -256,11 +295,10 @@ body:after {
     margin-right: 20px;
   }
   .search-input {
-    order:4;
-    max-width: 100% !important;
-    margin: 5px 18px 0 !important;
+    margin: 5px 0 0 !important;
     padding-top: 0 !important;
-    width: 100% !important;
+    width: calc( 100% - 180px ) !important;
+    max-width: 100% !important;
   }
   .toolbar-buttons {
     order: 5;
@@ -280,6 +318,24 @@ body:after {
   }
   .v-label {
     font-size: 13px;
+  }
+  /* Burger + menu */
+  .v-app-bar__nav-icon {
+    display: inline-block;
+    margin-right: 10px !important;
+  }
+  .v-navigation-drawer,
+  .v-overlay--absolute {
+    margin-top: 70px;
+    height: calc( 100vh - 70px ) !important;
+  }
+  .home-page .v-navigation-drawer,
+  .home-page .v-overlay--absolute {
+      margin-top: 110px;
+      height: calc( 100vh - 110px ) !important;
+  }
+  .menu-btn {
+    display: none;
   }
 }
 

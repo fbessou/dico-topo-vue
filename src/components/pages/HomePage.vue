@@ -1,7 +1,10 @@
 <template>
   <v-app>
-    <main-toolbar :show-time-range="false" :show-filters="true">
-
+    <main-toolbar
+      :show-time-range="false"
+      :show-filters="true"
+      class="home-page"
+    >
     </main-toolbar>
 
     <v-content style="height:100%">
@@ -116,7 +119,7 @@ export default {
 <style scoped>
   .map-container {
     width: 100%;
-    height: calc(100vh - 64px) !important;
+    height: calc(100vh - 60px) !important;
     position: absolute;
   }
 
@@ -146,8 +149,8 @@ export default {
     }
 
     .map-container  {
-      height: calc(100vh - 157px) !important;
-      top: 100px;
+      height: calc(100vh - 108px) !important;
+      top: 52px;
     }
   }
 </style>

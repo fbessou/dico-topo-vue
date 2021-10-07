@@ -306,6 +306,10 @@ body:after {
   .toolbar-buttons span.groupBy {
     margin-right: 30px;
   }
+  .fuzziness .v-label {
+    margin-left: 2px !important;
+    margin-right: 2px !important;
+  }
   .total-count {
     order: 6;
   }

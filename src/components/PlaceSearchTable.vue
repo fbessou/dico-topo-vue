@@ -115,12 +115,12 @@
             </router-link>
           </td>
           <td v-if="groupbyPlace" class="text-xs-left">
-            <span v-html="clean(item.oldLabels.join(' ; '))"></span>
+            <span v-if="item.oldLabels && item.oldLabels.length" v-html="clean(item.oldLabels.join(' ; '))"></span>
           </td>
           <td class="text-center">{{ item.department }}</td>
           <td class="text-xs-left">{{ item.canton }}</td>
           <td class="text-xs-left">
-            <span v-html="clean(item.communeLabel)"></span>
+            <span v-if="item.communeLabel" v-html="clean(item.communeLabel)"></span>
           </td>
           <td class="text-xs-left">
             <div v-for="(description, idx) in item.descriptions" :key="idx">
@@ -679,7 +679,7 @@ dfn {
 
   .v-data-table thead:first-of-type tr {
     width: 100vw;
-    background-color: #fafafa !important;
+    background-color: #eee !important;
 
     th {
       position: relative !important;
@@ -707,7 +707,7 @@ dfn {
     th:nth-child(4).grey.lighten-3,
     th:nth-child(5).grey.lighten-3,
     th:nth-child(6).grey.lighten-3 {
-      background-color: #fafafa !important;
+      /* background-color: #fafafa !important; */
       width: 30% !important;
       padding-right: 0;
       padding-left: 10px !important;
@@ -796,6 +796,9 @@ dfn {
       color:#666 !important;
     }
 
+    td:not(:empty)::before {
+      color: dodgerblue !important;
+    }
     td:nth-child(3):not(:empty)::before {
       content: "FORMES ANCIENNES : ";
     }

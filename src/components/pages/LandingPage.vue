@@ -146,13 +146,19 @@ export default {
   .v-application .display-1 {
     font-size: 1.725rem !important;
   }
-  .v-application .headline {
-    font-size: 1.275rem !important;
-    line-height: 1.2;
+  .v-application .v-icon.red--text.text--darken-2.landing-icon {
+    font-size: 30px;
+    margin-right: 8px;
   }
-
+  .v-application .headline {
+    font-size: 1.2rem !important;
+    line-height: 1.15;
+  }
+  .v-card__title {
+    padding: 12px !important;
+  }
   .landing-content {
-    padding-top: 10px !important;
+    padding-top: 0 !important;
     max-width: 100% !important;
   }
   .landing-content > .container {

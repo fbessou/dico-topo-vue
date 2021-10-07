@@ -99,6 +99,27 @@ export default {
     .contact-section .container {
       min-height: unset;
     }
+    .v-parallax {
+      height: auto !important;
+      padding: 30px 0;
+      margin-top: 10px;
+    }
+    .v-application h1.display-1  {
+      font-size: 1.25em !important;
+      line-height: 1.2;
+      margin-top: 0 !important;
+    }
+    .v-application .headline {
+      font-size: 1.275rem !important;
+      line-height: 1.2;
+    }
+    .head--section  .v-btn:not(.v-btn--round).v-size--large {
+      height: 38px;
+      padding: 0 10px;
+    }
+    .head--section  .v-btn.v-size--large {
+      font-size: 0.75rem;
+    }
   }
 
 </style>

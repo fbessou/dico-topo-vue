@@ -324,10 +324,13 @@ body:after {
     display: inline-block;
     margin-right: 10px !important;
   }
+  .v-navigation-drawer--temporary {
+    z-index: 12;
+  }
   .v-navigation-drawer,
   .v-overlay--absolute {
-    margin-top: 70px;
-    height: calc( 100vh - 70px ) !important;
+    margin-top: 72px;
+    height: calc( 100vh - 72px ) !important;
   }
   .home-page .v-navigation-drawer,
   .home-page .v-overlay--absolute {

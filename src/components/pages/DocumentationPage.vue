@@ -16,8 +16,9 @@
             </v-layout>
           </v-parallax>
         </section>
+        <v-app-bar-nav-icon @click="toggleMenu($event)" class="toggle-menu-btn"></v-app-bar-nav-icon>
         <div class="doc-container">
-          <section class="toc">
+          <section class="toc" :class="menuCsscClass">
             <ol class="v-tabs theme--light">
                 <li class="v-tab level1"  @click="goTo($event, '#json-api')">API JSON</li>
                 <li class="v-tab level2"  @click="goTo($event, '#pagination')">Pagination</li>
@@ -1152,6 +1153,7 @@ export default {
       examples: examples,
       results: results,
 
+      isMenuOpened: false,
       showJump: false
     }
   },
@@ -1161,6 +1163,8 @@ export default {
     }
   },
   mounted () {
+    document.body.addEventListener('click', this.closeMenu)
+
     // When the user scrolls down 20px from the top of the document, show the button
     window.onscroll = function () { scrollFunction() }
 
@@ -1172,6 +1176,9 @@ export default {
         _this.showJump = false
       }
     }
+  },
+  beforeDestroy () {
+    document.body.removeEventListener('click', this.closeMenu)
   },
   async created () {
     let resultPromises = []
@@ -1186,6 +1193,11 @@ export default {
       })
     }
     Promise.all(resultPromises)
+  },
+  computed: {
+    menuCsscClass () {
+      return this.isMenuOpened ? 'opened' : ''
+    }
   },
   methods: {
     goTo (event, id) {
@@ -1205,6 +1217,14 @@ export default {
       const response = await fetch(url)
       const data = await response.json()
       return data
+    },
+    toggleMenu ($event) {
+      $event.preventDefault()
+      $event.stopImmediatePropagation()
+      this.isMenuOpened = !this.isMenuOpened
+    },
+    closeMenu () {
+      this.isMenuOpened = false
     }
   }
 }
@@ -1337,4 +1357,79 @@ export default {
   .v-divider {
     margin: 10px 0;
   }
+  .v-btn--round .v-btn__content .v-icon {
+    color: rgb(211, 47, 47);
+  }
+  .toggle-menu-btn {
+    display: none;
+  }
+  .v-application .url a {
+    word-break: break-all;
+  }
+
+  @media screen and (max-width: 760px) {
+    .v-parallax {
+      height: auto !important;
+      padding: 30px 0;
+      margin-top: 10px;
+    }
+    .v-application h1.display-1  {
+      font-size: 1.25em !important;
+      line-height: 1.2;
+      margin-top: 0 !important;
+    }
+    .v-application .headline {
+      font-size: 1.275rem !important;
+      line-height: 1.2;
+    }
+    .toc {
+      position: fixed !important;
+      transform: translateX(-110%);
+      transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+      z-index: 2 !important;
+      height: calc( 100vh - 67px );
+      overflow: auto;
+      background-color: rgba(255, 255, 255, 0.97);
+      top: 0;
+      padding-top: 166px;
+      margin-left: -24px;
+      margin-top: 67px;
+    }
+    .toc.opened {
+      transform: translateX(0%);
+      border-right: 1px solid #ccc;
+    }
+    .toggle-menu-btn {
+      position: fixed;
+      right:6px;
+      z-index: 10;
+      display: inline-block;
+      text-decoration: none;
+      text-transform: uppercase;
+      color:#D32F2F !important;
+    }
+    .head--section {
+      margin-bottom: 20px;
+    }
+    .doc {
+      margin: 0;
+      padding: 0 67px 12px 17px;
+      max-width: 100%;
+    }
+    .doc h1 {
+      font-size: 1.35em;
+      line-height: 1.2;
+    }
+    .doc h2 {
+      font-size: 1em;
+      line-height: 1.2;
+    }
+    .doc li,
+    .doc p {
+      font-size: 0.875em;
+      line-height: 1.2;
+    }
+
+  }
+
 </style>

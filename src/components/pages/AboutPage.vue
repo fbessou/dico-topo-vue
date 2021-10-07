@@ -29,7 +29,7 @@
           </v-layout>
         </v-parallax>
       </section>
-      <a href="#" @click="toggleMenu($event)" class="toggle-menu-btn">Menu</a>
+      <v-app-bar-nav-icon @click="toggleMenu($event)" class="toggle-menu-btn"></v-app-bar-nav-icon>
       <section class="mb-10 container">
         <v-container fluid  class="tab-tabs-parent">
 
@@ -166,35 +166,65 @@ section {
 }
 
 @media screen and (max-width: 760px) {
+  .v-application .display-1 {
+    font-size: 1.25em !important;
+    line-height: 1.2;
+  }
   .head--section {
-    padding-bottom: 25px;
+    padding-bottom: 0;
+    .v-parallax {
+      height: auto !important;
+      padding: 30px 0;
+      margin-top: 10px;
+    }
+    .layout.column.align-center.justify-center {
+      .headline {
+        font-size: 1.25rem !important;
+        font-weight: 400;
+        line-height: 1.2;
+      }
+      .v-btn:not(.v-btn--round).v-size--large {
+        height: 38px;
+        padding: 0 10px;
+      }
+      .v-btn.v-size--large {
+        font-size: 0.75rem;
+      }
+    }
   }
   section.mb-10.container {
     margin-top: 0;
-    padding-top: 0;
+    padding: 0 16px 12px 5px;
   }
 
   .toggle-menu-btn {
+    position: fixed;
+    right:6px;
+    z-index: 10;
     display: inline-block;
-    padding-left:26px;
     text-decoration: none;
     text-transform: uppercase;
     color:#D32F2F !important;
   }
+
   .tab-tabs-parent {
     margin-top: 0;
     .tab-tabs {
       flex-direction: column;
       .v-tabs-bar {
-        position: absolute !important;
+        position: fixed !important;
         transform: translateX(-110%);
         z-index: 1 !important;
         height: 100%;
-        background-color: rgba(255,255,255,0.95);
+        background-color: rgba(255, 255, 255, 0.97);
+        top: 0;
+        padding-top: 270px;
+        margin-left: -24px;
       }
       .v-window {
-        margin-left: 0;
+        margin-left: 10px;
         max-width: 100%;
+        margin-right: 40px;
 
         h1, h2 {
           text-align: left;

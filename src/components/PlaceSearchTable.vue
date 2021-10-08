@@ -667,6 +667,27 @@ dfn {
   -moz-columns: 3;
 }
 
+th:nth-child(5) {
+  min-width: 180px;
+}
+
+th:nth-child(6) {
+  min-width: 160px;
+}
+
+th > span:last-child {
+  position: relative;
+}
+
+th > span > div.text-xs-center {
+  position: absolute;
+  left: -40px;
+  top: 25px;
+  background-color: #eee;
+  box-shadow: 0 2px 2px #ccc;
+  height: 40px !important;
+}
+
 @media screen and (max-width: 760px) {
 
   /* Header */
@@ -678,12 +699,16 @@ dfn {
   }
 
   .v-data-table thead:first-of-type tr {
+    display: flex;
     width: 100vw;
+    height: 56px;
     background-color: #eee !important;
+    padding-top: 4px;
 
     th {
+      display: flex;
+      flex-wrap: wrap;
       position: relative !important;
-      display: inline-block;
       box-shadow: none !important;
       min-width: unset !important;
     }
@@ -695,8 +720,16 @@ dfn {
       position: unset !important;
     }
 
+    th:nth-child(1) > i.v-icon.v-icon {
+      display: inline-block;
+      text-align: center;
+      width: 100%;
+      margin-top: 4px;
+    }
+
     th:nth-child(2) {
-      width: calc( 100vw - 40px );
+      min-width: 50px;
+      width: calc( 100vw - 225px );
       padding: 0 !important;
     }
 
@@ -708,35 +741,42 @@ dfn {
     th:nth-child(5).grey.lighten-3,
     th:nth-child(6).grey.lighten-3 {
       /* background-color: #fafafa !important; */
-      width: 30% !important;
+      width: 75px !important;
+      height: 100%;
       padding-right: 0;
-      padding-left: 10px !important;
+      padding-left: 6px !important;
+      border-left: 1px #CCC solid !important;
     }
 
-    th:nth-child(4) {
-      padding-left: 13px !important;
-    }
-
-    th:nth-child(5).grey.lighten-3 {
-      width: 36% !important;
+    th > span:first-child {
+      width: 100%;
+      flex: 100% 0 0;
+      height: 13px;
+      line-height: 1.2;
+      margin-top: 6px;
     }
 
     th:nth-child(4) > span,
     th:nth-child(5) > span,
     th:nth-child(6) > span {
+      text-align: center;
       font-size: 10px;
     }
 
-    th:nth-child(3),
+    th:nth-child(4) .v-btn.v-btn--icon,
+    th:nth-child(5) .v-btn.v-btn--icon,
+    th:nth-child(6) .v-btn.v-btn--icon {
+      width: 24px !important;
+    }
+
+    th:nth-child(4),
     th:nth-child(5),
     th:nth-child(6) {
       padding-left: 0;
     }
 
     th > span > div.text-xs-center {
-      background-color: #fafafa;
-      box-shadow: 0 2px 2px #ccc;
-      height: 40px !important;
+      top: 35px;
     }
 
     th:nth-child(7) {
@@ -797,7 +837,7 @@ dfn {
     }
 
     td:not(:empty)::before {
-      color: dodgerblue !important;
+      color: #111 !important;
     }
     td:nth-child(3):not(:empty)::before {
       content: "FORMES ANCIENNES : ";

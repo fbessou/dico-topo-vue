@@ -280,7 +280,38 @@ body:after {
   display: none;
 }
 
-@media screen and (max-width: 760px) {
+/* Burger + menu */
+.v-navigation-drawer,
+.v-overlay--absolute {
+  display: none;
+}
+
+@media screen and (max-width: 1160px) {
+  /* Burger + menu */
+  .v-app-bar__nav-icon {
+    display: inline-block;
+    margin-right: 10px !important;
+  }
+  .v-navigation-drawer--temporary {
+    z-index: 12;
+  }
+  .v-navigation-drawer,
+  .v-overlay--absolute {
+    display: block;
+    margin-top: 65px;
+    height: calc( 100vh - 65px ) !important;
+  }
+  .home-page .v-navigation-drawer,
+  .home-page .v-overlay--absolute {
+    margin-top: 65px;
+    height: calc( 100vh - 65px ) !important;
+  }
+  .menu-btn {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1000px) {
   .v-app-bar {
     height: auto !important;
     max-width: 100vw !important;
@@ -294,13 +325,8 @@ body:after {
   .v-app-bar > div > *:last-child {
     margin-right: 20px;
   }
-  .search-input {
-    margin: 5px 0 0 !important;
-    padding-top: 0 !important;
-    width: calc( 100% - 180px ) !important;
-    max-width: 100% !important;
-  }
   .toolbar-buttons {
+    width: 100%;
     order: 5;
   }
   .toolbar-buttons span.groupBy {
@@ -311,26 +337,26 @@ body:after {
     margin-right: 2px !important;
   }
   .total-count {
+    display: none;
     order: 6;
+  }
+  .v-label {
+    font-size: 13px;
   }
   .v-chip.v-size--default {
     font-size: 10px;
+  }
+  .search-input {
+    margin: 5px 0 0 !important;
+    padding-top: 0 !important;
+    width: calc( 100% - 180px ) !important;
+    max-width: 100% !important;
   }
   .v-text-field.v-text-field--enclosed .v-text-field__details {
     display: none;
     margin-bottom: 0 !important;
   }
-  .v-label {
-    font-size: 13px;
-  }
   /* Burger + menu */
-  .v-app-bar__nav-icon {
-    display: inline-block;
-    margin-right: 10px !important;
-  }
-  .v-navigation-drawer--temporary {
-    z-index: 12;
-  }
   .v-navigation-drawer,
   .v-overlay--absolute {
     margin-top: 72px;
@@ -338,11 +364,40 @@ body:after {
   }
   .home-page .v-navigation-drawer,
   .home-page .v-overlay--absolute {
-      margin-top: 110px;
-      height: calc( 100vh - 110px ) !important;
+    margin-top: 110px;
+    height: calc( 100vh - 110px ) !important;
   }
-  .menu-btn {
-    display: none;
+}
+
+@media screen and (max-width: 760px) {
+  /* Burger + menu */
+  .v-navigation-drawer,
+  .v-overlay--absolute {
+    margin-top: 69px;
+    height: calc( 100vh - 69px ) !important;
+  }
+  .home-page .v-navigation-drawer,
+  .home-page .v-overlay--absolute {
+    margin-top: 108px;
+    height: calc( 100vh - 108px ) !important;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .toolbar-buttons {
+    display: flex;
+  }
+  .toolbar-buttons span {
+    line-height: 1.1;
+  }
+  .toolbar-buttons span.groupBy {
+    margin-right: 26px;
+  }
+  .fuzziness .v-input__slot {
+    min-width: 100px;
+  }
+  .fuzziness .v-input__slot {
+    width: calc( 100vw - 185px );
   }
 }
 

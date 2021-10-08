@@ -166,9 +166,20 @@ section {
 }
 
 @media screen and (max-width: 760px) {
-  .v-application .display-1 {
+  p {
+    font-size: 0.875rem;
+  }
+  .v-application h1 {
+    font-size: 1.5em !important;
+    line-height: 1.2;
+  }
+  .v-application h2 {
     font-size: 1.25em !important;
     line-height: 1.2;
+  }
+  .v-application .display-1 {
+    font-size: 1em !important;
+    line-height: 1;
   }
   .head--section {
     padding-bottom: 0;
@@ -176,6 +187,17 @@ section {
       height: auto !important;
       padding: 30px 0;
       margin-top: 10px;
+      h1.display-1 {
+        font-size: 1.5rem !important;
+      }
+      .v-icon.red--text.text--darken-2.landing-icon {
+        font-size: 30px;
+        margin-right: 8px;
+      }
+      .headline {
+        font-size: 1.275rem !important;
+        line-height: 1.15;
+      }
     }
     .layout.column.align-center.justify-center {
       .headline {

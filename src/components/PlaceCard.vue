@@ -251,6 +251,12 @@ dfn {
   .place-card-popup {
     display:none;
   }
+  .place-card .display-1 {
+    font-size: 1.5rem !important;
+  }
+  .place-card .v-breadcrumbs {
+    padding: 0;
+  }
 }
 
 </style>

@@ -143,17 +143,18 @@ export default {
 
 @media screen and (max-width: 760px) {
 
-  .v-application .display-1 {
-    font-size: 1.725rem !important;
+  .v-application .head--section h1.display-1 {
+    font-size: 1.5rem !important;
   }
-  .v-application .v-icon.red--text.text--darken-2.landing-icon {
+  .v-application .head--section .v-icon.red--text.text--darken-2.landing-icon {
     font-size: 30px;
     margin-right: 8px;
   }
-  .v-application .headline {
-    font-size: 1.2rem !important;
+  .v-application .head--section .headline {
+    font-size: 1.275rem !important;
     line-height: 1.15;
   }
+
   .v-card__title {
     padding: 12px !important;
   }
@@ -163,6 +164,11 @@ export default {
   }
   .landing-content > .container {
     padding: 0 6px;
+  }
+  .landing-content .headline {
+    text-align: left;
+    font-size: 1.2rem !important;
+    line-height: 1.15;
   }
   .landing-content > .container > .row {
     flex-direction: column !important;

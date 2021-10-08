@@ -356,11 +356,14 @@ export default {
 }
 
 @media screen and (max-width: 760px) {
-  .row.place-page-layout {
-    flex-direction: column-reverse !important;
-  }
-  .row.place-page-layout .map-container {
-    height: 40vh !important;
+  .v-main.v-content {
+    .row.place-page-layout {
+      flex-direction: column-reverse !important;
+      margin-top: 20px !important;
+    }
+    .row.place-page-layout .map-container {
+      height: 40vh !important;
+    }
   }
 }
 

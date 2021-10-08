@@ -90,7 +90,7 @@ export default {
     .contact {
       min-height: unset;
       margin-top: 0% !important;
-      padding: 50px 30px 100px 6px;
+      padding: 0 30px 50px 6px;
     }
     .contact-section .flex.xs4 {
       flex-basis: 100%;
@@ -99,14 +99,31 @@ export default {
     .contact-section .container {
       min-height: unset;
     }
+    .subheading.row {
+      flex-direction: column;
+      padding: 20px 0;
+    }
+    .subheading.row > .flex {
+      width: 100%;
+      max-width: unset;
+      display: flex;
+      gap: 5px;
+      justify-content: center;
+    }
+    .subheading.row > .flex > * {
+      flex: 50% 0 0;
+    }
+    .subheading.row > .flex > *:first-child {
+      text-align: right;
+    }
     .v-parallax {
       height: auto !important;
       padding: 30px 0;
       margin-top: 10px;
     }
     .v-application h1.display-1  {
-      font-size: 1.25em !important;
-      line-height: 1.2;
+      font-size: 1.5em !important;
+      line-height: 1.15;
       margin-top: 0 !important;
     }
     .v-application .headline {

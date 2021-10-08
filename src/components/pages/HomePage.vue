@@ -87,6 +87,12 @@ export default {
   mounted () {
     // this.unselectPlace()
     this.inputTerm = this.term
+    // Remove Scroll for window :
+    document.getElementsByTagName('html')[0].style = 'overflow-y:hidden'
+  },
+  beforeDestroy () {
+    // Restore Scroll for window :
+    document.getElementsByTagName('html')[0].style = ''
   },
   methods: {
     ...mapActions('places', ['fetchPlace', 'searchPlace', 'clearAll', 'selectPreviousAggPage', 'recordCurrentAggPage']),
@@ -135,11 +141,6 @@ export default {
   .toggle-table {
     width: 70px;
     height: 36px;
-  }
-
-  html, body {
-    overflow-y: hidden;
-    height: 100%;
   }
 
   @media screen and (max-width: 760px) {

@@ -56,20 +56,6 @@
                 <li class="v-tab level1"  @click="goTo($event, '#exports')">Export des données</li>
                 <li class="v-tab level3"  @click="goTo($event, '#linked-places')">Linked Place</li>
             </ol>
-
-            <v-btn
-                  class="mx-2"
-                  fab
-                  color="red--text"
-                  @click="goTo(null, '#top')"
-                  id="jump"
-                  v-show="showJump"
-                >
-                  <v-icon large>
-                    mdi-arrow-up-bold
-                  </v-icon>
-            </v-btn>
-
           </section>
           <section class="doc mb-10">
                 <header class="mb-5">
@@ -984,6 +970,18 @@
                   </section>
                 </article>
           </section>
+          <v-btn
+            class="mx-2"
+            fab
+            color="red--text"
+            @click="goTo(null, '#top')"
+            id="jump"
+            v-show="showJump"
+          >
+            <v-icon large>
+              mdi-arrow-up-bold
+            </v-icon>
+          </v-btn>
         </div>
     </section>
   </default-layout>
@@ -1262,10 +1260,9 @@ export default {
 
   #jump {
     color: #D32F2F !important;
-
     position: fixed; /* Fixed/sticky position */
-    bottom: 200px; /* Place the button at the bottom of the page */
-    left: 160px; /* Place the button 30px from the right */
+    bottom: 30px; /* Place the button at the bottom of the page */
+    right: 30px; /* Place the button 30px from the right */
     z-index: 99; /* Make sure it does not overlap */
   }
 
@@ -1429,7 +1426,15 @@ export default {
       font-size: 0.875em;
       line-height: 1.2;
     }
-
+    #jump {
+      bottom: 10px;
+      right: 5px;
+      width: 36px;
+      height: 36px;
+    }
+    #jump .v-icon {
+      font-size: 25px !important;
+    }
   }
 
 </style>

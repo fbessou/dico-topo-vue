@@ -220,7 +220,8 @@ export default {
 
 @media screen and (max-width: 500px) {
   .landing-map-content {
-    transform: scale(0.60) translateX(-30px);
+    height: 450px;
+    transform: scale(0.60) translateX(-40px) translateY(-100px);
   }
 }
 

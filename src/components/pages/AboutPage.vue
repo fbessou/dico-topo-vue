@@ -247,10 +247,15 @@ section {
         margin-left: 10px;
         max-width: 100%;
         margin-right: 40px;
-
         h1, h2 {
           text-align: left;
         }
+      }
+    }
+    figure {
+      max-width: 100%;
+      img {
+        max-width: 100%;
       }
     }
     .tab-tabs.opened .v-tabs-bar {

@@ -360,9 +360,18 @@ export default {
     .row.place-page-layout {
       flex-direction: column-reverse !important;
       margin-top: 20px !important;
+      .headline {
+        font-size: 1.25em !important;
+      }
     }
     .row.place-page-layout .map-container {
       height: 40vh !important;
+    }
+    .share-link {
+      white-space: normal;
+      text-align: left;
+      line-height: 1.2;
+      font-size: 0.75rem;
     }
   }
 }

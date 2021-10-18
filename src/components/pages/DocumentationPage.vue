@@ -1410,7 +1410,7 @@ export default {
     }
     .doc {
       margin: 0;
-      padding: 0 67px 12px 17px;
+      padding: 0 67px 12px 35px;
       max-width: 100%;
     }
     .doc h1 {

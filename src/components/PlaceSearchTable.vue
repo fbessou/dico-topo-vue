@@ -688,7 +688,24 @@ th > span > div.text-xs-center {
   height: 40px !important;
 }
 
+@media screen and (max-width: 1000px) {
+
+  .fullscreen-table.theme--light.v-data-table {
+    padding-top: 54px !important;
+  }
+}
+
 @media screen and (max-width: 760px) {
+
+  .fullscreen-table.theme--light.v-data-table {
+    padding-top: 90px !important;
+    background-color: rgba(255,255,255,0.9) !important;
+  }
+
+  .fullscreen-table .toggle-table-down {
+    position: absolute;
+    top: 62px;
+  }
 
   /* Header */
 
@@ -701,14 +718,15 @@ th > span > div.text-xs-center {
   .v-data-table thead:first-of-type tr {
     display: flex;
     width: 100vw;
-    height: 56px;
+    height: 62px;
     background-color: #eee !important;
-    padding-top: 4px;
 
     th {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       position: relative !important;
+      z-index: 2 !important;
       box-shadow: none !important;
       min-width: unset !important;
     }
@@ -729,8 +747,9 @@ th > span > div.text-xs-center {
 
     th:nth-child(2) {
       min-width: 50px;
-      width: calc( 100vw - 225px );
+      width: 25vw;
       padding: 0 !important;
+      justify-self: flex-start;
     }
 
     th:nth-child(3) {
@@ -741,7 +760,7 @@ th > span > div.text-xs-center {
     th:nth-child(5).grey.lighten-3,
     th:nth-child(6).grey.lighten-3 {
       /* background-color: #fafafa !important; */
-      width: 75px !important;
+      width: 25vw !important;
       height: 100%;
       padding-right: 0;
       padding-left: 6px !important;
@@ -753,7 +772,11 @@ th > span > div.text-xs-center {
       flex: 100% 0 0;
       height: 13px;
       line-height: 1.2;
-      margin-top: 6px;
+      margin-top: 10px;
+    }
+
+    th:nth-child(2) > span {
+      text-align: center;
     }
 
     th:nth-child(4) > span,
@@ -777,10 +800,36 @@ th > span > div.text-xs-center {
 
     th > span > div.text-xs-center {
       top: 35px;
+      .container {
+        background-color: #eee;
+        min-height: auto;
+      }
     }
 
     th:nth-child(7) {
-      display: none !important;
+      position: absolute !important;
+      z-index: 1 !important;
+      right: 0;
+      top: -27px;
+      display: inline-block;
+      width: 45px;
+      height: 28px !important;
+      border-top-left-radius: 6px;
+      box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 5px 8px 0px rgba(0, 0, 0, 0.14), 0px 1px 14px 0px rgba(0, 0, 0, 0.12) !important;
+    }
+
+    th:nth-child(7) > span {
+      display: none;
+    }
+
+    th:nth-child(7) > button.mr-3 {
+      margin-right: 5px !important;
+    }
+
+    th:nth-child(7) .v-btn--icon.v-size--small .v-icon {
+      height: 20px;
+      width: 20px;
+      font-size: 20px;
     }
 
   }

@@ -216,7 +216,7 @@ section {
   }
   section.mb-10.container {
     margin-top: 0;
-    padding: 0 16px 12px 5px;
+    padding: 0 16px 12px 12px;
   }
 
   .toggle-menu-btn {

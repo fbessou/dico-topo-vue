@@ -18,8 +18,8 @@
       <div class="toggle-table-down elevation-5 grey lighten-3 text-center">
         <slot></slot>
       </div>
-      <thead>
-        <tr>
+      <thead id="search-table-header">
+        <tr :class="openedFiltersCssClass">
           <th
             v-for="(h, index) in headers"
             :key="index"
@@ -56,7 +56,7 @@
               <v-btn
                 icon
                 small
-                @click="filterStates[h.value] = !filterStates[h.value]"
+                @click="toggleFilter(h)"
               >
                 <v-icon
                   small
@@ -321,6 +321,26 @@ export default {
         }
       }
     },
+    toggleFilter (filter) {
+      this.filterStates[filter.value] = !this.filterStates[filter.value]
+      // On mobile, only one menu can be opened : we need to close the other if it is already opened
+      // Mobile detection : if thead CSS position = fixed ( cf 760px media query)
+      const tableHeaderStyle = window.getComputedStyle(document.querySelector('#search-table-header'))
+      const isMobile = (tableHeaderStyle.position === 'fixed')
+      if (isMobile) {
+        if (filter.value === 'department') {
+          if (this.filterStates.department) {
+            this.filterStates.canton = false
+          }
+        } else if (filter.value === 'canton') {
+          if (this.filterStates.canton) {
+            this.filterStates.department = false
+          }
+        }
+      }
+
+      // ="filterStates[h.value] = !filterStates[h.value]"search-table-header
+    },
     async filterDepChanged (selected) {
       this.setDepFilter(selected || [])
       // await this.fetchUniqueLists()
@@ -467,7 +487,12 @@ export default {
     totalItems () {
       return this.meta && this.meta.totalCount ? this.meta.totalCount : 0
     },
-
+    openedFiltersCssClass () {
+      return [
+        this.filterStates.department ? 'dept-filter-opened' : '',
+        this.filterStates.canton ? 'canton-filter-opened' : ''
+      ].join(' ')
+    },
     afterKey () {
       return this.meta.after ? Object.values(this.meta.after).join(',') : null
     },
@@ -685,7 +710,8 @@ th > span > div.text-xs-center {
   top: 25px;
   background-color: #eee;
   box-shadow: 0 2px 2px #ccc;
-  height: 40px !important;
+  height: auto !important;
+  min-height: 40px !important;
 }
 
 @media screen and (max-width: 1000px) {
@@ -713,6 +739,14 @@ th > span > div.text-xs-center {
     position: fixed;
     z-index: 2;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+  .v-data-table thead:first-of-type tr.dept-filter-opened th:nth-child(4).grey.lighten-3 {
+    border-bottom: 1px rgb(38, 123, 219) solid !important;
+  }
+
+  .v-data-table thead:first-of-type tr.canton-filter-opened th:nth-child(5).grey.lighten-3 {
+    border-bottom: 1px rgb(38, 123, 219) solid !important;
   }
 
   .v-data-table thead:first-of-type tr {
@@ -765,6 +799,7 @@ th > span > div.text-xs-center {
       padding-right: 0;
       padding-left: 6px !important;
       border-left: 1px #CCC solid !important;
+      position: unset !important;
     }
 
     th > span:first-child {
@@ -784,6 +819,7 @@ th > span > div.text-xs-center {
     th:nth-child(6) > span {
       text-align: center;
       font-size: 10px;
+      position: unset;
     }
 
     th:nth-child(4) .v-btn.v-btn--icon,
@@ -799,7 +835,9 @@ th > span > div.text-xs-center {
     }
 
     th > span > div.text-xs-center {
-      top: 35px;
+      top: 63px;
+      left:0 !important;
+      width: 100vw !important;
       .container {
         background-color: #eee;
         min-height: auto;

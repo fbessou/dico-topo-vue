@@ -249,13 +249,36 @@ dfn {
 
 @media screen and (max-width: 760px) {
   .place-card-popup {
-    display:none;
+    top: calc( 50% - 55px ) !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: calc( 50% + 55px );
+    overflow-y: auto;
+  }
+  .v-application .display-1 {
+    font-size: 1.5rem !important;
+    line-height: 1.9rem;
+  }
+  .v-breadcrumbs li {
+    font-size: 13px;
+  }
+  .v-application .subtitle-1 {
+    font-size: 0.9rem !important;
   }
   .place-card .display-1 {
     font-size: 1.5rem !important;
   }
   .place-card .v-breadcrumbs {
     padding: 0;
+  }
+  .title-buttons {
+    margin-top: 4px;
+  }
+  .v-application .body-2 {
+    max-height: unset;
+  }
+  .v-expansion-panel-content__wrap {
+    padding: 0 30px 16px 10px;
   }
 }
 

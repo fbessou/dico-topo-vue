@@ -2,6 +2,7 @@
   <article>
     <v-card
       v-if="!!placeItem"
+      id="place-card"
       class="mx-auto"
       :class="`${popup ? 'place-card-popup' : 'place-card'}`"
     >
@@ -74,7 +75,10 @@
         v-model="panel"
         :multiple="!popup"
       >
-        <v-expansion-panel :disabled="placeOldLabels.length === 0">
+        <v-expansion-panel
+          :disabled="placeOldLabels.length === 0"
+          @click="toggleExpansionPanel($event)"
+        >
           <v-expansion-panel-header class="grey lighten-4">
             <div class="subtitle-1 font-weight-medium">
               Formes anciennes ({{ placeOldLabels.length }})
@@ -95,7 +99,10 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
 
-        <v-expansion-panel :disabled="placeItem && placeItem.comments.length < 1">
+        <v-expansion-panel
+          :disabled="placeItem && placeItem.comments.length < 1"
+          @click="toggleExpansionPanel($event)"
+        >
           <v-expansion-panel-header class="grey lighten-4">
             <div class="subtitle-1 font-weight-medium">Commentaire</div>
           </v-expansion-panel-header>
@@ -109,7 +116,10 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
 
-        <v-expansion-panel :disabled="linkedPlaces.length === 0">
+        <v-expansion-panel
+          :disabled="linkedPlaces.length === 0"
+          @click="toggleExpansionPanel($event)"
+        >
           <v-expansion-panel-header class="grey lighten-4">
             <div class="subtitle-1 font-weight-medium" :key="commune.id">
               {{ linkedPlacesPanelLabel }} ({{ linkedPlaces.length }})
@@ -152,7 +162,8 @@ export default {
   },
   data: () => {
     return {
-      panel: [0]
+      panel: [0],
+      toggleExpansionPanelTimeout: 0
     }
   },
   mounted () {
@@ -191,6 +202,19 @@ export default {
         ]
       }
       this.setFlyToItem(item)
+    },
+    toggleExpansionPanel($event) {
+      // When toggle increases placeCard content height, a timeout scrolls content to bottom
+      const cardElement = document.getElementById('place-card')
+      if (cardElement && $event.currentTarget.type === 'button') {
+        const cardElementScrollHeight = cardElement.scrollHeight
+        if (this.toggleExpansionPanelTimeout) clearTimeout(this.toggleExpansionPanelTimeout)
+        this.toggleExpansionPanelTimeout = setTimeout(function () {
+          if (cardElement.scrollHeight - cardElementScrollHeight > 50) {
+            cardElement.scrollTop += 200
+          }
+        }, 250)
+      }
     }
   },
   computed: {

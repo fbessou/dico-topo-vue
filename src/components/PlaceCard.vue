@@ -205,14 +205,15 @@ export default {
     },
     toggleExpansionPanel($event) {
       // When toggle increases placeCard content height, a timeout scrolls content to bottom
+      // The amount of scroll is the difference between the top of the clicked button (target) and top of the placeCard itself
+      const currentTarget = $event.currentTarget
       const cardElement = document.getElementById('place-card')
-      if (cardElement && $event.currentTarget.type === 'button') {
+      if (cardElement && currentTarget.type === 'button') {
         const cardElementScrollHeight = cardElement.scrollHeight
         if (this.toggleExpansionPanelTimeout) clearTimeout(this.toggleExpansionPanelTimeout)
         this.toggleExpansionPanelTimeout = setTimeout(function () {
-          if (cardElement.scrollHeight - cardElementScrollHeight > 50) {
-            cardElement.scrollTop += 200
-          }
+          const scrollAmount = currentTarget.getBoundingClientRect().top - cardElement.getBoundingClientRect().top
+          cardElement.scrollTop += scrollAmount
         }, 250)
       }
     }

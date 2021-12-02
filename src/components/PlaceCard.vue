@@ -247,12 +247,12 @@ dfn {
     font-style: normal !important;
 }
 
-@media screen and (max-width: 760px) {
+@media screen and (max-width: 1160px) {
   .place-card-popup {
-    top: calc( 50% - 55px ) !important;
+    top: calc( 58% - 50px ) !important;
     left: 0 !important;
     width: 100vw !important;
-    height: calc( 50% + 55px );
+    height: calc( 42% + 50px );
     overflow-y: auto;
   }
   .v-application .display-1 {

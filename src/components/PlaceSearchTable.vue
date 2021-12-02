@@ -343,10 +343,16 @@ export default {
     },
     async filterDepChanged (selected) {
       this.setDepFilter(selected || [])
+      if (selected && selected.length === 0) {
+        this.filterStates.department = false
+      }
       // await this.fetchUniqueLists()
     },
     filterCtnChanged (selected) {
       this.setCtnFilter(selected || [])
+      if (selected && selected.length === 0) {
+        this.filterStates.canton = false
+      }
       // add the adequate department if not already present
       let newDeps = [...this.depFilter]
       let thereIsNewDep = false
@@ -714,14 +720,14 @@ th > span > div.text-xs-center {
   min-height: 40px !important;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1160px) {
 
   .fullscreen-table.theme--light.v-data-table {
     padding-top: 54px !important;
   }
 }
 
-@media screen and (max-width: 760px) {
+@media screen and (max-width: 1160px) {
 
   .fullscreen-table.theme--light.v-data-table {
     padding-top: 90px !important;

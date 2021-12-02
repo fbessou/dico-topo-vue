@@ -143,15 +143,25 @@ export default {
     height: 36px;
   }
 
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: 1000px) {
 
     .v-data-table.normal-table {
-      height: 50% !important;
+      height: 42% !important;
     }
 
     .map-container  {
-      height: calc(100vh - 108px) !important;
-      top: 52px;
+      height: 100vh !important;
+      top: -56px;
+    }
+    .map-container .vue2leaflet-map.l-map {
+        top:0px;
+        height: 100%;
+    }
+    .map-container .leaflet-control-container {
+      margin-top: 0;
+    }
+    .map-container >>> .leaflet-top {
+      top: 126px !important;
     }
   }
 </style>

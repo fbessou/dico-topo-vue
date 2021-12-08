@@ -306,7 +306,7 @@ body:after {
     margin-top: 65px;
     height: calc( 100vh - 65px ) !important;
   }
-  .menu-btn {
+  .v-btn.menu-btn {
     display: none !important;
   }
 }

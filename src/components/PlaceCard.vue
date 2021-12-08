@@ -90,12 +90,17 @@
             v-show="placeOldLabels.length > 0"
           >
             <!-- <a class="caption">Table des abréviations</a> -->
-            <ul class="mt-2">
-              <li v-for="oldLabel in placeOldLabels" :key="oldLabel.id">
-                <span class="font-weight-medium" v-html="oldLabel.label" />
-                <span v-html="prettifyOldLabel(oldLabel)" />
-              </li>
-            </ul>
+             <v-list flat dense disabled>
+                  <v-list-item
+                    v-for="(oldLabel, i) in placeOldLabels"
+                    :key="i"
+                  >
+                    <v-list-item-content  style="display: initial;">
+                      <span class="font-weight-medium" v-html="oldLabel.label"  />
+                      <span v-html="prettifyOldLabel(oldLabel)" />
+                    </v-list-item-content>
+                  </v-list-item>
+              </v-list>
           </v-expansion-panel-content>
         </v-expansion-panel>
 
@@ -130,18 +135,25 @@
             :class="`${popup ? 'scrollable' : 'scrollable-tall'}`"
             v-show="linkedPlaces.length > 0"
           >
-            <ul class="mt-2">
-              <li v-for="lp in linkedPlaces" :key="lp.id">
-                <router-link
-                  class="font-weight-medium"
-                  :to="{ name: 'place', params: { placeId: lp.id } }"
-                  >{{ lp.label }}</router-link
+             <v-list flat dense disabled class="mt-2">
+
+                <v-list-item
+                  v-for="(lp, i) in linkedPlaces"
+                  :key="i"
                 >
-                <div v-for="(description, idx) in lp.descriptions" :key="idx">
-                  <div  class="capitalize-first-letter" v-html="description"/>
-                </div>
-              </li>
-            </ul>
+
+                  <v-list-item-content>
+                        <router-link
+                          class="font-weight-medium"
+                          :to="{ name: 'place', params: { placeId: lp.id } }"
+                          >{{ lp.label }}</router-link
+                        >
+                        <div v-for="(description, idx) in lp.descriptions" :key="idx">
+                          <div  class="capitalize-first-letter" v-html="description"/>
+                        </div>
+                  </v-list-item-content>
+                </v-list-item>
+            </v-list>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -203,7 +215,7 @@ export default {
       }
       this.setFlyToItem(item)
     },
-    toggleExpansionPanel($event) {
+    toggleExpansionPanel ($event) {
       // When toggle increases placeCard content height, a timeout scrolls content to bottom
       // The amount of scroll is the difference between the top of the clicked button (target) and top of the placeCard itself
       const currentTarget = $event.currentTarget
@@ -305,6 +317,16 @@ dfn {
   .v-expansion-panel-content__wrap {
     padding: 0 30px 16px 10px;
   }
+  .v-list-item--dense .v-list-item__content, .v-list--dense .v-list-item .v-list-item__content {
+    padding: 6px 0;
+    min-height: initial;
+  }
+  .v-list-item {
+    min-height: initial;
+  }
+  .v-list-item--dense, .v-list--dense .v-list-item {
+    min-height: initial;
+}
 }
 
 </style>

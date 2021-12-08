@@ -276,8 +276,8 @@ body:after {
   color:brown;
 }
 
-.v-app-bar__nav-icon {
-  display: none;
+.v-btn.v-app-bar__nav-icon {
+  display: none !important;
 }
 
 /* Burger + menu */
@@ -288,8 +288,8 @@ body:after {
 
 @media screen and (max-width: 1160px) {
   /* Burger + menu */
-  .v-app-bar__nav-icon {
-    display: inline-block;
+  .v-btn.v-app-bar__nav-icon {
+    display: inline-block !important;
     margin-right: 10px !important;
   }
   .v-navigation-drawer--temporary {
@@ -307,7 +307,7 @@ body:after {
     height: calc( 100vh - 65px ) !important;
   }
   .menu-btn {
-    display: none;
+    display: none !important;
   }
 }
 

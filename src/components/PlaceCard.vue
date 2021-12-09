@@ -29,7 +29,7 @@
       <div class="d-flex flex-row"  v-if="placeItem && placeItem.responsibility">
         <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-                <v-card-subtitle v-on="on">
+                <v-card-subtitle v-on="on" style="max-width: 85%;">
                   <a v-if="placeItem.responsibility.attributes.bibl.gallica_ark" :href="gallicaLink" target="__blank" v-html="computedBiblRef"/>
                   <span v-else v-html="computedBiblRef"/>
                 </v-card-subtitle>
@@ -43,6 +43,7 @@
               icon
               @click="toggleIIIFViewerVisibility"
               :class="showIIIFViewer ? 'blue--text' : ''"
+              ml-2
             >
               <v-icon>mdi-book-open-outline</v-icon>
             </v-btn>

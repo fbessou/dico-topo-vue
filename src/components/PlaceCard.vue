@@ -285,7 +285,7 @@ dfn {
   padding: 20px 30px 0px 20px;
 }
   .linked-place:hover {
-    background-color: #F6F6F6;
+    background-color: #F6F6F6 !important;
   }
 
     .v-expansion-panel-content__wrap {
@@ -333,7 +333,21 @@ dfn {
   .v-list-item--dense, .v-list--dense .v-list-item {
     min-height: initial;
   }
+  .comments article  {
+    padding: 20px 30px 0px 20px;
+  }
+  .linked-place:hover {
+    background-color: #F6F6F6 !important;
+  }
 
+    .v-expansion-panel-content__wrap {
+    padding: 0 0px 16px 0px;
+  }
+
+  .v-list-item--dense .v-list-item__content, .v-list--dense .v-list-item .v-list-item__content {
+    padding: 6px 10px;
+    min-height: initial;
+  }
 }
 
 </style>

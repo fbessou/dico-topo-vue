@@ -289,7 +289,7 @@ dfn {
   }
 
     .v-expansion-panel-content__wrap {
-    padding: 0 0px 16px 0px;
+    padding: 0 0px 16px 0px !important;
   }
 
   .v-list-item--dense .v-list-item__content, .v-list--dense .v-list-item .v-list-item__content {
@@ -341,7 +341,7 @@ dfn {
   }
 
     .v-expansion-panel-content__wrap {
-    padding: 0 0px 16px 0px;
+    padding: 0 0px 16px 0px !important;
   }
 
   .v-list-item--dense .v-list-item__content, .v-list--dense .v-list-item .v-list-item__content {

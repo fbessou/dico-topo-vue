@@ -32,13 +32,6 @@
       </template>
     </v-text-field>
 
-    <v-chip
-      v-show="!!meta && $router.currentRoute.name === 'home'"
-      class="total-count subheading grey--text text--darken-2 ml-3 mr-2"
-    >
-      {{ meta.totalCount }}
-    </v-chip>
-
     <span v-if="showFilters" class="toolbar-buttons">
 
       <group-by-widget />
@@ -46,6 +39,12 @@
       <!--
       <department-filter-menu />
       -->
+       <v-chip
+      v-show="!!meta && $router.currentRoute.name === 'home'"
+      class="total-count subheading grey--text text--darken-2 ml-3 mr-2"
+    >
+      {{ meta.totalCount }}
+    </v-chip>
     </span>
 
     <v-spacer></v-spacer>
@@ -396,9 +395,7 @@ body:after {
   .fuzziness .v-input__slot {
     min-width: 100px;
   }
-  .fuzziness .v-input__slot {
-    width: calc( 100vw - 185px );
-  }
+
 }
 
 </style>

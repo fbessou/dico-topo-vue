@@ -85,7 +85,7 @@
             </div>
           </v-expansion-panel-header>
           <v-expansion-panel-content
-            class="body-2 pt-4"
+            class="body-2 pt-1"
             :class="`${popup ? 'scrollable' : ''}`"
             v-show="placeOldLabels.length > 0"
           >
@@ -112,8 +112,8 @@
             <div class="subtitle-1 font-weight-medium">Commentaire</div>
           </v-expansion-panel-header>
           <v-expansion-panel-content
-            class="text-justify body-1 pt-4"
-            :class="`${popup ? 'scrollable' : ''}`"
+            class="text-justify body-1 pt-1"
+            :class="'comments' + `${popup ? 'scrollable' : ''}`"
           >
             <article v-for="(comment, idx) in placeItem.comments" :key="idx">
               <p class="" v-html="comment.attributes.content" />
@@ -131,26 +131,24 @@
             </div>
           </v-expansion-panel-header>
           <v-expansion-panel-content
-            class="text-justify body-2 pt-4"
+            class="text-justify body-2 pt-1"
             :class="`${popup ? 'scrollable' : 'scrollable-tall'}`"
             v-show="linkedPlaces.length > 0"
           >
-             <v-list flat dense disabled class="mt-2">
+             <v-list flat dense  class="mt-2">
 
                 <v-list-item
                   v-for="(lp, i) in linkedPlaces"
                   :key="i"
+                  class="linked-place"
                 >
 
                   <v-list-item-content>
                         <router-link
                           class="font-weight-medium"
                           :to="{ name: 'place', params: { placeId: lp.id } }"
-                          >{{ lp.label }}</router-link
-                        >
-                        <div v-for="(description, idx) in lp.descriptions" :key="idx">
-                          <div  class="capitalize-first-letter" v-html="description"/>
-                        </div>
+                          >{{ lp.label }}</router-link >
+                          <div  v-for="(description, idx) in lp.descriptions" :key="idx" class="capitalize-first-letter" v-html="description"/>
                   </v-list-item-content>
                 </v-list-item>
             </v-list>
@@ -283,7 +281,21 @@ p::first-letter,
 dfn {
     font-style: normal !important;
 }
+.comments article  {
+  padding: 20px 30px 0px 20px;
+}
+  .linked-place:hover {
+    background-color: #F6F6F6;
+  }
 
+    .v-expansion-panel-content__wrap {
+    padding: 0 0px 16px 0px;
+  }
+
+  .v-list-item--dense .v-list-item__content, .v-list--dense .v-list-item .v-list-item__content {
+    padding: 6px 10px;
+    min-height: initial;
+  }
 @media screen and (max-width: 1160px) {
   .place-card-popup {
     top: calc( 58% - 50px ) !important;
@@ -314,19 +326,14 @@ dfn {
   .v-application .body-2 {
     max-height: unset;
   }
-  .v-expansion-panel-content__wrap {
-    padding: 0 30px 16px 10px;
-  }
-  .v-list-item--dense .v-list-item__content, .v-list--dense .v-list-item .v-list-item__content {
-    padding: 6px 0;
-    min-height: initial;
-  }
+
   .v-list-item {
     min-height: initial;
   }
   .v-list-item--dense, .v-list--dense .v-list-item {
     min-height: initial;
-}
+  }
+
 }
 
 </style>

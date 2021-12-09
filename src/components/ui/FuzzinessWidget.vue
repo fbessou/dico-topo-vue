@@ -59,7 +59,6 @@ export default {
   width: 12px;
 }
 .fuzziness {
-    min-width: 160px;
     margin-top: 2px;
     margin-right: 50px;
     .v-messages {
@@ -73,12 +72,19 @@ export default {
   .v-input__slot {
     flex-direction: row-reverse;
     justify-content: flex-end;
+    min-width: inherit;
     .v-application--is-ltr & {
       .v-input--selection-controls__input {
         margin-right: 0;
         margin-left: 16px;
       }
     }
+  }
+}
+
+@media screen and (max-width: 1160px) {
+  .fuzziness {
+    min-width: 150px;
   }
 }
 </style>

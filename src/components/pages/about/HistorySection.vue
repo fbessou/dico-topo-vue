@@ -30,7 +30,8 @@
       <p>01* <a href="https://gallica.bnf.fr/ark:/12148/bpt6k367437" target="_blank"><span class="sc">Philipon</span> (Édouard), <cite>Dictionnaire topographique du département de l’Ain</cite>, Paris, 1911</a>.</p>
       <p>02* <a href="https://gallica.bnf.fr/ark:/12148/bpt6k39289w" target="_blank"><span class="sc">Matton</span> (Auguste), <cite>Dictionnaire topographique du département de l’Aisne</cite>, Paris, 1871</a>.</p>
       <p>05* <a href="https://gallica.bnf.fr/ark:/12148/bpt6k392903" target="_blank"><span class="sc">Roman</span> (Joseph), <cite>Dictionnaire topographique du département des Hautes-Alpes</cite>, Paris, 1884</a>.</p>
-      <p>06 <span class="sc">Tisserand</span> (Eugène), <cite>Dictionnaire topographique des Alpes-Maritimes</cite>, ms., <span class="sc">xix</span><sup>e</sup> s. (Arch. nat., F<sup>17</sup> 3299).</p>
+      <p>06 <span class="sc">Casado</span> (Pierre), <cite>Répertoire des noms de lieux du département des Alpes-Maritimes de l’époque contemporaine (<span class="sc">xx</span><sup>e</sup> siècle)</cite>, Viols-le-Fort, 2020-2021, 2 t.</p>
+      <!-- <p>06 <span class="sc">Tisserand</span> (Eugène), <cite>Dictionnaire topographique des Alpes-Maritimes</cite>, ms., <span class="sc">xix</span><sup>e</sup> s. (Arch. nat., F<sup>17</sup> 3299).</p> -->
       <p>07* <span class="sc">Charrié</span> (Pierre), <cite>Dictionnaire topographique du département de l’Ardèche</cite>, Paris, 1979.</p>
       <p>10* <a href="https://gallica.bnf.fr/ark:/12148/bpt6k39291f" target="_blank"><span class="sc">Boutiot</span> (Théophile) et <span class="sc">Socard</span> (Émile), <cite>Dictionnaire topographique du département de l’Aube</cite>, Paris, 1874</a>.</p>
       <p>11* <a href="https://gallica.bnf.fr/ark:/12148/bpt6k110095d" target="_blank"><span class="sc">Sabarthès</span> (Antoine), <cite>Dictionnaire topographique du département de l’Aude</cite>, Paris, 1912</a>.</p>

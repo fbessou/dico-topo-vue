@@ -49,10 +49,10 @@
             </v-btn>
           </template>
              <span v-if="!showIIIFViewer">
-               Afficher la source secondaire
+               Afficher la source
              </span>
                 <span v-else>
-               Cacher la source secondaire
+               Cacher la source
              </span>
           </v-tooltip>
         </div>

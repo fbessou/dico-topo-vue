@@ -318,5 +318,21 @@
     "NOM_DEPT": "Yonne",
     "NB_PLACES": 5925,
     "NB_PLACENAMES": 10507
+  },
+  {
+    "CODE_REG": 24,
+    "NOM_REGION": "Centre",
+    "CODE_DEPT": 36,
+    "NOM_DEPT": "Indre",
+    "NB_PLACES": 8419,
+    "NB_PLACENAMES": 10010
+  },
+  {
+    "CODE_REG": 42,
+    "NOM_REGION": "Alsace",
+    "CODE_DEPT": 68,
+    "NOM_DEPT": "Haut-Rhin",
+    "NB_PLACES": 10922,
+    "NB_PLACENAMES": 18530
   }
 ]

@@ -82,9 +82,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 1160px) {
-  .fuzziness {
-    min-width: 150px;
-  }
+.fuzziness {
+  min-width: 150px;
 }
 </style>

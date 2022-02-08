@@ -275,7 +275,7 @@ export default {
             '&LAYER={ignLayer}&STYLE={style}&FORMAT={format}' +
             '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
       {
-        ignApiKey: process.env.VUE_APP_IGN_API_KEY,
+        ignApiKey: process.env.VUE_APP_IGN_API_KEY || 'pratique',
         ignLayer: 'GEOGRAPHICALGRIDSYSTEMS.CASSINI',
         style: 'normal',
         format: 'image/jpeg',

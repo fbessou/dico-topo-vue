@@ -33,17 +33,7 @@
             </div>
           </v-layout>
 
-          <v-layout class="subheading mb-1 font-weight-light black--text" row wrap align-center justify-center>
-            <v-flex xs2 class="text-xs-center">
-              <span class=" font-weight-bold">40</span><span> départements</span>
-            </v-flex>
-            <v-flex xs2 class="text-xs-center">
-              <span class=" font-weight-bold">492.603 </span><span> lieux</span>
-            </v-flex>
-            <v-flex xs2 class="text-xs-center">
-              <span class=" font-weight-bold">1.179.107 </span><span> formes anciennes</span>
-            </v-flex>
-          </v-layout>
+         <place-count-info />
         </v-parallax>
       </section>
 
@@ -72,10 +62,11 @@
 
 <script>
 import DefaultLayout from '../DefaultLayout'
+import PlaceCountInfo from '@/components/PlaceCountInfo.vue'
 
 export default {
   name: 'ContactPage',
-  components: { DefaultLayout }
+  components: { DefaultLayout, PlaceCountInfo }
 }
 </script>
 

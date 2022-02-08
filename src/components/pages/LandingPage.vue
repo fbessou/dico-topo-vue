@@ -30,23 +30,7 @@
             </div>
           </v-layout>
 
-          <v-layout
-            class="subheading mb-1 font-weight-light black--text"
-            row
-            wrap
-            align-center
-            justify-center
-          >
-            <v-flex xs2 class="text-xs-center">
-              <span class=" font-weight-bold">42</span><span> départements</span>
-            </v-flex>
-            <v-flex xs2 class="text-xs-center">
-              <span class=" font-weight-bold">511.944 </span><span> lieux</span>
-            </v-flex>
-            <v-flex xs2 class="text-xs-center">
-              <span class=" font-weight-bold">1.207.647 </span><span> formes anciennes</span>
-            </v-flex>
-          </v-layout>
+          <place-count-info />
         </v-parallax>
       </section>
 
@@ -97,11 +81,13 @@ Les données relatives à chaque lieu sont accessibles aux formats JSON API 1.0 
 <script>
 import DefaultLayout from '../DefaultLayout'
 import LandingMap from '../LandingMap'
+import PlaceCountInfo from '../PlaceCountInfo'
+
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'LandingPage',
-  components: { DefaultLayout, LandingMap },
+  components: { DefaultLayout, LandingMap, PlaceCountInfo },
   watch: {
 
   },

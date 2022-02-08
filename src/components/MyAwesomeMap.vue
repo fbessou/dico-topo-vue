@@ -11,11 +11,10 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapState } from 'vuex'
 import { LMap } from 'vue2-leaflet'
 import * as Gp from 'geoportal-extensions-leaflet'
 
-import styles from 'geoportal-extensions-leaflet/dist/GpPluginLeaflet.css'
 import 'leaflet/dist/leaflet.css'
 
 import 'leaflet.markercluster/dist/MarkerCluster.css'
@@ -60,7 +59,7 @@ export default {
     useFlyAnimation: { type: Boolean, default: false },
     minHeight: { type: String, default: '100px' },
     minWidth: { type: String, default: '100px' },
-    maxZoom: { type: Number, default: 17 },
+    maxZoom: { type: Number, default: 15 },
     minZoom: { type: Number, default: 6 },
     initialZoom: { type: Number, default: 6 },
     initialCenter: { type: Object, default: undefined },
@@ -70,7 +69,6 @@ export default {
   data () {
     return {
       switchableControl: null,
-      geoportalIsLoaded: false,
       markerLayer: null,
       heatLayer: null,
       options: {
@@ -109,6 +107,7 @@ export default {
       })
 
       this.map.addLayer(this.OSMLayer)
+      this.map.addLayer(this.CASSINILayer)
       this.map.addLayer(this.markerLayer)
 
       if (this.useHeatmap) {
@@ -122,25 +121,10 @@ export default {
         this.map.on('zoomend', this.toggleMarkerLayer)
       }
 
-      Gp.Services.getConfig({
-        callbackSuffix: '',
-        serverUrl: this.autoconfFile,
-        onSuccess: () => {
-          for (let identifier in this.IGNLayerConf) {
-            let newIGNLayer = L.geoportalLayer.WMTS(
-              { layer: identifier },
-              this.IGNLayerConf[identifier]
-            )
-            if (!this.map.hasLayer(newIGNLayer)) {
-              this.map.addLayer(newIGNLayer)
-            }
-          }
-          this.resetLayerSwitcher()
-        },
-        onFailure: function () {
-          console.error('GP failure')
-        }
+      this.switchableControl = L.geoportalControl.LayerSwitcher({
+        layers: this.switchableLayers
       })
+      this.map.addControl(this.switchableControl)
 
       if (this.onMapClick) {
         this.map.on('click', this.onMapClick)
@@ -163,16 +147,6 @@ export default {
       this.saveZoom()
 
       console.log(this.map.getPanes())
-    },
-    resetLayerSwitcher () {
-      if (this.switchableControl) {
-        this.map.removeControl(this.switchableControl)
-      }
-      this.switchableControl = L.geoportalControl.LayerSwitcher({
-        layers: this.switchableLayers
-      })
-      // this.map.removeControl(this.switchableControl)
-      this.map.addControl(this.switchableControl)
     },
     addMarkers (markers) {
       let newMarkers = []
@@ -295,6 +269,22 @@ export default {
         pane: 'OSM'
       })
     },
+    CASSINILayer () {
+      return L.tileLayer('https://wxs.ign.fr/{ignApiKey}/geoportail/wmts?' +
+            '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
+            '&LAYER={ignLayer}&STYLE={style}&FORMAT={format}' +
+            '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
+      {
+        ignApiKey: process.env.VUE_APP_IGN_API_KEY,
+        ignLayer: 'GEOGRAPHICALGRIDSYSTEMS.CASSINI',
+        style: 'normal',
+        format: 'image/jpeg',
+        service: 'WMTS',
+        opacity: 1,
+        pane: 'IGN'
+      })
+    },
+    /*
     IGNLayerConf () {
       return {
         'GEOGRAPHICALGRIDSYSTEMS.CASSINI': {
@@ -310,6 +300,7 @@ export default {
         // "GEOGRAPHICALGRIDSYSTEMS.PLANIGN",
       }
     },
+    */
     switchableLayers () {
       let layers = [
         {
@@ -317,6 +308,13 @@ export default {
           config: {
             title: 'Open Street Map',
             description: 'Couche Open Street Maps'
+          }
+        },
+        {
+          layer: this.CASSINILayer,
+          config: {
+            title: 'Cassini',
+            description: 'Fond de carte Cassini'
           }
         }
       ]

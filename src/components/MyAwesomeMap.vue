@@ -59,7 +59,7 @@ export default {
     useFlyAnimation: { type: Boolean, default: false },
     minHeight: { type: String, default: '100px' },
     minWidth: { type: String, default: '100px' },
-    maxZoom: { type: Number, default: 15 },
+    maxZoom: { type: Number, default: 17 },
     minZoom: { type: Number, default: 6 },
     initialZoom: { type: Number, default: 6 },
     initialCenter: { type: Object, default: undefined },
@@ -108,6 +108,10 @@ export default {
 
       this.map.addLayer(this.OSMLayer)
       this.map.addLayer(this.CASSINILayer)
+      this.map.addLayer(this.EtatMajorIGNLayer)
+      this.map.addLayer(this.ParcellesCadastrales20082013IGNLayer)
+      this.map.addLayer(this.TopoIGNLayer)
+
       this.map.addLayer(this.markerLayer)
 
       if (this.useHeatmap) {
@@ -269,13 +273,58 @@ export default {
         pane: 'OSM'
       })
     },
+    TopoIGNLayer () {
+      return L.tileLayer('https://wxs.ign.fr/{ignApiKey}/geoportail/wmts?' +
+            '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
+            '&LAYER={ignLayer}&STYLE={style}&FORMAT={format}' +
+            '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
+      {
+        ignApiKey: process.env.VUE_APP_IGN_SCAN25_API_KEY,
+        ignLayer: 'GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOUR',
+        style: 'normal',
+        format: 'image/jpeg',
+        service: 'WMTS',
+        opacity: 1,
+        pane: 'IGN'
+      })
+    },
+    EtatMajorIGNLayer () {
+      return L.tileLayer('https://wxs.ign.fr/{ignApiKey}/geoportail/wmts?' +
+            '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
+            '&LAYER={ignLayer}&STYLE={style}&FORMAT={format}' +
+            '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
+      {
+        ignApiKey: 'cartes',
+        ignLayer: 'GEOGRAPHICALGRIDSYSTEMS.ETATMAJOR40',
+        style: 'normal',
+        format: 'image/jpeg',
+        service: 'WMTS',
+        opacity: 1,
+        pane: 'IGN'
+      })
+    },
+    ParcellesCadastrales20082013IGNLayer () {
+      return L.tileLayer('https://wxs.ign.fr/{ignApiKey}/geoportail/wmts?' +
+            '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
+            '&LAYER={ignLayer}&STYLE={style}&FORMAT={format}' +
+            '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
+      {
+        ignApiKey: 'parcellaire',
+        ignLayer: 'CADASTRALPARCELS.HISTO.2008-2013.PARCELS',
+        style: 'bdparcellaire',
+        format: 'image/png',
+        service: 'WMTS',
+        opacity: 1,
+        pane: 'IGN'
+      })
+    },
     CASSINILayer () {
       return L.tileLayer('https://wxs.ign.fr/{ignApiKey}/geoportail/wmts?' +
             '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
             '&LAYER={ignLayer}&STYLE={style}&FORMAT={format}' +
             '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
       {
-        ignApiKey: process.env.VUE_APP_IGN_API_KEY || 'pratique',
+        ignApiKey: process.env.VUE_APP_IGN_CASSINI_API_KEY,
         ignLayer: 'GEOGRAPHICALGRIDSYSTEMS.CASSINI',
         style: 'normal',
         format: 'image/jpeg',
@@ -284,23 +333,7 @@ export default {
         pane: 'IGN'
       })
     },
-    /*
-    IGNLayerConf () {
-      return {
-        'GEOGRAPHICALGRIDSYSTEMS.CASSINI': {
-          opacity: 1,
-          minZoom: 6,
-          maxZoom: 18,
-          pane: 'IGN'
-        }
-        // 'ORTHOIMAGERY.ORTHOPHOTOS',
-        // 'CADASTRALPARCELS.PARCELS',
-        // 'GEOGRAPHICALGRIDSYSTEMS.MAPS'
-        // "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.STANDARD",
-        // "GEOGRAPHICALGRIDSYSTEMS.PLANIGN",
-      }
-    },
-    */
+
     switchableLayers () {
       let layers = [
         {
@@ -313,8 +346,29 @@ export default {
         {
           layer: this.CASSINILayer,
           config: {
-            title: 'Cassini',
+            title: 'Carte de Cassini',
             description: 'Fond de carte Cassini'
+          }
+        },
+        {
+          layer: this.ParcellesCadastrales20082013IGNLayer,
+          config: {
+            title: 'Parcelles cadastralles 2008-2013',
+            description: 'Parcelles cadastralles 2008-2013'
+          }
+        },
+        {
+          layer: this.EtatMajorIGNLayer,
+          config: {
+            title: 'Etat major 40',
+            description: 'Fond de carte Cassini'
+          }
+        },
+        {
+          layer: this.TopoIGNLayer,
+          config: {
+            title: 'Carte topographique IGN',
+            description: 'Carte topographique IGN'
           }
         }
       ]

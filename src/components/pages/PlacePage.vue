@@ -18,6 +18,7 @@
                   placeItem.databnf_ark ||
                     placeItem.geoname_id ||
                     placeItem.viaf_id ||
+                    placeItem.inha_id ||
                     placeItem.wikidata_item_id ||
                     placeItem.wikipedia_url ||
                     placeItem.osm_id
@@ -126,7 +127,22 @@
                       placeItem.siaf_id
                     }}</v-chip>
                   </li>
-                                    <li
+                  <li
+                    class="d-flex justify-space-between  mb-4"
+                    v-if="placeItem.inha_id"
+                  >
+                    <a
+                      :href="
+                        `https://agorha.inha.fr/recherche?terms=concept_lieu:%22${placeItem.inha_id}%22`
+                      "
+                      target="_blank"
+                      >Agorha</a
+                    >
+                    <v-chip small label class="ml-4">{{
+                      placeItem.inha_id
+                    }}</v-chip>
+                  </li>
+                  <li
                     class="d-flex justify-space-between  mb-4"
                     v-if="placeItem.osm_id"
                   >

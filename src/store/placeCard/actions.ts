@@ -27,6 +27,7 @@ function buildPlace (obj: any) {
     databnf_ark: obj.attributes['databnf-ark'],
     viaf_id: obj.attributes['viaf-id'],
     siaf_id: obj.attributes['siaf-id'],
+    inha_id: obj.attributes['inha-uuid'],
     osm_id: obj.attributes['osm-id']
   }
 }

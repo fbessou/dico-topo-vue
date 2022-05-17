@@ -11,7 +11,7 @@
         <v-btn
           flat fab small
           v-on="on"
-          :disabled="!geonameId && !wikipediaUrl && !wikidataItemId && !viafId && !databnfArk"
+          :disabled="!geonameId && !wikipediaUrl && !wikidataItemId && !viafId && !databnfArk && !inhaId"
         >
          <v-icon>link</v-icon> {{title}}
         </v-btn>
@@ -79,17 +79,27 @@
                                      d'autorité international virtuel)</v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
-        </v-list>
+
+          <v-list-tile v-if="inhaId">
+            <v-list-tile-content>
+              <v-list-tile-title>
+                <a :href="`https://agorha.inha.fr/recherche?terms=concept_lieu:%22${inhaId}%22`" target="_blank">Agorha</a>
+                <v-chip small label class="ref-chip">{{inhaId}}</v-chip>
+              </v-list-tile-title>
+              <v-list-tile-sub-title>Lien vers l'objet concernant le lieu identifié sur Agorha</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
 
           <v-list-tile v-if="osmId">
             <v-list-tile-content>
               <v-list-tile-title>
-                <a :href="`https://viaf.org/viaf/${osmId}`" target="_blank">OpenStreetMap</a>
+                <a :href="`https://www.openstreetmap.org/relation/${osmId}`" target="_blank">OpenStreetMap</a>
                 <v-chip small label class="ref-chip">{{osmId}}</v-chip>
               </v-list-tile-title>
               <v-list-tile-sub-title>Lien vers l'objet concernant le lieu identifié sur OpenStreetMap</v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
+
         </v-list>
 
       </v-card>
@@ -106,6 +116,7 @@ export default {
     wikidataItemId: { type: String },
     databnfArk: { type: String },
     viafId: { type: String },
+    inhaId: { type: String },
     osmId: { type: String }
   },
   data: () => ({

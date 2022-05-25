@@ -7,6 +7,7 @@ import { api } from '@/utils/http-common'
 // const index = `${process.env.VUE_APP_PLACE_INDEX}`
 
 function buildPlace (obj: any) {
+  const inha_uuid_index = obj.attributes['inha-uri'].lastIndexOf('/')
   return {
     id: obj.id,
     type: obj.type,
@@ -21,13 +22,16 @@ function buildPlace (obj: any) {
     region: obj.attributes['region'],
 
     // coordinates: coords,
+    /*
+    inha-uri = https://thesaurus.inha.fr/thesaurus/page/ark:/54721/09fe37f3-cc3e-4eb8-b90d-e93e3103a71f
+    */
     geoname_id: obj.attributes['geoname-id'],
     wikidata_item_id: obj.attributes['wikidata-item-id'],
     wikipedia_url: obj.attributes['wikipedia-url'],
     databnf_ark: obj.attributes['databnf-ark'],
     viaf_id: obj.attributes['viaf-id'],
     siaf_id: obj.attributes['siaf-id'],
-    inha_id: obj.attributes['inha-uuid'],
+    inha_id: obj.attributes['inha-uri'].slice(inha_uuid_index),
     osm_id: obj.attributes['osm-id']
   }
 }

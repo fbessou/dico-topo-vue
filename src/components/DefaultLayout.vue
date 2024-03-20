@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <main-toolbar />
-    <v-content>
+    <v-main>
       <slot/>
-    </v-content>
+    </v-main>
     <custom-footer></custom-footer>
   </v-app>
 </template>

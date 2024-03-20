@@ -7,7 +7,7 @@
     >
     </main-toolbar>
 
-    <v-content style="height:100%">
+    <v-main style="height:100%">
         <div class="map-container">
           <my-awesome-map
             :mapmarker-items="mapMarkerItems"
@@ -48,7 +48,7 @@
           :key="selectedPlace.id"
           :popup="true">
         </place-card>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

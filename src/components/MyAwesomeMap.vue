@@ -106,7 +106,7 @@ export default {
       })
 
       this.map.addLayer(this.OSMLayer)
-      this.map.addLayer(this.CASSINILayer)
+      // this.map.addLayer(this.CASSINILayer)
       this.map.addLayer(this.EtatMajorIGNLayer)
       this.map.addLayer(this.ParcellesCadastrales20082013IGNLayer)
       this.map.addLayer(this.TopoIGNLayer)
@@ -147,6 +147,7 @@ export default {
       // }
       this.map.on('zoomend', this.saveZoom)
       this.map.on('dragend', this.saveZoom)
+
       this.saveZoom()
 
       console.log(this.map.getPanes())
@@ -275,10 +276,11 @@ export default {
       })
     },
     TopoIGNLayer () {
-      return L.tileLayer('https://wxs.ign.fr/{ignApiKey}/geoportail/wmts?' +
+      return L.tileLayer('https://data.geopf.fr/private/wmts?' +
             '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
             '&LAYER={ignLayer}&STYLE={style}&FORMAT={format}' +
-            '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
+            '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}' +
+            '&apikey=ign_scan_ws',
       {
         ignApiKey: process.env.VUE_APP_IGN_SCAN25_API_KEY,
         ignLayer: 'GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOUR',
@@ -292,12 +294,11 @@ export default {
       })
     },
     EtatMajorIGNLayer () {
-      return L.tileLayer('https://wxs.ign.fr/{ignApiKey}/geoportail/wmts?' +
+      return L.tileLayer('https://data.geopf.fr/wmts?' +
             '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
             '&LAYER={ignLayer}&STYLE={style}&FORMAT={format}' +
             '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
       {
-        ignApiKey: 'cartes',
         ignLayer: 'GEOGRAPHICALGRIDSYSTEMS.ETATMAJOR40',
         style: 'normal',
         format: 'image/jpeg',
@@ -307,14 +308,13 @@ export default {
         minZoom: 6,
         maxZoom: 15
       })
-    },
+    }, // ignApiKey: 'cartes',
     ParcellesCadastrales20082013IGNLayer () {
-      return L.tileLayer('https://wxs.ign.fr/{ignApiKey}/geoportail/wmts?' +
+      return L.tileLayer('https://data.geopf.fr/wmts?' +
             '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
             '&LAYER={ignLayer}&STYLE={style}&FORMAT={format}' +
             '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
       {
-        ignApiKey: 'parcellaire',
         ignLayer: 'CADASTRALPARCELS.HISTO.2008-2013.PARCELS',
         style: 'bdparcellaire',
         format: 'image/png',
@@ -324,7 +324,7 @@ export default {
         minZoom: 6,
         maxZoom: 20
       })
-    },
+    }, // ignApiKey: 'parcellaire',
     CASSINILayer () {
       return L.tileLayer('https://wxs.ign.fr/{ignApiKey}/geoportail/wmts?' +
             '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
@@ -350,13 +350,13 @@ export default {
             description: 'Couche Open Street Maps'
           }
         },
-        {
+        /* {
           layer: this.CASSINILayer,
           config: {
             title: 'Carte de Cassini',
             description: 'Fond de carte Cassini'
           }
-        },
+        }, */
         {
           layer: this.ParcellesCadastrales20082013IGNLayer,
           config: {
@@ -368,7 +368,7 @@ export default {
           layer: this.EtatMajorIGNLayer,
           config: {
             title: 'Etat major 40',
-            description: 'Fond de carte Cassini'
+            description: 'Carte de l\'etat-major 1 : 40 000 (1820-1866)'
           }
         },
         {

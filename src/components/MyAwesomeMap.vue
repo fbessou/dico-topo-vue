@@ -3,8 +3,6 @@
     v-resize="onResize"
     class="l-map"
     ref="map"
-    :max-zoom="maxZoom"
-    :min-zoom="minZoom"
     :options="options"
   >
   </l-map>
@@ -59,8 +57,9 @@ export default {
     useFlyAnimation: { type: Boolean, default: false },
     minHeight: { type: String, default: '100px' },
     minWidth: { type: String, default: '100px' },
+    /* now set in each map layer options :
     maxZoom: { type: Number, default: 17 },
-    minZoom: { type: Number, default: 6 },
+    minZoom: { type: Number, default: 6 }, */
     initialZoom: { type: Number, default: 6 },
     initialCenter: { type: Object, default: undefined },
     savePosition: { type: Boolean, default: false },
@@ -270,7 +269,9 @@ export default {
     ...mapState('searchParameters', ['zoom', 'center']),
     OSMLayer () {
       return L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        pane: 'OSM'
+        pane: 'OSM',
+        minZoom: 6,
+        maxZoom: 20
       })
     },
     TopoIGNLayer () {
@@ -285,7 +286,9 @@ export default {
         format: 'image/jpeg',
         service: 'WMTS',
         opacity: 1,
-        pane: 'IGN'
+        pane: 'IGN',
+        minZoom: 6,
+        maxZoom: 16
       })
     },
     EtatMajorIGNLayer () {
@@ -300,7 +303,9 @@ export default {
         format: 'image/jpeg',
         service: 'WMTS',
         opacity: 1,
-        pane: 'IGN'
+        pane: 'IGN',
+        minZoom: 6,
+        maxZoom: 15
       })
     },
     ParcellesCadastrales20082013IGNLayer () {
@@ -315,7 +320,9 @@ export default {
         format: 'image/png',
         service: 'WMTS',
         opacity: 1,
-        pane: 'IGN'
+        pane: 'IGN',
+        minZoom: 6,
+        maxZoom: 20
       })
     },
     CASSINILayer () {

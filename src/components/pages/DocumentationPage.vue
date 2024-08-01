@@ -1087,7 +1087,7 @@ export default {
         { description: 'La recherche floue sur la forme \'Clacy\' retourne par ex. les noms de lieux \'Clary\' et \'Blacy\'', url: `${urlPrefix}/search?query=label.folded:clacy~1&page[size]=2&page[number]=3` }
       ],
       searchFilters: [
-        { description: 'Recherche \'Clacy\', tri décroissant par département puis tri croissant par nom de lieu', url: `${urlPrefix}/search?query=label.folded:clacy&sort=-dep-id,place-label` },
+        { description: 'Recherche \'Clacy\', tri décroissant par département puis tri croissant par nom de lieu', url: `${urlPrefix}/search?query=label.folded:clacy&sort=-dep-id,place-label.keyword` },
         { description: 'La liste des formes anciennes du lieu P66064026 (Clacy) commençant par \'Claci\'', url: `${urlPrefix}/search?query=label.folded:Claci* AND place-id:P66064026` },
         { description: 'La liste des lieux et des formes anciennes contenant \'molendinum\' pour les lieux dont le nom contient \'Vieux\'', url: `${urlPrefix}/search?query=label.folded:molendinum AND place-label:Vieux*` },
         { description: 'Les 3 premiers items de la liste des formes anciennes dont le label contient \'saint\' à Laon (localization-insee-code = 02408)', url: `${urlPrefix}/search?query=label.folded:saint AND type:place-old-label AND localization-insee-code:02408&page[size]=3` },

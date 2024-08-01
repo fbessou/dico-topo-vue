@@ -864,7 +864,7 @@
                   <li><code>ctn-id</code> : identifiant DicoTopo du canton</li>
                   <li><code>ctn-label</code> : nom du canton (variable <a href="https://www.insee.fr/fr/information/2560625#titre-bloc-19" target="_blank">NCCENR</a> de la liste du COG 2011) ; casse non sensible</li>
                 </ul>
-                <p>Le paramètre de requête <code>sort</code> permet de trier les résultats selon un ou plusieurs champs. Le préfixe optionnel <code>-</code> du nom du champ spécifie l’odre décroissant : par ex. <code>&sort=-dep-id.keyword</code> pour un tri décroissant par numéro de département.</p>
+                <p>Le paramètre de requête <code>sort</code> permet de trier les résultats selon un ou plusieurs champs. Le préfixe optionnel <code>-</code> du nom du champ spécifie l’odre décroissant : par ex. <code>&sort=-dep-id</code> pour un tri décroissant par numéro de département.</p>
               </section>
               <section class="example">
               <v-expansion-panels focusable>
@@ -1066,7 +1066,7 @@ export default {
       searchPlacenames: [
         { description: 'La liste des lieux et des formes anciennes dont le label contient \'Clacy\'', url: `${urlPrefix}/search?query=label.folded:Clacy` },
         { description: 'La liste des seules formes anciennes dont le label contient \'Clacy\'', url: `${urlPrefix}/search?query=label.folded:clacy AND type:place-old-label` },
-        { description: 'La liste des lieux dont le label ou une forme ancienne contient \'Clacy\'', url: `${urlPrefix}/search?query=label.folded:clacy&groupby[doc-type]=place&groupby[field]=place-id.keyword` }
+        { description: 'La liste des lieux dont le label ou une forme ancienne contient \'Clacy\'', url: `${urlPrefix}/search?query=label.folded:clacy&groupby[doc-type]=place&groupby[field]=place-id` }
       ],
       searchFormat: [
         { description: 'Recherche \'Clacy\', façade default', url: `${urlPrefix}/search?query=label.folded:clacy&facade=default` },
@@ -1087,7 +1087,7 @@ export default {
         { description: 'La recherche floue sur la forme \'Clacy\' retourne par ex. les noms de lieux \'Clary\' et \'Blacy\'', url: `${urlPrefix}/search?query=label.folded:clacy~1&page[size]=2&page[number]=3` }
       ],
       searchFilters: [
-        { description: 'Recherche \'Clacy\', tri décroissant par département puis tri croissant par nom de lieu', url: `${urlPrefix}/search?query=label.folded:clacy&sort=-dep-id.keyword,place-label` },
+        { description: 'Recherche \'Clacy\', tri décroissant par département puis tri croissant par nom de lieu', url: `${urlPrefix}/search?query=label.folded:clacy&sort=-dep-id,place-label` },
         { description: 'La liste des formes anciennes du lieu P66064026 (Clacy) commençant par \'Claci\'', url: `${urlPrefix}/search?query=label.folded:Claci* AND place-id:P66064026` },
         { description: 'La liste des lieux et des formes anciennes contenant \'molendinum\' pour les lieux dont le nom contient \'Vieux\'', url: `${urlPrefix}/search?query=label.folded:molendinum AND place-label:Vieux*` },
         { description: 'Les 3 premiers items de la liste des formes anciennes dont le label contient \'saint\' à Laon (localization-insee-code = 02408)', url: `${urlPrefix}/search?query=label.folded:saint AND type:place-old-label AND localization-insee-code:02408&page[size]=3` },

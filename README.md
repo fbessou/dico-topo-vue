@@ -1,29 +1,33 @@
 # dico-topo-vue
 
-## Project setup
+So far, only compatible with Node <= 16
+
+## Project install
+
 ```
-npm install
+source .env.local
+yarn
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
-npm run serve
+yarn serve
 ```
 
 ### Compiles and minifies for production
-```
-npm run build
-```
 
-### Run your tests
 ```
-npm run test
+yarn build
 ```
 
 ### Lints and fixes files
+
 ```
-npm run lint
+yarn lint
+yarn lint-fix
 ```
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).

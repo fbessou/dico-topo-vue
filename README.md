@@ -5,7 +5,6 @@ So far, only compatible with Node <= 16
 ## Project install
 
 ```
-source .env.local
 yarn
 ```
 
@@ -15,10 +14,20 @@ yarn
 yarn serve
 ```
 
+This will read `.env.development` config values
+
 ### Compiles and minifies for production
 
+For a production server, reads `.env.production` variables:
+
 ```
-yarn build
+yarn build:prod
+```
+
+For a development server (preproduction), reads `.env.staging` variables:
+
+```
+yarn build:staging
 ```
 
 ### Lints and fixes files

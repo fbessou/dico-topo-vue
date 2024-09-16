@@ -7,13 +7,13 @@
     justify-center
   >
     <v-flex xs2 class="text-xs-center">
-      <span class="font-weight-bold">42</span><span> départements</span>
+      <span class="font-weight-bold">44</span><span> départements</span>
     </v-flex>
     <v-flex xs2 class="text-xs-center">
-      <span class="font-weight-bold">511.944 </span><span> lieux</span>
+      <span class="font-weight-bold">547.329 </span><span> lieux</span>
     </v-flex>
     <v-flex xs2 class="text-xs-center">
-      <span class="font-weight-bold">1.207.647 </span><span> formes anciennes</span>
+      <span class="font-weight-bold">1.311.168 </span><span> formes anciennes</span>
     </v-flex>
   </v-layout>
 </template>

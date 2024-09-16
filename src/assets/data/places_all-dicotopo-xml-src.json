@@ -80,6 +80,14 @@
     "NB_PLACENAMES": 30117
   },
   {
+    "CODE_REG": 53,
+    "NOM_REGION": "Bretagne",
+    "CODE_DEPT": 22,
+    "NOM_DEPT": "Côte-d’Armor",
+    "NB_PLACES": 409,
+    "NB_PLACENAMES": 1944
+  },
+  {
     "CODE_REG": 74,
     "NOM_REGION": "Limousin",
     "CODE_DEPT": 23,
@@ -118,6 +126,14 @@
     "NOM_DEPT": "Eure-et-Loir",
     "NB_PLACES": 7270,
     "NB_PLACENAMES": 15377
+  },
+  {
+    "CODE_REG": 53,
+    "NOM_REGION": "Bretagne",
+    "CODE_DEPT": 29,
+    "NOM_DEPT": "Finistère",
+    "NB_PLACES": 34976,
+    "NB_PLACENAMES": 101577
   },
   {
     "CODE_REG": 91,

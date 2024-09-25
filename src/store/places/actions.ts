@@ -8,20 +8,20 @@ function makeUrl (query: String, rangeParam: String, sort: String, pageSize: Str
 }
 
 function makeAggUrl (query: String, rangeParam: String, groupby: String, sort: String, pageSize: String, pageAfter: String) {
-  const agg = `&groupby[doc-type]=place&groupby[field]=place-id.keyword`
+  const agg = `&groupby[doc-type]=place&groupby[field]=place-id`
   const after = pageAfter ? `&page[after]=${pageAfter}` : ''
 
   return `/search?query=${query}${rangeParam}${agg}${sort}${pageSize}${after}`
 }
 
 function makeUniqueDptUrl (query: String) {
-  const dptUrl = `&groupby[doc-type]=insee-ref&groupby[field]=dep-id.keyword&groupby[id-mapping]=department&page[size]=1000&without-relationships`
+  const dptUrl = `&groupby[doc-type]=insee-ref&groupby[field]=dep-id&groupby[id-mapping]=department&page[size]=1000&without-relationships`
 
   return `/search?query=${query}${dptUrl}`
 }
 
 function makeUniqueCantonUrl (query: String) {
-  const ctnUrl = `&groupby[doc-type]=insee-ref&groupby[field]=ctn-id.keyword&page[size]=10000&without-relationships`
+  const ctnUrl = `&groupby[doc-type]=insee-ref&groupby[field]=ctn-id&page[size]=10000&without-relationships`
   return `/search?query=${query}${ctnUrl}`
 }
 

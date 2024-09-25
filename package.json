@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build:prod": "vue-cli-service build --mode production",
+    "build:staging": "vue-cli-service build --mode staging",
     "lint": "vue-cli-service lint",
     "lint-fix": "vue-cli-service lint --fix 'src/**/*.ts?(x)' -t verbose"
   },
   "dependencies": {
-    "@types/lodash": "^4.14.150",
     "axios": "^0.21.1",
     "d3": "^5.14.2",
     "geoportal-extensions-leaflet": "^2.0.1",

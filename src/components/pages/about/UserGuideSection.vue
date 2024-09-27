@@ -142,9 +142,9 @@
 </template>
 
 <script>
-  export default {
-    name: 'UserGuideSection'
-  }
+export default {
+  name: 'UserGuideSection'
+}
 </script>
 
 <style scoped>

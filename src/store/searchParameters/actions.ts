@@ -1,7 +1,8 @@
 import { ActionTree } from 'vuex'
 import { QueryState, SortableField } from './types'
 import { RootState } from '../types'
-import _ from 'lodash'
+import * as _ from 'lodash'
+import { getters } from './getters'
 
 export const actions: ActionTree<QueryState, RootState> = {
   setTerm ({ commit, state, rootState }, t): any {
@@ -59,13 +60,13 @@ export const actions: ActionTree<QueryState, RootState> = {
     dispatch('fetchUniqueLists')
     dispatch('fetchTableResults')
   },
-  fetchUniqueLists: _.debounce(async ({ state, getters, dispatch }) => {
+  fetchUniqueLists: _.debounce(async ({ state, getters, dispatch }: any) => {
     dispatch('places/fetchUniqueLists', {
       query: getters.query
     },
     { root: true })
   }, 25),
-  fetchMapResults: _.debounce(async ({ rootState, getters, dispatch }) => {
+  fetchMapResults: _.debounce(async ({ rootState, getters, dispatch }: any) => {
     // send a fake query just to get the total count
     const meta = await dispatch('mapmarkers/searchMapMarker', {
       query: getters.query,
@@ -92,7 +93,7 @@ export const actions: ActionTree<QueryState, RootState> = {
     })
     await Promise.all(pPromises)
   }, 25),
-  fetchTableResults: _.debounce(async ({ state, getters, dispatch }, after) => {
+  fetchTableResults: _.debounce(async ({ state, getters, dispatch }: any, after: any) => {
     if (state.groupbyPlace) {
       dispatch('places/recordCurrentAggPage', null, { root: true })
     }

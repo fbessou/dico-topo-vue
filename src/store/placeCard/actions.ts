@@ -7,8 +7,8 @@ import { api } from '@/utils/http-common'
 // const index = `${process.env.VUE_APP_PLACE_INDEX}`
 
 function buildPlace (obj: any) {
-  console.log("inha", obj)
-  const inha_uuid_index = obj.attributes['inha-uri'] ?obj.attributes['inha-uri'].lastIndexOf('/') : null;
+  console.log('inha', obj)
+  const inha_uuid_index = obj.attributes['inha-uri'] ? obj.attributes['inha-uri'].lastIndexOf('/') : null
   return {
     id: obj.id,
     type: obj.type,
@@ -29,7 +29,7 @@ function buildPlace (obj: any) {
     databnf_ark: obj.attributes['databnf-ark'],
     viaf_id: obj.attributes['viaf-id'],
     siaf_id: obj.attributes['siaf-id'],
-    inha_id: inha_uuid_index ? obj.attributes['inha-uri'].slice(inha_uuid_index+1): null,
+    inha_id: inha_uuid_index ? obj.attributes['inha-uri'].slice(inha_uuid_index + 1) : null,
     osm_id: obj.attributes['osm-id']
   }
 }

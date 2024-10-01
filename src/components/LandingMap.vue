@@ -46,7 +46,7 @@ export default {
       // Append the group that will contain our paths
       const deps = svg.append('g')
 
-      var features = deps
+      const features = deps
         .selectAll('path')
         .data(this.departments.features)
         .enter()
@@ -58,13 +58,13 @@ export default {
         .attr('d', path)
 
       // Quantile scales map an input domain to a discrete range, 0...max(population) to 1...9
-      var quantile = d3.scaleQuantile()
+      const quantile = d3.scaleQuantile()
         .domain([0, d3.max(this.places, function (e) {
           return +e.NB_PLACES
         })])
         .range(d3.range(7))
 
-      var legend = svg.append('g')
+      const legend = svg.append('g')
         .attr('transform', 'translate(525, 150)')
         .attr('id', 'legend')
 
@@ -81,7 +81,7 @@ export default {
           return 'q' + d + '-9'
         })
 
-      var legendScale = d3.scaleLinear()
+      const legendScale = d3.scaleLinear()
         .domain([
           d3.min(this.places, function (e) {
             return +e.NB_PLACES
@@ -92,7 +92,7 @@ export default {
         ])
         .range([0, 9 * 20])
 
-      var legendAxis = svg.append('g')
+      const legendAxis = svg.append('g')
         .attr('transform', 'translate(550, 150)')
         .call(d3.axisRight(legendScale).ticks())
 

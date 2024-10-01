@@ -173,7 +173,7 @@
                   <span class="overline">Citer</span>
                   <div>
                      <v-tooltip top v-model="showCopyTooltip" :open-on-hover="false" :open-on-click="false" :close-delay="1500">
-                      <template v-slot:activator="{ on }">
+                      <template v-slot:activator>
                         <v-btn text depressed
                           class="share-link mt-3"
 
@@ -261,8 +261,8 @@ export default {
   components: {
     DefaultLayout,
     MiradorViewer,
-    'MyAwesomeMap': () => import(/* webpackChunkName: "map-component" */ '../MyAwesomeMap'),
-    'PlaceCard': () => import(/* webpackChunkName: "card-component" */ '../PlaceCard')
+    MyAwesomeMap: () => import(/* webpackChunkName: "map-component" */ '../MyAwesomeMap'),
+    PlaceCard: () => import(/* webpackChunkName: "card-component" */ '../PlaceCard')
   },
   data: () => {
     return {
@@ -285,7 +285,7 @@ export default {
       return cleanStr(str)
     },
     buildCoords (obj) {
-      const longlat = obj.attributes['longlat']
+      const longlat = obj.attributes.longlat
       const srcCoords = longlat
         ? longlat.substr(1, longlat.length - 2).split(',')
         : []
@@ -304,7 +304,7 @@ export default {
   },
   computed: {
     ...mapState('PlaceCard', ['placeItem', 'placeOldLabels', 'linkedPlaces']),
-    ...mapState('commune', { 'commune': 'commune' }),
+    ...mapState('commune', { commune: 'commune' }),
     ...mapState('bibls', { biblItem: 'bibl' }),
     ...mapState('searchParameters', ['showIIIFViewer']),
     ...mapGetters('PlaceCard', ['canvasIndex', 'IIIFAvailability', 'manifestUrl']),
@@ -319,12 +319,12 @@ export default {
     mapItems () {
       return this.placeItem
         ? [
-          {
-            id: this.placeItem.id,
-            coordinates: this.coordinates,
-            active: true
-          }
-        ]
+            {
+              id: this.placeItem.id,
+              coordinates: this.coordinates,
+              active: true
+            }
+          ]
         : []
     },
     apiUrl () {

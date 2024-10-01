@@ -8,20 +8,20 @@ function makeUrl (query: String, rangeParam: String, sort: String, pageSize: Str
 }
 
 function makeAggUrl (query: String, rangeParam: String, groupby: String, sort: String, pageSize: String, pageAfter: String) {
-  const agg = `&groupby[doc-type]=place&groupby[field]=place-id`
+  const agg = '&groupby[doc-type]=place&groupby[field]=place-id'
   const after = pageAfter ? `&page[after]=${pageAfter}` : ''
 
   return `/search?query=${query}${rangeParam}${agg}${sort}${pageSize}${after}`
 }
 
 function makeUniqueDptUrl (query: String) {
-  const dptUrl = `&groupby[doc-type]=insee-ref&groupby[field]=dep-id&groupby[id-mapping]=department&page[size]=1000&without-relationships`
+  const dptUrl = '&groupby[doc-type]=insee-ref&groupby[field]=dep-id&groupby[id-mapping]=department&page[size]=1000&without-relationships'
 
   return `/search?query=${query}${dptUrl}`
 }
 
 function makeUniqueCantonUrl (query: String) {
-  const ctnUrl = `&groupby[doc-type]=insee-ref&groupby[field]=ctn-id&page[size]=10000&without-relationships`
+  const ctnUrl = '&groupby[doc-type]=insee-ref&groupby[field]=ctn-id&page[size]=10000&without-relationships'
   return `/search?query=${query}${ctnUrl}`
 }
 
@@ -66,7 +66,7 @@ export const actions: ActionTree<PlaceState, RootState> = {
       commit('setDepartmentList', data.data.map((d: any) => {
         return {
           id: d.attributes['insee-code'],
-          label: `${d.attributes['insee-code']} - ${d.attributes['label']}`
+          label: `${d.attributes['insee-code']} - ${d.attributes.label}`
         }
       }))
 
@@ -77,7 +77,7 @@ export const actions: ActionTree<PlaceState, RootState> = {
       commit('setCantonList', data.data.map((d: any) => {
         return {
           id: d.id,
-          label: `${d.attributes['dep-insee-code']} - ${d.attributes['label']}`,
+          label: `${d.attributes['dep-insee-code']} - ${d.attributes.label}`,
           depId: d.attributes['dep-insee-code']
         }
       }))
@@ -103,14 +103,14 @@ export const actions: ActionTree<PlaceState, RootState> = {
     let meta : any
 
     try {
-      let res = await api.get(url)
-      let data = res.data
+      const res = await api.get(url)
+      const data = res.data
       const items: Array<Place> = data.data.map((p: any) => {
-        const longlat: any = p.attributes['longlat']
-        let coords: [number, number] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
+        const longlat: any = p.attributes.longlat
+        const coords: [number, number] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
         let item
         switch (p.type) {
-          case 'place':
+          case 'place': {
             const oldLabels = p.attributes['old-labels']
             item = {
               id: p.id,
@@ -119,17 +119,18 @@ export const actions: ActionTree<PlaceState, RootState> = {
               label: p.attributes['place-label'],
               placeLabel: p.attributes['place-label'],
               oldLabels: oldLabels ? oldLabels.reverse() : [],
-              descriptions: p.attributes['descriptions'],
+              descriptions: p.attributes.descriptions,
               // comment: p.attributes['comment'],
 
               insee_code: p.attributes['localization-insee-code'],
               communeLabel: p.attributes['commune-label'],
-              department: p.attributes['dpt'],
-              canton: p.attributes['canton'],
-              region: p.attributes['region'],
+              department: p.attributes.dpt,
+              canton: p.attributes.canton,
+              region: p.attributes.region,
               coordinates: coords
             }
             break
+          }
           case 'place-old-label':
             item = {
               id: p.id,
@@ -144,9 +145,9 @@ export const actions: ActionTree<PlaceState, RootState> = {
 
               insee_code: p.attributes['localization-insee-code'],
               communeLabel: p.attributes['commune-label'],
-              department: p.attributes['dpt'],
-              canton: p.attributes['canton'],
-              region: p.attributes['region'],
+              department: p.attributes.dpt,
+              canton: p.attributes.canton,
+              region: p.attributes.region,
               coordinates: coords
             }
             break
@@ -157,11 +158,11 @@ export const actions: ActionTree<PlaceState, RootState> = {
       meta = {
         totalCount: data.meta['total-count']
       }
-      if (data.meta['after']) {
-        meta['after'] = data.meta['after']
+      if (data.meta.after) {
+        meta.after = data.meta.after
       }
       // finally commit data to the store
-      commit('setItems', { p: items, links: data.links, meta: meta })
+      commit('setItems', { p: items, links: data.links, meta })
     } catch (error) {
 
     } finally {

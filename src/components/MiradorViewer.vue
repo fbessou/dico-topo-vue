@@ -38,7 +38,7 @@ export default {
     ...mapActions('searchParameters', ['setIIIFViewerAvailability']),
     async initialize () {
       try {
-        const viewerContainerId = `vue-mirador-container`
+        const viewerContainerId = 'vue-mirador-container'
         const viewerConfig = {
           id: viewerContainerId,
           windows: [

@@ -37,10 +37,10 @@
         <span class="display-1 headline">Méthodologie</span>
       </h2>
       <p>
-        La chaîne de traitement définie en 2010 a été employée pour toute la durée du projet. Chaque volume départemental a tout d’abord été numérisé en mode image. Une grande partie de ces numérisations sont consultables depuis 2016 sur le Portail des Archives numériques et données de la recherche (<a href="https://pandor.u-bourgogne.fr/programme-de-recherche/toponymie" target="_blank">PANDOR</a>) de la Maison des sciences de l’homme de Dijon – sous réserve que les ouvrages concernés soient libres de droits.
+        La chaîne de traitement définie en 2010 a été employée pour toute la durée du projet. Chaque volume départemental a tout d’abord été numérisé en mode image. Une grande partie de ces numérisations sont consultables depuis 2016 sur le Portail des Archives numériques et données de la recherche (<a href="https://pandor.u-bourgogne.fr/programme-de-recherche/toponymie" target="_blank">PANDOR</a>) de la Maison des sciences de l’homme de Dijon –&nbsp;sous réserve que les ouvrages concernés soient libres de droits.
       </p>
       <p>
-        Le texte des dictionnaires a dans le même temps été saisi manuellement et encodé au format XML par un prestataire. L’opération a été rendue possible par la structure des dictionnaires édités par le CTHS : tous ont obéi à des prescriptions éditoriales précises et les ont assez bien respectées. Pour chaque lieu, ont ainsi été identifiées dix unités de sens : article, vedette, définition, localisation, typologie, forme ancienne, date, référence, commentaire et renvoi. Seul le volume dédié au Cantal a fait l’objet d’un traitement distinct, puisqu’il a été saisi par les soins des archives départementales dans un tableur avant d’être converti automatiquement en XML.
+        Le texte des dictionnaires a dans le même temps été saisi manuellement et encodé au format XML par un prestataire. L’opération a été rendue possible par la structure des dictionnaires édités par le CTHS&nbsp;: tous ont obéi à des prescriptions éditoriales précises et les ont assez bien respectées. Pour chaque lieu, ont ainsi été identifiées dix unités de sens&nbsp;: article, vedette, définition, localisation, typologie, forme ancienne, date, référence, commentaire et renvoi. Seul le volume dédié au Cantal a fait l’objet d’un traitement distinct, puisqu’il a été saisi par les soins des archives départementales dans un tableur avant d’être converti automatiquement en XML.
       </p>
       <p>
         Ces fichiers XML, librement disponibles dans l’entrepôt <a href="https://github.com/chartes/dico-topo" target="_blank">GitHub</a> de l’École des chartes, constituent le socle documentaire du projet. Ils ont fait l’objet de plusieurs campagnes de corrections, notamment pour éliminer les coquilles et incohérences qui avaient pu échapper aux auteurs et pour restructurer certains articles. À compter de 2017, ils ont également été enrichis, automatiquement puis manuellement, afin de permettre le liage au Code officiel géographique de l’INSEE. L’intégration des données en base est l’occasion de nouveaux enrichissements (attribution d’un identifiant, standardisation des dates, géolocalisation, liage Gallica, etc.). Accessibles via une <a href="https://dicotopo.cths.fr/documentation">API documentée</a>, les données peuvent être exportées au format <a href="https://github.com/LinkedPasts/linked-places" target="_blank">Linked Places</a>.
@@ -54,7 +54,7 @@
 
 <script>
 export default {
-  name: 'contents'
+  name: 'project-section'
 }
 </script>
 
@@ -62,10 +62,12 @@ export default {
 figure {
   width: 500px;
   margin: 20px auto;
+
   img {
-      width: 500px;
+    width: 500px;
   }
 }
+
 figcaption {
   font-style: italic;
   color: darkgrey;

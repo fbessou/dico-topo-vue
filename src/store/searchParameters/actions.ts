@@ -105,7 +105,7 @@ export const actions: ActionTree<QueryState, RootState> = {
       sortParam: getters.computedSortParam,
       pageNumber: state.pagination.page,
       pageSize: state.pagination.rowsPerPage,
-      after: after
+      after
     },
     { root: true })
   }, 25)

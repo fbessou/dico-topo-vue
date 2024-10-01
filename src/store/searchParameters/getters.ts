@@ -7,7 +7,6 @@ const minTermLength = 2
 
 export const getters: GetterTree<QueryState, RootState> = {
   query (state): any {
-    let query
     let term = state.term
     term = term.replace('  ', ' ')
     if (!term || term.length < minTermLength) {
@@ -15,11 +14,10 @@ export const getters: GetterTree<QueryState, RootState> = {
     }
     const fuzz = Math.max(state.fuzziness, 0)
 
-    let termParts = term.split(' ')
+    const termParts = term.split(' ')
     term = termParts.map(t => `label.folded:${t}`).join(' ')
 
-    query = `${term}${fuzz > 0 ? `~${fuzz}` : ''}`
-    return query
+    return `${term}${fuzz > 0 ? `~${fuzz}` : ''}`
   },
   getSortOrder: (state) => (key: any) => {
     const idx = state.sortFields.findIndex((o) => o.key === key)
@@ -44,7 +42,7 @@ export const getters: GetterTree<QueryState, RootState> = {
     const depFilter = state.depFilter.map((item: any) => `dep-id:${item.value}`).join(' OR ')
     const ctnFilter = state.ctnFilter.map((item: any) => `ctn-id:${item.value}`).join(' OR ')
 
-    let filters = []
+    const filters = []
     if (depFilter) {
       filters.push(`(${depFilter})`)
     }

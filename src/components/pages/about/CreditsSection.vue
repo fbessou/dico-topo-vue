@@ -30,7 +30,7 @@
 
 <script>
 export default {
-  name: 'credits'
+  name: 'credits-section'
 }
 </script>
 

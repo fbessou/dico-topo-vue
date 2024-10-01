@@ -64,8 +64,8 @@ export default {
   components: {
     MainToolbar,
     PlaceSearchTable,
-    'MyAwesomeMap': () => import(/* webpackChunkName: "map-component" */ '../MyAwesomeMap'),
-    'PlaceCard': () => import(/* webpackChunkName: "card-component" */ '../PlaceCard')
+    MyAwesomeMap: () => import(/* webpackChunkName: "map-component" */ '../MyAwesomeMap'),
+    PlaceCard: () => import(/* webpackChunkName: "card-component" */ '../PlaceCard')
   },
   beforeRouteEnter: (to, from, next) => {
     next(vm => {
@@ -115,7 +115,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('mapmarkers', { 'mapMarkerItems': 'items' }),
+    ...mapState('mapmarkers', { mapMarkerItems: 'items' }),
     ...mapState('places', { selectedPlace: 'selectedItem', meta: 'meta' }),
     ...mapState('searchParameters', ['tableMinimized', 'term', 'range', 'includeOldLabels', 'groupbyPlace', 'minTermLength', 'zoom', 'center', 'ctnFilter', 'depFilter'])
   }

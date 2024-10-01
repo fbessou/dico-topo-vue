@@ -97,7 +97,7 @@
 
 <script>
 export default {
-  name: 'contents'
+  name: 'contents-section'
 }
 </script>
 

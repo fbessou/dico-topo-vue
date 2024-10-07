@@ -4,7 +4,7 @@
         <a href="https://www.archives-nationales.culture.gouv.fr/" target="_blank">
           <img src="@/assets/logo-an-couleur.png" height="60" alt="Logo Archives Nationales"/>
         </a>
-      <a href="https://www.chartes.psl.eu/fr" target="_blank">
+      <a href="https://www.chartes.psl.eu/" target="_blank">
         <img src="../../assets/logo-enc-couleur.png" height="60" alt="Logo École nationale des chartes" />
       </a>
       <a href="https://cths.fr/" target="_blank">

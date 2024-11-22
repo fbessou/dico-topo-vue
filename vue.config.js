@@ -16,7 +16,7 @@ module.exports = {
   css: {
     extract: false
   },
-  publicPath: process.env.SERVER_MODE === 'production' ? '/' : '/dico-topo',
+  publicPath: process.env.VUE_APP_ROOT_URL,
   transpileDependencies: [
     'vuetify'
   ],

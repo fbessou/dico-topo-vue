@@ -35,7 +35,7 @@ export default {
     ]),
     ...mapState('PlaceCard', ['placeItem']),
     items () {
-      let items = []
+      const items = []
       // departement
       if (this.departement) {
         items.push({
@@ -52,8 +52,8 @@ export default {
       }
       // commune de rattachement
       if (this.commune.data) {
-        let newItem = {
-          text: this.commune.data.attributes['NCCENR'],
+        const newItem = {
+          text: this.commune.data.attributes.NCCENR,
           tooltip: 'Commune'
         }
         if (this.commune.data.attributes['place-id']) {
@@ -61,7 +61,7 @@ export default {
             name: 'place',
             params: { placeId: this.commune.data.attributes['place-id'] }
           })
-          newItem['href'] = route.href
+          newItem.href = route.href
         }
         items.push(newItem)
       }

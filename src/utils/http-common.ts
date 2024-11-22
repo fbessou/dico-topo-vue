@@ -1,4 +1,3 @@
-
 import axios from 'axios'
 const _baseApiURL = `${process.env.VUE_APP_API_BASE_URL}`
 // const _baseAppURL = `${process.env.VUE_APP_ROOT_URL}`;

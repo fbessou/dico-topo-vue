@@ -8,19 +8,19 @@ import { api } from '@/utils/http-common'
 
 function buildPlace (obj: any) {
   console.log('inha', obj)
-  const inha_uuid_index = obj.attributes['inha-uri'] ? obj.attributes['inha-uri'].lastIndexOf('/') : null
+  const inhaUuidIndex = obj.attributes['inha-uri'] ? obj.attributes['inha-uri'].lastIndexOf('/') : null
   return {
     id: obj.id,
     type: obj.type,
-    label: obj.attributes['label'],
+    label: obj.attributes.label,
     // num_start_page: obj.attributes['num-start-page'],
     descriptions: [],
     comments: [],
     responsibility: null,
 
     insee_code: obj.attributes['localization-insee-code'],
-    department: obj.attributes['dpt'],
-    region: obj.attributes['region'],
+    department: obj.attributes.dpt,
+    region: obj.attributes.region,
 
     // coordinates: coords,
     geoname_id: obj.attributes['geoname-id'],
@@ -29,7 +29,7 @@ function buildPlace (obj: any) {
     databnf_ark: obj.attributes['databnf-ark'],
     viaf_id: obj.attributes['viaf-id'],
     siaf_id: obj.attributes['siaf-id'],
-    inha_id: inha_uuid_index ? obj.attributes['inha-uri'].slice(inha_uuid_index + 1) : null,
+    inha_id: inhaUuidIndex ? obj.attributes['inha-uri'].slice(inhaUuidIndex + 1) : null,
     osm_id: obj.attributes['osm-id']
   }
 }
@@ -76,7 +76,7 @@ export const actions: ActionTree<PlaceCardState, RootState> = {
           id: obj.id,
           type: obj.type,
           label: obj.attributes['place-label'],
-          descriptions: obj.attributes['descriptions']
+          descriptions: obj.attributes.descriptions
           // comment: obj.attributes['comment'],
 
           // insee_code: obj.attributes['localization-insee-code']

@@ -153,10 +153,10 @@ export default {
       console.log(this.map.getPanes())
     },
     addMarkers (markers) {
-      let newMarkers = []
-      for (let m of markers) {
+      const newMarkers = []
+      for (const m of markers) {
         if (this.useMarkers) {
-          let newMarker = L.marker(m.coordinates)
+          const newMarker = L.marker(m.coordinates)
           newMarker.placeId = m.id
           if (m.label) {
             newMarker.bindTooltip(m.label, {
@@ -342,7 +342,7 @@ export default {
     },
 
     switchableLayers () {
-      let layers = [
+      const layers = [
         {
           layer: this.OSMLayer,
           config: {
@@ -418,8 +418,7 @@ export default {
       }
     },
     selectedItem (val) {
-      if (val) {
-      } else {
+      if (!val) {
         this.selectMarkerIcon()
       }
     }

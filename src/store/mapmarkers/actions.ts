@@ -38,8 +38,8 @@ export const actions: ActionTree<MapMarkerState, RootState> = {
         .then((response) => {
           /* parse marker items */
           const items: string[] = response.data.data.map((m: any) => {
-            const longlat: any = m.attributes['longlat']
-            let coords: [string, string] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
+            const longlat: any = m.attributes.longlat
+            const coords: [string, string] = longlat ? longlat.substr(1, longlat.length - 2).split(',') : null
             return {
               id: m.type === 'place' ? m.id : m.attributes['place-id'],
               label: m.attributes['place-label'],

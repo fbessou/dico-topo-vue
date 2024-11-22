@@ -18,7 +18,7 @@ Vue.use(VueHighlightJS)
 
 new Vue({
   el: '#app',
-  store: store,
+  store,
   vuetify,
   router: createRouter()
 })

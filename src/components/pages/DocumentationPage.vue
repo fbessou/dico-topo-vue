@@ -1111,7 +1111,7 @@ export default {
       ]
     }
 
-    let results = {
+    const results = {
       compoundDocuments1: {},
       compoundDocuments2: {},
       compoundDocuments3: {},
@@ -1148,8 +1148,8 @@ export default {
     })
 
     return {
-      examples: examples,
-      results: results,
+      examples,
+      results,
 
       isMenuOpened: false,
       showJump: false
@@ -1179,7 +1179,7 @@ export default {
     document.body.removeEventListener('click', this.closeMenu)
   },
   async created () {
-    let resultPromises = []
+    const resultPromises = []
     for (const key in this.examples) {
       this.examples[key].forEach(example => {
         resultPromises.push(

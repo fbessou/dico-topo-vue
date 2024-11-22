@@ -354,9 +354,9 @@ export default {
         this.filterStates.canton = false
       }
       // add the adequate department if not already present
-      let newDeps = [...this.depFilter]
+      const newDeps = [...this.depFilter]
       let thereIsNewDep = false
-      for (let ctn of selected) {
+      for (const ctn of selected) {
         const newDep = this.uniqueDepartments.find(d => d.id === ctn.depId)
         console.log('must add new dep ?', this.uniqueDepartments)
         // if already selected, continue

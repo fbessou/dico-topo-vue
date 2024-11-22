@@ -32,15 +32,15 @@ export const mutations: MutationTree<QueryState> = {
     state.groupbyPlace = b
   },
   addSortField (state: QueryState, { field, order }) {
-    console.log('add sort field', { key: field, order: order })
-    state.sortFields.push({ key: field, order: order })
+    console.log('add sort field', { key: field, order })
+    state.sortFields.push({ key: field, order })
   },
   updateSortField (state: QueryState, { field, order }) {
     console.log(field, state.sortFields)
     const idx = state.sortFields.findIndex((f) => f.key === field)
     console.log('update sort field ->', idx, state.sortFields)
     if (idx > -1) {
-      Vue.set(state.sortFields, idx, { key: field, order: order })
+      Vue.set(state.sortFields, idx, { key: field, order })
       console.log('sort field updated ->', state.sortFields)
     }
   },

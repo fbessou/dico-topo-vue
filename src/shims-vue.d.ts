@@ -1,4 +1,3 @@
-
 declare module 'vue/types/vue' {
 
   import { VueRouter } from 'vue-router/types/router'

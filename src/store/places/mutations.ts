@@ -23,11 +23,8 @@ export function getDefaultState (): PlaceState {
 
 export const mutations: MutationTree<PlaceState> = {
   setItems (state: PlaceState, { p, links, meta }) {
-    let newItems = new Map<string, Place>()
+    const newItems = new Map<string, Place>(p.map((i: any) => [i.id, i]))
     /* replace all items at once */
-    p.map((i: any) => {
-      newItems.set(i.id, i)
-    })
     state.items = newItems
     state.links = links
     state.meta = meta

@@ -241,7 +241,7 @@ export default {
       }
       return `${
         this.linkedPlaces.length === 1 ? 'Autre lieu à' : 'Autres lieux à'
-      } ${this.commune.data.attributes['NCCENR']}`
+      } ${this.commune.data.attributes.NCCENR}`
     }
   }
 }
